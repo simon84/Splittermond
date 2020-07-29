@@ -1,0 +1,326 @@
+
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js" type="text/javascript"></script>
+    <script src="https://app.roll20dev.net/v2/js/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="https://app.roll20dev.net/v2/js/jquery.migrate.js" type="text/javascript"></script>
+    <script src="https://app.roll20dev.net/js/jquery-ui.1.9.0.custom.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://app.roll20dev.net/assets/base.css" type="text/css"/>
+    <link rel="stylesheet" href="https://app.roll20.net/assets/app.css" type="text/css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Patrick+Hand|Contrail+One|Shadows+Into+Light|Candal&amp;amp;subset=latin,latin-ext" type="text/css"/>
+    <link rel="stylesheet" href="sheet.css" type="text/css"/>
+    <title>Roll20 - Splittermond</title>
+  </head>
+  <body class="no-touch">
+    <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable" tabindex="-1" role="dialog" style="outline: 0px; z-index: 10504; position: fixed; height: 750px; width: 960px; top: 30px; left: 30px; display: block;">
+      <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-id-10">Charaktername</span></div>
+      <div class="dialog characterdialog ui-dialog-content ui-widget-content" style="display: block; width: auto; min-height: 0px; height: 683px;">
+        <div class="dialog largedialog characterviewer" style="display: block">
+          <ul class="nav nav-tabs">
+            <li> <a href="javascript:void(0)" data-tab="bioinfo">Bio &amp; Info</a></li>
+            <li class="active"><a href="javascript:void(0)" data-tab="charsheet">Charactersheet</a></li>
+            <li><a href="javascript:void(0)" data-tab="attributesabilities">Attributes &amp; Abilities</a></li>
+          </ul>
+          <div class="tab-content">
+            <form class="sheetform" autocomplete="off">
+              <div class="charactersheet tab-pane charsheet lang-de" style="display: block">
+<div class="sheet-splittermond">
+  <input type="hidden" name="attr_pc" value="1"/>
+  <div class="sheet-pc">
+    <input name="attr_tab" type="hidden" value="grundwerte"/>
+    <div class="sheet-tab-nav">
+          <button type="action" name="act_einstellungen"><span class="sheet-icon">y</span>
+          </button>
+          <button type="action" name="act_grundwerte">
+             Grundwerte
+          </button>
+          <button type="action" name="act_fertigkeiten">Fertigkeiten & Magie
+          </button>
+          <button type="action" name="act_kampf">
+             Kampf &  Meisterschaften
+          </button>
+          <button type="action" name="act_entwicklung">
+             Charakterentwicklung
+          </button>
+          <button type="action" name="act_ausruestung">Ausrüstung
+          </button>
+    </div>
+    <div class="sheet-tab-group sheet-paper">
+      <div class="sheet-watermark">
+        <div class="sheet-tab-content sheet-einstellungen">Einstellungen</div>
+        <div class="sheet-tab-content sheet-grundwerte">
+          <h2><span class="sheet-autoexpand">
+              <input name="attr_character_name" type="text" value="@{character_name}" title="@{character_name}"/><span class="sheet-autoexpand" name="attr_character_name"></span></span>&middot;<span class="sheet-autoexpand">
+              <input name="attr_spielername" type="text" value="@{spielername}" title="@{spielername}"/><span class="sheet-autoexpand" name="attr_spielername"></span></span>
+          </h2>
+          <div class="sheet-data-section sheet-data-section-personal">
+            <div class="sheet-data-set sheet-data-set-rasse">
+              <label>Rasse</label><span class="sheet-autoexpand">
+                <input name="attr_rasse" type="text" value=""/><span class="sheet-autoexpand" name="attr_rasse"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-kultur">
+              <label>Kultur</label><span class="sheet-autoexpand">
+                <input name="attr_kultur" type="text" value=""/><span class="sheet-autoexpand" name="attr_kultur"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-abstammung">
+              <label>Abstammung</label><span class="sheet-autoexpand">
+                <input name="attr_abstammung" type="text" value=""/><span class="sheet-autoexpand" name="attr_abstammung"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-ausbildung">
+              <label>Ausbildung</label><span class="sheet-autoexpand">
+                <input name="attr_ausbildung" type="text" value=""/><span class="sheet-autoexpand" name="attr_ausbildung"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-geschlecht">
+              <label>Geschlecht</label><span class="sheet-autoexpand">
+                <input name="attr_geschlecht" type="text" value=""/><span class="sheet-autoexpand" name="attr_geschlecht"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-groesse">
+              <label>Größe</label><span class="sheet-autoexpand">
+                <input name="attr_groesse" type="text" value=""/><span class="sheet-autoexpand" name="attr_groesse"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-gewicht">
+              <label>Gewicht</label><span class="sheet-autoexpand">
+                <input name="attr_gewicht" type="text" value=""/><span class="sheet-autoexpand" name="attr_gewicht"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-haarfarbe">
+              <label>Haarfarbe</label><span class="sheet-autoexpand">
+                <input name="attr_haarfarbe" type="text" value=""/><span class="sheet-autoexpand" name="attr_haarfarbe"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-augenfarbe">
+              <label>Augenfarbe</label><span class="sheet-autoexpand">
+                <input name="attr_augenfarbe" type="text" value=""/><span class="sheet-autoexpand" name="attr_augenfarbe"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-hautfarbe">
+              <label>Hautfarbe</label><span class="sheet-autoexpand">
+                <input name="attr_hautfarbe" type="text" value=""/><span class="sheet-autoexpand" name="attr_hautfarbe"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-geburtsort">
+              <label>Geburtsort</label><span class="sheet-autoexpand">
+                <input name="attr_geburtsort" type="text" value=""/><span class="sheet-autoexpand" name="attr_geburtsort"></span></span>
+            </div>
+            <div class="sheet-data-set sheet-data-set-mondzeichen">
+              <label>Mondzeichen</label><span class="sheet-autoexpand">
+                <input name="attr_mondzeichen" type="text" value=""/><span class="sheet-autoexpand" name="attr_mondzeichen"></span></span>
+            </div>
+          </div>
+          <div class="sheet-data-section-row">
+            <div class="sheet-data-section sheet-data-section-attribute">
+              <div class="sheet-data-header">
+                <h3>Attribute</h3><span>Start</span><span></span><span>max.</span>
+              </div>
+              <div class="sheet-data-area">
+                <label>AUS<span class="sheet-secondary">Ausstrahlung</span></label>
+                <input name="attr_ausstrahlungstart" type="number" value="0"/>
+                <input name="attr_ausstrahlung" type="number" value="0"/>
+                <input name="attr_ausstrahlungmax" type="text" value="0" readonly="readonly"/>
+                <label>BEW<span class="sheet-secondary">Beweglichkeit</span></label>
+                <input name="attr_beweglichkeitstart" type="number" value="0"/>
+                <input name="attr_beweglichkeit" type="number" value="0"/>
+                <input name="attr_beweglichkeitmax" type="text" value="0" readonly="readonly"/>
+                <label>INT<span class="sheet-secondary">Intuition</span></label>
+                <input name="attr_intuitionstart" type="number" value="0"/>
+                <input name="attr_intuition" type="number" value="0"/>
+                <input name="attr_intuitionmax" type="text" value="0" readonly="readonly"/>
+                <label>KON<span class="sheet-secondary">Konstitution</span></label>
+                <input name="attr_konstitutionstart" type="number" value="0"/>
+                <input name="attr_konstitution" type="number" value="0"/>
+                <input name="attr_konstitutionmax" type="text" value="0" readonly="readonly"/>
+                <label>MYS<span class="sheet-secondary">Mystik</span></label>
+                <input name="attr_mystikstart" type="number" value="0"/>
+                <input name="attr_mystik" type="number" value="0"/>
+                <input name="attr_mystikmax" type="text" value="0" readonly="readonly"/>
+                <label>STÄ<span class="sheet-secondary">Stärke</span></label>
+                <input name="attr_staerkestart" type="number" value="0"/>
+                <input name="attr_staerke" type="number" value="0"/>
+                <input name="attr_staerkemax" type="text" value="0" readonly="readonly"/>
+                <label>VER<span class="sheet-secondary">Verstand</span></label>
+                <input name="attr_verstandstart" type="number" value="0"/>
+                <input name="attr_verstand" type="number" value="0"/>
+                <input name="attr_verstandmax" type="text" value="0" readonly="readonly"/>
+                <label>WIL<span class="sheet-secondary">Willenskraft</span></label>
+                <input name="attr_willenskraftstart" type="number" value="0"/>
+                <input name="attr_willenskraft" type="number" value="0"/>
+                <input name="attr_willenskraftmax" type="text" value="0" readonly="readonly"/>
+                <input name="attr_hiddenausstrahlung" type="hidden" value="0"/>
+                <input name="attr_hiddenausstrahlungmod" type="hidden" value="0"/>
+                <input name="attr_hiddenbeweglichkeit" type="hidden" value="0"/>
+                <input name="attr_hiddenbeweglichkeitmod" type="hidden" value="0"/>
+                <input name="attr_hiddenintuition" type="hidden" value="0"/>
+                <input name="attr_hiddenintuitionmod" type="hidden" value="0"/>
+                <input name="attr_hiddenkonstitution" type="hidden" value="0"/>
+                <input name="attr_hiddenkonstitutionmod" type="hidden" value="0"/>
+                <input name="attr_hiddenmystik" type="hidden" value="0"/>
+                <input name="attr_hiddenmystikmod" type="hidden" value="0"/>
+                <input name="attr_hiddenstaerke" type="hidden" value="0"/>
+                <input name="attr_hiddenstaerkemod" type="hidden" value="0"/>
+                <input name="attr_hiddenverstand" type="hidden" value="0"/>
+                <input name="attr_hiddenverstandmod" type="hidden" value="0"/>
+                <input name="attr_hiddenwillenskraft" type="hidden" value="0"/>
+                <input name="attr_hiddenwillenskraftmod" type="hidden" value="0"/>
+              </div>
+            </div>
+            <div class="sheet-data-section sheet-data-section-abgeleiteteattribute">
+              <div class="sheet-data-header">
+                <h3>Abgeleitete Attribute</h3><span></span><span>Mod.</span>
+              </div>
+              <div class="sheet-data-area">
+                <label>GK<span class="sheet-secondary">Größenklasse</span></label>
+                <input name="attr_groessenklasse" type="number" value="0" readonly="readonly"/>
+                <input name="attr_groessenklassemod" type="number" value="0"/>
+                <label>GEW<span class="sheet-secondary">Geschwindigkeit</span></label>
+                <input name="attr_geschwindigkeite" type="number" value="0" readonly="readonly"/>
+                <input name="attr_geschwindigkeitemod" type="number" value="0"/>
+                <label>INI<span class="sheet-secondary">Initiative</span></label>
+                <input name="attr_initiative" type="number" value="0" readonly="readonly"/>
+                <input name="attr_initiativemod" type="number" value="0"/>
+                <label>LP<span class="sheet-secondary">Lebenspunkte</span></label>
+                <input name="attr_lebenspunkte" type="number" value="0" readonly="readonly"/>
+                <input name="attr_lebenspunktemod" type="number" value="0"/>
+                <label>FO<span class="sheet-secondary">Fokus</span></label>
+                <input name="attr_fokus" type="number" value="0" readonly="readonly"/>
+                <input name="attr_fokusmod" type="number" value="0"/>
+                <label>VTD<span class="sheet-secondary">Verteidigung</span></label>
+                <input name="attr_verteidigung" type="number" value="0" readonly="readonly"/>
+                <input name="attr_verteidigungmod" type="number" value="0"/>
+                <label>GW<span class="sheet-secondary">Geistiger Widerstand</span></label>
+                <input name="attr_geistigerwiderstand" type="number" value="0" readonly="readonly"/>
+                <input name="attr_geistigerwiderstandmod" type="number" value="0"/>
+                <label>KW<span class="sheet-secondary">Körperlicher Widerstand</span></label>
+                <input name="attr_koerperlicherwiderstand" type="number" value="0" readonly="readonly"/>
+                <input name="attr_koerperlicherwiderstandmod" type="number" value="0"/>
+                <input name="attr_hiddengroessenklasse" type="hidden" value="0"/>
+                <input name="attr_hiddengroessenklassemod" type="hidden" value="0"/>
+                <input name="attr_hiddengeschwindigkeite" type="hidden" value="0"/>
+                <input name="attr_hiddengeschwindigkeitemod" type="hidden" value="0"/>
+                <input name="attr_hiddeninitiative" type="hidden" value="0"/>
+                <input name="attr_hiddeninitiativemod" type="hidden" value="0"/>
+                <input name="attr_hiddenlebenspunkte" type="hidden" value="0"/>
+                <input name="attr_hiddenlebenspunktemod" type="hidden" value="0"/>
+                <input name="attr_hiddenfokus" type="hidden" value="0"/>
+                <input name="attr_hiddenfokusmod" type="hidden" value="0"/>
+                <input name="attr_hiddenverteidigung" type="hidden" value="0"/>
+                <input name="attr_hiddenverteidigungmod" type="hidden" value="0"/>
+                <input name="attr_hiddengeistigerwiderstand" type="hidden" value="0"/>
+                <input name="attr_hiddengeistigerwiderstandmod" type="hidden" value="0"/>
+                <input name="attr_hiddenkoerperlicherwiderstand" type="hidden" value="0"/>
+                <input name="attr_hiddenkoerperlicherwiderstandmod" type="hidden" value="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sheet-tab-content sheet-fertigkeiten">fertigkeiten</div>
+        <div class="sheet-tab-content sheet-kampf">kampf</div>
+        <div class="sheet-tab-content sheet-entwicklung">entwicklung</div>
+        <div class="sheet-tab-content sheet-ausruestung">ausruestung</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/worker">
+["einstellungen", "grundwerte", "fertigkeiten", "magie", "entwicklung", "ausruestung", "kampf"].forEach(button => {
+    on(`clicked:${button}`, function () {
+        setAttrs({
+            tab: button
+        });
+    });
+});
+</script>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="ui-resizable-handle ui-resizable-n" style="z-index: 1000;"></div>
+      <div class="ui-resizable-handle ui-resizable-e" style="z-index: 1000;"></div>
+      <div class="ui-resizable-handle ui-resizable-s" style="z-index: 1000;"></div>
+      <div class="ui-resizable-handle ui-resizable-w" style="z-index: 1000;"></div>
+      <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-siagonal-se" style="z-index: 1000;"></div>
+      <div class="ui-resizable-handle ui-resizable-sw" style="z-index: 1000;"></div>
+      <div class="ui-resizable-handle ui-resizable-ne" style="z-index: 1000;"></div>
+      <div class="ui-resizable-handle ui-resizable-nw" style="z-index: 1000;"></div>
+    </div>
+    <script>var events = {};
+var charData = {};
+
+function on(eventStr, fnc) {
+
+    _.each(eventStr.split(" "), function (ev) {
+        var evStrArr = ev.split(":");
+        if (events[ev] == undefined) {
+            events[ev] = [];
+        }
+        events[ev].push(fnc);
+    });
+}
+
+function setAttrs(obj, opt = "", cb = function () { }) {
+    _.each(obj, function (value, key) {
+        var oldValue = charData[key];
+        charData[key] = value;
+        var elementName = "attr_" + key;
+        if (opt != "silent") {
+            var eventInfo = {};
+            eventInfo.newValue = value;
+            eventInfo.oldValue = oldValue;
+            _.each(events["change:" + key], function (ev) {
+                ev(eventInfo);
+            });
+        }
+        $('span[name=' + elementName + ']').text(value);
+        $('input[name=' + elementName + '][type!=radio]').val(value);
+        $('input[name=' + elementName + '][type=radio]').filter('[value="' + value + '"]').attr('checked', true);
+
+    });
+
+    cb();
+}
+
+function getAttrs(lst, cb) {
+    var data = {};
+    _.each(lst, function (value) {
+        data[value] = charData[value];
+    });
+    cb(data);
+}
+
+
+
+$(document).ready(function () {
+    $("input").change(function () {
+        var data = {};
+        data[this.name.substr(5)] = this.value;
+        setAttrs(data);
+    })
+    $("input[type!=radio]").each(function () {
+        var data = {};
+        data[this.name.substr(5)] = this.value;
+        setAttrs(data);
+    });
+
+    $("button[type=action]").click(function (e) {
+        e.preventDefault();
+
+        var data = {};
+        _.each(events["clicked:" + this.name.substr(4)], function (ev) {
+            ev(data);
+        });
+
+    });
+
+    $("button[type=roll]").click(function (e) {
+        e.preventDefault();
+
+    });
+
+    $("script[type='text/worker']").each(function () {
+        eval(this.innerHTML);
+    });
+    var data = {};
+    _.each(events["sheet:opened"], function (ev) {
+        ev(data);
+    });
+});
+    </script>
+  </body>
+</html>

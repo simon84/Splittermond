@@ -1,0 +1,26 @@
+mixin input(name, type="text", value="", isAutoexpand=false,  attribute={})
+    if !isAutoexpand
+        input(name="attr_"+name, type=type, value=value)&attributes(attribute)
+    else
+        span.autoexpand
+            input(name="attr_"+name, type=type, value=value)&attributes(attribute)
+            span.autoexpand(name="attr_"+name)
+
+mixin textinput(name, value="", autoexpand=false, attribute={})
+    +input(name,"text", value, autoexpand, attribute)
+
+mixin numberinput(name, value="", autoexpand=false, attribute={})
+    +input(name, "number", value, autoexpand=false, attribute)
+
+mixin radioinput(name, value="", attribute={})
+    +input(name, "radio", value, false, attribute)
+
+mixin hiddeninput(name, value="", attribute={})
+    +input(name, "hidden", value, false, attribute)
+
+.splittermond
+    input(type="hidden", name="attr_pc", value="1")
+    .pc
+        include sheets/pc.pug
+script(type="text/worker")
+    include ../js/sheetworker.js

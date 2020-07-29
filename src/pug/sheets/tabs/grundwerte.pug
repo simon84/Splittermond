@@ -1,0 +1,131 @@
+
+h2
+    +textinput("character_name", "@{character_name}", true, {title: "@{character_name}"})
+    | &middot;
+    +textinput("spielername", "@{spielername}", true, {title: "@{spielername}"})
+        
+
+.data-section.data-section-personal
+    - 
+        var personal_data_fields = {
+            rasse: "Rasse",
+            kultur: "Kultur",
+            abstammung: "Abstammung",
+            ausbildung: "Ausbildung",
+            geschlecht: "Geschlecht",
+            groesse: "Größe",
+            gewicht: "Gewicht",
+            haarfarbe: "Haarfarbe",
+            augenfarbe: "Augenfarbe",
+            hautfarbe: "Hautfarbe",
+            geburtsort: "Geburtsort",
+            mondzeichen: "Mondzeichen"
+        }
+    each labelText, id in personal_data_fields
+        .data-set(class="data-set-"+id)
+            label= labelText
+            +textinput(id,"",true)
+.data-section-row
+    .data-section.data-section-attribute
+        .data-header
+            h3 Attribute
+            span Start
+            span
+            span max.
+        .data-area
+            - 
+                var attribute = {
+                    ausstrahlung: {
+                        long: "Ausstrahlung",
+                        short: "AUS"
+                    },
+                    beweglichkeit: {
+                        long: "Beweglichkeit",
+                        short: "BEW"
+                    },
+                    intuition: {
+                        long: "Intuition",
+                        short: "INT"
+                    },
+                    konstitution: {
+                        long: "Konstitution",
+                        short: "KON"
+                    },
+                    mystik: {
+                        long: "Mystik",
+                        short: "MYS"
+                    },
+                    staerke: {
+                        long: "Stärke",
+                        short: "STÄ"
+                    },
+                    verstand: {
+                        long: "Verstand",
+                        short: "VER"
+                    },
+                    willenskraft: {
+                        long: "Willenskraft",
+                        short: "WIL"
+                    }
+                }
+            each labelText, id in attribute
+                label= labelText.short
+                    span.secondary= labelText.long
+                +numberinput(id+"start", 0)
+                +numberinput(id, 0)
+                +textinput(id+"max", 0, false, {readonly: true})
+            each labelText, id in attribute
+                +hiddeninput("hidden"+id, 0)
+                +hiddeninput("hidden"+id+"mod", 0)
+    
+    .data-section.data-section-abgeleiteteattribute
+        .data-header
+            h3 Abgeleitete Attribute
+            span
+            span Mod.
+        .data-area
+            - 
+                var attribute = {
+                    groessenklasse: {
+                        long: "Größenklasse",
+                        short: "GK"
+                    },
+                    geschwindigkeite: {
+                        long: "Geschwindigkeit",
+                        short: "GEW"
+                    },
+                    initiative: {
+                        long: "Initiative",
+                        short: "INI"
+                    },
+                    lebenspunkte: {
+                        long: "Lebenspunkte",
+                        short: "LP"
+                    },
+                    fokus: {
+                        long: "Fokus",
+                        short: "FO"
+                    },
+                    verteidigung: {
+                        long: "Verteidigung",
+                        short: "VTD"
+                    },
+                    geistigerwiderstand: {
+                        long: "Geistiger Widerstand",
+                        short: "GW"
+                    },
+                    koerperlicherwiderstand: {
+                        long: "Körperlicher Widerstand",
+                        short: "KW"
+                    }
+                }
+            each labelText, id in attribute
+                label= labelText.short
+                    span.secondary= labelText.long
+                +numberinput(id, 0, false, {readonly: true})
+                +numberinput(id+"mod", 0)
+
+            each labelText, id in attribute
+                +hiddeninput("hidden"+id, 0)
+                +hiddeninput("hidden"+id+"mod", 0)
+            

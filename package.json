@@ -1,0 +1,24 @@
+{
+  "name": "splittermond",
+  "version": "0.1.0",
+  "description": "Roll20 Character Sheet for Splittermond",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Roll20",
+    "Splittermond"
+  ],
+  "author": "Loki, Simon",
+  "license": "ISC",
+  "dependencies": {
+    "gulp-class-prefix": "^1.0.1",
+    "gulp-html-prefix": "0.0.1",
+    "gulp-pug-3": "^1.0.5",
+    "gulp-sass": "^4.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}

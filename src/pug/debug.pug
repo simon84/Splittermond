@@ -1,0 +1,39 @@
+html
+    head
+        meta(charset="UTF-8")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js", type="text/javascript")
+        script(src="https://app.roll20dev.net/v2/js/jquery-1.9.1.js", type="text/javascript")
+        script(src="https://app.roll20dev.net/v2/js/jquery.migrate.js", type="text/javascript")
+        script(src="https://app.roll20dev.net/js/jquery-ui.1.9.0.custom.min.js", type="text/javascript")
+        link(rel="stylesheet", href="https://app.roll20dev.net/assets/base.css", type="text/css")
+        link(rel="stylesheet", href="https://app.roll20.net/assets/app.css", type="text/css")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Patrick+Hand|Contrail+One|Shadows+Into+Light|Candal&amp;subset=latin,latin-ext" , type="text/css")
+        link(rel="stylesheet", href="sheet.css", type="text/css")
+        title Roll20 - Splittermond
+    body.no-touch
+        .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable(tabindex="-1", role="dialog", style="outline: 0px; z-index: 10504; position: fixed; height: 750px; width: 960px; top: 30px; left: 30px; display: block;")
+            .ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix
+                span#ui-id-10.ui-dialog-title Charaktername
+            .dialog.characterdialog.ui-dialog-content.ui-widget-content(style="display: block; width: auto; min-height: 0px; height: 683px;")
+                .dialog.largedialog.characterviewer(style="display: block")
+                    ul.nav.nav-tabs
+                        li 
+                            a(href="javascript:void(0)", data-tab="bioinfo") Bio &amp; Info
+                        li.active
+                            a(href="javascript:void(0)", data-tab="charsheet") Charactersheet
+                        li
+                            a(href="javascript:void(0)", data-tab="attributesabilities") Attributes &amp; Abilities
+                    .tab-content
+                        form.sheetform(autocomplete="off")
+                            .charactersheet.tab-pane.charsheet.lang-de(style="display: block")
+                                include ../../dist/sheet.html
+            .ui-resizable-handle.ui-resizable-n(style="z-index: 1000;")
+            .ui-resizable-handle.ui-resizable-e(style="z-index: 1000;")
+            .ui-resizable-handle.ui-resizable-s(style="z-index: 1000;")
+            .ui-resizable-handle.ui-resizable-w(style="z-index: 1000;")
+            .ui-resizable-handle.ui-resizable-se.ui-icon.ui-icon-gripsmall-diagonal-se.ui-icon-grip-siagonal-se(style="z-index: 1000;")
+            .ui-resizable-handle.ui-resizable-sw(style="z-index: 1000;")
+            .ui-resizable-handle.ui-resizable-ne(style="z-index: 1000;")
+            .ui-resizable-handle.ui-resizable-nw(style="z-index: 1000;")
+        script
+            include ../js/sheetworker-api.js

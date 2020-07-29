@@ -1,0 +1,30 @@
+mixin tab-nav-item(tabId)
+    button(type="action" name="act_"+tabId)
+        block
+    
+
+input(name="attr_tab" type="hidden" value="grundwerte")
+.tab-nav
+    +tab-nav-item("einstellungen", "icon")
+        span.icon y
+    +tab-nav-item("grundwerte") 
+        | Grundwerte
+    +tab-nav-item("fertigkeiten")
+        | Fertigkeiten & Magie
+    +tab-nav-item("kampf") 
+        | Kampf &  Meisterschaften
+    +tab-nav-item("entwicklung") 
+        | Charakterentwicklung
+    +tab-nav-item("ausruestung")
+        | Ausrüstung
+
+
+.tab-group.paper
+    .watermark
+        .tab-content.einstellungen Einstellungen
+        .tab-content.grundwerte
+            include tabs/grundwerte.pug
+        .tab-content.fertigkeiten fertigkeiten
+        .tab-content.kampf kampf
+        .tab-content.entwicklung entwicklung
+        .tab-content.ausruestung ausruestung
