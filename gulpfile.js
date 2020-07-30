@@ -7,14 +7,14 @@ var sass = require('gulp-sass');
 gulp.task('BuildStyle', function () {
     return gulp.src('src/sass/sheet.scss')
         .pipe(sass())
-        .pipe(cssPrefix('sheet-', { ignored: [".charsheet"] }))
+        .pipe(cssPrefix('sheet-', { ignored: [".charsheet", ".repitem", ".repcontainer", ".repcontrol", ".itemcontrol"] }))
         .pipe(gulp.dest('dist'));
 });
 
 gulp.task('BuildSheet', function () {
     return gulp.src('src/pug/sheet.pug')
         .pipe(pug({ pretty: true }))
-        .pipe(htmlPrefix('sheet-'))
+        .pipe(htmlPrefix('sheet-', { ignored: [/repeating_[a-z_-]+/] }))
         .pipe(gulp.dest('dist'));
 });
 
