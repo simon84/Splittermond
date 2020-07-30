@@ -11,29 +11,23 @@ html
         link(rel="stylesheet", href="sheet.css", type="text/css")
         title Roll20 - Splittermond
     body.no-touch
-        .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable(tabindex="-1", role="dialog", style="outline: 0px; z-index: 10504; position: fixed; height: 750px; width: 960px; top: 30px; left: 30px; display: block;")
-            .ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix
-                span#ui-id-10.ui-dialog-title Charaktername
-            .dialog.characterdialog.ui-dialog-content.ui-widget-content(style="display: block; width: auto; min-height: 0px; height: 683px;")
-                .dialog.largedialog.characterviewer(style="display: block")
-                    ul.nav.nav-tabs
-                        li 
-                            a(href="javascript:void(0)", data-tab="bioinfo") Bio &amp; Info
-                        li.active
-                            a(href="javascript:void(0)", data-tab="charsheet") Charactersheet
-                        li
-                            a(href="javascript:void(0)", data-tab="attributesabilities") Attributes &amp; Abilities
-                    .tab-content
-                        form.sheetform(autocomplete="off")
-                            .charactersheet.tab-pane.charsheet.lang-de(style="display: block")
-                                include ../../dist/sheet.html
-            .ui-resizable-handle.ui-resizable-n(style="z-index: 1000;")
-            .ui-resizable-handle.ui-resizable-e(style="z-index: 1000;")
-            .ui-resizable-handle.ui-resizable-s(style="z-index: 1000;")
-            .ui-resizable-handle.ui-resizable-w(style="z-index: 1000;")
-            .ui-resizable-handle.ui-resizable-se.ui-icon.ui-icon-gripsmall-diagonal-se.ui-icon-grip-siagonal-se(style="z-index: 1000;")
-            .ui-resizable-handle.ui-resizable-sw(style="z-index: 1000;")
-            .ui-resizable-handle.ui-resizable-ne(style="z-index: 1000;")
-            .ui-resizable-handle.ui-resizable-nw(style="z-index: 1000;")
+        .dialog.characterdialog(title="Charaktername")
+            .dialog.largedialog.characterviewer(style="display: block")
+                ul.nav.nav-tabs
+                    li 
+                        a(href="javascript:void(0)", data-tab="bioinfo") Bio &amp; Info
+                    li.active
+                        a(href="javascript:void(0)", data-tab="charsheet") Charactersheet
+                    li
+                        a(href="javascript:void(0)", data-tab="attributesabilities") Attributes &amp; Abilities
+                .tab-content
+                    form.sheetform(autocomplete="off")
+                        .charactersheet.tab-pane.charsheet.lang-de(style="display: block")
+                            include ../../dist/sheet.html
         script
             include ../js/sheetworker-api.js
+
+        script. 
+            $(document).ready(function () {
+                $('.characterdialog').dialog({width: 960, height: 800});
+            });
