@@ -1,8 +1,8 @@
 
 h2
-    +textinput("character_name", "@{character_name}", true, {title: "@{character_name}"})
+    +textinput("character_name", "", true, {placeholder: "Charaktername"})
     | &middot;
-    +textinput("spielername", "@{spielername}", true, {title: "@{spielername}"})
+    +textinput("spielername", "", true, {placeholder: "Spielername"})
         
 
 .data-section.data-section-personal
@@ -24,7 +24,7 @@ h2
     each labelText, id in personal_data_fields
         .data-set(class="data-set-"+id)
             label= labelText
-            +textinput(id,"",true)
+            +textinput(id,"",true, {placeholder: "-"})
 .data-section-row
     .data-section.data-section-attribute
         .data-header
@@ -125,7 +125,8 @@ h2
                 +numberinput(id, 0, false, {readonly: true})
                 +numberinput(id+"mod", 0)
 
-            each labelText, id in attribute
-                +hiddeninput("hidden"+id, 0)
-                +hiddeninput("hidden"+id+"mod", 0)
-            
+.data-section-row
+    .data-section-staerken
+        fieldset.repeating_staerken
+            +textinput("staerke","")
+            +numberinput("staerkewert",1)

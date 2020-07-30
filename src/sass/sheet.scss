@@ -164,8 +164,8 @@ $main-color-light: #6DCFF6ff;
 input[name="attr_tab"] {
     $pc_tabs: einstellungen, grundwerte, fertigkeiten, kampf, entwicklung, ausruestung;
     @each $tabid in $pc_tabs {
-        &[value=#{$tabid}] ~ div.tab-group .#{$tabid} {
-            display: block;
+        &[value=#{$tabid}] ~ .tab-group div .tab-content.#{$tabid} {
+            display: flex;
         }
 
         &[value=#{$tabid}] ~ div.tab-nav button[name="act_#{$tabid}"] {
@@ -187,7 +187,6 @@ input[name="attr_tab"] {
 }
 
 .grundwerte {
-    display: flex;
     flex-direction: column;
     > * {
         margin-bottom: 10px;
@@ -296,6 +295,7 @@ span.autoexpand {
         width: 100%;
         z-index: 1000;
         left: 0px;
+        vertical-align: baseline;
     }
 
     > span.autoexpand {
@@ -309,9 +309,12 @@ span.autoexpand {
         padding-bottom: 0.1em;
         padding-left: 0.2em;
         padding-right: 0.2em;
-        min-width: 1.5em;
+        //min-width: 1.5em;
         min-height: 1.5em;
 
+        &:empty:after {
+            content: attr(placeholder);
+        }
     }
 }
 
