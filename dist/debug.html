@@ -13,18 +13,16 @@
     <title>Roll20 - Splittermond</title>
   </head>
   <body class="no-touch">
-    <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable" tabindex="-1" role="dialog" style="outline: 0px; z-index: 10504; position: fixed; height: 750px; width: 960px; top: 30px; left: 30px; display: block;">
-      <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-id-10">Charaktername</span></div>
-      <div class="dialog characterdialog ui-dialog-content ui-widget-content" style="display: block; width: auto; min-height: 0px; height: 683px;">
-        <div class="dialog largedialog characterviewer" style="display: block">
-          <ul class="nav nav-tabs">
-            <li> <a href="javascript:void(0)" data-tab="bioinfo">Bio &amp; Info</a></li>
-            <li class="active"><a href="javascript:void(0)" data-tab="charsheet">Charactersheet</a></li>
-            <li><a href="javascript:void(0)" data-tab="attributesabilities">Attributes &amp; Abilities</a></li>
-          </ul>
-          <div class="tab-content">
-            <form class="sheetform" autocomplete="off">
-              <div class="charactersheet tab-pane charsheet lang-de" style="display: block">
+    <div class="dialog characterdialog" title="Charaktername">
+      <div class="dialog largedialog characterviewer" style="display: block">
+        <ul class="nav nav-tabs">
+          <li> <a href="javascript:void(0)" data-tab="bioinfo">Bio &amp; Info</a></li>
+          <li class="active"><a href="javascript:void(0)" data-tab="charsheet">Charactersheet</a></li>
+          <li><a href="javascript:void(0)" data-tab="attributesabilities">Attributes &amp; Abilities</a></li>
+        </ul>
+        <div class="tab-content">
+          <form class="sheetform" autocomplete="off">
+            <div class="charactersheet tab-pane charsheet lang-de" style="display: block">
 <div class="sheet-splittermond">
   <input type="hidden" name="attr_pc" value="1"/>
   <div class="sheet-pc">
@@ -51,57 +49,57 @@
         <div class="sheet-tab-content sheet-einstellungen">Einstellungen</div>
         <div class="sheet-tab-content sheet-grundwerte">
           <h2><span class="sheet-autoexpand">
-              <input name="attr_character_name" type="text" value="@{character_name}" title="@{character_name}"/><span class="sheet-autoexpand" name="attr_character_name"></span></span>&middot;<span class="sheet-autoexpand">
-              <input name="attr_spielername" type="text" value="@{spielername}" title="@{spielername}"/><span class="sheet-autoexpand" name="attr_spielername"></span></span>
+              <input name="attr_character_name" type="text" value="" placeholder="Charaktername"/><span class="sheet-autoexpand" name="attr_character_name" placeholder="Charaktername"></span></span>&middot;<span class="sheet-autoexpand">
+              <input name="attr_spielername" type="text" value="" placeholder="Spielername"/><span class="sheet-autoexpand" name="attr_spielername" placeholder="Spielername"></span></span>
           </h2>
           <div class="sheet-data-section sheet-data-section-personal">
             <div class="sheet-data-set sheet-data-set-rasse">
               <label>Rasse</label><span class="sheet-autoexpand">
-                <input name="attr_rasse" type="text" value=""/><span class="sheet-autoexpand" name="attr_rasse"></span></span>
+                <input name="attr_rasse" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_rasse" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-kultur">
               <label>Kultur</label><span class="sheet-autoexpand">
-                <input name="attr_kultur" type="text" value=""/><span class="sheet-autoexpand" name="attr_kultur"></span></span>
+                <input name="attr_kultur" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_kultur" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-abstammung">
               <label>Abstammung</label><span class="sheet-autoexpand">
-                <input name="attr_abstammung" type="text" value=""/><span class="sheet-autoexpand" name="attr_abstammung"></span></span>
+                <input name="attr_abstammung" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_abstammung" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-ausbildung">
               <label>Ausbildung</label><span class="sheet-autoexpand">
-                <input name="attr_ausbildung" type="text" value=""/><span class="sheet-autoexpand" name="attr_ausbildung"></span></span>
+                <input name="attr_ausbildung" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_ausbildung" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-geschlecht">
               <label>Geschlecht</label><span class="sheet-autoexpand">
-                <input name="attr_geschlecht" type="text" value=""/><span class="sheet-autoexpand" name="attr_geschlecht"></span></span>
+                <input name="attr_geschlecht" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_geschlecht" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-groesse">
               <label>Größe</label><span class="sheet-autoexpand">
-                <input name="attr_groesse" type="text" value=""/><span class="sheet-autoexpand" name="attr_groesse"></span></span>
+                <input name="attr_groesse" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_groesse" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-gewicht">
               <label>Gewicht</label><span class="sheet-autoexpand">
-                <input name="attr_gewicht" type="text" value=""/><span class="sheet-autoexpand" name="attr_gewicht"></span></span>
+                <input name="attr_gewicht" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_gewicht" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-haarfarbe">
               <label>Haarfarbe</label><span class="sheet-autoexpand">
-                <input name="attr_haarfarbe" type="text" value=""/><span class="sheet-autoexpand" name="attr_haarfarbe"></span></span>
+                <input name="attr_haarfarbe" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_haarfarbe" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-augenfarbe">
               <label>Augenfarbe</label><span class="sheet-autoexpand">
-                <input name="attr_augenfarbe" type="text" value=""/><span class="sheet-autoexpand" name="attr_augenfarbe"></span></span>
+                <input name="attr_augenfarbe" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_augenfarbe" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-hautfarbe">
               <label>Hautfarbe</label><span class="sheet-autoexpand">
-                <input name="attr_hautfarbe" type="text" value=""/><span class="sheet-autoexpand" name="attr_hautfarbe"></span></span>
+                <input name="attr_hautfarbe" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_hautfarbe" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-geburtsort">
               <label>Geburtsort</label><span class="sheet-autoexpand">
-                <input name="attr_geburtsort" type="text" value=""/><span class="sheet-autoexpand" name="attr_geburtsort"></span></span>
+                <input name="attr_geburtsort" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_geburtsort" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-mondzeichen">
               <label>Mondzeichen</label><span class="sheet-autoexpand">
-                <input name="attr_mondzeichen" type="text" value=""/><span class="sheet-autoexpand" name="attr_mondzeichen"></span></span>
+                <input name="attr_mondzeichen" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_mondzeichen" placeholder="-"></span></span>
             </div>
           </div>
           <div class="sheet-data-section-row">
@@ -189,23 +187,15 @@
                 <label>KW<span class="sheet-secondary">Körperlicher Widerstand</span></label>
                 <input name="attr_koerperlicherwiderstand" type="number" value="0" readonly="readonly"/>
                 <input name="attr_koerperlicherwiderstandmod" type="number" value="0"/>
-                <input name="attr_hiddengroessenklasse" type="hidden" value="0"/>
-                <input name="attr_hiddengroessenklassemod" type="hidden" value="0"/>
-                <input name="attr_hiddengeschwindigkeite" type="hidden" value="0"/>
-                <input name="attr_hiddengeschwindigkeitemod" type="hidden" value="0"/>
-                <input name="attr_hiddeninitiative" type="hidden" value="0"/>
-                <input name="attr_hiddeninitiativemod" type="hidden" value="0"/>
-                <input name="attr_hiddenlebenspunkte" type="hidden" value="0"/>
-                <input name="attr_hiddenlebenspunktemod" type="hidden" value="0"/>
-                <input name="attr_hiddenfokus" type="hidden" value="0"/>
-                <input name="attr_hiddenfokusmod" type="hidden" value="0"/>
-                <input name="attr_hiddenverteidigung" type="hidden" value="0"/>
-                <input name="attr_hiddenverteidigungmod" type="hidden" value="0"/>
-                <input name="attr_hiddengeistigerwiderstand" type="hidden" value="0"/>
-                <input name="attr_hiddengeistigerwiderstandmod" type="hidden" value="0"/>
-                <input name="attr_hiddenkoerperlicherwiderstand" type="hidden" value="0"/>
-                <input name="attr_hiddenkoerperlicherwiderstandmod" type="hidden" value="0"/>
               </div>
+            </div>
+          </div>
+          <div class="sheet-data-section-row">
+            <div class="sheet-data-section-staerken">
+              <fieldset class="repeating_staerken">
+                <input name="attr_staerke" type="text" value=""/>
+                <input name="attr_staerkewert" type="number" value="1"/>
+              </fieldset>
             </div>
           </div>
         </div>
@@ -226,50 +216,65 @@
     });
 });
 </script>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
-      <div class="ui-resizable-handle ui-resizable-n" style="z-index: 1000;"></div>
-      <div class="ui-resizable-handle ui-resizable-e" style="z-index: 1000;"></div>
-      <div class="ui-resizable-handle ui-resizable-s" style="z-index: 1000;"></div>
-      <div class="ui-resizable-handle ui-resizable-w" style="z-index: 1000;"></div>
-      <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-siagonal-se" style="z-index: 1000;"></div>
-      <div class="ui-resizable-handle ui-resizable-sw" style="z-index: 1000;"></div>
-      <div class="ui-resizable-handle ui-resizable-ne" style="z-index: 1000;"></div>
-      <div class="ui-resizable-handle ui-resizable-nw" style="z-index: 1000;"></div>
     </div>
-    <script>var events = {};
-var charData = {};
+    <script>var roll20API = {
+    events: {},
+    charData: {},
+    repItemId: 0,
+};
 
 function on(eventStr, fnc) {
 
     _.each(eventStr.split(" "), function (ev) {
         var evStrArr = ev.split(":");
-        if (events[ev] == undefined) {
-            events[ev] = [];
+        if (roll20API.events[ev] == undefined) {
+            roll20API.events[ev] = [];
         }
-        events[ev].push(fnc);
+        roll20API.events[ev].push(fnc);
     });
 }
 
 function setAttrs(obj, opt = "", cb = function () { }) {
     _.each(obj, function (value, key) {
-        var oldValue = charData[key];
-        charData[key] = value;
-        var elementName = "attr_" + key;
+        var oldValue = roll20API.charData[key];
+
+        roll20API.charData[key] = value;
         if (opt != "silent") {
             var eventInfo = {};
             eventInfo.newValue = value;
             eventInfo.oldValue = oldValue;
-            _.each(events["change:" + key], function (ev) {
+            _.each(roll20API.events["change:" + key], function (ev) {
                 ev(eventInfo);
             });
+
+            if (key.startsWith("repeating_")) {
+                rowId = key.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
+
+                _.each(roll20API.events["change:" + rowId[3]], function (ev) {
+                    ev(eventInfo);
+                });
+
+                _.each(roll20API.events["change:" + rowId[1]], function (ev) {
+                    ev(eventInfo);
+                });
+
+                _.each(roll20API.events["change:" + rowId[1] + ":" + rowId[3]], function (ev) {
+                    ev(eventInfo);
+                });
+            }
         }
+
+
+
+        var elementName = "attr_" + key;
         $('span[name=' + elementName + ']').text(value);
         $('input[name=' + elementName + '][type!=radio]').val(value);
         $('input[name=' + elementName + '][type=radio]').filter('[value="' + value + '"]').attr('checked', true);
+
 
     });
 
@@ -279,9 +284,24 @@ function setAttrs(obj, opt = "", cb = function () { }) {
 function getAttrs(lst, cb) {
     var data = {};
     _.each(lst, function (value) {
-        data[value] = charData[value];
+        data[value] = roll20API.charData[value];
     });
     cb(data);
+}
+
+function generateRowID() {
+    return roll20API.repItemId++;
+}
+
+function removeRepeatingRow(rowId) {
+
+    rowId = rowId.match(/(repeating_[^_]*)_([^_]*)/);
+
+    $(`div[data-groupname="${rowId[1]}"] div.repitem[reprowid="${rowId[2]}"]`).remove().parent().trigger('sortupdate');
+
+    var props = Object.keys(roll20API.charData);
+
+    props.filter(prop => prop.startsWith(`${rowId[0]}`)).forEach(prop => delete roll20API.charData[prop]);
 }
 
 
@@ -302,7 +322,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         var data = {};
-        _.each(events["clicked:" + this.name.substr(4)], function (ev) {
+        _.each(roll20API.events["clicked:" + this.name.substr(4)], function (ev) {
             ev(data);
         });
 
@@ -313,14 +333,93 @@ $(document).ready(function () {
 
     });
 
+    $("fieldset[class^='repeating_']").each(function () {
+        this.style = "display: none";
+        var repName = this.className.match(/repeating_([^_]*)/);
+
+        $(this).after(`<div class="repcontainer ui-sortable" data-groupname="${repName[0]}"></div>
+        <div class="repcontrol" data-groupname="${repName[0]}">
+            <button class="btn repcontrol_edit">Modify</button>
+            <button class="btn repcontrol_add">+Add</button>
+        </div>`);
+
+        $(this).next().sortable(
+            {
+                connectWith: `.ui-sortable[data-groupname="${repName[0]}"]`,
+                handle: '.repcontrol_move'
+            }
+        );
+    });
+
+    $("button[class='btn repcontrol_add']").click(function (e) {
+        e.preventDefault();
+        var dataGroupName = $(this).parent().attr("data-groupname");
+
+        var itemId = generateRowID();
+
+        $(this).parent().prev()
+            .append(`<div class="repitem" reprowid="${itemId}">
+                <div class="itemcontrol">
+                    <button class="btn btn-danger pictos repcontrol_del">#</button>
+                    <a class="btn repcontrol_move">≡</a>
+                </div >`+ $(`fieldset[class="${dataGroupName}"]`).html() + '</div>');
+
+        $(this).parent().prev().find(`button.repcontrol_del`).click(function (e) {
+            e.preventDefault();
+
+            removeRepeatingRow(`${dataGroupName}_${itemId}`);
+        });
+
+        $(this).parent().prev().find("input").change(function () {
+            var data = {};
+            data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
+            setAttrs(data);
+        });
+
+        $(this).parent().prev().trigger('sortupdate');
+
+        $(this).parent().prev().find("input").each(function () {
+            var data = {};
+            data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
+            setAttrs(data);
+        });
+    });
+
+    $("button[class='btn repcontrol_edit']").click(function (e) {
+        e.preventDefault();
+        repcontainer = $(this).parent().prev();
+
+        if (repcontainer.hasClass("editmode")) {
+            repcontainer.removeClass("editmode");
+            $(this).text("Modify");
+            $(this).next().removeAttr("style");
+        } else {
+            repcontainer.addClass("editmode");
+            $(this).text("Done");
+            $(this).next().css({ "display": "none" });
+        }
+
+
+
+
+    });
+
     $("script[type='text/worker']").each(function () {
         eval(this.innerHTML);
     });
+
+
+
     var data = {};
-    _.each(events["sheet:opened"], function (ev) {
+    _.each(roll20API.events["sheet:opened"], function (ev) {
         ev(data);
     });
 });
+    </script>
+    <script>
+      $(document).ready(function () {
+          $('.characterdialog').dialog({width: 960, height: 800});
+      });
     </script>
   </body>
 </html>
