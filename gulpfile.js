@@ -7,7 +7,9 @@ var sass = require('gulp-sass');
 gulp.task('BuildStyle', function () {
     return gulp.src('src/sass/sheet.scss')
         .pipe(sass())
-        .pipe(cssPrefix('sheet-', { ignored: [".charsheet", ".repitem", ".repcontainer", ".repcontrol", ".itemcontrol"] }))
+        .pipe(cssPrefix('sheet-', {
+            ignored: [".charsheet"]
+        }))
         .pipe(gulp.dest('dist'));
 });
 

@@ -91,7 +91,7 @@ $main-color-light: #6DCFF6ff;
     }
 
     
-    input {
+    input, select {
         font-size: 1em;
         font-weight: bold;
         line-height: 1.5em;
@@ -104,9 +104,14 @@ $main-color-light: #6DCFF6ff;
         border-bottom: none;
         border-radius: 3px;
         display: inline-block;
-        min-width: 30px;
+        min-width: 1.6em;
+        width: 100%;
         border-bottom: 1px solid transparent;
         color: black;
+        height: unset;
+        vertical-align: baseline;
+
+        box-sizing: border-box;
 
         &:hover,
         &:focus {
@@ -115,7 +120,18 @@ $main-color-light: #6DCFF6ff;
             @include gradient-border;
             border-bottom: 1px solid;
         }
+
+        optgroup {
+            text-transform: uppercase;
+            color: $main-color;
+
+            option {
+                text-transform: none;
+                color: black;
+            }
+        }
     }
+
 
 }
 .tab-content {
@@ -183,11 +199,28 @@ input[name="attr_tab"] {
 .data-section-row {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-evenly;
+    width: 100%;
+}
+
+.data-section-column {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.data-area {
+    @include gradient-border();
+    @include gradient-background();
+
+    border-top: 1px solid;
+    border-bottom: 1px solid;
 }
 
 .grundwerte {
     flex-direction: column;
+    align-items: center;
     > * {
         margin-bottom: 10px;
         margin-top: 10px;
@@ -236,13 +269,7 @@ input[name="attr_tab"] {
             }
         }
 
-        .data-area {
-            @include gradient-border();
-            @include gradient-background();
-
-            border-top: 1px solid;
-            border-bottom: 1px solid;
-        }
+        
 
         .data-area,
         .data-header {
@@ -271,18 +298,181 @@ input[name="attr_tab"] {
         }
     }
 
-    .data-section-abgeleiteteattribute {
+    .data-section-abgeleitetewerte {
         @extend .data-section-attribute;
 
         .data-area,
         .data-header {
             grid-template-columns: 12em 2.5em 2.5em;
+            gap: 10px;
         }
 
         .data-area {
             input:read-only {
                 color: black;
             }
+        }
+    }
+    .data-section-ressourcen,
+    .data-section-staerken {
+        min-width: 15em;
+        box-sizing: border-box;
+        .data-header {
+            h3 {
+                text-align: center;
+            }
+        }
+
+        .data-area {
+            div > div {
+                display: grid;
+                grid-template-columns: 12em 2.5em;
+
+                input{
+                    text-align: center;
+                }
+            }
+        }
+    }
+    .data-section-schwaechen {
+        @extend .data-section-staerken;
+        min-width: 12em;
+        .data-area {
+            div > div {
+                grid-template-columns: 12em;
+            }
+        }
+    }
+
+    .data-section-sprachen {
+        @extend .data-section-schwaechen;
+    }
+
+    .data-section-kulturkunde {
+        @extend .data-section-schwaechen;
+    }
+
+    .data-section-attributmods {
+        @extend .data-section-staerken;
+        min-width: 35em;
+        max-width: 45em;
+
+        .data-header {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: auto 15em 2.5em 2.5em;
+
+            h3 {
+                text-align: left;
+            }
+
+            span {
+                color: #666;
+                font-size: 0.8em;
+                justify-self: center;
+            }
+        }
+        .data-area {
+            div > div {
+                gap: 10px;
+                grid-template-columns: auto 15em 2.5em 2.5em;
+                align-items: baseline;
+                input, select {
+                    text-align: center;
+                    width: 100%;
+                    height: auto;
+                }
+                
+            }
+        }
+    }
+    
+}
+
+.fertigkeiten {
+    .data-section-fertigkeiten {
+        display: flex;
+        flex-direction: column;
+
+        .data-header {
+            align-items: baseline;
+            span {
+                color: #666;
+                font-size: 0.8em;
+                justify-self: center;
+            }
+        }
+
+        
+
+        .data-area,
+        .data-header {
+            display: grid;
+            grid-template-columns: 9em 2.5em 2.5em 2.5em 2.5em;
+            gap: 5px;
+            align-items: baseline;
+            padding-top: 5px;
+
+            input {
+                text-align:center;
+                width: 2.5em;
+                font-size: 1.2em;
+            }
+
+            input:read-only {
+                color: #666;
+            }
+
+            span button {
+                align-self: center;
+            }
+
+            div.line {
+                grid-column-start: 1;
+                grid-column-end: 6;
+                height: 0px;
+                @include gradient-border();
+                border-bottom: solid 1px;
+            }
+
+            .tooltiptext {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                width: 6em;
+                gap: 5px;
+                font-size: 1em;
+                label {
+                    font-size: 1em;
+                }
+
+                span {
+                    text-align: left;
+                    color: black;
+                    font-size: 1em;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        label {
+            font-size: 0.8em;
+            text-align: right;
+            align-self: center;
+            .secondary{
+                display:block;
+            }
+        }
+    }
+
+    .data-section-magieschulen {
+        @extend .data-section-fertigkeiten;
+    }
+
+    .data-section-kampffertigkeiten {
+        @extend .data-section-fertigkeiten;
+        .data-area,
+        .data-header {
+            grid-template-columns: 9em 2.5em 2.5em 2.5em;
         }
     }
 }
@@ -316,6 +506,56 @@ span.autoexpand {
             content: attr(placeholder);
         }
     }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+    background-color: white;
+    color: $main-color;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    width: 8em;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -4em;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+
+
+    
+
+  
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+
+  &::before {
+        all: initial;
+        display: inline-block;
+        width: 0; 
+        height: 0; 
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;		  
+        border-top: 10px solid white;
+        position: absolute;
+        bottom: -10px;
+        content: '';
+        left: 50%;
+        transform: translate(-50%, 0);
+        margin-bottom: 5px;
+    } 
+  
 }
 
 

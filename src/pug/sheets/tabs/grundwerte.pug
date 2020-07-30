@@ -5,7 +5,7 @@ h2
     +textinput("spielername", "", true, {placeholder: "Spielername"})
         
 
-.data-section.data-section-personal
+.data-section-personal
     - 
         var personal_data_fields = {
             rasse: "Rasse",
@@ -26,48 +26,13 @@ h2
             label= labelText
             +textinput(id,"",true, {placeholder: "-"})
 .data-section-row
-    .data-section.data-section-attribute
+    .data-section-attribute
         .data-header
             h3 Attribute
             span Start
             span
             span max.
         .data-area
-            - 
-                var attribute = {
-                    ausstrahlung: {
-                        long: "Ausstrahlung",
-                        short: "AUS"
-                    },
-                    beweglichkeit: {
-                        long: "Beweglichkeit",
-                        short: "BEW"
-                    },
-                    intuition: {
-                        long: "Intuition",
-                        short: "INT"
-                    },
-                    konstitution: {
-                        long: "Konstitution",
-                        short: "KON"
-                    },
-                    mystik: {
-                        long: "Mystik",
-                        short: "MYS"
-                    },
-                    staerke: {
-                        long: "Stärke",
-                        short: "STÄ"
-                    },
-                    verstand: {
-                        long: "Verstand",
-                        short: "VER"
-                    },
-                    willenskraft: {
-                        long: "Willenskraft",
-                        short: "WIL"
-                    }
-                }
             each labelText, id in attribute
                 label= labelText.short
                     span.secondary= labelText.long
@@ -78,55 +43,90 @@ h2
                 +hiddeninput("hidden"+id, 0)
                 +hiddeninput("hidden"+id+"mod", 0)
     
-    .data-section.data-section-abgeleiteteattribute
+    .data-section-abgeleitetewerte
         .data-header
-            h3 Abgeleitete Attribute
+            h3 Abgeleitete Werte
             span
             span Mod.
         .data-area
-            - 
-                var attribute = {
-                    groessenklasse: {
-                        long: "Größenklasse",
-                        short: "GK"
-                    },
-                    geschwindigkeite: {
-                        long: "Geschwindigkeit",
-                        short: "GEW"
-                    },
-                    initiative: {
-                        long: "Initiative",
-                        short: "INI"
-                    },
-                    lebenspunkte: {
-                        long: "Lebenspunkte",
-                        short: "LP"
-                    },
-                    fokus: {
-                        long: "Fokus",
-                        short: "FO"
-                    },
-                    verteidigung: {
-                        long: "Verteidigung",
-                        short: "VTD"
-                    },
-                    geistigerwiderstand: {
-                        long: "Geistiger Widerstand",
-                        short: "GW"
-                    },
-                    koerperlicherwiderstand: {
-                        long: "Körperlicher Widerstand",
-                        short: "KW"
-                    }
-                }
-            each labelText, id in attribute
+            each labelText, id in abgeleiteteWerte
                 label= labelText.short
                     span.secondary= labelText.long
-                +numberinput(id, 0, false, {readonly: true})
+                span.tooltip
+                    +numberinput(id, 0, false, {readonly: true})
+                    span.tooltiptext Tooltip
                 +numberinput(id+"mod", 0)
 
 .data-section-row
+    .data-section-ressourcen
+        .data-header
+            h3 Ressourcen
+        .data-area
+            fieldset.repeating_ressources
+                +textinput("ressourcename","")
+                +numberinput("ressourcevalue",0)
     .data-section-staerken
-        fieldset.repeating_staerken
-            +textinput("staerke","")
-            +numberinput("staerkewert",1)
+        .data-header
+            h3 Stärken
+        .data-area
+            fieldset.repeating_staerken
+                +textinput("staerke","")
+                +numberinput("staerkenwert",1)
+    .data-section-schwaechen
+        .data-header
+            h3 Schwächen
+        .data-area
+            fieldset.repeating_schwaechen
+                +textinput("schwaeche","")
+    .data-section-sprachen
+        .data-header
+            h3 Sprachen
+        .data-area
+            fieldset.repeating_sprachen
+                +textinput("sprache","")
+    .data-section-kulturkunde
+        .data-header
+            h3 Kulturkunde
+        .data-area
+            fieldset.repeating_kulturkunde
+                +textinput("kulturkunde","")
+
+.data-section-attributmods
+    .data-header
+        h3 Modifikatoren (z.b. Kan. Zauber)
+        span Eigenschaft
+        span Mod.
+        span Aktiv?
+    .data-area
+        fieldset.repeating_attributmods
+            +textinput("attributmodname","")
+            select(name="attr_modattribut") 
+                optgroup(label="Attribute")
+                    <option value="aus">Ausstrahlung</option>
+                    <option value="bew">Beweglichkeit</option>
+                    <option value="int">Intuition</option>
+                    <option value="kon">Konstitution</option>
+                    <option value="mys">Mystik</option>
+                    <option value="stae">St&auml;rke</option>
+                    <option value="ver">Verstand</option>
+                    <option value="wil">Willenskraft</option>
+                optgroup(label="Abgeleitete Attribute")
+                    <option value="vtd">Verteidigung</option>
+                    <option value="gw">Geistiger Widerstand</option>
+                    <option value="kw">K&ouml;rperlicher Widerstand</option>
+                    <option value="allwiderstand">Alle Widerst&auml;nde</option>
+                    <option value="ini">Initiative</option>
+                    <option value="gsw">Geschwindigkeit</option>
+                optgroup(label="Kampfrelevantes")
+                    <option value="beh">Behinderungsreduktion</option>
+                    <option value="sr">Schadensreduktion</option>
+                    <option value="ab">Bonus auf Angriffe</option>
+                    <option value="si">Schmerzimmunit&auml;t (1 = aktiv)</option>
+                    <option value="war">Wundabzugs-Reduktion</option>
+                optgroup(label="Fertigkeiten")
+                    <option value="allfert">Alle Fertigkeiten</option>
+                    <option value="allgfert">Allgemeine Fertigkeiten</option>
+                    <option value="kampffert">Kampffertigkeiten</option>
+            +numberinput("attributmod",1)
+            +input("attributmodonoff","checkbox",false)
+

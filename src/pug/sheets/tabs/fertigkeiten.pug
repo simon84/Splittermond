@@ -1,0 +1,65 @@
+.data-section-row
+    .data-section-fertigkeiten
+        .data-header
+            h3 Fertigkeiten
+            span 
+            span Pkt.
+            span Mod.
+        .data-area
+            each fertigkeit, id in fertigkeiten
+                label= fertigkeit.Name
+                span.tooltip
+                    +numberinput(id,0, false, {readonly: true})
+                    span.tooltiptext 
+                        label= attribute[fertigkeit.Attribute[0].toLowerCase()].short
+                        span(name=id+"1") 0
+                        label= attribute[fertigkeit.Attribute[1].toLowerCase()].short
+                        span(name=id+"2") 0
+                span 
+                    +numberinput(id+"punkte",0)
+                span 
+                    +numberinput(id+"bonus",0)
+                span 
+                    button(type="roll")
+                div.line
+    div.data-section-column
+        .data-section-magieschulen
+            .data-header
+                h3 Magieschulen
+                span 
+                span Pkt.
+                span Mod.
+            .data-area
+                each magieschule, id in magieschulen
+                    label= magieschule.Name
+                    span.tooltip
+                        +numberinput(id,0, false, {readonly: true})
+                        span.tooltiptext 
+                            label= attribute[magieschule.Attribute[0].toLowerCase()].short
+                            span(name=id+"1") 0
+                            label= attribute[magieschule.Attribute[1].toLowerCase()].short
+                            span(name=id+"2") 0
+                    span
+                        +numberinput(id+"punkte",0)
+                    span
+                        +numberinput(id+"bonus",0)
+                    span 
+                        button(type="roll")
+                    div.line
+        .data-section-kampffertigkeiten
+            .data-header
+                h3 Kampffertigkeiten
+                span Pkt.
+                span Mod.
+            .data-area
+                each kampffertigkeit, id in kampffertigkeiten
+                    label= kampffertigkeit.Name
+                    span
+                        +numberinput(id+"punkte",0)
+                    span
+                        +numberinput(id+"bonus",0)
+                    span 
+                        button(type="roll")
+                    div.line
+
+
