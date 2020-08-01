@@ -4,6 +4,13 @@ var cssPrefix = require('gulp-class-prefix');
 var htmlPrefix = require('gulp-html-prefix');
 var sass = require('gulp-sass');
 
+var SplittermondData = {};
+SplittermondData.abgeleiteteWerte = require('./src/js/data/abgeleitete_werte.json');
+SplittermondData.attribute = require('./src/js/data/attribute.json');
+SplittermondData.fertigkeiten = require('./src/js/data/fertigkeiten.json');
+SplittermondData.kampffertigkeiten = require('./src/js/data/kampffertigkeiten.json');
+SplittermondData.magieschulen = require('./src/js/data/magieschulen.json');
+
 gulp.task('BuildStyle', function () {
     return gulp.src('src/sass/sheet.scss')
         .pipe(sass())
@@ -15,7 +22,7 @@ gulp.task('BuildStyle', function () {
 
 gulp.task('BuildSheet', function () {
     return gulp.src('src/pug/sheet.pug')
-        .pipe(pug({ pretty: true }))
+        .pipe(pug({ pretty: true, locals: { splittermond: SplittermondData } }))
         .pipe(htmlPrefix('sheet-', { ignored: [/repeating_[a-z_-]+/] }))
         .pipe(gulp.dest('dist'));
 });

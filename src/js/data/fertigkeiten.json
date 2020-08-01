@@ -1,192 +1,191 @@
--
-    var fertigkeiten = {
-        "akrobatik": {
-            "Name": "Akrobatik",
+{
+    "akrobatik": {
+        "Name": "Akrobatik",
             "Attribute": [
                 "Beweglichkeit",
                 "Staerke"
             ]
-        },
-        "alchemie": {
-            "Name": "Alchemie",
+    },
+    "alchemie": {
+        "Name": "Alchemie",
             "Attribute": [
                 "Mystik",
                 "Verstand"
             ]
-        },
-        "anfuehren": {
-            "Name": "Anführen",
+    },
+    "anfuehren": {
+        "Name": "Anführen",
             "Attribute": [
                 "Ausstrahlung",
                 "Willenskraft"
             ]
-        },
-        "arkanekunde": {
-            "Name": "Arkane Kunde",
+    },
+    "arkanekunde": {
+        "Name": "Arkane Kunde",
             "Attribute": [
                 "Mystik",
                 "Verstand"
             ]
-        },
-        "athletik": {
-            "Name": "Athletik",
+    },
+    "athletik": {
+        "Name": "Athletik",
             "Attribute": [
                 "Beweglichkeit",
                 "Staerke"
             ]
-        },
-        "darbietung": {
-            "Name": "Darbietung",
+    },
+    "darbietung": {
+        "Name": "Darbietung",
             "Attribute": [
                 "Ausstrahlung",
                 "Willenskraft"
             ]
-        },
-        "diplomatie": {
-            "Name": "Diplomatie",
+    },
+    "diplomatie": {
+        "Name": "Diplomatie",
             "Attribute": [
                 "Ausstrahlung",
                 "Verstand"
             ]
-        },
-        "edelhandwerk": {
-            "Name": "Edelhandwerk",
+    },
+    "edelhandwerk": {
+        "Name": "Edelhandwerk",
             "Attribute": [
                 "Intuition",
                 "Verstand"
             ]
-        },
-        "empathie": {
-            "Name": "Empathie",
+    },
+    "empathie": {
+        "Name": "Empathie",
             "Attribute": [
                 "Intuition",
                 "Verstand"
             ]
-        },
-        "entschlossenheit": {
-            "Name": "Entschlossenheit",
+    },
+    "entschlossenheit": {
+        "Name": "Entschlossenheit",
             "Attribute": [
                 "Ausstrahlung",
                 "Willenskraft"
             ]
-        },
-        "fingerfertigkeit": {
-            "Name": "Fingerfertigkeit",
+    },
+    "fingerfertigkeit": {
+        "Name": "Fingerfertigkeit",
             "Attribute": [
                 "Ausstrahlung",
                 "Beweglichkeit"
             ]
-        },
-        "geschichtenundmythen": {
-            "Name": "Geschichten & Mythen",
+    },
+    "geschichtenundmythen": {
+        "Name": "Geschichten & Mythen",
             "Attribute": [
                 "Mystik",
                 "Verstand"
             ]
-        },
-        "handwerk": {
-            "Name": "Handwerk",
+    },
+    "handwerk": {
+        "Name": "Handwerk",
             "Attribute": [
                 "Konstitution",
                 "Verstand"
             ]
-        },
-        "heilkunde": {
-            "Name": "Heilkunde",
+    },
+    "heilkunde": {
+        "Name": "Heilkunde",
             "Attribute": [
                 "Intuition",
                 "Verstand"
             ]
-        },
-        "heimlichkeit": {
-            "Name": "Heimlichkeit",
+    },
+    "heimlichkeit": {
+        "Name": "Heimlichkeit",
             "Attribute": [
                 "Beweglichkeit",
                 "Intuition"
             ]
-        },
-        "jagdkunst": {
-            "Name": "Jagdkunst",
+    },
+    "jagdkunst": {
+        "Name": "Jagdkunst",
             "Attribute": [
                 "Konstitution",
                 "Verstand"
             ]
-        },
-        "laenderkunde": {
-            "Name": "Länderkunde",
+    },
+    "laenderkunde": {
+        "Name": "Länderkunde",
             "Attribute": [
                 "Intuition",
                 "Verstand"
             ]
-        },
-        "naturkunde": {
-            "Name": "Naturkunde",
+    },
+    "naturkunde": {
+        "Name": "Naturkunde",
             "Attribute": [
                 "Intuition",
                 "Verstand"
             ]
-        },
-        "redegewandtheit": {
-            "Name": "Redegewandtheit",
+    },
+    "redegewandtheit": {
+        "Name": "Redegewandtheit",
             "Attribute": [
                 "Ausstrahlung",
                 "Willenskraft"
             ]
-        },
-        "schloesserundfallen": {
-            "Name": "Schlösser & Fallen",
+    },
+    "schloesserundfallen": {
+        "Name": "Schlösser & Fallen",
             "Attribute": [
                 "Intuition",
                 "Beweglichkeit"
             ]
-        },
-        "schwimmen": {
-            "Name": "Schwimmen",
+    },
+    "schwimmen": {
+        "Name": "Schwimmen",
             "Attribute": [
                 "Konstitution",
                 "Staerke"
             ]
-        },
-        "seefahrt": {
-            "Name": "Seefahrt",
+    },
+    "seefahrt": {
+        "Name": "Seefahrt",
             "Attribute": [
                 "Beweglichkeit",
                 "Konstitution"
             ]
-        },
-        "strassenkunde": {
-            "Name": "Straßenkunde",
+    },
+    "strassenkunde": {
+        "Name": "Straßenkunde",
             "Attribute": [
                 "Ausstrahlung",
                 "Intuition"
             ]
-        },
-        "tierfuehrung": {
-            "Name": "Tierfuehrung",
+    },
+    "tierfuehrung": {
+        "Name": "Tierfuehrung",
             "Attribute": [
                 "Ausstrahlung",
                 "Beweglichkeit"
             ]
-        },
-        "ueberleben": {
-            "Name": "Überleben",
+    },
+    "ueberleben": {
+        "Name": "Überleben",
             "Attribute": [
                 "Intuition",
                 "Konstitution"
             ]
-        },
-        "wahrnehmung": {
-            "Name": "Wahrnehmung",
+    },
+    "wahrnehmung": {
+        "Name": "Wahrnehmung",
             "Attribute": [
                 "Intuition",
                 "Willenskraft"
             ]
-        },
-        "zaehigkeit": {
-            "Name": "Zähigkeit",
+    },
+    "zaehigkeit": {
+        "Name": "Zähigkeit",
             "Attribute": [
                 "Konstitution",
                 "Willenskraft"
             ]
-        }
     }
+}

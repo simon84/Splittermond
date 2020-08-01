@@ -1,0 +1,11 @@
+{
+    "robust": {
+        "lebenspunkte": 1
+    },
+    "hoher körperlicher widerstand": {
+        "koerperlicherwiderstand": 2
+    },
+    "hoher geistiger widerstand": {
+        "geistigerwiderstand": 2
+    }
+}

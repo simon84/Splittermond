@@ -6,15 +6,17 @@
             span Pkt.
             span Mod.
         .data-area
-            each fertigkeit, id in fertigkeiten
+            each fertigkeit, id in splittermond.fertigkeiten
                 label= fertigkeit.Name
                 span.tooltip
                     +numberinput(id,0, false, {readonly: true})
+                    +hiddeninput(id+"1")
+                    +hiddeninput(id+"2")
                     span.tooltiptext 
-                        label= attribute[fertigkeit.Attribute[0].toLowerCase()].short
-                        span(name=id+"1") 0
-                        label= attribute[fertigkeit.Attribute[1].toLowerCase()].short
-                        span(name=id+"2") 0
+                        label= splittermond.attribute[fertigkeit.Attribute[0].toLowerCase()].short
+                        span(name="attr_"+id+"1") 0
+                        label= splittermond.attribute[fertigkeit.Attribute[1].toLowerCase()].short
+                        span(name="attr_"+id+"2") 0
                 span 
                     +numberinput(id+"punkte",0)
                 span 
@@ -30,15 +32,17 @@
                 span Pkt.
                 span Mod.
             .data-area
-                each magieschule, id in magieschulen
+                each magieschule, id in splittermond.magieschulen
                     label= magieschule.Name
                     span.tooltip
                         +numberinput(id,0, false, {readonly: true})
+                        +hiddeninput(id+"1")
+                        +hiddeninput(id+"2")
                         span.tooltiptext 
-                            label= attribute[magieschule.Attribute[0].toLowerCase()].short
-                            span(name=id+"1") 0
-                            label= attribute[magieschule.Attribute[1].toLowerCase()].short
-                            span(name=id+"2") 0
+                            label= splittermond.attribute[magieschule.Attribute[0].toLowerCase()].short
+                            span(name="attr_"+id+"1") 0
+                            label= splittermond.attribute[magieschule.Attribute[1].toLowerCase()].short
+                            span(name="attr_"+id+"2") 0
                     span
                         +numberinput(id+"punkte",0)
                     span
@@ -52,7 +56,7 @@
                 span Pkt.
                 span Mod.
             .data-area
-                each kampffertigkeit, id in kampffertigkeiten
+                each kampffertigkeit, id in splittermond.kampffertigkeiten
                     label= kampffertigkeit.Name
                     span
                         +numberinput(id+"punkte",0)

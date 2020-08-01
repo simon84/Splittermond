@@ -27,4 +27,16 @@ input(name="attr_tab" type="hidden" value="grundwerte")
             include tabs/fertigkeiten.pug
         .tab-content.kampf kampf
         .tab-content.entwicklung entwicklung
+            div
+                label Erfahrungspunkte
+                +numberinput("epgesamt")
+            div
+                label Erfahrungspunkte (eingesetzt)
+                +numberinput("epeingesetzt")
+            div
+                label Erfahrungspunkte (offen)
+                +numberinput("epoffen")
+            div
+                label Heldengrad
+                +numberinput("heldengrad")
         .tab-content.ausruestung ausruestung

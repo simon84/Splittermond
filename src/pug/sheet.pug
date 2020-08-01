@@ -1,10 +1,3 @@
-
-include data/attribute.pug
-include data/abgeleitete_werte.pug
-include data/fertigkeiten.pug
-include data/kampffertigkeiten.pug
-include data/magieschulen.pug
-
 mixin input(name, type="text", value="", isAutoexpand=false,  attribute={})
     if !isAutoexpand
         input(name="attr_"+name, type=type, value=value)&attributes(attribute)
@@ -30,4 +23,8 @@ mixin hiddeninput(name, value="", attribute={})
     .pc
         include sheets/pc.pug
 script(type="text/worker")
+    | var splittermond = 
+    != JSON.stringify(splittermond)
+    |;
+    include ../js/sheetworker-ui.js
     include ../js/sheetworker.js

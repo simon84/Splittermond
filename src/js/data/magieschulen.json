@@ -1,0 +1,135 @@
+{
+    "bannmagie": {
+        "Name": "Bannmagie",
+        "Attribute": [
+            "Mystik",
+            "Willenskraft"
+        ]
+    },
+    "beherrschungsmagie": {
+        "Name": "Beherrschungsmagie",
+        "Attribute": [
+            "Mystik",
+            "Willenskraft"
+        ]
+    },
+    "bewegungsmagie": {
+        "Name": "Bewegungsmagie",
+        "Attribute": [
+            "Mystik",
+            "Beweglichkeit"
+        ]
+    },
+    "erkenntnismagie": {
+        "Name": "Erkenntnismagie",
+        "Attribute": [
+            "Mystik",
+            "Verstand"
+        ]
+    },
+    "felsmagie": {
+        "Name": "Fellsmagie",
+        "Attribute": [
+            "Mystik",
+            "Konstitution"
+        ]
+    },
+    "feuermagie": {
+        "Name": "Feuermagie",
+        "Attribute": [
+            "Mystik",
+            "Ausstrahlung"
+        ]
+    },
+    "heilungsmagie": {
+        "Name": "Heilungsmagie",
+        "Attribute": [
+            "Mystik",
+            "Ausstrahlung"
+        ]
+    },
+    "illusionsmagie": {
+        "Name": "Illusionsmagie",
+        "Attribute": [
+            "Mystik",
+            "Ausstrahlung"
+        ]
+    },
+    "kampfmagie": {
+        "Name": "Kampfmagie",
+        "Attribute": [
+            "Mystik",
+            "Staerke"
+        ]
+    },
+    "lichtmagie": {
+        "Name": "Lichtmagie",
+        "Attribute": [
+            "Mystik",
+            "Ausstrahlung"
+        ]
+    },
+    "naturmagie": {
+        "Name": "Naturmagie",
+        "Attribute": [
+            "Mystik",
+            "Ausstrahlung"
+        ]
+    },
+    "schattenmagie": {
+        "Name": "Schattenmagie",
+        "Attribute": [
+            "Mystik",
+            "Intuition"
+        ]
+    },
+    "schicksalsmagie": {
+        "Name": "Schicksalsmagie",
+        "Attribute": [
+            "Mystik",
+            "Ausstrahlung"
+        ]
+    },
+    "schutzmagie": {
+        "Name": "Schutzmagie",
+        "Attribute": [
+            "Mystik",
+            "Ausstrahlung"
+        ]
+    },
+    "staerkungsmagie": {
+        "Name": "Stärkungsmagie",
+        "Attribute": [
+            "Mystik",
+            "Staerke"
+        ]
+    },
+    "todesmagie": {
+        "Name": "Todesmagie",
+        "Attribute": [
+            "Mystik",
+            "Verstand"
+        ]
+    },
+    "verwandlungsmagie": {
+        "Name": "Verwandlungsmagie",
+        "Attribute": [
+            "Mystik",
+            "Konstitution"
+        ]
+    },
+    "wassermagie": {
+        "Name": "Wassermagie",
+        "Attribute": [
+            "Mystik",
+            "Intuition"
+        ]
+    },
+    "windmagie": {
+        "Name": "Windmagie",
+        "Attribute": [
+            "Mystik",
+            "Verstand"
+        ]
+    }
+}

@@ -5,13 +5,17 @@ var roll20API = {
 };
 
 function on(eventStr, fnc) {
-
     _.each(eventStr.split(" "), function (ev) {
-        var evStrArr = ev.split(":");
         if (roll20API.events[ev] == undefined) {
             roll20API.events[ev] = [];
         }
         roll20API.events[ev].push(fnc);
+    });
+}
+
+function throwEvent(ev, eventInfo) {
+    _.each(roll20API.events[ev], function (evCb) {
+        evCb(eventInfo);
     });
 }
 
@@ -24,33 +28,37 @@ function setAttrs(obj, opt = "", cb = function () { }) {
             var eventInfo = {};
             eventInfo.newValue = value;
             eventInfo.oldValue = oldValue;
-            _.each(roll20API.events["change:" + key], function (ev) {
-                ev(eventInfo);
-            });
+            throwEvent("change:" + key, eventInfo);
+        }
 
-            if (key.startsWith("repeating_")) {
-                rowId = key.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
+        var elementName = "attr_" + key;
+        $('span[name=' + elementName + ']').text(value);
+        $('input[name=' + elementName + '][type!=radio], select[name=' + elementName + ']').val(value);
+        $('input[name=' + elementName + '][type=radio]').filter('[value="' + value + '"]').attr('checked', true);
 
-                _.each(roll20API.events["change:" + rowId[3]], function (ev) {
-                    ev(eventInfo);
-                });
+        if (key.startsWith("repeating_")) {
+            rowId = key.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
 
-                _.each(roll20API.events["change:" + rowId[1]], function (ev) {
-                    ev(eventInfo);
-                });
+            roll20API.charData[`${rowId[1]}"_"${rowId[3]}`] = value;
 
-                _.each(roll20API.events["change:" + rowId[1] + ":" + rowId[3]], function (ev) {
-                    ev(eventInfo);
-                });
-            }
+            var elementName = "attr_" + rowId[3];
+            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] span[name="${elementName}"]`).text(value);
+            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type!=radio], 
+               .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] select[name="${elementName}"]`).val(value);
+            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=radio]`).filter(`[value="${value}"]`).attr('checked', true);
+
+            $(`fieldset[class="${rowId[1]}"] span[name="${elementName}"]`).text(value);
+            $(`fieldset[class="${rowId[1]}"] input[name="${elementName}"][type!=radio], 
+               fieldset[class="${rowId[1]}"] select[name="${elementName}"]`).val(value);
+            $(`fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=radio]`).filter(`[value="${value}"]`).attr('checked', true);
+
+            throwEvent("change:" + rowId[3], eventInfo);
+            throwEvent("change:" + rowId[1], eventInfo);
+            throwEvent("change:" + rowId[1] + ":" + rowId[3], eventInfo);
         }
 
 
 
-        var elementName = "attr_" + key;
-        $('span[name=' + elementName + ']').text(value);
-        $('input[name=' + elementName + '][type!=radio]').val(value);
-        $('input[name=' + elementName + '][type=radio]').filter('[value="' + value + '"]').attr('checked', true);
 
 
     });
@@ -67,8 +75,27 @@ function getAttrs(lst, cb) {
 }
 
 function generateRowID() {
-    return roll20API.repItemId++;
+    if (roll20API.charData._lastRepItemId == undefined) {
+        roll20API.charData._lastRepItemId = 0;
+    }
+    return roll20API.charData._lastRepItemId++;
 }
+
+Array.prototype.unique = function () {
+    return this.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+    });
+}
+
+function getSectionIDs(sectionName, cb) {
+    var name = "repeating_" + sectionName + "_";
+    var data = Object.keys(roll20API.charData).filter(key => key.startsWith(name)).map(function (key) {
+        key = key.match(/repeating_[^_]+_([^_]+)_/);
+        return key[1];
+    });
+    cb(data.unique());
+}
+
 
 function removeRepeatingRow(rowId) {
 
@@ -81,27 +108,72 @@ function removeRepeatingRow(rowId) {
     props.filter(prop => prop.startsWith(`${rowId[0]}`)).forEach(prop => delete roll20API.charData[prop]);
 }
 
+function addRepeatingRow(repcontainer, dataGroupName, itemId) {
+
+    repcontainer
+        .append(`<div class="repitem" reprowid="${itemId}">
+                <div class="itemcontrol">
+                    <button class="btn btn-danger pictos repcontrol_del">#</button>
+                    <a class="btn repcontrol_move">≡</a>
+                </div >`+ $(`fieldset[class="${dataGroupName}"]`).html() + '</div>');
+
+    repcontainer.find(`.repitem[reprowid="${itemId}"] .itemcontrol button.repcontrol_del`).click(function (e) {
+        e.preventDefault();
+
+        removeRepeatingRow(`${dataGroupName}_${itemId}`);
+    });
+
+    repcontainer.find(`.repitem[reprowid="${itemId}"] input, .repitem[reprowid="${itemId}"] select`).change(function () {
+        var data = {};
+        data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
+        setAttrs(data);
+    });
+
+    repcontainer.trigger('sortupdate');
+
+    repcontainer.find(`.repitem[reprowid="${itemId}"] input, .repitem[reprowid="${itemId}"] select`).each(function () {
+        var attrName = `${dataGroupName}_${itemId}_${this.name.substr(5)}`;
+        el = this;
+
+        getAttrs([attrName], function (data) {
+            if (data[attrName] != undefined) {
+                el.value = data[attrName];
+            }
+
+        });
+    }).trigger("change");
+}
 
 
 $(document).ready(function () {
-    $("input").change(function () {
-        var data = {};
-        data[this.name.substr(5)] = this.value;
-        setAttrs(data);
-    })
-    $("input[type!=radio]").each(function () {
+
+    roll20API.charData = window.localStorage;
+
+    $("script[type='text/worker']").each(function () {
+        eval(this.innerHTML);
+    });
+
+
+    $("input, select").change(function () {
         var data = {};
         data[this.name.substr(5)] = this.value;
         setAttrs(data);
     });
+    $("input, select").each(function () {
+        var attrName = this.name.substr(5);
+        el = this;
+
+        getAttrs([attrName], function (data) {
+            if (data[attrName] != undefined) {
+                el.value = data[attrName];
+            }
+        });
+    }).trigger("change");
 
     $("button[type=action]").click(function (e) {
         e.preventDefault();
 
-        var data = {};
-        _.each(roll20API.events["clicked:" + this.name.substr(4)], function (ev) {
-            ev(data);
-        });
+        throwEvent("clicked:" + this.name.substr(4), {});
 
     });
 
@@ -120,6 +192,15 @@ $(document).ready(function () {
             <button class="btn repcontrol_add">+Add</button>
         </div>`);
 
+        var repcontainer = $(this).next();
+
+        Object.keys(roll20API.charData).filter(key => key.startsWith(repName[0] + "_")).forEach(function (key) {
+            rowId = key.match(/(repeating_[^_]*)_([^_]+)_.*/);
+            if (repcontainer.find(`.repitem[reprowid="${rowId[2]}"]`).length == 0) {
+                addRepeatingRow(repcontainer, rowId[1], rowId[2]);
+            }
+        })
+
         $(this).next().sortable(
             {
                 connectWith: `.ui-sortable[data-groupname="${repName[0]}"]`,
@@ -131,35 +212,11 @@ $(document).ready(function () {
     $("button[class='btn repcontrol_add']").click(function (e) {
         e.preventDefault();
         var dataGroupName = $(this).parent().attr("data-groupname");
+        repcontainer = $(this).parent().prev();
 
         var itemId = generateRowID();
 
-        $(this).parent().prev()
-            .append(`<div class="repitem" reprowid="${itemId}">
-                <div class="itemcontrol">
-                    <button class="btn btn-danger pictos repcontrol_del">#</button>
-                    <a class="btn repcontrol_move">≡</a>
-                </div >`+ $(`fieldset[class="${dataGroupName}"]`).html() + '</div>');
-
-        $(this).parent().prev().find(`button.repcontrol_del`).click(function (e) {
-            e.preventDefault();
-
-            removeRepeatingRow(`${dataGroupName}_${itemId}`);
-        });
-
-        $(this).parent().prev().find("input").change(function () {
-            var data = {};
-            data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
-            setAttrs(data);
-        });
-
-        $(this).parent().prev().trigger('sortupdate');
-
-        $(this).parent().prev().find("input").each(function () {
-            var data = {};
-            data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
-            setAttrs(data);
-        });
+        addRepeatingRow(repcontainer, dataGroupName, itemId)
     });
 
     $("button[class='btn repcontrol_edit']").click(function (e) {
@@ -181,14 +238,9 @@ $(document).ready(function () {
 
     });
 
-    $("script[type='text/worker']").each(function () {
-        eval(this.innerHTML);
-    });
 
 
 
-    var data = {};
-    _.each(roll20API.events["sheet:opened"], function (ev) {
-        ev(data);
-    });
+
+    throwEvent("sheet:opened", {});
 });

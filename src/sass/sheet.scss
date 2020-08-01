@@ -221,16 +221,16 @@ input[name="attr_tab"] {
 .grundwerte {
     flex-direction: column;
     align-items: center;
-    > * {
-        margin-bottom: 10px;
-        margin-top: 10px;
-    }
+    
     h2 {
         display: block;
         width: 100%;
         text-align: center;
     }
     .data-section-personal {
+        margin-top: 10px;
+        margin-bottom: 10px;
+
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -259,6 +259,9 @@ input[name="attr_tab"] {
     .data-section-attribute {
         display: flex;
         flex-direction: column;
+
+        margin-top: 10px;
+        margin-bottom: 10px;
 
         .data-header {
             align-items: baseline;
@@ -300,6 +303,8 @@ input[name="attr_tab"] {
 
     .data-section-abgeleitetewerte {
         @extend .data-section-attribute;
+        margin-top: 10px;
+        margin-bottom: 10px;
 
         .data-area,
         .data-header {
@@ -315,6 +320,8 @@ input[name="attr_tab"] {
     }
     .data-section-ressourcen,
     .data-section-staerken {
+        margin-top: 10px;
+        margin-bottom: 10px;
         min-width: 15em;
         box-sizing: border-box;
         .data-header {
