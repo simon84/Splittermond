@@ -482,9 +482,9 @@ on("change:repeating_meisterschaften:meisterschaftsschwelle", function () {
     });
 });
 
-on("change:repeating_staerken:staerkenwert change:repeating_staerken:staerke", function () {
-    getAttrs(["repeating_staerken_staerkenwert", "repeating_staerken_staerke"], function (values) {
-        var staerke = values.repeating_staerken_staerke;
+on("change:repeating_staerken:staerkenwert change:repeating_staerken:staerkename", function () {
+    getAttrs(["repeating_staerken_staerkenwert", "repeating_staerken_staerkename"], function (values) {
+        var staerke = values.repeating_staerken_staerkename;
         var staerkenwert = values.repeating_staerken_staerkenwert;
         var update = {};
         if (staerkenwert >= 0) {
@@ -1936,7 +1936,7 @@ function writeToSheet(characterData) {
             let power = characterData["powers"][i]["name"];
             value = characterData["powers"][i]["count"] || 0;
             newrowid = generateRowID();
-            character["repeating_staerken_" + newrowid + "_staerke"] = power;
+            character["repeating_staerken_" + newrowid + "_staerkename"] = power;
             character["repeating_staerken_" + newrowid + "_staerkenwert"] = value;
         }
         if (characterData["weaknesses"] != null) {
@@ -2248,7 +2248,7 @@ function writeToSheet(characterData) {
         for (var i = 0; i < characterData["powerrefs"]["powerref"].length; i++) {
             value = characterData["powerrefs"]["powerref"][i]["_count"] || 0;
             newrowid = generateRowID();
-            staerken["repeating_staerken_" + newrowid + "_staerke"] = translateGenesis(characterData["powerrefs"]["powerref"][i]["_ref"]);
+            staerken["repeating_staerken_" + newrowid + "_staerkename"] = translateGenesis(characterData["powerrefs"]["powerref"][i]["_ref"]);
             staerken["repeating_staerken_" + newrowid + "_staerkenwert"] = value;
             setAttrs(staerken);
         }
@@ -4094,7 +4094,7 @@ on("change:hiddensbm", function (f) {
 
 on("remove:repeating_staerken", function (eventInfo) {
     var rowid = eventInfo.sourceAttribute.substring(19, 39);
-    var staerke = eventInfo.removedInfo["repeating_staerken_" + rowid + "_staerke"];
+    var staerke = eventInfo.removedInfo["repeating_staerken_" + rowid + "_staerkename"];
     var update = {};
     var attribs = {
         "robust": "hiddenlp",

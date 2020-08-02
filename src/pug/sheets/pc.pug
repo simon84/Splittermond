@@ -26,6 +26,10 @@ input(name="attr_tab" type="hidden" value="grundwerte")
         .tab-content.fertigkeiten
             include tabs/fertigkeiten.pug
         .tab-content.kampf kampf
+            +hiddeninput("erschoepft", 0)
+            +hiddeninput("lahm", 0)
+            +hiddeninput("benommen", 0)
+            +hiddeninput("verwundet", 0)
         .tab-content.entwicklung entwicklung
             div
                 label Erfahrungspunkte

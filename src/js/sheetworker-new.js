@@ -90,19 +90,27 @@ Object.keys(splittermond.attribute).forEach(attribut => autoUpdate([attribut, "h
 
 on("change:repeating_staerken", function () {
     getSectionIDs("staerken", function (idarray) {
-        idarray.forEach(function (id) {
-            getAttrs(["repeating_staerken_" + id + "_staerke", "repeating_staerken_" + id + "_staerkenwert"], function (v) {
+
+        idAttrsStr = idarray.map(id => "repeating_staerken_" + id + "_staerke");
+        idAttrsStr.concat(idarray.map(id => "repeating_staerken_" + id + "_staerkenwert"));
+
+        getAttrs(idAttrsStr, function (v) {
+            var staerke = v["repeating_staerken_" + id + "_staerke"];
+            var staerkenwert = v["repeating_staerken_" + id + "_staerkenwert"];
+            var update = [];
+
+            idarray.forEach(function (id) {
                 var staerke = v["repeating_staerken_" + id + "_staerke"];
                 var staerkenwert = v["repeating_staerken_" + id + "_staerkenwert"];
                 if (splittermond.staerken[staerke.toLowerCase()] != undefined) {
-                    var update = [];
                     Object.keys(splittermond.staerken[v.staerke.toLowerCase()]).forEach(function (value, key) {
                         update[key + "staerkemod"] += value * staerkenwert;
                     });
-
-                    setAttrs(update);
                 }
-            }
+            });
+
+
+            setAttrs(update);
         });
     });
 });
