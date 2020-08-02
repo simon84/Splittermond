@@ -113,9 +113,9 @@ function removeRepeatingRow(rowId) {
 
     var filteredProps = props.filter(prop => prop.startsWith(`${rowId[0]}`));
     eventInfo = {};
-    eventInfo.removeInfo = {}
+    eventInfo.removedInfo = {}
     filteredProps.forEach(function (prop) {
-        eventInfo.removeInfo[prop] = roll20API.charData[prop];
+        eventInfo.removedInfo[prop] = roll20API.charData[prop];
         delete roll20API.charData[prop];
     });
 
