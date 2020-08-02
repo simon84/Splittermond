@@ -140,35 +140,43 @@
               </div>
               <div class="sheet-data-area">
                 <label>GK<span class="sheet-secondary">Größenklasse</span></label><span class="sheet-tooltip">
-                  <input name="attr_groessenklasse" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">Tooltip</span></span><span>
+                  <input name="attr_groessenklasse" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_gktooltip">
+                    <labelText class="sheet-long"></labelText></span></span><span>
                   <input name="attr_groessenklassemod" type="number" value="0"/>
                   <input name="attr_groessenklassestaerkemod" type="hidden" value="0"/></span>
                 <label>GSW<span class="sheet-secondary">Geschwindigkeit</span></label><span class="sheet-tooltip">
-                  <input name="attr_geschwindigkeit" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">Tooltip</span></span><span>
+                  <input name="attr_geschwindigkeit" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_gswtooltip">
+                    <labelText class="sheet-long"></labelText></span></span><span>
                   <input name="attr_geschwindigkeitmod" type="number" value="0"/>
                   <input name="attr_geschwindigkeitstaerkemod" type="hidden" value="0"/></span>
                 <label>INI<span class="sheet-secondary">Initiative</span></label><span class="sheet-tooltip">
-                  <input name="attr_initiative" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">Tooltip</span></span><span>
+                  <input name="attr_initiative" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_initooltip">
+                    <labelText class="sheet-long"></labelText></span></span><span>
                   <input name="attr_initiativemod" type="number" value="0"/>
                   <input name="attr_initiativestaerkemod" type="hidden" value="0"/></span>
                 <label>LP<span class="sheet-secondary">Lebenspunkte</span></label><span class="sheet-tooltip">
-                  <input name="attr_lebenspunkte" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">Tooltip</span></span><span>
+                  <input name="attr_lebenspunkte" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_lptooltip">
+                    <labelText class="sheet-long"></labelText></span></span><span>
                   <input name="attr_lebenspunktemod" type="number" value="0"/>
                   <input name="attr_lebenspunktestaerkemod" type="hidden" value="0"/></span>
                 <label>FO<span class="sheet-secondary">Fokus</span></label><span class="sheet-tooltip">
-                  <input name="attr_fokus" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">Tooltip</span></span><span>
+                  <input name="attr_fokus" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_fotooltip">
+                    <labelText class="sheet-long"></labelText></span></span><span>
                   <input name="attr_fokusmod" type="number" value="0"/>
                   <input name="attr_fokusstaerkemod" type="hidden" value="0"/></span>
                 <label>VTD<span class="sheet-secondary">Verteidigung</span></label><span class="sheet-tooltip">
-                  <input name="attr_verteidigung" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">Tooltip</span></span><span>
+                  <input name="attr_verteidigung" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_vtdtooltip">
+                    <labelText class="sheet-long"></labelText></span></span><span>
                   <input name="attr_verteidigungmod" type="number" value="0"/>
                   <input name="attr_verteidigungstaerkemod" type="hidden" value="0"/></span>
                 <label>GW<span class="sheet-secondary">Geistiger Widerstand</span></label><span class="sheet-tooltip">
-                  <input name="attr_geistigerwiderstand" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">Tooltip</span></span><span>
+                  <input name="attr_geistigerwiderstand" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_gwtooltip">
+                    <labelText class="sheet-long"></labelText></span></span><span>
                   <input name="attr_geistigerwiderstandmod" type="number" value="0"/>
                   <input name="attr_geistigerwiderstandstaerkemod" type="hidden" value="0"/></span>
                 <label>KW<span class="sheet-secondary">Körperlicher Widerstand</span></label><span class="sheet-tooltip">
-                  <input name="attr_koerperlicherwiderstand" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">Tooltip</span></span><span>
+                  <input name="attr_koerperlicherwiderstand" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_kwtooltip">
+                    <labelText class="sheet-long"></labelText></span></span><span>
                   <input name="attr_koerperlicherwiderstandmod" type="number" value="0"/>
                   <input name="attr_koerperlicherwiderstandstaerkemod" type="hidden" value="0"/></span>
                 <input name="attr_hiddengsw" type="hidden" value="0"/>
@@ -1217,7 +1225,7 @@ on("change:beweglichkeit change:groessenklasse change:konstitution change:intuit
         if (+fokuspool > 0) {
             tooltip += "\n + " + +fokuspool + " (Erh. Fokuspool)";
         }
-        update["fokustooltip"] = tooltip;
+        update["foStooltip"] = tooltip;
         setAttrs(update);
     });
     getAttrs(["verstand", "willenskraft", "geistigerwiderstandmod", "hiddengw", "hiddengwhg", "hiddengwbonus", "hiddenallwiderstand"], function (values) {

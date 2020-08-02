@@ -360,7 +360,7 @@ on("change:beweglichkeit change:groessenklasse change:konstitution change:intuit
         if (+fokuspool > 0) {
             tooltip += "\n + " + +fokuspool + " (Erh. Fokuspool)";
         }
-        update["fokustooltip"] = tooltip;
+        update["foStooltip"] = tooltip;
         setAttrs(update);
     });
     getAttrs(["verstand", "willenskraft", "geistigerwiderstandmod", "hiddengw", "hiddengwhg", "hiddengwbonus", "hiddenallwiderstand"], function (values) {

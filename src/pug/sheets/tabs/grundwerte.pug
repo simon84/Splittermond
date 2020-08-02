@@ -53,7 +53,8 @@ h2
                     span.secondary= labelText.long
                 span.tooltip
                     +numberinput(id, 0, false, {readonly: true})
-                    span.tooltiptext Tooltip
+                    span.tooltiptext.pre(name="attr_" + labelText.short.toLowerCase() + "tooltip")
+                        labelText.long
                 span
                     +numberinput(id+"mod", 0)
                     +hiddeninput(id+"staerkemod", 0)
