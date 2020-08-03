@@ -19,7 +19,7 @@ function throwEvent(ev, eventInfo) {
     });
 }
 
-function setAttrs(obj, opt = "", cb = function () { }) {
+async function setAttrs(obj, opt = "", cb = function () { }) {
     _.each(obj, function (value, key) {
         var oldValue = roll20API.charData[key];
         var eventInfo = {};
@@ -82,7 +82,7 @@ function setAttrs(obj, opt = "", cb = function () { }) {
     cb();
 }
 
-function getAttrs(lst, cb) {
+async function getAttrs(lst, cb) {
     var data = {};
     _.each(lst, function (value) {
         if (value.startsWith("repeating_")) {
@@ -118,7 +118,7 @@ Array.prototype.unique = function () {
     });
 }
 
-function getSectionIDs(sectionName, cb) {
+async function getSectionIDs(sectionName, cb) {
     var name = sectionName + "_";
     var data = Object.keys(roll20API.charData).filter(key => key.startsWith(name)).map(function (key) {
         key = key.match(/repeating_[^_]+_([^_]+)_([^_]+)/);
