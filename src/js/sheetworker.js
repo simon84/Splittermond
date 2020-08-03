@@ -1,3 +1,15 @@
+function autoUpdate(attributes, dataCallback) {
+    attributesStr = attributes.map(attr => "change:" + attr).join(" ");
+    on(attributesStr, e => getAttrs(attributes, v => setAttrs(dataCallback(v))));
+}
+
+Object.keys(splittermond.fertigkeiten).forEach(function (id) {
+    autoUpdate([id + "1", id + "2", id + "punkte"], v => {
+        var update = {};
+        update[id] = +v[id + "1"] + +v[id + "2"] + +v[id + "punkte"];
+        return update;
+    })
+});
 
 on('sheet:opened', function () {
     getAttrs(["epgesamt"], function (v) {
@@ -360,7 +372,7 @@ on("change:beweglichkeit change:groessenklasse change:konstitution change:intuit
         if (+fokuspool > 0) {
             tooltip += "\n + " + +fokuspool + " (Erh. Fokuspool)";
         }
-        update["foStooltip"] = tooltip;
+        update["fotooltip"] = tooltip;
         setAttrs(update);
     });
     getAttrs(["verstand", "willenskraft", "geistigerwiderstandmod", "hiddengw", "hiddengwhg", "hiddengwbonus", "hiddenallwiderstand"], function (values) {
@@ -665,12 +677,13 @@ on("change:repeating_zauber:magieschulen change:hiddenausstrahlungmod change:hid
 });
 
 on("change:repeating_nahkampfwaffen:waffenskill change:repeating_nahkampfwaffen:waffenattr1 change:repeating_nahkampfwaffen:waffenattr2 change:repeating_fernkampfwaffen:waffenskillfern change:repeating_fernkampfwaffen:waffenattr1fern change:repeating_fernkampfwaffen:waffenattr2fern change:handgemengepunkte change:handgemengebonus change:hiebwaffenpunkte change:hiebwaffenbonus change:kettenwaffenpunkte change:kettenwaffenbonus change:klingenwaffenpunkte change:klingenwaffenbonus change:stangenwaffenpunkte change:stangenwaffenbonus change:schusswaffenpunkte change:schusswaffenbonus change:wurfwaffenpunkte change:wurfwaffenbonus change:ausstrahlung change:beweglichkeit change:intuition change:konstitution change:mystik change:staerke change:verstand change:willenskraft change:hiddenausstrahlung change:hiddenbeweglichkeit change:hiddenintuition change:hiddenkonstitution change:hiddenmystik change:hiddenstaerke change:hiddenverstand change:hiddenwillenskraft change:hiddenausstrahlungmod change:hiddenbeweglichkeitmod change:hiddenintuitionmod change:hiddenkonstitutionmod change:hiddenmystikmod change:hiddenstaerkemod change:hiddenverstandmod change:hiddenwillenskraftmod", function () {
-
+    console.log("test");
     // Nahkampfwaffen
     getSectionIDs("repeating_nahkampfwaffen", function (idarray) {
         var temp1 = 0;
         var temp2 = 0;
         var temp3 = 0;
+        console.log(idarray);
         if (idarray.length > 0) {
             _.each(idarray, function (currentID, i) {
                 let attrmod = 0;
@@ -679,91 +692,13 @@ on("change:repeating_nahkampfwaffen:waffenskill change:repeating_nahkampfwaffen:
                     var attr1 = v["repeating_nahkampfwaffen_" + currentID + "_waffenattr1"];
                     var attr2 = v["repeating_nahkampfwaffen_" + currentID + "_waffenattr2"];
                     var update = {};
-                    switch (skill) {
-                        case "hiebwaffen":
-                            temp1 = +v.hiebwaffenpunkte + +v.hiebwaffenbonus;
-                            break;
-                        case "handgemenge":
-                            temp1 = +v.handgemengepunkte + +v.handgemengebonus;
-                            break;
-                        case "kettenwaffen":
-                            temp1 = +v.kettenwaffenpunkte + +v.kettenwaffenbonus;
-                            break;
-                        case "klingenwaffen":
-                            temp1 = +v.klingenwaffenpunkte + +v.klingenwaffenbonus;
-                            break;
-                        case "stangenwaffen":
-                            temp1 = +v.stangenwaffenpunkte + +v.stangenwaffenbonus;
-                            break;
-                    }
-                    switch (attr1) {
-                        case "aus":
-                            temp2 = +v.ausstrahlung + +v.hiddenausstrahlung;
-                            attrmod += v.hiddenausstrahlungmod;
-                            break;
-                        case "bew":
-                            temp2 = +v.beweglichkeit + +v.hiddenbeweglichkeit;
-                            attrmod += v.hiddenbeweglichkeitmod;
-                            break;
-                        case "int":
-                            temp2 = +v.intuition + +v.hiddenintuition;
-                            attrmod += v.hiddenintuitionmod;
-                            break;
-                        case "kon":
-                            temp2 = +v.konstitution + +v.hiddenkonstitution;
-                            attrmod += v.hiddenkonstitutionmod;
-                            break;
-                        case "mys":
-                            temp2 = +v.mystik + +v.hiddenmystik;
-                            attrmod += v.hiddenmystikmod;
-                            break;
-                        case "stae":
-                            temp2 = +v.staerke + +v.hiddenstaerke;
-                            attrmod += v.hiddenstaerkemod
-                            break;
-                        case "ver":
-                            temp2 = +v.verstand + +v.hiddenverstand;
-                            attrmod += v.hiddenverstandmod;
-                            break;
-                        case "wil":
-                            temp2 = +v.willenskraft + +v.hiddenwillenskraft;
-                            attrmod += v.hiddenwillenskraftmod;
-                            break;
-                    }
-                    switch (attr2) {
-                        case "aus":
-                            temp3 = +v.ausstrahlung + +v.hiddenausstrahlung;
-                            attrmod += v.hiddenausstrahlungmod;
-                            break;
-                        case "bew":
-                            temp3 = +v.beweglichkeit + +v.hiddenbeweglichkeit;
-                            attrmod += v.hiddenbeweglichkeitmod;
-                            break;
-                        case "int":
-                            temp3 = +v.intuition + +v.hiddenintuition;
-                            attrmod += v.hiddenintuitionmod;
-                            break;
-                        case "kon":
-                            temp3 = +v.konstitution + +v.hiddenkonstitution;
-                            attrmod += v.hiddenkonstitutionmod;
-                            break;
-                        case "mys":
-                            temp3 = +v.mystik + +v.hiddenmystik;
-                            attrmod += v.hiddenmystikmod;
-                            break;
-                        case "stae":
-                            temp3 = +v.staerke + +v.hiddenstaerke;
-                            attrmod += v.hiddenstaerkemod
-                            break;
-                        case "ver":
-                            temp3 = +v.verstand + +v.hiddenverstand;
-                            attrmod += v.hiddenverstandmod;
-                            break;
-                        case "wil":
-                            temp3 = +v.willenskraft + +v.hiddenwillenskraft;
-                            attrmod += v.hiddenwillenskraftmod;
-                            break;
-                    }
+                    temp1 = +v[skill + "punkte"] + +v[skill + "bonus"];
+                    temp2 = +v[attr1] + +v["hidden" + attr1];
+                    temp3 = +v[attr2] + +v["hidden" + attr2];
+                    console.log(temp1);
+                    console.log(temp2);
+                    console.log(temp3);
+                    attrmod = +v["hidden" + attr1 + "mod"] + +v["hidden" + attr2 + "mod"];
                     update["repeating_nahkampfwaffen_" + currentID + "_waffenwert"] = +temp1 + +temp2 + +temp3;
                     update["repeating_nahkampfwaffen_" + currentID + "_nahwaffenattrmod"] = +attrmod;
                     setAttrs(update);
@@ -1454,14 +1389,30 @@ on("change:repeating_nahkampfwaffen:waffenmerkmale", function (eventInfo) {
     });
 });
 
-on("change:repeating_nahkampfwaffen:waffenscharf change:repeating_nahkampfwaffen:waffenexakt change:repeating_nahkampfwaffen:waffenkritisch change:repeating_nahkampfwaffen:waffenschaden1 change:repeating_nahkampfwaffen:waffenschadenwuerfel change:repeating_nahkampfwaffen:waffenschaden3 change:repeating_nahkampfwaffen:waffenname", function (eventInfo) {
-    getAttrs(["repeating_nahkampfwaffen_waffenexakt", "repeating_nahkampfwaffen_waffenkritisch", "repeating_nahkampfwaffen_waffenscharf", "repeating_nahkampfwaffen_waffenschaden1", "repeating_nahkampfwaffen_waffenschadenwuerfel", "repeating_nahkampfwaffen_waffenschaden3"], function (v) {
+on("change:repeating_nahkampfwaffen:waffenscharf change:repeating_nahkampfwaffen:waffenexakt change:repeating_nahkampfwaffen:waffenkritisch change:repeating_nahkampfwaffen:waffenschaden change:repeating_nahkampfwaffen:waffenname", function (eventInfo) {
+    getAttrs(["repeating_nahkampfwaffen_waffenexakt", "repeating_nahkampfwaffen_waffenkritisch", "repeating_nahkampfwaffen_waffenscharf", "repeating_nahkampfwaffen_waffenschaden"], function (v) {
         let exakt = v["repeating_nahkampfwaffen_waffenexakt"];
         let scharf = v["repeating_nahkampfwaffen_waffenscharf"];
         let kritisch = v["repeating_nahkampfwaffen_waffenkritisch"];
-        let waffenschaden1 = v["repeating_nahkampfwaffen_waffenschaden1"];
-        let waffenschadenwuerfel = v["repeating_nahkampfwaffen_waffenschadenwuerfel"];
-        let waffenschaden3 = v["repeating_nahkampfwaffen_waffenschaden3"];
+        let waffenschaden1 = 1;
+        let waffenschadenwuerfel = "d6";
+        let waffenschaden3 = 0;
+        if (!v["repeating_nahkampfwaffen_waffenschaden"]) {
+            v["repeating_nahkampfwaffen_waffenschaden"] = "";
+        }
+        let temp = v["repeating_nahkampfwaffen_waffenschaden"].match(/([0-9]{0,1})(W6|W10|w6|w10)[ ]*\+{0,1}[ ]*([0-9]*)/);
+        if (temp) {
+            if (temp[1] == "") {
+                temp[1] = 1;
+            }
+
+            temp[2] = temp[2].toLowerCase().replace("w", "d");
+            waffenschaden1 = +temp[1];
+            waffenschadenwuerfel = temp[2];
+            waffenschaden3 = +temp[3];
+
+        }
+
         let die_max = 0;
         let die_minus = 0;
         let damagerollstring;

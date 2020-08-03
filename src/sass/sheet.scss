@@ -78,6 +78,7 @@ $main-color-light: #6DCFF6ff;
         min-width: 760px;
         min-height: 800px;
         margin-right: -30px;
+        color: black;
         border: 60px solid transparent;
         border-width: 40px 60px 60px 20px;
         border-image:url(images/book_page_baby_blue.png) 40 60 60 20 fill stretch;
@@ -99,6 +100,7 @@ $main-color-light: #6DCFF6ff;
         padding-bottom: 0.1em;
         padding-left: 0.2em;
         padding-right: 0.2em;
+        margin: 0;
         border: none;
         background-color: transparent;
         border-bottom: none;
@@ -488,6 +490,113 @@ input[name="attr_tab"] {
     }
 }
 
+.kampf {
+    .data-section-nahkampfwaffen {
+        display: flex;
+        flex-direction: column;
+
+        .data-header {
+            align-items: baseline;
+            span {
+                color: #666;
+                font-size: 0.8em;
+                justify-self: center;
+            }
+        }
+
+        
+
+        .data-area div > div,
+        .data-header {
+            display: grid;
+            grid-template-columns: 12em 7em 7em 3em 3em 6em;
+            gap: 5px;
+            align-items: baseline;
+            padding-top: 5px;
+
+            input, select {
+                text-align:center;
+                width: 100%;
+                font-size: 1em;
+            }
+            input[name="attr_waffenname"] {
+                text-align:left;
+                
+
+            }
+
+            select[name^="attr_waffenattr"],
+            select[name="attr_waffenskill"] {
+                text-align:left;
+                font-size: 0.8em;
+            }
+
+            span[name="attr_waffenwert"] {
+                font-size: 1.5em;
+                font-weight: bold;
+                text-align: center;
+            }
+
+            div.second-line span.reichweite {
+                display: none;
+            }
+
+            
+
+            .attribute {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            input:read-only {
+                color: #666;
+            }
+
+            span button {
+                align-self: center;
+            }
+
+            .second-line {
+                grid-column-start: 1;
+                grid-column-end: 6;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                padding-bottom: 10px;
+
+                @include gradient-border();
+                border-bottom: solid 1px;
+
+                span {
+                    margin-left: 5px;
+                    margin-right: 5px;
+                    display: flex;
+                    flex-direction: column;
+                    &.reichweite {
+                        display: none;
+                    }
+                    label {
+                        text-align: center;
+                    }
+                }
+
+                input[name="attr_waffenskill"][value^="wurf"] ~ span.reichweite,
+                input[name="attr_waffenskill"][value^="schuss"] ~ span.reichweite  {
+                    display: flex;
+                }
+            }
+
+            div.line {
+                grid-column-start: 1;
+                grid-column-end: 6;
+                height: 0px;
+                @include gradient-border();
+                border-bottom: solid 1px;
+            }
+        }
+    }
+}
+
 span.autoexpand {
     position: relative;
     display: inline-block;
@@ -512,6 +621,7 @@ span.autoexpand {
         padding-right: 0.2em;
         //min-width: 1.5em;
         min-height: 1.5em;
+        white-space: nowrap;
 
         &:empty:after {
             content: attr(placeholder);

@@ -44,7 +44,17 @@ function setAttrs(obj, opt = "", cb = function () { }) {
         if (key.startsWith("repeating_")) {
             rowId = key.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
 
+            if (rowId) {
+                roll20API.charData[`_lastId_${rowId[1]}`] = rowId[2];
+            } else {
+                rowId = key.match(/(repeating_[^_]*)_([^_]*)/);
+                rowId[3] = rowId[2];
+                rowId[2] = roll20API.charData[`_lastId_${rowId[1]}`];
+                eventInfo.sourceAttribute = (`${rowId[1]}_${rowId[2]}_${rowId[3]}`).toLowerCase();
+            }
+
             roll20API.charData[`${rowId[1]}_${rowId[3]}`] = value;
+
 
             var elementName = "attr_" + rowId[3];
             $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] span[name="${elementName}"]`).text(value);
@@ -75,7 +85,22 @@ function setAttrs(obj, opt = "", cb = function () { }) {
 function getAttrs(lst, cb) {
     var data = {};
     _.each(lst, function (value) {
-        data[value] = roll20API.charData[value];
+        if (value.startsWith("repeating_")) {
+            rowId = value.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
+
+            if (rowId) {
+                data[value] = roll20API.charData[value];
+            } else {
+                rowId = value.match(/(repeating_[^_]*)_([^_]*)/);
+                rowId[3] = rowId[2];
+                rowId[2] = roll20API.charData[`_lastId_${rowId[1]}`];
+                data[value] = roll20API.charData[`${rowId[1]}_${rowId[2]}_${rowId[3]}`];
+            }
+
+        } else {
+            data[value] = roll20API.charData[value];
+        }
+
     });
     cb(data);
 }
@@ -94,11 +119,21 @@ Array.prototype.unique = function () {
 }
 
 function getSectionIDs(sectionName, cb) {
-    var name = "repeating_" + sectionName + "_";
+    var name = sectionName + "_";
     var data = Object.keys(roll20API.charData).filter(key => key.startsWith(name)).map(function (key) {
-        key = key.match(/repeating_[^_]+_([^_]+)_/);
-        return key[1];
+        key = key.match(/repeating_[^_]+_([^_]+)_([^_]+)/);
+        if (key) {
+            return key[1];
+        } else {
+            return "";
+        }
+
     });
+
+    //data = data.unique();
+    data = data.filter(val => (val != ""));
+
+
     cb(data.unique());
 }
 
@@ -148,15 +183,19 @@ function addRepeatingRow(repcontainer, dataGroupName, itemId) {
 
     repcontainer.trigger('sortupdate');
 
-    repcontainer.find(`.repitem[reprowid="${itemId}"] input, .repitem[reprowid="${itemId}"] select`).each(function () {
-        var attrName = `${dataGroupName}_${itemId}_${this.name.substr(5)}`;
-        el = this;
+    repcontainer.find(`.repitem[reprowid="${itemId}"] input, .repitem[reprowid="${itemId}"] select, .repitem[reprowid="${itemId}"] span[name^="attr_"]`).each(function () {
+        var attrName = `${dataGroupName}_${itemId}_${this.getAttribute("name").substr(5)}`;
+        var el = $(this);
+        var tagName = this.tagName;
 
         getAttrs([attrName], function (data) {
             if (data[attrName] != undefined) {
-                el.value = data[attrName];
+                if (tagName == "SPAN") {
+                    el.text(data[attrName]);
+                } else {
+                    el.val(data[attrName]);
+                }
             }
-
         });
     }).trigger("change");
 }
@@ -166,9 +205,7 @@ $(document).ready(function () {
 
     roll20API.charData = window.localStorage;
 
-    $("script[type='text/worker']").each(function () {
-        eval(this.innerHTML);
-    });
+
 
 
     $("input, select").change(function () {
@@ -259,7 +296,9 @@ $(document).ready(function () {
     });
 
 
-
+    $("script[type='text/worker']").each(function () {
+        eval(this.innerHTML);
+    });
 
 
     throwEvent("sheet:opened", {});

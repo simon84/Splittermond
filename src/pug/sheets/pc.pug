@@ -20,17 +20,16 @@ input(name="attr_tab" type="hidden" value="grundwerte")
 
 .tab-group.paper
     .watermark
-        .tab-content.einstellungen Einstellungen
+        .tab-content.einstellungen
+            h2 Einstellungen
         .tab-content.grundwerte
             include tabs/grundwerte.pug
         .tab-content.fertigkeiten
             include tabs/fertigkeiten.pug
-        .tab-content.kampf kampf
-            +hiddeninput("erschoepft", 0)
-            +hiddeninput("lahm", 0)
-            +hiddeninput("benommen", 0)
-            +hiddeninput("verwundet", 0)
-        .tab-content.entwicklung entwicklung
+        .tab-content.kampf
+            include tabs/kampf.pug
+        .tab-content.entwicklung
+            h2 entwicklung
             div
                 label Erfahrungspunkte
                 +numberinput("epgesamt")
@@ -43,4 +42,5 @@ input(name="attr_tab" type="hidden" value="grundwerte")
             div
                 label Heldengrad
                 +numberinput("heldengrad")
-        .tab-content.ausruestung ausruestung
+        .tab-content.ausruestung 
+            h2 Aussrüstung
