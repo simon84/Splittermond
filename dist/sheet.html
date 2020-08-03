@@ -1608,13 +1608,11 @@ on("change:repeating_zauber:magieschulen change:hiddenausstrahlungmod change:hid
 });
 
 on("change:repeating_nahkampfwaffen:waffenskill change:repeating_nahkampfwaffen:waffenattr1 change:repeating_nahkampfwaffen:waffenattr2 change:repeating_fernkampfwaffen:waffenskillfern change:repeating_fernkampfwaffen:waffenattr1fern change:repeating_fernkampfwaffen:waffenattr2fern change:handgemengepunkte change:handgemengebonus change:hiebwaffenpunkte change:hiebwaffenbonus change:kettenwaffenpunkte change:kettenwaffenbonus change:klingenwaffenpunkte change:klingenwaffenbonus change:stangenwaffenpunkte change:stangenwaffenbonus change:schusswaffenpunkte change:schusswaffenbonus change:wurfwaffenpunkte change:wurfwaffenbonus change:ausstrahlung change:beweglichkeit change:intuition change:konstitution change:mystik change:staerke change:verstand change:willenskraft change:hiddenausstrahlung change:hiddenbeweglichkeit change:hiddenintuition change:hiddenkonstitution change:hiddenmystik change:hiddenstaerke change:hiddenverstand change:hiddenwillenskraft change:hiddenausstrahlungmod change:hiddenbeweglichkeitmod change:hiddenintuitionmod change:hiddenkonstitutionmod change:hiddenmystikmod change:hiddenstaerkemod change:hiddenverstandmod change:hiddenwillenskraftmod", function () {
-    console.log("test");
     // Nahkampfwaffen
     getSectionIDs("repeating_nahkampfwaffen", function (idarray) {
         var temp1 = 0;
         var temp2 = 0;
         var temp3 = 0;
-        console.log(idarray);
         if (idarray.length > 0) {
             _.each(idarray, function (currentID, i) {
                 let attrmod = 0;
@@ -1626,9 +1624,6 @@ on("change:repeating_nahkampfwaffen:waffenskill change:repeating_nahkampfwaffen:
                     temp1 = +v[skill + "punkte"] + +v[skill + "bonus"];
                     temp2 = +v[attr1] + +v["hidden" + attr1];
                     temp3 = +v[attr2] + +v["hidden" + attr2];
-                    console.log(temp1);
-                    console.log(temp2);
-                    console.log(temp3);
                     attrmod = +v["hidden" + attr1 + "mod"] + +v["hidden" + attr2 + "mod"];
                     update["repeating_nahkampfwaffen_" + currentID + "_waffenwert"] = +temp1 + +temp2 + +temp3;
                     update["repeating_nahkampfwaffen_" + currentID + "_nahwaffenattrmod"] = +attrmod;
