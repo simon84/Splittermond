@@ -32,7 +32,7 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
         var oldValue = roll20API.charData[key];
         var eventInfo = {};
         eventInfo.newValue = value;
-        eventInfo.oldValue = oldValue;
+        eventInfo.previousValue = oldValue;
         eventInfo.sourceAttribute = key.toLowerCase;
 
         roll20API.charData[key] = value;
@@ -63,6 +63,11 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
             var repOrder = [];
             if (roll20API.charData["_reporder:" + rowId[1]] != undefined) {
                 repOrder = roll20API.charData["_reporder:" + rowId[1]].split(",").filter(v => v.match(/[0-9]+/));
+            }
+
+            if (rowId[2].startsWith("$")) {
+                var temp = rowId[2].substr(1);
+                rowId[2] = repOrder[+temp];
             }
 
 
@@ -104,10 +109,17 @@ async function getAttrs(lst, cb) {
     var data = {};
     _.each(lst, function (value) {
         if (value.startsWith("repeating_")) {
-            rowId = value.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
-
+            var rowId = value.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
             if (rowId) {
-                data[value] = roll20API.charData[value];
+                if (rowId[2].startsWith("$")) {
+                    var repOrder = [];
+                    if (roll20API.charData["_reporder:" + rowId[1]] != undefined) {
+                        repOrder = roll20API.charData["_reporder:" + rowId[1]].split(",").filter(v => v.match(/[0-9]+/));
+                    }
+                    var temp = rowId[2].substr(1);
+                    rowId[2] = repOrder[+temp];
+                }
+                data[value] = roll20API.charData[`${rowId[1]}_${rowId[2]}_${rowId[3]}`];
             } else {
                 rowId = value.match(/(repeating_[^_]*)_([^_]*)/);
                 rowId[3] = rowId[2];
@@ -1222,6 +1234,30 @@ $(document).ready(function () {
           <input name="attr_lahm" type="hidden" value="0"/>
           <input name="attr_benommen" type="hidden" value="0"/>
           <input name="attr_verwundet" type="hidden" value="0"/>
+          <div class="sheet-data-section-lebenspunkte">
+            <div class="sheet-data-header">
+              <h3>Lebenspunkte</h3>
+            </div>
+            <div class="sheet-data-area">
+              <input name="attr_lebenspunkte" type="hidden" value="0"/>
+              <div class="sheet-gesundheitsstufen">
+                <input name="attr_wundabzugmod" type="hidden" value="0"/>
+                <input name="attr_gesundheitsstufe" type="hidden" value="1"/><span class="sheet-unverletzt">Unverletzt</span><span class="sheet-angeschlagen">Angeschlagen</span><span class="sheet-verletzt">Verletzt</span><span class="sheet-schwerverletzt">Schwer verletzt</span><span class="sheet-todgeweiht">Todgeweiht</span>
+              </div>
+              <div class="sheet-lebenspunkte">
+                <input name="attr_lebenspunkte_v" type="hidden" value="0"/>
+                <input name="attr_lebenspunkte_b" type="hidden" value="0"/>
+                <input name="attr_lebenspunkte_k" type="hidden" value="0"/>
+                <input name="attr_lebenspunkte_t" type="hidden" value="0"/>
+                <input name="attr_sr1" type="hidden" value="1"/>
+                <input name="attr_sr2" type="hidden" value="1"/><span class="sheet-verzehrt" name="attr_lebenspunkte_v_bar"></span><span class="sheet-erschoepft" name="attr_lebenspunkte_e_bar"></span><span class="sheet-kanalisiert" name="attr_lebenspunkte_k_bar"></span><span class="sheet-lebenspunkte-t" name="attr_lebenspunkte_t_bar"></span>
+              </div>
+            </div>
+            <div class="sheet-data-area">
+              <label>Wundabzug</label><span name="attr_wundabzug"></span>
+              <input name="attr_wundabzugmoduser" type="number" value=""/>
+            </div>
+          </div>
           <div class="sheet-data-section-nahkampfwaffen">
             <div class="sheet-data-header">
               <h3>Waffen</h3><span>Fertigkeit</span><span>Attribute</span><span>Mod.</span><span>Wert</span><span></span>
@@ -1319,7 +1355,7 @@ $(document).ready(function () {
     });
 });function autoUpdate(attributes, dataCallback) {
     attributesStr = attributes.map(attr => "change:" + attr).join(" ");
-    on(attributesStr, e => getAttrs(attributes, v => setAttrs(dataCallback(v))));
+    on(attributesStr, e => getAttrs(attributes, v => setAttrs(dataCallback(v, e))));
 }
 
 Object.keys(splittermond.fertigkeiten).forEach(function (id) {
@@ -2406,13 +2442,21 @@ on("change:behinderung", function (eventinfo) {
     });
 });
 
+
+
+
 on("change:lebenspunkte", function (e) {
     getAttrs(["lebenspunkte", "lebenspunkte_e", "lebenspunkte_k", "lebenspunkte_v"], function (v) {
         setAttrs({
-            lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v
+            lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v,
+            lebenspunkte_v_bar: "6".repeat(+v.lebenspunkte_v),
+            lebenspunkte_k_bar: "6".repeat(+v.lebenspunkte_k),
+            lebenspunkte_e_bar: "6".repeat(+v.lebenspunkte_e),
+            lebenspunkte_t_bar: "6".repeat(Math.max((+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v, 0))
         });
     });
 });
+
 
 on("change:fokus", function (e) {
     getAttrs(["fokus", "fokus_e", "fokus_k", "fokus_v"], function (v) {
@@ -2455,11 +2499,14 @@ on("change:lebenspunkte_v change:lebenspunkte change:schmerzresistenz change:sw1
         mod -= +war;
         if (mod < 0 || v.schadenimmun > 0) { mod = 0; }
         setAttrs({
-            schadensmod: +mod
+            schadensmod: +mod,
+            lebenspunkte_v_bar: "6".repeat(+v.lebenspunkte_v),
+            lebenspunkte_t_bar: "6".repeat(Math.max((+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v, 0))
         });
         if (e.sourceAttribute == "lebenspunkte_v") {
             setAttrs({
-                lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_v - +v.lebenspunkte_e - +v.lebenspunkte_k
+                lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_v - +v.lebenspunkte_e - +v.lebenspunkte_k,
+                lebenspunkte_t_bar: "6".repeat(Math.max((+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v))
             });
         }
     });
@@ -5074,14 +5121,19 @@ function createNSCFromTemplate(template) {
 
 on("change:lebenspunkte_k change:lebenspunkte_e change:lebenspunkte_v", function (f) {
     if (f.sourceType == "sheetworker") { return; }
-    getAttrs(["lebenspunkte_t"], function (v) {
+    getAttrs(["lebenspunkte_t", "lebenspunkte_v", "lebenspunkte_k", "lebenspunkte_e"], function (v) {
         let newValue = f.newValue || 0;
         let previousValue = f.previousValue || 0;
         setAttrs({
-            lebenspunkte_t: +v.lebenspunkte_t - (+newValue - +previousValue)
+            lebenspunkte_t: +v.lebenspunkte_t - (+newValue - +previousValue),
+            lebenspunkte_v_bar: "6".repeat(+v.lebenspunkte_v),
+            lebenspunkte_k_bar: "6".repeat(+v.lebenspunkte_k),
+            lebenspunkte_e_bar: "6".repeat(+v.lebenspunkte_e),
+            lebenspunkte_t_bar: "6".repeat(Math.max(+v.lebenspunkte_t - (+newValue - +previousValue), 0))
         });
     });
 });
+
 
 
 on("change:fokus_k change:fokus_e change:fokus_v", function (f) {
@@ -5453,6 +5505,7 @@ on("change:sprintercount", function (eventInfo) {
     });
 });
 
+
 on("change:lebenspunkte_v", function (eventInfo) {
     if (eventInfo.sourceType == "sheetworker") { return; }
     getAttrs(["lebenspunkte_v", "lebenspunkte_t", "lebenspunkte"], function (v) {
@@ -5487,6 +5540,7 @@ on("change:lebenspunkte_v", function (eventInfo) {
         setAttrs(update);
     });
 });
+
 
 on("change:rolldamagecheck change:rolldamagensccheck", function (eventInfo) {
     getAttrs(["rolldamagensccheck", "rolldamagecheck"], function (v) {

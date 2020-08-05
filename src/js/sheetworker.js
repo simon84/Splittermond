@@ -1,6 +1,6 @@
 function autoUpdate(attributes, dataCallback) {
     attributesStr = attributes.map(attr => "change:" + attr).join(" ");
-    on(attributesStr, e => getAttrs(attributes, v => setAttrs(dataCallback(v))));
+    on(attributesStr, e => getAttrs(attributes, v => setAttrs(dataCallback(v, e))));
 }
 
 Object.keys(splittermond.fertigkeiten).forEach(function (id) {
@@ -1087,13 +1087,21 @@ on("change:behinderung", function (eventinfo) {
     });
 });
 
+
+
+
 on("change:lebenspunkte", function (e) {
     getAttrs(["lebenspunkte", "lebenspunkte_e", "lebenspunkte_k", "lebenspunkte_v"], function (v) {
         setAttrs({
-            lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v
+            lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v,
+            lebenspunkte_v_bar: "6".repeat(+v.lebenspunkte_v),
+            lebenspunkte_k_bar: "6".repeat(+v.lebenspunkte_k),
+            lebenspunkte_e_bar: "6".repeat(+v.lebenspunkte_e),
+            lebenspunkte_t_bar: "6".repeat(Math.max((+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v, 0))
         });
     });
 });
+
 
 on("change:fokus", function (e) {
     getAttrs(["fokus", "fokus_e", "fokus_k", "fokus_v"], function (v) {
@@ -1136,11 +1144,14 @@ on("change:lebenspunkte_v change:lebenspunkte change:schmerzresistenz change:sw1
         mod -= +war;
         if (mod < 0 || v.schadenimmun > 0) { mod = 0; }
         setAttrs({
-            schadensmod: +mod
+            schadensmod: +mod,
+            lebenspunkte_v_bar: "6".repeat(+v.lebenspunkte_v),
+            lebenspunkte_t_bar: "6".repeat(Math.max((+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v, 0))
         });
         if (e.sourceAttribute == "lebenspunkte_v") {
             setAttrs({
-                lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_v - +v.lebenspunkte_e - +v.lebenspunkte_k
+                lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_v - +v.lebenspunkte_e - +v.lebenspunkte_k,
+                lebenspunkte_t_bar: "6".repeat(Math.max((+v.lebenspunkte * 5) - +v.lebenspunkte_e - +v.lebenspunkte_k - +v.lebenspunkte_v))
             });
         }
     });
@@ -3755,14 +3766,19 @@ function createNSCFromTemplate(template) {
 
 on("change:lebenspunkte_k change:lebenspunkte_e change:lebenspunkte_v", function (f) {
     if (f.sourceType == "sheetworker") { return; }
-    getAttrs(["lebenspunkte_t"], function (v) {
+    getAttrs(["lebenspunkte_t", "lebenspunkte_v", "lebenspunkte_k", "lebenspunkte_e"], function (v) {
         let newValue = f.newValue || 0;
         let previousValue = f.previousValue || 0;
         setAttrs({
-            lebenspunkte_t: +v.lebenspunkte_t - (+newValue - +previousValue)
+            lebenspunkte_t: +v.lebenspunkte_t - (+newValue - +previousValue),
+            lebenspunkte_v_bar: "6".repeat(+v.lebenspunkte_v),
+            lebenspunkte_k_bar: "6".repeat(+v.lebenspunkte_k),
+            lebenspunkte_e_bar: "6".repeat(+v.lebenspunkte_e),
+            lebenspunkte_t_bar: "6".repeat(Math.max(+v.lebenspunkte_t - (+newValue - +previousValue), 0))
         });
     });
 });
+
 
 
 on("change:fokus_k change:fokus_e change:fokus_v", function (f) {
@@ -4134,6 +4150,7 @@ on("change:sprintercount", function (eventInfo) {
     });
 });
 
+
 on("change:lebenspunkte_v", function (eventInfo) {
     if (eventInfo.sourceType == "sheetworker") { return; }
     getAttrs(["lebenspunkte_v", "lebenspunkte_t", "lebenspunkte"], function (v) {
@@ -4168,6 +4185,7 @@ on("change:lebenspunkte_v", function (eventInfo) {
         setAttrs(update);
     });
 });
+
 
 on("change:rolldamagecheck change:rolldamagensccheck", function (eventInfo) {
     getAttrs(["rolldamagensccheck", "rolldamagecheck"], function (v) {

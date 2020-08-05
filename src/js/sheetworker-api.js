@@ -24,7 +24,7 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
         var oldValue = roll20API.charData[key];
         var eventInfo = {};
         eventInfo.newValue = value;
-        eventInfo.oldValue = oldValue;
+        eventInfo.previousValue = oldValue;
         eventInfo.sourceAttribute = key.toLowerCase;
 
         roll20API.charData[key] = value;
@@ -55,6 +55,11 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
             var repOrder = [];
             if (roll20API.charData["_reporder:" + rowId[1]] != undefined) {
                 repOrder = roll20API.charData["_reporder:" + rowId[1]].split(",").filter(v => v.match(/[0-9]+/));
+            }
+
+            if (rowId[2].startsWith("$")) {
+                var temp = rowId[2].substr(1);
+                rowId[2] = repOrder[+temp];
             }
 
 
@@ -96,10 +101,17 @@ async function getAttrs(lst, cb) {
     var data = {};
     _.each(lst, function (value) {
         if (value.startsWith("repeating_")) {
-            rowId = value.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
-
+            var rowId = value.match(/(repeating_[^_]*)_([^_]*)_([^_]*)/);
             if (rowId) {
-                data[value] = roll20API.charData[value];
+                if (rowId[2].startsWith("$")) {
+                    var repOrder = [];
+                    if (roll20API.charData["_reporder:" + rowId[1]] != undefined) {
+                        repOrder = roll20API.charData["_reporder:" + rowId[1]].split(",").filter(v => v.match(/[0-9]+/));
+                    }
+                    var temp = rowId[2].substr(1);
+                    rowId[2] = repOrder[+temp];
+                }
+                data[value] = roll20API.charData[`${rowId[1]}_${rowId[2]}_${rowId[3]}`];
             } else {
                 rowId = value.match(/(repeating_[^_]*)_([^_]*)/);
                 rowId[3] = rowId[2];

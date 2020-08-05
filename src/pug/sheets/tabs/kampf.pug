@@ -3,6 +3,36 @@
 +hiddeninput("benommen", 0)
 +hiddeninput("verwundet", 0)
 
+.data-section-lebenspunkte
+    .data-header
+        h3 Lebenspunkte
+    .data-area
+        +hiddeninput("lebenspunkte",0)
+        .gesundheitsstufen
+            
+            +hiddeninput("wundabzugmod",0)
+            +hiddeninput("gesundheitsstufe",1)
+            span.unverletzt Unverletzt
+            span.angeschlagen Angeschlagen
+            span.verletzt Verletzt
+            span.schwerverletzt Schwer verletzt
+            span.todgeweiht Todgeweiht
+        .lebenspunkte
+            +hiddeninput("lebenspunkte_v",0)
+            +hiddeninput("lebenspunkte_b",0)
+            +hiddeninput("lebenspunkte_k",0)
+            +hiddeninput("lebenspunkte_t",0)
+            +hiddeninput("sr1",1)
+            +hiddeninput("sr2",1)
+            span.verzehrt(name="attr_lebenspunkte_v_bar")
+            span.erschoepft(name="attr_lebenspunkte_e_bar")
+            span.kanalisiert(name="attr_lebenspunkte_k_bar")
+            span.lebenspunkte-t(name="attr_lebenspunkte_t_bar")
+    .data-area
+        label Wundabzug
+        span(name="attr_wundabzug")
+        +numberinput("wundabzugmoduser")
+
 .data-section-nahkampfwaffen
     .data-header
         h3 Waffen

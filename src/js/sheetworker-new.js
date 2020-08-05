@@ -53,6 +53,7 @@ function autoUpdate(attributes, dataCallback) {
     on(attributesStr, e => getAttrs(attributes, v => setAttrs(dataCallback(v))));
 }
 
+
 autoUpdate(["beweglichkeit", "groessenklasse", "geschwindigkeitmod", "geschwindigkeitstaerkemod"], function (v) {
     return { geschwindigkeit: +v.beweglichkeit + +v.groessenklasse + +v.geschwindigkeitmod + +v.geschwindigkeitstaerkemod };
 });

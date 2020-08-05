@@ -220,7 +220,12 @@ input[name="attr_tab"] {
     @include gradient-border();
     @include gradient-background();
 
-    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.data-header {
+    @include gradient-border();
+
     border-bottom: 1px solid;
 }
 
@@ -425,6 +430,7 @@ input[name="attr_tab"] {
             gap: 5px;
             align-items: baseline;
             padding-top: 5px;
+            padding-bottom: 5px;
 
             input {
                 text-align:center;
@@ -446,6 +452,9 @@ input[name="attr_tab"] {
                 height: 0px;
                 @include gradient-border();
                 border-bottom: solid 1px;
+                &:last-child {
+                    display: none;
+                }
             }
 
             .tooltiptext {
@@ -491,6 +500,69 @@ input[name="attr_tab"] {
 }
 
 .kampf {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .data-section-lebenspunkte {
+        display: flex;
+        flex-direction: column;
+
+        .data-header {
+            padding-top: 5px;
+            align-items: baseline;
+            h3 {
+                text-align:center;
+            }
+        }
+
+        
+
+        .data-area  {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            padding-top: 5px;
+            padding-bottom: 5px;
+
+            .gesundheitsstufen {
+                width: 8em;
+                padding-right: 10px;
+                span {
+                    display: block;
+                    text-align: right;
+                    width: 100%;
+                }
+            }
+            .lebenspunkte {
+                font-family: "Pictos";
+                word-break: break-word;
+
+                .verzehrt {
+                    color: $main-color;
+                }
+
+                .erschoepft {
+                    color: $main-color-light;
+                }
+
+                .kanalisiert {
+                    color: #999;
+                }
+
+                .lebenspunkte-t {
+                    color: white;
+                }
+            }
+
+            @for $i from 4 through 30 {
+                input[name="attr_lebenspunkte"][value="#{$i}"] ~ .lebenspunkte {
+                    width: 0.85em * $i;
+                }
+            }
+            
+
+        }
+    }
     .data-section-nahkampfwaffen {
         display: flex;
         flex-direction: column;
