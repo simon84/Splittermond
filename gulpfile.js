@@ -5,11 +5,13 @@ var htmlPrefix = require('gulp-html-prefix');
 var sass = require('gulp-sass');
 
 var SplittermondData = {};
+SplittermondData.rassen = require('./src/js/data/rassen.json');
 SplittermondData.abgeleiteteWerte = require('./src/js/data/abgeleitete_werte.json');
 SplittermondData.attribute = require('./src/js/data/attribute.json');
 SplittermondData.fertigkeiten = require('./src/js/data/fertigkeiten.json');
 SplittermondData.kampffertigkeiten = require('./src/js/data/kampffertigkeiten.json');
 SplittermondData.magieschulen = require('./src/js/data/magieschulen.json');
+SplittermondData.staerken = require('./src/js/data/staerken.json');
 
 gulp.task('BuildStyle', function () {
     return gulp.src('src/sass/sheet.scss')

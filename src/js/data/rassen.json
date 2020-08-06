@@ -1,0 +1,22 @@
+{
+    "mensch": {
+        "name": "Mensch",
+        "groessenklasse": 5
+    },
+    "varg": {
+        "name": "Varg",
+        "groessenklasse": 6
+    },
+    "alb": {
+        "name": "Alb",
+        "groessenklasse": 5
+    },
+    "gnom": {
+        "name": "Gnom",
+        "groessenklasse": 3
+    },
+    "zwerg": {
+        "name": "Zwerg",
+        "groessenklasse": 4
+    }
+}

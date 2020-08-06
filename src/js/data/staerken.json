@@ -1,11 +1,68 @@
 {
+    "natürlicher rüstungsschutz": {
+        "tooltip": "nat. Rüstung",
+        "modifier": {
+            "schadensreduktion": 1
+        }
+    },
+    "erhöhter fokuspool": {
+        "tooltip": "erhöhter FO",
+        "modifier": {
+            "fokus": 5
+        }
+    },
+    "flink": {
+        "tooltip": "Flink",
+        "modifier": {
+            "geschwindigkeit": 1
+        }
+    },
     "robust": {
-        "lebenspunkte": 1
+        "tooltip": "Robust",
+        "modifier": {
+            "lebenspunkte": 1
+        }
     },
     "hoher körperlicher widerstand": {
-        "koerperlicherwiderstand": 2
+        "tooltip": "Hoher KW",
+        "modifier": {
+            "koerperlicherwiderstand": 2
+        }
     },
     "hoher geistiger widerstand": {
-        "geistigerwiderstand": 2
+        "tooltip": "Hoher GW",
+        "modifier": {
+            "geistigerwiderstand": 2
+        }
+    },
+    "verbesserte initiative": {
+        "tooltip": "Verb. INI",
+        "modifier": {
+            "initiative": -3
+        }
+    },
+    "schmerzresistenz": {
+        "tooltip": "Schmerzres.",
+        "modifier": {
+            "wundabzug": -2
+        }
+    },
+    "zusätzliche splitterpunkte": {
+        "tooltip": "Zus. Splitterp.",
+        "modifier": {
+            "splitterpunkt": 2
+        }
+    },
+    "erhöhte fokusregeneration": {
+        "tooltip": "Hohe FO-Reg.",
+        "modifier": {
+            "fokusreg": 2
+        }
+    },
+    "erhöhte lebensregeneration": {
+        "tooltip": "Hohe LP-Reg.",
+        "modifier": {
+            "lifereg": 2
+        }
     }
 }

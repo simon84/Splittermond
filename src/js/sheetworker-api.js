@@ -21,11 +21,15 @@ function throwEvent(ev, eventInfo) {
 
 async function setAttrs(obj, opt = "", cb = function () { }) {
     _.each(obj, function (value, key) {
-        var oldValue = roll20API.charData[key];
         var eventInfo = {};
         eventInfo.newValue = value;
-        eventInfo.previousValue = oldValue;
+        eventInfo.previousValue = roll20API.charData[key];
         eventInfo.sourceAttribute = key.toLowerCase;
+
+        if (value == eventInfo.previousValue) {
+            cb();
+            return;
+        }
 
         roll20API.charData[key] = value;
         if (opt != "silent") {
@@ -36,8 +40,8 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
 
         var elementName = "attr_" + key;
         $('span[name=' + elementName + ']').text(value);
-        $('input[name=' + elementName + '][type!=radio], select[name=' + elementName + ']').val(value);
-        $('input[name=' + elementName + '][type=radio]').filter('[value="' + value + '"]').attr('checked', true);
+        $('input[name=' + elementName + '][type=hidden], input[name=' + elementName + '][type=text], input[name=' + elementName + '][type=number], select[name=' + elementName + ']').val(value);
+        $('input[name=' + elementName + '][type=radio], input[name=' + elementName + '][type=checkbox]').filter('[value="' + value + '"]').attr('checked', true);
 
 
 
@@ -73,14 +77,20 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
 
             var elementName = "attr_" + rowId[3];
             $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] span[name="${elementName}"]`).text(value);
-            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type!=radio], 
+            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=hidden], 
+            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=text],
+            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=number]
                .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] select[name="${elementName}"]`).val(value);
-            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=radio]`).filter(`[value="${value}"]`).attr('checked', true);
+            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=radio]
+            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=checkbox]`).filter(`[value="${value}"]`).attr('checked', true);
 
             $(`fieldset[class="${rowId[1]}"] span[name="${elementName}"]`).text(value);
-            $(`fieldset[class="${rowId[1]}"] input[name="${elementName}"][type!=radio], 
+            $(`fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=text],
+            fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=number],  
+            fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=hidden],  
                fieldset[class="${rowId[1]}"] select[name="${elementName}"]`).val(value);
-            $(`fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=radio]`).filter(`[value="${value}"]`).attr('checked', true);
+            $(`fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=radio],
+            fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=checkbox]`).filter(`[value="${value}"]`).attr('checked', true);
             if (opt != "silent") {
                 throwEvent("change:" + rowId[3], eventInfo);
                 throwEvent("change:" + rowId[1], eventInfo);
@@ -217,7 +227,17 @@ function addRepeatingRow(repcontainer, dataGroupName, itemId) {
 
     repcontainer.find(`.repitem[reprowid="${itemId}"] input, .repitem[reprowid="${itemId}"] select`).change(function () {
         var data = {};
-        data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
+        if ($(this).attr("type") == "checkbox") {
+            if ($(this).prop("checked")) {
+                data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
+            } else {
+                data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = "";
+            }
+
+        } else {
+            data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
+        }
+
         setAttrs(data);
     });
 
@@ -233,7 +253,11 @@ function addRepeatingRow(repcontainer, dataGroupName, itemId) {
                 if (tagName == "SPAN") {
                     el.text(data[attrName]);
                 } else {
-                    el.val(data[attrName]);
+                    if (el.attr("type") == "checkbox") {
+                        el.prop("checked", el.val() == data[attrName]);
+                    } else {
+                        el.val(data[attrName]);
+                    }
                 }
             }
         });
@@ -250,7 +274,17 @@ $(document).ready(function () {
 
     $("input, select").change(function () {
         var data = {};
-        data[this.name.substr(5)] = this.value;
+        if ($(this).attr("type") == "checkbox") {
+            if ($(this).checked) {
+                data[this.name.substr(5)] = this.value;
+            } else {
+                data[this.name.substr(5)] = "";
+            }
+
+        } else {
+            data[this.name.substr(5)] = this.value;
+        }
+
         setAttrs(data);
     });
     $('input, select, span[name^="attr_"]').each(function () {
@@ -263,7 +297,11 @@ $(document).ready(function () {
                 if (tagName == "SPAN") {
                     el.text(data[attrName]);
                 } else {
-                    el.val(data[attrName]);
+                    if (el.attr("type") == "checkbox") {
+                        el.prop("checked", el.val() == data[attrName]);
+                    } else {
+                        el.val(data[attrName]);
+                    }
                 }
             }
         });

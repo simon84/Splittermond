@@ -19,7 +19,7 @@ mixin hiddeninput(name, value="", attribute={})
     +input(name, "hidden", value, false, attribute)
 
 .splittermond
-    input(type="hidden", name="attr_pc", value="1")
+    +hiddeninput("pc",1)
     .pc
         include sheets/pc.pug
 script(type="text/worker")

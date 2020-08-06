@@ -29,18 +29,22 @@ h2
         .data-header
             h3 Attribute
             span Start
-            span
+            span Basis
             span max.
+            span Mod.
         .data-area
             each labelText, id in splittermond.attribute
                 label= labelText.short
                     span.secondary= labelText.long
                 +numberinput(id+"start", 0)
-                +numberinput(id, 0)
+                +numberinput(id+"basis", 0)
                 +textinput(id+"max", 0, false, {readonly: true})
-            each labelText, id in splittermond.attribute
-                +hiddeninput("hidden"+id, 0)
-                +hiddeninput("hidden"+id+"mod", 0)
+                span
+                    +hiddeninput(id+"mod", 0)
+                    +numberinput(id+"moduser", 0)
+                span.tooltip
+                    +numberinput(id, 0, false, {readonly: true})
+                    span.tooltiptext.pre(name="attr_" + id + "tooltip")            
     
     .data-section-abgeleitetewerte
         .data-header
@@ -53,38 +57,10 @@ h2
                     span.secondary= labelText.long
                 span.tooltip
                     +numberinput(id, 0, false, {readonly: true})
-                    span.tooltiptext.pre(name="attr_" + labelText.short.toLowerCase() + "tooltip")
-                        labelText.long
+                    span.tooltiptext.pre(name="attr_" + id + "tooltip")
                 span
-                    +numberinput(id+"mod", 0)
-                    +hiddeninput(id+"staerkemod", 0)
-            +hiddeninput("hiddengsw", 0)
-            +hiddeninput("hiddengswmod", 0)
-            +hiddeninput("hiddengswbe", 0)
-            +hiddeninput("hiddengswag", 0)
-            +hiddeninput("hiddengswspr", 0)
-            +hiddeninput("sprintercount", 0)
-            +hiddeninput("hiddenmodgsw", 0)
-            +hiddeninput("hiddenini", 0)
-            +hiddeninput("hiddeninibr", 0)
-            +hiddeninput("blitzreflexecount", 0)
-            +hiddeninput("hiddenmodini", 0)
-            +hiddeninput("hiddenlp", 0)
-            +hiddeninput("hiddenfokreg", 0)
-            +hiddeninput("hiddenlifereg", 0)
-            +hiddeninput("hiddenfokus", 0)
-            +hiddeninput("hiddensbm", 0)
-            +hiddeninput("hiddenvtdgr", 0)
-            +hiddeninput("hiddenvtdhg", 0)
-            +hiddeninput("hiddenvtdruestungschild", 0)
-            +hiddeninput("hiddenvtdbonus", 0)
-            +hiddeninput("hiddenallwiderstand", 0)
-            +hiddeninput("hiddengw", 0)
-            +hiddeninput("hiddengwhg", 0)
-            +hiddeninput("hiddengwbonus", 0)
-            +hiddeninput("hiddenkw", 0)
-            +hiddeninput("hiddenkwhg", 0)
-            +hiddeninput("hiddenkwbonus", 0)
+                    +numberinput(id+"moduser", 0)
+                    +hiddeninput(id+"mod", 0)
 
 .data-section-row
     .data-section-ressourcen
@@ -99,6 +75,7 @@ h2
         .data-header
             h3 Stärken
         .data-area
+            +hiddeninput("staerkenmod")
             fieldset.repeating_staerken
                 +textinput("staerkename","")
                 +numberinput("staerkenwert",1)
@@ -126,37 +103,29 @@ h2
         h3 Modifikatoren (z.b. Kan. Zauber)
         span Eigenschaft
         span Mod.
-        span Aktiv?
     .data-area
+        +hiddeninput("attributmodsmod","")
         fieldset.repeating_attributmods
+            +input("attributmodonoff","checkbox",false)
             +textinput("attributmodname","")
             select(name="attr_modattribut") 
                 optgroup(label="Attribute")
-                    <option value="aus">Ausstrahlung</option>
-                    <option value="bew">Beweglichkeit</option>
-                    <option value="int">Intuition</option>
-                    <option value="kon">Konstitution</option>
-                    <option value="mys">Mystik</option>
-                    <option value="stae">St&auml;rke</option>
-                    <option value="ver">Verstand</option>
-                    <option value="wil">Willenskraft</option>
+                    each labelText, id in splittermond.attribute
+                        option(value=id)= labelText.long
                 optgroup(label="Abgeleitete Attribute")
-                    <option value="vtd">Verteidigung</option>
-                    <option value="gw">Geistiger Widerstand</option>
-                    <option value="kw">K&ouml;rperlicher Widerstand</option>
-                    <option value="allwiderstand">Alle Widerst&auml;nde</option>
-                    <option value="ini">Initiative</option>
-                    <option value="gsw">Geschwindigkeit</option>
+                    each labelText, id in splittermond.abgeleiteteWerte
+                        option(value=id)= labelText.long
+                    option(value="allwiderstand") Alle Widerst&auml;nde
                 optgroup(label="Kampfrelevantes")
-                    <option value="beh">Behinderungsreduktion</option>
-                    <option value="sr">Schadensreduktion</option>
-                    <option value="ab">Bonus auf Angriffe</option>
-                    <option value="si">Schmerzimmunit&auml;t (1 = aktiv)</option>
-                    <option value="war">Wundabzugs-Reduktion</option>
+                    option(value="behinderung") Behinderung
+                    option(value="schadensreduktion") Schadensreduktion
+                    option(value="angriff") Angriffe
+                    option(value="wundabzug") Wundabzug
                 optgroup(label="Fertigkeiten")
-                    <option value="allfert">Alle Fertigkeiten</option>
-                    <option value="allgfert">Allgemeine Fertigkeiten</option>
-                    <option value="kampffert">Kampffertigkeiten</option>
+                    <option value="allfertigkeiten">Alle Fertigkeiten</option>
+                    <option value="magiefertigkeiten">Magie Fertigkeiten</option>
+                    <option value="allgfertigkeiten">Allgemeine Fertigkeiten</option>
+                    <option value="kampffertigkeiten">Kampffertigkeiten</option>
             +numberinput("attributmod",1)
-            +input("attributmodonoff","checkbox",false)
+            
 

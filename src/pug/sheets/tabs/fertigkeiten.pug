@@ -14,13 +14,15 @@
                     +hiddeninput(id+"2")
                     span.tooltiptext 
                         label= splittermond.attribute[fertigkeit.Attribute[0].toLowerCase()].short
-                        span(name="attr_"+id+"1") 0
+                        span(name="attr_"+fertigkeit.Attribute[0].toLowerCase()) 0
                         label= splittermond.attribute[fertigkeit.Attribute[1].toLowerCase()].short
-                        span(name="attr_"+id+"2") 0
+                        span(name="attr_"+fertigkeit.Attribute[1].toLowerCase()) 0
+                        span.pre(name="attr_" + id + "tooltip")
                 span 
                     +numberinput(id+"punkte",0)
                 span 
-                    +numberinput(id+"bonus",0)
+                    +hiddeninput(id+"mod",0)
+                    +numberinput(id+"moduser",0)
                 span 
                     button(type="roll")
                 div.line
@@ -36,32 +38,38 @@
                     label= magieschule.Name
                     span.tooltip
                         +numberinput(id,0, false, {readonly: true})
-                        +hiddeninput(id+"1")
-                        +hiddeninput(id+"2")
-                        span.tooltiptext 
+                        span.tooltiptext
                             label= splittermond.attribute[magieschule.Attribute[0].toLowerCase()].short
-                            span(name="attr_"+id+"1") 0
+                            span(name="attr_"+magieschule.Attribute[0].toLowerCase()) 0
                             label= splittermond.attribute[magieschule.Attribute[1].toLowerCase()].short
-                            span(name="attr_"+id+"2") 0
+                            span(name="attr_"+magieschule.Attribute[1].toLowerCase()) 0
+                            span.pre(name="attr_" + id + "tooltip")
                     span
                         +numberinput(id+"punkte",0)
                     span
-                        +numberinput(id+"bonus",0)
+                        +hiddeninput(id+"mod",0)
+                        +numberinput(id+"moduser",0)
                     span 
                         button(type="roll")
                     div.line
         .data-section-kampffertigkeiten
             .data-header
                 h3 Kampffertigkeiten
+                span
                 span Pkt.
                 span Mod.
             .data-area
                 each kampffertigkeit, id in splittermond.kampffertigkeiten
                     label= kampffertigkeit.Name
+                    span.tooltip
+                        +numberinput(id,0,false, {readonly: true})
+                        span.tooltiptext
+                            span.pre(name="attr_" + id + "tooltip")
                     span
                         +numberinput(id+"punkte",0)
                     span
-                        +numberinput(id+"bonus",0)
+                        +hiddeninput(id+"mod",0)
+                        +numberinput(id+"moduser",0)
                     span 
                         button(type="roll")
                     div.line
