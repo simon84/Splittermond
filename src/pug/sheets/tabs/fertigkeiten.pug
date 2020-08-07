@@ -9,9 +9,7 @@
             each fertigkeit, id in splittermond.fertigkeiten
                 label= fertigkeit.Name
                 span.tooltip
-                    +numberinput(id,0, false, {readonly: true})
-                    +hiddeninput(id+"1")
-                    +hiddeninput(id+"2")
+                    span.main-value(name="attr_"+id)
                     span.tooltiptext 
                         label= splittermond.attribute[fertigkeit.Attribute[0].toLowerCase()].short
                         span(name="attr_"+fertigkeit.Attribute[0].toLowerCase()) 0
@@ -37,7 +35,7 @@
                 each magieschule, id in splittermond.magieschulen
                     label= magieschule.Name
                     span.tooltip
-                        +numberinput(id,0, false, {readonly: true})
+                        span.main-value(name="attr_"+id)
                         span.tooltiptext
                             label= splittermond.attribute[magieschule.Attribute[0].toLowerCase()].short
                             span(name="attr_"+magieschule.Attribute[0].toLowerCase()) 0
@@ -62,7 +60,7 @@
                 each kampffertigkeit, id in splittermond.kampffertigkeiten
                     label= kampffertigkeit.Name
                     span.tooltip
-                        +numberinput(id,0,false, {readonly: true})
+                        span.main-value(name="attr_"+id)
                         span.tooltiptext
                             span.pre(name="attr_" + id + "tooltip")
                     span

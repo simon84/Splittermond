@@ -6,6 +6,11 @@ $wood-color: #2B1619ff;
 $main-color: #25408Fff;
 $main-color-light: #6DCFF6ff;
 
+$font-size-normal: 1.6rem;
+$font-size-large: 2rem;
+$font-size-very-large: 2.6rem;
+$font-size-small: 1.2rem;
+
 @mixin gradient-border {
     border-image-source: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.2),rgba(0,0,0,0));
     border-image-slice: 1;
@@ -16,8 +21,19 @@ $main-color-light: #6DCFF6ff;
 }
 
 
+
+@mixin standard-font($font-size: $font-size-normal) {
+    font-family: $main-font;
+    line-height: 130%;
+    font-size: $font-size;
+}
+
+
+
+
 .charsheet {
     padding: 0px !important;
+    
 }
 
 
@@ -32,9 +48,8 @@ $main-color-light: #6DCFF6ff;
     padding-top: 6px;
     padding-bottom: 6px;
     overflow-x: hidden;
-    font-family: $main-font;
     color: white;
-    font-size: 125%;
+    @include standard-font();
 
     h1,
     h2,
@@ -49,25 +64,34 @@ $main-color-light: #6DCFF6ff;
     .h5,
     .h6,
     label {
-        font-family: 'Grenze', serif;
-        text-transform: uppercase;
-        display: block;
-        color: $main-color;
+        @include standard-font();
+    }
+
+    h1 {
+        @include standard-font($font-size-very-large);
+    }
+
+    h2 {
+        @include standard-font($font-size-large);
     }
 
     h3 {
-        font-size: 1em;
-        line-height: 1.2em;
+        @include standard-font();
+        text-transform: uppercase;
+        color: $main-color;
     }
 
     label {
-        font-size: 0.8em;
-        margin: 0px;
-        padding: 0px;
-        line-height: 1em;
+        @include standard-font($font-size-normal);
+        font-weight: normal;
+        margin:0;
+
+        //text-transform: uppercase;
+        display: block;
+        color: $main-color;
 
         .secondary {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #666;
         }
     }
@@ -92,12 +116,12 @@ $main-color-light: #6DCFF6ff;
     }
 
     
-    input, select {
+    .paper input, .paper select {
         font-size: 1em;
-        font-weight: bold;
-        line-height: 1.5em;
-        padding-top: 0.1em;
-        padding-bottom: 0.1em;
+        font-weight: inherit;
+        line-height: inherit;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
         padding-left: 0.2em;
         padding-right: 0.2em;
         margin: 0;
@@ -110,9 +134,8 @@ $main-color-light: #6DCFF6ff;
         width: 100%;
         border-bottom: 1px solid transparent;
         color: black;
-        height: unset;
-        vertical-align: baseline;
-
+        vertical-align: baseline!important;
+        height: auto!important;
         box-sizing: border-box;
 
         &:hover,
@@ -126,697 +149,798 @@ $main-color-light: #6DCFF6ff;
         optgroup {
             text-transform: uppercase;
             color: $main-color;
-
+            line-height: inherit;
             option {
                 text-transform: none;
                 color: black;
+                line-height: inherit;
             }
         }
     }
 
-
-}
-
-.pre {
-    white-space: pre-line;
-}
-.tab-content {
-    display: none;
-    margin-top: 10px;
-}
-
-
-.tab-nav {
-    position: sticky;
-    vertical-align: baseline;
-
-    
-
     button {
-        display: inline-block;
-	    padding-left: 0.5em;
-	    padding-right: 0.5em;
-        background: transparent;
-        border: none;
-        outline: none;
         font-size: 1em;
-        font-weight: bold;
-        line-height: 2em;
-        background: -webkit-linear-gradient(#fff, $wood-color);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(2px 2px #333);
-        text-transform: uppercase;
+        font-weight: inherit;
+        line-height: inherit;
+    }
 
-        &:hover,
-        &:active {
-            background: linear-gradient(180deg, #FFFFFF 0%, $main-color-light 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+    span.autoexpand {
+        position: relative;
+        display: inline-block;
+        input {
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+            left: 0px;
+            vertical-align: baseline;
+        }
+
+        > span.autoexpand {
+            visibility: hidden;
+            display: inline-block;
+            text-transform: inherit;
+            font-size: 1em;
+            font-weight: inherit;
+            line-height: inherit;
+            padding-top: 0.1em;
+            padding-bottom: 0.1em;
+            padding-left: 0.2em;
+            padding-right: 0.2em;
+            //min-width: 1.5em;
+            min-height: 1.5em;
+            white-space: nowrap;
+
+            &:empty:after {
+                content: attr(placeholder);
+            }
         }
     }
 
-    .icon {
-        font-family: 'Pictos';
-        text-transform: none;
+    .pre {
+        white-space: pre-line;
     }
-
-}
-
-input[name="attr_tab"] {
-    $pc_tabs: einstellungen, grundwerte, fertigkeiten, kampf, entwicklung, ausruestung;
-    @each $tabid in $pc_tabs {
-        &[value=#{$tabid}] ~ .tab-group div .tab-content.#{$tabid} {
-            display: flex;
-        }
-
-        &[value=#{$tabid}] ~ div.tab-nav button[name="act_#{$tabid}"] {
-            background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #6DCFF6;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    }
-}
-
-.data-section {
-    display: flex;
-}
-
-.data-section-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    width: 100%;
-}
-
-.data-section-column {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-.data-area {
-    @include gradient-border();
-    @include gradient-background();
-
-    border-bottom: 1px solid;
-}
-
-.data-header {
-    @include gradient-border();
-
-    border-bottom: 1px solid;
-}
-
-.grundwerte {
-    flex-direction: column;
-    align-items: center;
-
-    h2 {
-        display: block;
-        width: 100%;
-        text-align: center;
-    }
-    .data-section-personal {
+    .tab-content {
+        display: none;
         margin-top: 10px;
-        margin-bottom: 10px;
+    }
 
+
+    .tab-nav {
+        position: sticky;
+        vertical-align: baseline;
+
+        
+
+        button {
+            @include standard-font();
+            display: inline-block;
+            padding: 0.5em;
+            padding: 0.5em;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-weight: bold;
+            
+            background: -webkit-linear-gradient(#fff, $wood-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 2px #333);
+            text-transform: uppercase;
+
+            &:hover,
+            &:active {
+                background: linear-gradient(180deg, #FFFFFF 0%, $main-color-light 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+
+        .icon {
+            font-family: 'Pictos';
+            text-transform: none;
+        }
+
+    }
+
+    input[name="attr_tab"] {
+        $pc_tabs: einstellungen, grundwerte, fertigkeiten, kampf, entwicklung, ausruestung;
+        @each $tabid in $pc_tabs {
+            &[value=#{$tabid}] ~ .tab-group div .tab-content.#{$tabid} {
+                display: flex;
+            }
+
+            &[value=#{$tabid}] ~ div.tab-nav button[name="act_#{$tabid}"] {
+                background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #6DCFF6;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+    }
+
+    .data-section {
+        display: flex;
+    }
+
+    .data-section-row {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .data-section-column {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .data-area {
+        @include gradient-border();
+        @include gradient-background();
+        gap: 5px;
         border-bottom: 1px solid;
-        @include gradient-border;
 
-        .data-set {
-            display: flex;
-            flex-direction: column-reverse;
-            justify-content: center;
+        input[type="number"],
+        input[type="text"]{
+            text-align:center;
+            width: 100%;
+        }
+
+    }
+
+    .data-header {
+        @include gradient-border();
+        gap: 5px;
+        border-bottom: 1px solid;
+
+        span {
+            @include standard-font($font-size-small)
+            color: #666;
+            justify-self: center;
+        }
+
+        h3 {
+            white-space: nowrap;
+        }
+    }
+
+    .main-value {
+        @include standard-font($font-size-large);
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .grundwerte {
+        flex-direction: column;
+        align-items: center;
+
+        h1 {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        .data-section-personal {
+            margin-top: 10px;
             margin-bottom: 10px;
-            margin-left: 10px;
-            margin-right: 10px;
 
-            input {
-                text-align: center;
-            }
-
-            label {
-                display: block;
-                text-align: center;
-            }
-        }
-    }
-    .data-section-attribute {
-        display: flex;
-        flex-direction: column;
-
-        margin-top: 10px;
-        margin-bottom: 10px;
-
-        .data-header {
-            align-items: baseline;
-            span {
-                color: #666;
-                font-size: 0.8em;
-                justify-self: center;
-            }
-        }
-
-        
-
-        .data-area,
-        .data-header {
-            display: grid;
-            grid-template-columns: 6em 2.5em 2.5em 2.5em 2.5em 2.5em;
-            gap: 10px;
-
-            input {
-                text-align:center;
-                width: 2.5em;
-                font-size: 1.2em;
-            }
-
-            input[name$="max"]:read-only {
-                color: #666;
-            }
-        }
-
-        label {
-            font-size: 1em;
-            text-align: right;
-            align-self: center;
-            .secondary{
-                display:block;
-            }
-        }
-    }
-
-    .data-section-abgeleitetewerte {
-        @extend .data-section-attribute;
-        margin-top: 10px;
-        margin-bottom: 10px;
-
-        .data-area,
-        .data-header {
-            grid-template-columns: 12em 2.5em 2.5em;
-            gap: 10px;
-        }
-
-        .data-area {
-            input:read-only {
-                color: black;
-            }
-        }
-    }
-    .data-section-ressourcen,
-    .data-section-staerken {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        min-width: 15em;
-        box-sizing: border-box;
-        .data-header {
-            h3 {
-                text-align: center;
-            }
-        }
-
-        .data-area {
-            div > div {
-                display: grid;
-                grid-template-columns: 12em 2.5em;
-
-                input{
-                    text-align: center;
-                }
-            }
-        }
-    }
-    .data-section-schwaechen {
-        @extend .data-section-staerken;
-        min-width: 12em;
-        .data-area {
-            div > div {
-                grid-template-columns: 12em;
-            }
-        }
-    }
-
-    .data-section-sprachen {
-        @extend .data-section-schwaechen;
-    }
-
-    .data-section-kulturkunde {
-        @extend .data-section-schwaechen;
-    }
-
-    .data-section-attributmods {
-        @extend .data-section-staerken;
-        min-width: 35em;
-        max-width: 45em;
-
-        .data-header {
-            display: grid;
-            gap: 10px;
-            grid-template-columns: 2.5em auto 15em 2.5em;
-
-            h3 {
-                text-align: left;
-                grid-column-start: 1;
-                grid-column-end: 3;
-            }
-
-            span {
-                color: #666;
-                font-size: 0.8em;
-                justify-self: center;
-            }
-        }
-        .data-area {
-            div > div {
-                gap: 10px;
-                grid-template-columns: 2.5em auto 15em 2.5em;
-                align-items: baseline;
-                input[type="checkbox"]:checked,
-                input[type="checkbox"]:checked ~ * {
-                    opacity: 1;
-                }
-
-                input, select {
-                    text-align: center;
-                    width: 100%;
-                    height: auto;
-                    opacity: 0.5;
-                }
-                
-            }
-        }
-    }
-    
-}
-
-.fertigkeiten {
-    .data-section-fertigkeiten {
-        display: flex;
-        flex-direction: column;
-
-        .data-header {
-            align-items: baseline;
-            span {
-                color: #666;
-                font-size: 0.8em;
-                justify-self: center;
-            }
-        }
-
-        
-
-        .data-area,
-        .data-header {
-            display: grid;
-            grid-template-columns: 9em 2.5em 2.5em 2.5em 2.5em;
-            gap: 5px;
-            align-items: baseline;
-            padding-top: 5px;
-            padding-bottom: 5px;
-
-            input {
-                text-align:center;
-                width: 2.5em;
-                font-size: 1.2em;
-            }
-
-
-            span button {
-                align-self: center;
-            }
-
-            div.line {
-                grid-column-start: 1;
-                grid-column-end: 6;
-                height: 0px;
-                @include gradient-border();
-                border-bottom: solid 1px;
-                &:last-child {
-                    display: none;
-                }
-            }
-
-            .tooltiptext {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                width: 6em;
-                gap: 5px;
-                font-size: 1em;
-                label {
-                    font-size: 1em;
-                }
-
-                span {
-                    text-align: left;
-                    color: black;
-                    font-size: 1em;
-                    font-weight: bold;
-                }
-                span.pre {
-                    text-align: left;
-                    color: $main-color;
-                    font-size: 1em;
-                    grid-column-start: 1;
-                    grid-column-end: 3;
-                    font-weight: normal;
-                    text-align: center;
-                }
-            }
-        }
-
-        label {
-            font-size: 0.8em;
-            text-align: right;
-            align-self: center;
-            .secondary{
-                display:block;
-            }
-        }
-    }
-
-    .data-section-magieschulen {
-        @extend .data-section-fertigkeiten;
-    }
-
-    .data-section-kampffertigkeiten {
-        @extend .data-section-fertigkeiten;
-    }
-}
-
-.kampf {
-    flex-direction: column;
-    align-items: center;
-    .data-section-lebenspunkte {
-        display: flex;
-        flex-direction: column;
-
-        .data-header {
-            padding-top: 5px;
-            align-items: baseline;
-            h3 {
-                text-align:center;
-            }
-        }
-
-        .data-area.lebenspunkte  {
             display: flex;
             flex-direction: row;
-            align-items: baseline;
-            padding-top: 5px;
-            padding-bottom: 5px;
-
-            .gesundheitsstufen {
-                width: 8em;
-                padding-right: 10px;
-                span {
-                    display: block;
-                    text-align: right;
-                    width: 100%;
-                }
-
-                input[name="attr_gesundheitsstufe"][value="1"] ~ span.unverletzt,
-                input[name="attr_gesundheitsstufe"][value="2"] ~ span.angeschlagen,
-                input[name="attr_gesundheitsstufe"][value="3"] ~ span.verletzt,
-                input[name="attr_gesundheitsstufe"][value="4"] ~ span.schwerverletzt,
-                input[name="attr_gesundheitsstufe"][value="5"] ~ span.todgeweiht,
-                input[name="attr_gesundheitsstufe"][value="6"] ~ span.todgeweiht {
-                    font-weight: bold;
-                }
-            }
-            .lebenspunkte {
-                font-family: "Pictos";
-                word-break: break-word;
-
-                .verzehrt {
-                    color: $main-color;
-                }
-
-                .erschoepft {
-                    color: $main-color-light;
-                }
-
-                .kanalisiert {
-                    color: #999;
-                }
-
-                .lebenspunkte-t {
-                    color: white;
-                }
-            }
-
-            @for $i from 4 through 30 {
-                input[name="attr_lebenspunkte"][value="#{$i}"] ~ .lebenspunkte {
-                    width: 0.85em * $i;
-                }
-            }
-            
-
-        }
-
-        .data-area.wundabzug {
-            display: flex;
-            flex-direction: row;
-            align-items: baseline;
-            width: 100%;
-            label {
-                width: 8em;
-                text-align: right;
-                padding-right: 10px;
-            }
-
-            span, 
-            input{
-                display: inline-block;
-                width: 3em;
-                font-size: 1.2em;
-                line-height: 1.5em;
-            }
-        }
-
-        .data-area.schaden {
-            display: flex;
-            flex-direction: column;
-            align-items: baseline;
+            flex-wrap: wrap;
             justify-content: center;
-            width: 100%;
-            label {
-                display: block;
-                width: 100%;
-                text-align: center;
-            }
+            border-bottom: 1px solid;
+            @include gradient-border;
 
-            .action {
+            .data-set {
                 display: flex;
-                flex-direction: row;
-                align-items: baseline;
+                flex-direction: column-reverse;
                 justify-content: center;
-                width: 100%;
+                margin-bottom: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
 
                 input {
-                    width: 3em;
-                    text-align: right;
+                    text-align: center;
                 }
 
-                select {
-                    width: 6em;
+                label {
+                    display: block;
+                    text-align: center;
+                    margin-top: -0.4em;
                 }
             }
-            
-
         }
-    }
-    .data-section-waffen {
-        display: flex;
-        flex-direction: column;
-
-        .data-header {
-            align-items: baseline;
-            span {
-                color: #666;
-                font-size: 0.8em;
-                justify-self: center;
-            }
-        }
-
+        .data-section-attribute {
+            display: flex;
+            flex-direction: column;
         
 
-        .data-area div > div,
-        .data-header {
-            display: grid;
-            grid-template-columns: 12em 7em 7em 3em 3em 6em;
-            gap: 5px;
-            align-items: baseline;
-            padding-top: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
 
-            input, select {
-                text-align:center;
-                width: 100%;
-                font-size: 1em;
-            }
-            input[name="attr_waffenname"] {
-                text-align:left;
-                
-
-            }
-
-            select[name^="attr_waffenattr"],
-            select[name="attr_waffenskill"] {
-                text-align:left;
-                font-size: 0.8em;
-            }
-
-            span[name="attr_waffenwert"] {
-                font-size: 1.5em;
-                font-weight: bold;
-                text-align: center;
-            }
-
-            div.second-line span.reichweite {
-                display: none;
-            }
-
-            
-
-            .attribute {
+            .data-area,
+            .data-header {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                align-items: baseline;
+                grid-template-columns: 6em 2em 2.5em 2.5em 2.5em;
             }
 
-            input:read-only {
-                color: #666;
-            }
-
-            span button {
-                align-self: center;
-            }
-
-            .second-line {
-                grid-column-start: 1;
-                grid-column-end: 6;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                padding-bottom: 10px;
-
-                @include gradient-border();
-                border-bottom: solid 1px;
-
-                span {
-                    margin-left: 5px;
-                    margin-right: 5px;
-                    display: flex;
-                    flex-direction: column;
-                    &.reichweite {
-                        display: none;
+            .data-area {
+                padding-bottom: 5px;
+                label {
+                    @include standard-font($font-size-normal)
+                    text-align: right;
+                    align-self: center;
+                    font-weight: bold;
+                    .secondary{
+                        display:block;
+                        font-weight: normal;
+                        line-height: 1em;
                     }
-                    label {
+                }
+
+                label span.secondary {
+                    line-height: 1em;
+                }
+
+
+                input[name$="start"] {
+                    color: #666;
+                }
+
+                input {
+                    @include standard-font($font-size-normal)
+                }
+            }
+        }
+
+        .data-section-abgeleitetewerte {
+            @extend .data-section-attribute;
+
+            .data-area,
+            .data-header {
+                grid-template-columns: 8em 3.5em 2.5em;
+            }
+        }
+        .data-section-ressourcen {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            min-width: 15em;
+            box-sizing: border-box;
+            .data-header {
+                h3 {
+                    text-align: center;
+                }
+            }
+
+            .data-area {
+                margin-bottom: 5px;
+                > div {
+                    margin-bottom: 5px;
+                }
+                div > div {
+                    display: grid;
+                    grid-template-columns: 12em 2.5em;
+                    padding-bottom: 5px;
+
+                    input{
                         text-align: center;
                     }
                 }
+            }
+        }
+        .data-section-staerken {
+            @extend .data-section-ressourcen;
+        }
+        .data-section-schwaechen {
+            @extend .data-section-ressourcen;
+            min-width: 12em;
+            .data-area {
+                div > div {
+                    grid-template-columns: 12em;
+                }
+            }
+        }
 
-                input[name="attr_waffenskill"][value^="wurf"] ~ span.reichweite,
-                input[name="attr_waffenskill"][value^="schuss"] ~ span.reichweite  {
-                    display: flex;
+        .data-section-sprachen {
+            @extend .data-section-schwaechen;
+        }
+
+        .data-section-kulturkunde {
+            @extend .data-section-schwaechen;
+        }
+
+        .data-section-attributmods {
+            @extend .data-section-staerken;
+            min-width: 35em;
+            max-width: 45em;
+
+            .data-header {
+                display: grid;
+                align-items: baseline;
+                grid-template-columns: 2.5em auto 15em 2.5em;
+
+                h3 {
+                    text-align: left;
+                    grid-column-start: 1;
+                    grid-column-end: 3;
+                }
+            }
+            .data-area {
+                div > div {
+                    gap: 5px;
+                    grid-template-columns: 2.5em auto 15em 2.5em;
+                    align-items: baseline;
+                    margin-bottom: 5px;
+                    padding-bottom: 0px;
+                    input[type="checkbox"]:checked,
+                    input[type="checkbox"]:checked ~ * {
+                        opacity: 1;
+                    }
+
+                    input, select {
+
+                        opacity: 0.5;
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    .fertigkeiten {
+        .data-section-fertigkeiten {
+            display: flex;
+            flex-direction: column;
+
+            .data-header,
+            .data-area, {
+                display: grid;
+                align-items: baseline;
+                grid-template-columns: 9em 2.5em 2.5em 2.5em 2.5em;
+            }
+
+            
+
+            .data-area {
+                padding-bottom: 5px;
+                padding-top: 5px;
+                label {
+                    text-align: right;
+                    .secondary{
+                        display:block;
+                    }
+                }
+
+                input {
+                    @include standard-font($font-size-large);
+                }
+
+                input[name$="punkte"],
+                input[name$="moduser"] {
+                    @include standard-font($font-size-normal);
+                }
+
+
+                span button {
+                    align-self: baseline;
+                }
+
+                div.line {
+                    grid-column-start: 1;
+                    grid-column-end: 6;
+                    height: 0px;
+                    @include gradient-border();
+                    border-bottom: solid 1px;
+                    &:last-child {
+                        display: none;
+                    }
+                }
+
+                .tooltiptext {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr 1fr;
+                    gap: 5px;
+                    font-size: 1em;
+                    label {
+                        font-size: 1em;
+                        width: 100%;
+                        text-align: right;
+                    }
+
+                    span {
+                        text-align: left;
+                        color: black;
+                        font-size: 1em;
+                        font-weight: bold;
+                    }
+                    span.pre {
+                        text-align: left;
+                        color: $main-color;
+                        font-size: 1em;
+                        grid-column-start: 1;
+                        grid-column-end: 3;
+                        font-weight: normal;
+                        text-align: center;
+                    }
                 }
             }
 
-            div.line {
-                grid-column-start: 1;
-                grid-column-end: 6;
-                height: 0px;
-                @include gradient-border();
-                border-bottom: solid 1px;
+            
+        }
+
+        .data-section-magieschulen {
+            @extend .data-section-fertigkeiten;
+        }
+
+        .data-section-kampffertigkeiten {
+            @extend .data-section-fertigkeiten;
+        }
+    }
+
+    .kampf {
+        flex-direction: column;
+        align-items: center;
+        .data-section-lebenspunkte {
+            display: flex;
+            flex-direction: column;
+
+            .data-header {
+                padding-top: 5px;
+                align-items: baseline;
+                h3 {
+                    text-align:center;
+                }
+            }
+
+            .data-area.lebenspunkte  {
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                padding-top: 5px;
+                padding-bottom: 5px;
+
+                .gesundheitsstufen {
+                    width: 8em;
+                    padding-right: 10px;
+                    span {
+                        display: block;
+                        text-align: right;
+                        width: 100%;
+                        color: #666;
+                    }
+
+                    input[name="attr_gesundheitsstufe"][value="1"] ~ span.unverletzt,
+                    input[name="attr_gesundheitsstufe"][value="2"] ~ span.angeschlagen,
+                    input[name="attr_gesundheitsstufe"][value="3"] ~ span.verletzt,
+                    input[name="attr_gesundheitsstufe"][value="4"] ~ span.schwerverletzt,
+                    input[name="attr_gesundheitsstufe"][value="5"] ~ span.todgeweiht,
+                    input[name="attr_gesundheitsstufe"][value="6"] ~ span.todgeweiht {
+                        font-weight: bold;
+                        color: black;
+                    }
+                }
+                .lebenspunkte {
+                    font-family: "Pictos";
+                    word-break: break-word;
+
+                    .verzehrt {
+                        color: $main-color;
+                    }
+
+                    .erschoepft {
+                        color: $main-color-light;
+                    }
+
+                    .kanalisiert {
+                        color: #999;
+                    }
+
+                    .lebenspunkte-t {
+                        color: white;
+                    }
+                }
+
+                @for $i from 4 through 30 {
+                    input[name="attr_lebenspunkte"][value="#{$i}"] ~ .lebenspunkte {
+                        width: 0.84em * $i;
+                    }
+                }
+                
+
+            }
+
+            .data-area.wundabzug {
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                width: 100%;
+                label {
+                    width: 8em;
+                    text-align: right;
+                    padding-right: 10px;
+                }
+
+                span, 
+                input{
+                    display: inline-block;
+                    width: 3em;
+                    font-size: 1.2em;
+                    line-height: 1.5em;
+                }
+            }
+
+            .data-area.schaden {
+                display: flex;
+                flex-direction: column;
+                align-items: baseline;
+                justify-content: center;
+                width: 100%;
+                label {
+                    display: block;
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .action {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: baseline;
+                    justify-content: center;
+                    width: 100%;
+
+                    input {
+                        width: 3em;
+                        text-align: right;
+                    }
+
+                    select {
+                        width: 6em;
+                    }
+                }
+                
+
+            }
+        }
+        .data-section-waffen {
+            display: flex;
+            flex-direction: column;
+
+            .data-header {
+                align-items: baseline;
+            }
+
+            
+
+            .data-area div > div,
+            .data-header {
+                display: grid;
+                grid-template-columns: 12em 7em 7em 3em 3em 6em;
+                gap: 5px;
+                align-items: baseline;
+                padding-top: 5px;
+
+                input, select {
+                    text-align:center;
+                    width: 100%;
+                    font-size: 1em;
+                }
+                input[name="attr_waffenname"] {
+                    @include standard-font($font-size-large)
+                    text-align:left;
+                    
+                }
+
+                select[name^="attr_waffenattr"],
+                select[name="attr_waffenskill"] {
+                    text-align:left;
+                }
+
+                span[name="attr_waffenwert"] {
+                    @include standard-font($font-size-large)
+                    text-align: center;
+                }
+
+                div.second-line span.reichweite {
+                    display: none;
+                }
+
+                
+
+                .attribute {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                }
+
+                input:read-only {
+                    color: #666;
+                }
+
+                span button {
+                    align-self: center;
+                }
+
+                .second-line {
+                    grid-column-start: 1;
+                    grid-column-end: 6;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                    padding-bottom: 5px;
+
+                    @include gradient-border();
+                    border-bottom: solid 1px;
+
+                    span {
+                        margin-left: 5px;
+                        margin-right: 5px;
+                        display: flex;
+                        flex-direction: column;
+                        &.reichweite {
+                            display: none;
+                        }
+                        label {
+                            text-align: center;
+                        }
+                    }
+
+                    input[name="attr_waffenskill"][value^="wurf"] ~ span.reichweite,
+                    input[name="attr_waffenskill"][value^="schuss"] ~ span.reichweite  {
+                        display: flex;
+                    }
+                }
+
+                div.line {
+                    grid-column-start: 1;
+                    grid-column-end: 6;
+                    height: 0px;
+                    @include gradient-border();
+                    border-bottom: solid 1px;
+                }
+            }
+        }
+
+        .data-section-zauber {
+            display: flex;
+            flex-direction: column;
+
+            .data-header {
+                align-items: baseline;
+            }
+
+            
+
+            .data-area div > div,
+            .data-header {
+                display: grid;
+                grid-template-columns: 12em 10em 3em 2em 3em 6em 3em;
+                gap: 5px;
+                align-items: baseline;
+                padding-top: 5px;
+
+                input, select {
+                    text-align:center;
+                    width: 100%;
+                    font-size: 1em;
+                }
+                input[name="attr_zaubername"] {
+                    @include standard-font($font-size-large)
+                    text-align:left;
+                }
+
+                span[name="attr_zauberwert"] {
+                    @include standard-font($font-size-large)
+                    text-align: center;
+                }
+
+                
+
+                .attribute {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                }
+
+                input:read-only {
+                    color: #666;
+                }
+
+                span button {
+                    align-self: center;
+                }
+
+                .second-line {
+                    grid-column-start: 1;
+                    grid-column-end: 8;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                    padding-bottom: 5px;
+
+                    @include gradient-border();
+                    border-bottom: solid 1px;
+
+                    span {
+                        margin-left: 5px;
+                        margin-right: 5px;
+                        display: flex;
+                        flex-direction: column;
+                        &.reichweite {
+                            display: none;
+                        }
+                        label {
+                            text-align: center;
+                        }
+                    }
+                    span.schaden {
+                        display: none;
+                    }
+                    input[name="attr_kampfonoff"][value="on"] ~ span.schaden {
+                        display: flex;
+                    }
+                }
+
+                div.line {
+                    grid-column-start: 1;
+                    grid-column-end: 6;
+                    height: 0px;
+                    @include gradient-border();
+                    border-bottom: solid 1px;
+                }
             }
         }
     }
-}
 
-span.autoexpand {
+
+
+    .tooltip {
     position: relative;
     display: inline-block;
-    input {
-        position: absolute;
-        width: 100%;
-        z-index: 1000;
-        left: 0px;
-        vertical-align: baseline;
+    vertical-align: baseline;
     }
 
-    > span.autoexpand {
+    /* Tooltip text */
+    .tooltip .tooltiptext {
+        position: absolute;
+        z-index: 2000;
         visibility: hidden;
-        display: inline-block;
-        text-transform: none;
-        font-size: 1em;
-        font-weight: bold;
-        line-height: 1.5em;
-        padding-top: 0.1em;
-        padding-bottom: 0.1em;
-        padding-left: 0.2em;
-        padding-right: 0.2em;
-        //min-width: 1.5em;
-        min-height: 1.5em;
-        white-space: nowrap;
-
-        &:empty:after {
-            content: attr(placeholder);
-        }
-    }
-}
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-  vertical-align: baseline;
-}
-
-/* Tooltip text */
-.tooltip .tooltiptext {
-    position: absolute;
-    z-index: 2000;
-    visibility: hidden;
-    background-color: white;
-    color: $main-color;
-    text-align: center;
-    padding: 10px;
-    border-radius: 6px;
-    width: 8em;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -4em;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-
-
-    
-
-  
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-
-  &::before {
-        all: initial;
-        display: inline-block;
-        width: 0; 
-        height: 0; 
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;		  
-        border-top: 10px solid white;
-        position: absolute;
-        bottom: -10px;
-        content: '';
+        background-color: white;
+        color: $main-color;
+        text-align: center;
+        padding: 10px;
+        border-radius: 6px;
+        width: 8em;
+        bottom: 100%;
         left: 50%;
-        transform: translate(-50%, 0);
-        margin-bottom: 5px;
-    } 
-  
+        margin-left: -4em;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);      
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+
+        &::before {
+            all: initial;
+            display: inline-block;
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;		  
+            border-top: 10px solid white;
+            position: absolute;
+            bottom: -10px;
+            content: '';
+            left: 50%;
+            transform: translate(-50%, 0);
+            margin-bottom: 5px;
+        } 
+    
+    }
+
 }
+
+
 
 

@@ -26,10 +26,10 @@
           <h2>Einstellungen</h2>
         </div>
         <div class="sheet-tab-content sheet-grundwerte">
-          <h2><span class="sheet-autoexpand">
+          <h1><span class="sheet-autoexpand">
               <input name="attr_character_name" type="text" value="" placeholder="Charaktername"/><span class="sheet-autoexpand" name="attr_character_name" placeholder="Charaktername"></span></span>&middot;<span class="sheet-autoexpand">
               <input name="attr_spielername" type="text" value="" placeholder="Spielername"/><span class="sheet-autoexpand" name="attr_spielername" placeholder="Spielername"></span></span>
-          </h2>
+          </h1>
           <div class="sheet-data-section-personal">
             <div class="sheet-data-set sheet-data-set-rasse">
               <label>Rasse</label><span class="sheet-autoexpand">
@@ -83,65 +83,57 @@
           <div class="sheet-data-section-row">
             <div class="sheet-data-section-attribute">
               <div class="sheet-data-header">
-                <h3>Attribute</h3><span>Start</span><span>Basis</span><span>max.</span><span>Mod.</span>
+                <h3>Attribute</h3><span></span><span>Start</span><span>Basis</span><span>Mod.</span>
               </div>
               <div class="sheet-data-area">
-                <label>AUS<span class="sheet-secondary">Ausstrahlung</span></label>
-                <input name="attr_ausstrahlungstart" type="number" value="0"/>
-                <input name="attr_ausstrahlungbasis" type="number" value="0"/>
-                <input name="attr_ausstrahlungmax" type="text" value="0" readonly="readonly"/><span>
+                <label>AUS<span class="sheet-secondary">Ausstrahlung</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_ausstrahlung"></span><span class="sheet-tooltiptext sheet-pre" name="attr_ausstrahlungtooltip"></span></span>
+                <input name="attr_ausstrahlungstart" type="number" value="0"/><span class="sheet-tooltip">
+                  <input name="attr_ausstrahlungbasis" type="number" value="0"/><span class="sheet-tooltiptext">
+                     Max:&nbsp;<span name="attr_ausstrahlungmax"> </span></span></span><span>
                   <input name="attr_ausstrahlungmod" type="hidden" value="0"/>
-                  <input name="attr_ausstrahlungmoduser" type="number" value="0"/></span><span class="sheet-tooltip">
-                  <input name="attr_ausstrahlung" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_ausstrahlungtooltip">           </span></span>
-                <label>BEW<span class="sheet-secondary">Beweglichkeit</span></label>
-                <input name="attr_beweglichkeitstart" type="number" value="0"/>
-                <input name="attr_beweglichkeitbasis" type="number" value="0"/>
-                <input name="attr_beweglichkeitmax" type="text" value="0" readonly="readonly"/><span>
+                  <input name="attr_ausstrahlungmoduser" type="number" value="0"/></span>
+                <label>BEW<span class="sheet-secondary">Beweglichkeit</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_beweglichkeit"></span><span class="sheet-tooltiptext sheet-pre" name="attr_beweglichkeittooltip"></span></span>
+                <input name="attr_beweglichkeitstart" type="number" value="0"/><span class="sheet-tooltip">
+                  <input name="attr_beweglichkeitbasis" type="number" value="0"/><span class="sheet-tooltiptext">
+                     Max:&nbsp;<span name="attr_beweglichkeitmax"> </span></span></span><span>
                   <input name="attr_beweglichkeitmod" type="hidden" value="0"/>
-                  <input name="attr_beweglichkeitmoduser" type="number" value="0"/></span><span class="sheet-tooltip">
-                  <input name="attr_beweglichkeit" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_beweglichkeittooltip">           </span></span>
-                <label>INT<span class="sheet-secondary">Intuition</span></label>
-                <input name="attr_intuitionstart" type="number" value="0"/>
-                <input name="attr_intuitionbasis" type="number" value="0"/>
-                <input name="attr_intuitionmax" type="text" value="0" readonly="readonly"/><span>
+                  <input name="attr_beweglichkeitmoduser" type="number" value="0"/></span>
+                <label>INT<span class="sheet-secondary">Intuition</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_intuition"></span><span class="sheet-tooltiptext sheet-pre" name="attr_intuitiontooltip"></span></span>
+                <input name="attr_intuitionstart" type="number" value="0"/><span class="sheet-tooltip">
+                  <input name="attr_intuitionbasis" type="number" value="0"/><span class="sheet-tooltiptext">
+                     Max:&nbsp;<span name="attr_intuitionmax"> </span></span></span><span>
                   <input name="attr_intuitionmod" type="hidden" value="0"/>
-                  <input name="attr_intuitionmoduser" type="number" value="0"/></span><span class="sheet-tooltip">
-                  <input name="attr_intuition" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_intuitiontooltip">           </span></span>
-                <label>KON<span class="sheet-secondary">Konstitution</span></label>
-                <input name="attr_konstitutionstart" type="number" value="0"/>
-                <input name="attr_konstitutionbasis" type="number" value="0"/>
-                <input name="attr_konstitutionmax" type="text" value="0" readonly="readonly"/><span>
+                  <input name="attr_intuitionmoduser" type="number" value="0"/></span>
+                <label>KON<span class="sheet-secondary">Konstitution</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_konstitution"></span><span class="sheet-tooltiptext sheet-pre" name="attr_konstitutiontooltip"></span></span>
+                <input name="attr_konstitutionstart" type="number" value="0"/><span class="sheet-tooltip">
+                  <input name="attr_konstitutionbasis" type="number" value="0"/><span class="sheet-tooltiptext">
+                     Max:&nbsp;<span name="attr_konstitutionmax"> </span></span></span><span>
                   <input name="attr_konstitutionmod" type="hidden" value="0"/>
-                  <input name="attr_konstitutionmoduser" type="number" value="0"/></span><span class="sheet-tooltip">
-                  <input name="attr_konstitution" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_konstitutiontooltip">           </span></span>
-                <label>MYS<span class="sheet-secondary">Mystik</span></label>
-                <input name="attr_mystikstart" type="number" value="0"/>
-                <input name="attr_mystikbasis" type="number" value="0"/>
-                <input name="attr_mystikmax" type="text" value="0" readonly="readonly"/><span>
+                  <input name="attr_konstitutionmoduser" type="number" value="0"/></span>
+                <label>MYS<span class="sheet-secondary">Mystik</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_mystik"></span><span class="sheet-tooltiptext sheet-pre" name="attr_mystiktooltip"></span></span>
+                <input name="attr_mystikstart" type="number" value="0"/><span class="sheet-tooltip">
+                  <input name="attr_mystikbasis" type="number" value="0"/><span class="sheet-tooltiptext">
+                     Max:&nbsp;<span name="attr_mystikmax"> </span></span></span><span>
                   <input name="attr_mystikmod" type="hidden" value="0"/>
-                  <input name="attr_mystikmoduser" type="number" value="0"/></span><span class="sheet-tooltip">
-                  <input name="attr_mystik" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_mystiktooltip">           </span></span>
-                <label>STÄ<span class="sheet-secondary">Stärke</span></label>
-                <input name="attr_staerkestart" type="number" value="0"/>
-                <input name="attr_staerkebasis" type="number" value="0"/>
-                <input name="attr_staerkemax" type="text" value="0" readonly="readonly"/><span>
+                  <input name="attr_mystikmoduser" type="number" value="0"/></span>
+                <label>STÄ<span class="sheet-secondary">Stärke</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_staerke"></span><span class="sheet-tooltiptext sheet-pre" name="attr_staerketooltip"></span></span>
+                <input name="attr_staerkestart" type="number" value="0"/><span class="sheet-tooltip">
+                  <input name="attr_staerkebasis" type="number" value="0"/><span class="sheet-tooltiptext">
+                     Max:&nbsp;<span name="attr_staerkemax"> </span></span></span><span>
                   <input name="attr_staerkemod" type="hidden" value="0"/>
-                  <input name="attr_staerkemoduser" type="number" value="0"/></span><span class="sheet-tooltip">
-                  <input name="attr_staerke" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_staerketooltip">           </span></span>
-                <label>VER<span class="sheet-secondary">Verstand</span></label>
-                <input name="attr_verstandstart" type="number" value="0"/>
-                <input name="attr_verstandbasis" type="number" value="0"/>
-                <input name="attr_verstandmax" type="text" value="0" readonly="readonly"/><span>
+                  <input name="attr_staerkemoduser" type="number" value="0"/></span>
+                <label>VER<span class="sheet-secondary">Verstand</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_verstand"></span><span class="sheet-tooltiptext sheet-pre" name="attr_verstandtooltip"></span></span>
+                <input name="attr_verstandstart" type="number" value="0"/><span class="sheet-tooltip">
+                  <input name="attr_verstandbasis" type="number" value="0"/><span class="sheet-tooltiptext">
+                     Max:&nbsp;<span name="attr_verstandmax"> </span></span></span><span>
                   <input name="attr_verstandmod" type="hidden" value="0"/>
-                  <input name="attr_verstandmoduser" type="number" value="0"/></span><span class="sheet-tooltip">
-                  <input name="attr_verstand" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_verstandtooltip">           </span></span>
-                <label>WIL<span class="sheet-secondary">Willenskraft</span></label>
-                <input name="attr_willenskraftstart" type="number" value="0"/>
-                <input name="attr_willenskraftbasis" type="number" value="0"/>
-                <input name="attr_willenskraftmax" type="text" value="0" readonly="readonly"/><span>
+                  <input name="attr_verstandmoduser" type="number" value="0"/></span>
+                <label>WIL<span class="sheet-secondary">Willenskraft</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_willenskraft"></span><span class="sheet-tooltiptext sheet-pre" name="attr_willenskrafttooltip"></span></span>
+                <input name="attr_willenskraftstart" type="number" value="0"/><span class="sheet-tooltip">
+                  <input name="attr_willenskraftbasis" type="number" value="0"/><span class="sheet-tooltiptext">
+                     Max:&nbsp;<span name="attr_willenskraftmax"> </span></span></span><span>
                   <input name="attr_willenskraftmod" type="hidden" value="0"/>
-                  <input name="attr_willenskraftmoduser" type="number" value="0"/></span><span class="sheet-tooltip">
-                  <input name="attr_willenskraft" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_willenskrafttooltip">           </span></span>
+                  <input name="attr_willenskraftmoduser" type="number" value="0"/></span>
               </div>
             </div>
             <div class="sheet-data-section-abgeleitetewerte">
@@ -149,36 +141,28 @@
                 <h3>Abgeleitete Werte</h3><span></span><span>Mod.</span>
               </div>
               <div class="sheet-data-area">
-                <label>GK<span class="sheet-secondary">Größenklasse</span></label><span class="sheet-tooltip">
-                  <input name="attr_groessenklasse" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_groessenklassetooltip"></span></span><span>
+                <label>GK<span class="sheet-secondary">Größenklasse</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_groessenklasse"></span><span class="sheet-tooltiptext sheet-pre" name="attr_groessenklassetooltip"></span></span><span>
                   <input name="attr_groessenklassemoduser" type="number" value="0"/>
                   <input name="attr_groessenklassemod" type="hidden" value="0"/></span>
-                <label>GSW<span class="sheet-secondary">Geschwindigkeit</span></label><span class="sheet-tooltip">
-                  <input name="attr_geschwindigkeit" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_geschwindigkeittooltip"></span></span><span>
+                <label>GSW<span class="sheet-secondary">Geschwindigkeit</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_geschwindigkeit"></span><span class="sheet-tooltiptext sheet-pre" name="attr_geschwindigkeittooltip"></span></span><span>
                   <input name="attr_geschwindigkeitmoduser" type="number" value="0"/>
                   <input name="attr_geschwindigkeitmod" type="hidden" value="0"/></span>
-                <label>INI<span class="sheet-secondary">Initiative</span></label><span class="sheet-tooltip">
-                  <input name="attr_initiative" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_initiativetooltip"></span></span><span>
+                <label>INI<span class="sheet-secondary">Initiative</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_initiative"></span><span class="sheet-tooltiptext sheet-pre" name="attr_initiativetooltip"></span></span><span>
                   <input name="attr_initiativemoduser" type="number" value="0"/>
                   <input name="attr_initiativemod" type="hidden" value="0"/></span>
-                <label>LP<span class="sheet-secondary">Lebenspunkte</span></label><span class="sheet-tooltip">
-                  <input name="attr_lebenspunkte" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_lebenspunktetooltip"></span></span><span>
+                <label>LP<span class="sheet-secondary">Lebenspunkte</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_lebenspunkte"></span><span class="sheet-tooltiptext sheet-pre" name="attr_lebenspunktetooltip"></span></span><span>
                   <input name="attr_lebenspunktemoduser" type="number" value="0"/>
                   <input name="attr_lebenspunktemod" type="hidden" value="0"/></span>
-                <label>FO<span class="sheet-secondary">Fokus</span></label><span class="sheet-tooltip">
-                  <input name="attr_fokus" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_fokustooltip"></span></span><span>
+                <label>FO<span class="sheet-secondary">Fokus</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_fokus"></span><span class="sheet-tooltiptext sheet-pre" name="attr_fokustooltip"></span></span><span>
                   <input name="attr_fokusmoduser" type="number" value="0"/>
                   <input name="attr_fokusmod" type="hidden" value="0"/></span>
-                <label>VTD<span class="sheet-secondary">Verteidigung</span></label><span class="sheet-tooltip">
-                  <input name="attr_verteidigung" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_verteidigungtooltip"></span></span><span>
+                <label>VTD<span class="sheet-secondary">Verteidigung</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_verteidigung"></span><span class="sheet-tooltiptext sheet-pre" name="attr_verteidigungtooltip"></span></span><span>
                   <input name="attr_verteidigungmoduser" type="number" value="0"/>
                   <input name="attr_verteidigungmod" type="hidden" value="0"/></span>
-                <label>GW<span class="sheet-secondary">Geistiger Widerstand</span></label><span class="sheet-tooltip">
-                  <input name="attr_geistigerwiderstand" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_geistigerwiderstandtooltip"></span></span><span>
+                <label>GW<span class="sheet-secondary">Geistiger Widerstand</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_geistigerwiderstand"></span><span class="sheet-tooltiptext sheet-pre" name="attr_geistigerwiderstandtooltip"></span></span><span>
                   <input name="attr_geistigerwiderstandmoduser" type="number" value="0"/>
                   <input name="attr_geistigerwiderstandmod" type="hidden" value="0"/></span>
-                <label>KW<span class="sheet-secondary">Körperlicher Widerstand</span></label><span class="sheet-tooltip">
-                  <input name="attr_koerperlicherwiderstand" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext sheet-pre" name="attr_koerperlicherwiderstandtooltip"></span></span><span>
+                <label>KW<span class="sheet-secondary">Körperlicher Widerstand</span></label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_koerperlicherwiderstand"></span><span class="sheet-tooltiptext sheet-pre" name="attr_koerperlicherwiderstandtooltip"></span></span><span>
                   <input name="attr_koerperlicherwiderstandmoduser" type="number" value="0"/>
                   <input name="attr_koerperlicherwiderstandmod" type="hidden" value="0"/></span>
               </div>
@@ -191,8 +175,8 @@
               </div>
               <div class="sheet-data-area">
                 <fieldset class="repeating_ressources">
-                  <input name="attr_ressourcename" type="text" value=""/>
-                  <input name="attr_ressourcevalue" type="number" value="0"/>
+                  <input name="attr_ressourcename" type="text" value="" placeholder="Ressource"/>
+                  <input name="attr_ressourcevalue" type="number" value="1"/>
                 </fieldset>
                 <input name="attr_resourceupdated" type="hidden" value="0"/>
               </div>
@@ -204,7 +188,7 @@
               <div class="sheet-data-area">
                 <input name="attr_staerkenmod" type="hidden" value=""/>
                 <fieldset class="repeating_staerken">
-                  <input name="attr_staerkename" type="text" value=""/>
+                  <input name="attr_staerkename" type="text" value="" placeholder="Stärke"/>
                   <input name="attr_staerkenwert" type="number" value="1"/>
                 </fieldset>
               </div>
@@ -215,7 +199,7 @@
               </div>
               <div class="sheet-data-area">
                 <fieldset class="repeating_schwaechen">
-                  <input name="attr_schwaeche" type="text" value=""/>
+                  <input name="attr_schwaeche" type="text" value="" placeholder="Schwäche"/>
                 </fieldset>
               </div>
             </div>
@@ -225,7 +209,7 @@
               </div>
               <div class="sheet-data-area">
                 <fieldset class="repeating_sprachen">
-                  <input name="attr_sprache" type="text" value=""/>
+                  <input name="attr_sprache" type="text" value="" placeholder="Sprache"/>
                 </fieldset>
               </div>
             </div>
@@ -235,7 +219,7 @@
               </div>
               <div class="sheet-data-area">
                 <fieldset class="repeating_kulturkunde">
-                  <input name="attr_kulturkunde" type="text" value=""/>
+                  <input name="attr_kulturkunde" type="text" value="" placeholder="Kultur"/>
                 </fieldset>
               </div>
             </div>
@@ -248,7 +232,7 @@
               <input name="attr_attributmodsmod" type="hidden" value=""/>
               <fieldset class="repeating_attributmods">
                 <input name="attr_attributmodonoff" type="checkbox"/>
-                <input name="attr_attributmodname" type="text" value=""/>
+                <input name="attr_attributmodname" type="text" value="" placeholder="Zauber etc."/>
                 <select name="attr_modattribut"> 
                   <optgroup label="Attribute">
                     <option value="ausstrahlung">Ausstrahlung</option>
@@ -295,10 +279,7 @@
                 <h3>Fertigkeiten</h3><span> </span><span>Pkt.</span><span>Mod.</span>
               </div>
               <div class="sheet-data-area">
-                <label>Akrobatik</label><span class="sheet-tooltip">
-                  <input name="attr_akrobatik" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_akrobatik1" type="hidden" value=""/>
-                  <input name="attr_akrobatik2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Akrobatik</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_akrobatik"></span><span class="sheet-tooltiptext"> 
                     <label>BEW</label><span name="attr_beweglichkeit">0</span>
                     <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_akrobatiktooltip"></span></span></span><span> 
                   <input name="attr_akrobatikpunkte" type="number" value="0"/></span><span> 
@@ -306,10 +287,7 @@
                   <input name="attr_akrobatikmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Alchemie</label><span class="sheet-tooltip">
-                  <input name="attr_alchemie" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_alchemie1" type="hidden" value=""/>
-                  <input name="attr_alchemie2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Alchemie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_alchemie"></span><span class="sheet-tooltiptext"> 
                     <label>MYS</label><span name="attr_mystik">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_alchemietooltip"></span></span></span><span> 
                   <input name="attr_alchemiepunkte" type="number" value="0"/></span><span> 
@@ -317,10 +295,7 @@
                   <input name="attr_alchemiemoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Anführen</label><span class="sheet-tooltip">
-                  <input name="attr_anfuehren" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_anfuehren1" type="hidden" value=""/>
-                  <input name="attr_anfuehren2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Anführen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_anfuehren"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_anfuehrentooltip"></span></span></span><span> 
                   <input name="attr_anfuehrenpunkte" type="number" value="0"/></span><span> 
@@ -328,10 +303,7 @@
                   <input name="attr_anfuehrenmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Arkane Kunde</label><span class="sheet-tooltip">
-                  <input name="attr_arkanekunde" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_arkanekunde1" type="hidden" value=""/>
-                  <input name="attr_arkanekunde2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Arkane Kunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_arkanekunde"></span><span class="sheet-tooltiptext"> 
                     <label>MYS</label><span name="attr_mystik">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_arkanekundetooltip"></span></span></span><span> 
                   <input name="attr_arkanekundepunkte" type="number" value="0"/></span><span> 
@@ -339,10 +311,7 @@
                   <input name="attr_arkanekundemoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Athletik</label><span class="sheet-tooltip">
-                  <input name="attr_athletik" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_athletik1" type="hidden" value=""/>
-                  <input name="attr_athletik2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Athletik</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_athletik"></span><span class="sheet-tooltiptext"> 
                     <label>BEW</label><span name="attr_beweglichkeit">0</span>
                     <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_athletiktooltip"></span></span></span><span> 
                   <input name="attr_athletikpunkte" type="number" value="0"/></span><span> 
@@ -350,10 +319,7 @@
                   <input name="attr_athletikmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Darbietung</label><span class="sheet-tooltip">
-                  <input name="attr_darbietung" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_darbietung1" type="hidden" value=""/>
-                  <input name="attr_darbietung2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Darbietung</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_darbietung"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_darbietungtooltip"></span></span></span><span> 
                   <input name="attr_darbietungpunkte" type="number" value="0"/></span><span> 
@@ -361,10 +327,7 @@
                   <input name="attr_darbietungmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Diplomatie</label><span class="sheet-tooltip">
-                  <input name="attr_diplomatie" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_diplomatie1" type="hidden" value=""/>
-                  <input name="attr_diplomatie2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Diplomatie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_diplomatie"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_diplomatietooltip"></span></span></span><span> 
                   <input name="attr_diplomatiepunkte" type="number" value="0"/></span><span> 
@@ -372,10 +335,7 @@
                   <input name="attr_diplomatiemoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Edelhandwerk</label><span class="sheet-tooltip">
-                  <input name="attr_edelhandwerk" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_edelhandwerk1" type="hidden" value=""/>
-                  <input name="attr_edelhandwerk2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Edelhandwerk</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_edelhandwerk"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_edelhandwerktooltip"></span></span></span><span> 
                   <input name="attr_edelhandwerkpunkte" type="number" value="0"/></span><span> 
@@ -383,10 +343,7 @@
                   <input name="attr_edelhandwerkmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Empathie</label><span class="sheet-tooltip">
-                  <input name="attr_empathie" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_empathie1" type="hidden" value=""/>
-                  <input name="attr_empathie2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Empathie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_empathie"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_empathietooltip"></span></span></span><span> 
                   <input name="attr_empathiepunkte" type="number" value="0"/></span><span> 
@@ -394,10 +351,7 @@
                   <input name="attr_empathiemoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Entschlossenheit</label><span class="sheet-tooltip">
-                  <input name="attr_entschlossenheit" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_entschlossenheit1" type="hidden" value=""/>
-                  <input name="attr_entschlossenheit2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Entschlossenheit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_entschlossenheit"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_entschlossenheittooltip"></span></span></span><span> 
                   <input name="attr_entschlossenheitpunkte" type="number" value="0"/></span><span> 
@@ -405,10 +359,7 @@
                   <input name="attr_entschlossenheitmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Fingerfertigkeit</label><span class="sheet-tooltip">
-                  <input name="attr_fingerfertigkeit" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_fingerfertigkeit1" type="hidden" value=""/>
-                  <input name="attr_fingerfertigkeit2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Fingerfertigkeit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_fingerfertigkeit"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_fingerfertigkeittooltip"></span></span></span><span> 
                   <input name="attr_fingerfertigkeitpunkte" type="number" value="0"/></span><span> 
@@ -416,10 +367,7 @@
                   <input name="attr_fingerfertigkeitmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Geschichten &amp; Mythen</label><span class="sheet-tooltip">
-                  <input name="attr_geschichtenundmythen" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_geschichtenundmythen1" type="hidden" value=""/>
-                  <input name="attr_geschichtenundmythen2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Geschichten &amp; Mythen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_geschichtenundmythen"></span><span class="sheet-tooltiptext"> 
                     <label>MYS</label><span name="attr_mystik">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_geschichtenundmythentooltip"></span></span></span><span> 
                   <input name="attr_geschichtenundmythenpunkte" type="number" value="0"/></span><span> 
@@ -427,10 +375,7 @@
                   <input name="attr_geschichtenundmythenmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Handwerk</label><span class="sheet-tooltip">
-                  <input name="attr_handwerk" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_handwerk1" type="hidden" value=""/>
-                  <input name="attr_handwerk2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Handwerk</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_handwerk"></span><span class="sheet-tooltiptext"> 
                     <label>KON</label><span name="attr_konstitution">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_handwerktooltip"></span></span></span><span> 
                   <input name="attr_handwerkpunkte" type="number" value="0"/></span><span> 
@@ -438,10 +383,7 @@
                   <input name="attr_handwerkmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Heilkunde</label><span class="sheet-tooltip">
-                  <input name="attr_heilkunde" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_heilkunde1" type="hidden" value=""/>
-                  <input name="attr_heilkunde2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Heilkunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_heilkunde"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_heilkundetooltip"></span></span></span><span> 
                   <input name="attr_heilkundepunkte" type="number" value="0"/></span><span> 
@@ -449,10 +391,7 @@
                   <input name="attr_heilkundemoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Heimlichkeit</label><span class="sheet-tooltip">
-                  <input name="attr_heimlichkeit" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_heimlichkeit1" type="hidden" value=""/>
-                  <input name="attr_heimlichkeit2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Heimlichkeit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_heimlichkeit"></span><span class="sheet-tooltiptext"> 
                     <label>BEW</label><span name="attr_beweglichkeit">0</span>
                     <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_heimlichkeittooltip"></span></span></span><span> 
                   <input name="attr_heimlichkeitpunkte" type="number" value="0"/></span><span> 
@@ -460,10 +399,7 @@
                   <input name="attr_heimlichkeitmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Jagdkunst</label><span class="sheet-tooltip">
-                  <input name="attr_jagdkunst" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_jagdkunst1" type="hidden" value=""/>
-                  <input name="attr_jagdkunst2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Jagdkunst</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_jagdkunst"></span><span class="sheet-tooltiptext"> 
                     <label>KON</label><span name="attr_konstitution">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_jagdkunsttooltip"></span></span></span><span> 
                   <input name="attr_jagdkunstpunkte" type="number" value="0"/></span><span> 
@@ -471,10 +407,7 @@
                   <input name="attr_jagdkunstmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Länderkunde</label><span class="sheet-tooltip">
-                  <input name="attr_laenderkunde" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_laenderkunde1" type="hidden" value=""/>
-                  <input name="attr_laenderkunde2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Länderkunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_laenderkunde"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_laenderkundetooltip"></span></span></span><span> 
                   <input name="attr_laenderkundepunkte" type="number" value="0"/></span><span> 
@@ -482,10 +415,7 @@
                   <input name="attr_laenderkundemoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Naturkunde</label><span class="sheet-tooltip">
-                  <input name="attr_naturkunde" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_naturkunde1" type="hidden" value=""/>
-                  <input name="attr_naturkunde2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Naturkunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_naturkunde"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_naturkundetooltip"></span></span></span><span> 
                   <input name="attr_naturkundepunkte" type="number" value="0"/></span><span> 
@@ -493,10 +423,7 @@
                   <input name="attr_naturkundemoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Redegewandtheit</label><span class="sheet-tooltip">
-                  <input name="attr_redegewandtheit" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_redegewandtheit1" type="hidden" value=""/>
-                  <input name="attr_redegewandtheit2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Redegewandtheit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_redegewandtheit"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_redegewandtheittooltip"></span></span></span><span> 
                   <input name="attr_redegewandtheitpunkte" type="number" value="0"/></span><span> 
@@ -504,10 +431,7 @@
                   <input name="attr_redegewandtheitmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Schlösser &amp; Fallen</label><span class="sheet-tooltip">
-                  <input name="attr_schloesserundfallen" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_schloesserundfallen1" type="hidden" value=""/>
-                  <input name="attr_schloesserundfallen2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Schlösser &amp; Fallen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schloesserundfallen"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_schloesserundfallentooltip"></span></span></span><span> 
                   <input name="attr_schloesserundfallenpunkte" type="number" value="0"/></span><span> 
@@ -515,10 +439,7 @@
                   <input name="attr_schloesserundfallenmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Schwimmen</label><span class="sheet-tooltip">
-                  <input name="attr_schwimmen" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_schwimmen1" type="hidden" value=""/>
-                  <input name="attr_schwimmen2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Schwimmen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schwimmen"></span><span class="sheet-tooltiptext"> 
                     <label>KON</label><span name="attr_konstitution">0</span>
                     <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_schwimmentooltip"></span></span></span><span> 
                   <input name="attr_schwimmenpunkte" type="number" value="0"/></span><span> 
@@ -526,10 +447,7 @@
                   <input name="attr_schwimmenmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Seefahrt</label><span class="sheet-tooltip">
-                  <input name="attr_seefahrt" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_seefahrt1" type="hidden" value=""/>
-                  <input name="attr_seefahrt2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Seefahrt</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_seefahrt"></span><span class="sheet-tooltiptext"> 
                     <label>BEW</label><span name="attr_beweglichkeit">0</span>
                     <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_seefahrttooltip"></span></span></span><span> 
                   <input name="attr_seefahrtpunkte" type="number" value="0"/></span><span> 
@@ -537,10 +455,7 @@
                   <input name="attr_seefahrtmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Straßenkunde</label><span class="sheet-tooltip">
-                  <input name="attr_strassenkunde" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_strassenkunde1" type="hidden" value=""/>
-                  <input name="attr_strassenkunde2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Straßenkunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_strassenkunde"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_strassenkundetooltip"></span></span></span><span> 
                   <input name="attr_strassenkundepunkte" type="number" value="0"/></span><span> 
@@ -548,10 +463,7 @@
                   <input name="attr_strassenkundemoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Tierfuehrung</label><span class="sheet-tooltip">
-                  <input name="attr_tierfuehrung" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_tierfuehrung1" type="hidden" value=""/>
-                  <input name="attr_tierfuehrung2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Tierfuehrung</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_tierfuehrung"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_tierfuehrungtooltip"></span></span></span><span> 
                   <input name="attr_tierfuehrungpunkte" type="number" value="0"/></span><span> 
@@ -559,10 +471,7 @@
                   <input name="attr_tierfuehrungmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Überleben</label><span class="sheet-tooltip">
-                  <input name="attr_ueberleben" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_ueberleben1" type="hidden" value=""/>
-                  <input name="attr_ueberleben2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Überleben</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_ueberleben"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_ueberlebentooltip"></span></span></span><span> 
                   <input name="attr_ueberlebenpunkte" type="number" value="0"/></span><span> 
@@ -570,10 +479,7 @@
                   <input name="attr_ueberlebenmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Wahrnehmung</label><span class="sheet-tooltip">
-                  <input name="attr_wahrnehmung" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_wahrnehmung1" type="hidden" value=""/>
-                  <input name="attr_wahrnehmung2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Wahrnehmung</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_wahrnehmung"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_wahrnehmungtooltip"></span></span></span><span> 
                   <input name="attr_wahrnehmungpunkte" type="number" value="0"/></span><span> 
@@ -581,10 +487,7 @@
                   <input name="attr_wahrnehmungmoduser" type="number" value="0"/></span><span> 
                   <button type="roll"></button></span>
                 <div class="sheet-line"></div>
-                <label>Zähigkeit</label><span class="sheet-tooltip">
-                  <input name="attr_zaehigkeit" type="number" value="0" readonly="readonly"/>
-                  <input name="attr_zaehigkeit1" type="hidden" value=""/>
-                  <input name="attr_zaehigkeit2" type="hidden" value=""/><span class="sheet-tooltiptext"> 
+                <label>Zähigkeit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_zaehigkeit"></span><span class="sheet-tooltiptext"> 
                     <label>KON</label><span name="attr_konstitution">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_zaehigkeittooltip"></span></span></span><span> 
                   <input name="attr_zaehigkeitpunkte" type="number" value="0"/></span><span> 
@@ -600,8 +503,7 @@
                   <h3>Magieschulen</h3><span> </span><span>Pkt.</span><span>Mod.</span>
                 </div>
                 <div class="sheet-data-area">
-                  <label>Bannmagie</label><span class="sheet-tooltip">
-                    <input name="attr_bannmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Bannmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_bannmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_bannmagietooltip"></span></span></span><span>
                     <input name="attr_bannmagiepunkte" type="number" value="0"/></span><span>
@@ -609,8 +511,7 @@
                     <input name="attr_bannmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Beherrschungsmagie</label><span class="sheet-tooltip">
-                    <input name="attr_beherrschungsmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Beherrschungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_beherrschungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_beherrschungsmagietooltip"></span></span></span><span>
                     <input name="attr_beherrschungsmagiepunkte" type="number" value="0"/></span><span>
@@ -618,8 +519,7 @@
                     <input name="attr_beherrschungsmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Bewegungsmagie</label><span class="sheet-tooltip">
-                    <input name="attr_bewegungsmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Bewegungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_bewegungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_bewegungsmagietooltip"></span></span></span><span>
                     <input name="attr_bewegungsmagiepunkte" type="number" value="0"/></span><span>
@@ -627,8 +527,7 @@
                     <input name="attr_bewegungsmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Erkenntnismagie</label><span class="sheet-tooltip">
-                    <input name="attr_erkenntnismagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Erkenntnismagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_erkenntnismagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_erkenntnismagietooltip"></span></span></span><span>
                     <input name="attr_erkenntnismagiepunkte" type="number" value="0"/></span><span>
@@ -636,8 +535,7 @@
                     <input name="attr_erkenntnismagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Fellsmagie</label><span class="sheet-tooltip">
-                    <input name="attr_felsmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Fellsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_felsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_felsmagietooltip"></span></span></span><span>
                     <input name="attr_felsmagiepunkte" type="number" value="0"/></span><span>
@@ -645,8 +543,7 @@
                     <input name="attr_felsmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Feuermagie</label><span class="sheet-tooltip">
-                    <input name="attr_feuermagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Feuermagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_feuermagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_feuermagietooltip"></span></span></span><span>
                     <input name="attr_feuermagiepunkte" type="number" value="0"/></span><span>
@@ -654,8 +551,7 @@
                     <input name="attr_feuermagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Heilungsmagie</label><span class="sheet-tooltip">
-                    <input name="attr_heilungsmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Heilungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_heilungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_heilungsmagietooltip"></span></span></span><span>
                     <input name="attr_heilungsmagiepunkte" type="number" value="0"/></span><span>
@@ -663,8 +559,7 @@
                     <input name="attr_heilungsmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Illusionsmagie</label><span class="sheet-tooltip">
-                    <input name="attr_illusionsmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Illusionsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_illusionsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_illusionsmagietooltip"></span></span></span><span>
                     <input name="attr_illusionsmagiepunkte" type="number" value="0"/></span><span>
@@ -672,8 +567,7 @@
                     <input name="attr_illusionsmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Kampfmagie</label><span class="sheet-tooltip">
-                    <input name="attr_kampfmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Kampfmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_kampfmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_kampfmagietooltip"></span></span></span><span>
                     <input name="attr_kampfmagiepunkte" type="number" value="0"/></span><span>
@@ -681,8 +575,7 @@
                     <input name="attr_kampfmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Lichtmagie</label><span class="sheet-tooltip">
-                    <input name="attr_lichtmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Lichtmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_lichtmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_lichtmagietooltip"></span></span></span><span>
                     <input name="attr_lichtmagiepunkte" type="number" value="0"/></span><span>
@@ -690,8 +583,7 @@
                     <input name="attr_lichtmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Naturmagie</label><span class="sheet-tooltip">
-                    <input name="attr_naturmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Naturmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_naturmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_naturmagietooltip"></span></span></span><span>
                     <input name="attr_naturmagiepunkte" type="number" value="0"/></span><span>
@@ -699,8 +591,7 @@
                     <input name="attr_naturmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Schattenmagie</label><span class="sheet-tooltip">
-                    <input name="attr_schattenmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Schattenmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schattenmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_schattenmagietooltip"></span></span></span><span>
                     <input name="attr_schattenmagiepunkte" type="number" value="0"/></span><span>
@@ -708,8 +599,7 @@
                     <input name="attr_schattenmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Schicksalsmagie</label><span class="sheet-tooltip">
-                    <input name="attr_schicksalsmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Schicksalsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schicksalsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_schicksalsmagietooltip"></span></span></span><span>
                     <input name="attr_schicksalsmagiepunkte" type="number" value="0"/></span><span>
@@ -717,8 +607,7 @@
                     <input name="attr_schicksalsmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Schutzmagie</label><span class="sheet-tooltip">
-                    <input name="attr_schutzmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Schutzmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schutzmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_schutzmagietooltip"></span></span></span><span>
                     <input name="attr_schutzmagiepunkte" type="number" value="0"/></span><span>
@@ -726,8 +615,7 @@
                     <input name="attr_schutzmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Stärkungsmagie</label><span class="sheet-tooltip">
-                    <input name="attr_staerkungsmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Stärkungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_staerkungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_staerkungsmagietooltip"></span></span></span><span>
                     <input name="attr_staerkungsmagiepunkte" type="number" value="0"/></span><span>
@@ -735,8 +623,7 @@
                     <input name="attr_staerkungsmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Todesmagie</label><span class="sheet-tooltip">
-                    <input name="attr_todesmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Todesmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_todesmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_todesmagietooltip"></span></span></span><span>
                     <input name="attr_todesmagiepunkte" type="number" value="0"/></span><span>
@@ -744,8 +631,7 @@
                     <input name="attr_todesmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Verwandlungsmagie</label><span class="sheet-tooltip">
-                    <input name="attr_verwandlungsmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Verwandlungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_verwandlungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_verwandlungsmagietooltip"></span></span></span><span>
                     <input name="attr_verwandlungsmagiepunkte" type="number" value="0"/></span><span>
@@ -753,8 +639,7 @@
                     <input name="attr_verwandlungsmagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Wassermagie</label><span class="sheet-tooltip">
-                    <input name="attr_wassermagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Wassermagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_wassermagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_wassermagietooltip"></span></span></span><span>
                     <input name="attr_wassermagiepunkte" type="number" value="0"/></span><span>
@@ -762,8 +647,7 @@
                     <input name="attr_wassermagiemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Windmagie</label><span class="sheet-tooltip">
-                    <input name="attr_windmagie" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext">
+                  <label>Windmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_windmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_windmagietooltip"></span></span></span><span>
                     <input name="attr_windmagiepunkte" type="number" value="0"/></span><span>
@@ -778,50 +662,43 @@
                   <h3>Kampffertigkeiten</h3><span></span><span>Pkt.</span><span>Mod.</span>
                 </div>
                 <div class="sheet-data-area">
-                  <label>Handgemenge</label><span class="sheet-tooltip">
-                    <input name="attr_handgemenge" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_handgemengetooltip"></span></span></span><span>
+                  <label>Handgemenge</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_handgemenge"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_handgemengetooltip"></span></span></span><span>
                     <input name="attr_handgemengepunkte" type="number" value="0"/></span><span>
                     <input name="attr_handgemengemod" type="hidden" value="0"/>
                     <input name="attr_handgemengemoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Hiebwaffen</label><span class="sheet-tooltip">
-                    <input name="attr_hiebwaffen" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_hiebwaffentooltip"></span></span></span><span>
+                  <label>Hiebwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_hiebwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_hiebwaffentooltip"></span></span></span><span>
                     <input name="attr_hiebwaffenpunkte" type="number" value="0"/></span><span>
                     <input name="attr_hiebwaffenmod" type="hidden" value="0"/>
                     <input name="attr_hiebwaffenmoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Kettenwaffen</label><span class="sheet-tooltip">
-                    <input name="attr_kettenwaffen" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_kettenwaffentooltip"></span></span></span><span>
+                  <label>Kettenwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_kettenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_kettenwaffentooltip"></span></span></span><span>
                     <input name="attr_kettenwaffenpunkte" type="number" value="0"/></span><span>
                     <input name="attr_kettenwaffenmod" type="hidden" value="0"/>
                     <input name="attr_kettenwaffenmoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Klingenwaffen</label><span class="sheet-tooltip">
-                    <input name="attr_klingenwaffen" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_klingenwaffentooltip"></span></span></span><span>
+                  <label>Klingenwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_klingenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_klingenwaffentooltip"></span></span></span><span>
                     <input name="attr_klingenwaffenpunkte" type="number" value="0"/></span><span>
                     <input name="attr_klingenwaffenmod" type="hidden" value="0"/>
                     <input name="attr_klingenwaffenmoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Stangenwaffen</label><span class="sheet-tooltip">
-                    <input name="attr_stangenwaffen" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_stangenwaffentooltip"></span></span></span><span>
+                  <label>Stangenwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_stangenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_stangenwaffentooltip"></span></span></span><span>
                     <input name="attr_stangenwaffenpunkte" type="number" value="0"/></span><span>
                     <input name="attr_stangenwaffenmod" type="hidden" value="0"/>
                     <input name="attr_stangenwaffenmoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Schusswaffen</label><span class="sheet-tooltip">
-                    <input name="attr_schusswaffen" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_schusswaffentooltip"></span></span></span><span>
+                  <label>Schusswaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schusswaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_schusswaffentooltip"></span></span></span><span>
                     <input name="attr_schusswaffenpunkte" type="number" value="0"/></span><span>
                     <input name="attr_schusswaffenmod" type="hidden" value="0"/>
                     <input name="attr_schusswaffenmoduser" type="number" value="0"/></span><span> 
                     <button type="roll"></button></span>
                   <div class="sheet-line"></div>
-                  <label>Wurfwaffen</label><span class="sheet-tooltip">
-                    <input name="attr_wurfwaffen" type="number" value="0" readonly="readonly"/><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_wurfwaffentooltip"></span></span></span><span>
+                  <label>Wurfwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_wurfwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_wurfwaffentooltip"></span></span></span><span>
                     <input name="attr_wurfwaffenpunkte" type="number" value="0"/></span><span>
                     <input name="attr_wurfwaffenmod" type="hidden" value="0"/>
                     <input name="attr_wurfwaffenmoduser" type="number" value="0"/></span><span> 
@@ -926,6 +803,52 @@
                     <input name="attr_waffenreichweite" type="number" value="3"/>
                     <label>RW</label></span><span style="max-width: 6em;">
                     <input name="attr_waffenschaden" type="text" value="W6"/>
+                    <label>Schaden</label></span>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+          <div class="sheet-data-section-zauber">
+            <div class="sheet-data-header">
+              <h3>Zauberspruch</h3><span>Magieschule</span><span></span><span>Kampf?</span><span>SG</span><span>Kosten (verstärkt)</span>
+            </div>
+            <div class="sheet-data-area">
+              <fieldset class="repeating_zauber">
+                <input name="attr_zaubername" type="text" value="" placeholder="Zaubername"/>
+                <select name="attr_magieschulen"> 
+                  <option value="bannmagie">Bannmagie</option>
+                  <option value="beherrschungsmagie">Beherrschungsmagie</option>
+                  <option value="bewegungsmagie">Bewegungsmagie</option>
+                  <option value="erkenntnismagie">Erkenntnismagie</option>
+                  <option value="felsmagie">Fellsmagie</option>
+                  <option value="feuermagie">Feuermagie</option>
+                  <option value="heilungsmagie">Heilungsmagie</option>
+                  <option value="illusionsmagie">Illusionsmagie</option>
+                  <option value="kampfmagie">Kampfmagie</option>
+                  <option value="lichtmagie">Lichtmagie</option>
+                  <option value="naturmagie">Naturmagie</option>
+                  <option value="schattenmagie">Schattenmagie</option>
+                  <option value="schicksalsmagie">Schicksalsmagie</option>
+                  <option value="schutzmagie">Schutzmagie</option>
+                  <option value="staerkungsmagie">Stärkungsmagie</option>
+                  <option value="todesmagie">Todesmagie</option>
+                  <option value="verwandlungsmagie">Verwandlungsmagie</option>
+                  <option value="wassermagie">Wassermagie</option>
+                  <option value="windmagie">Windmagie</option>
+                </select><span class="sheet-main-value" name="attr_zauberwert"></span>
+                <input name="attr_kampfonoff" type="checkbox"/>
+                <input name="attr_zauberschwierigkeit" type="text" value="" placeholder="SG"/>
+                <input name="attr_zauberkosten" type="text" value="0"/><span>
+                  <button type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}">                               </button></span>
+                <div class="sheet-second-line">
+                  <input name="attr_kampfonoff" type="hidden" value=""/><span style="max-width: 3em;"><span class="sheet-autoexpand">
+                      <input name="attr_zauberdauer" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberdauer" placeholder="-"></span></span>
+                    <label>Dauer</label></span><span style="max-width: 3em;"><span class="sheet-autoexpand">
+                      <input name="attr_zauberrw" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberrw" placeholder="-"></span></span>
+                    <label>Reichweite</label></span><span style="max-width: 3em;"><span class="sheet-autoexpand">
+                      <input name="attr_zauberwd" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberwd" placeholder="-"></span></span>
+                    <label>Wirkdauer</label></span><span class="sheet-schaden" style="max-width: 3em;"><span class="sheet-autoexpand">
+                      <input name="attr_zauberschaden" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberschaden" placeholder="-"></span></span>
                     <label>Schaden</label></span>
                 </div>
               </fieldset>

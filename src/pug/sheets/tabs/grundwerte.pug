@@ -1,4 +1,4 @@
-h2
+h1
     +textinput("character_name", "", true, {placeholder: "Charaktername"})
     | &middot;
     +textinput("spielername", "", true, {placeholder: "Spielername"})
@@ -28,23 +28,28 @@ h2
     .data-section-attribute
         .data-header
             h3 Attribute
+            span
             span Start
             span Basis
-            span max.
             span Mod.
         .data-area
             each labelText, id in splittermond.attribute
                 label= labelText.short
                     span.secondary= labelText.long
+                span.tooltip
+                    span.main-value(name="attr_"+id)
+                    span.tooltiptext.pre(name="attr_" + id + "tooltip")
                 +numberinput(id+"start", 0)
-                +numberinput(id+"basis", 0)
-                +textinput(id+"max", 0, false, {readonly: true})
+                span.tooltip
+                    +numberinput(id+"basis", 0)
+                    span.tooltiptext 
+                        | Max:&nbsp;
+                        span(name="attr_" + id + "max")  
+                        
                 span
                     +hiddeninput(id+"mod", 0)
                     +numberinput(id+"moduser", 0)
-                span.tooltip
-                    +numberinput(id, 0, false, {readonly: true})
-                    span.tooltiptext.pre(name="attr_" + id + "tooltip")            
+                       
     
     .data-section-abgeleitetewerte
         .data-header
@@ -56,7 +61,7 @@ h2
                 label= labelText.short
                     span.secondary= labelText.long
                 span.tooltip
-                    +numberinput(id, 0, false, {readonly: true})
+                    span.main-value(name="attr_"+id)
                     span.tooltiptext.pre(name="attr_" + id + "tooltip")
                 span
                     +numberinput(id+"moduser", 0)
@@ -68,8 +73,8 @@ h2
             h3 Ressourcen
         .data-area
             fieldset.repeating_ressources
-                +textinput("ressourcename","")
-                +numberinput("ressourcevalue",0)
+                +textinput("ressourcename","", false,  {placeholder: "Ressource"})
+                +numberinput("ressourcevalue",1)
             +hiddeninput("resourceupdated",0)
     .data-section-staerken
         .data-header
@@ -77,26 +82,26 @@ h2
         .data-area
             +hiddeninput("staerkenmod")
             fieldset.repeating_staerken
-                +textinput("staerkename","")
+                +textinput("staerkename","", false,  {placeholder: "Stärke"})
                 +numberinput("staerkenwert",1)
     .data-section-schwaechen
         .data-header
             h3 Schwächen
         .data-area
             fieldset.repeating_schwaechen
-                +textinput("schwaeche","")
+                +textinput("schwaeche","", false,  {placeholder: "Schwäche"})
     .data-section-sprachen
         .data-header
             h3 Sprachen
         .data-area
             fieldset.repeating_sprachen
-                +textinput("sprache","")
+                +textinput("sprache","", false,  {placeholder: "Sprache"})
     .data-section-kulturkunde
         .data-header
             h3 Kulturkunde
         .data-area
             fieldset.repeating_kulturkunde
-                +textinput("kulturkunde","")
+                +textinput("kulturkunde","", false,  {placeholder: "Kultur"})
 
 .data-section-attributmods
     .data-header
@@ -107,7 +112,7 @@ h2
         +hiddeninput("attributmodsmod","")
         fieldset.repeating_attributmods
             +input("attributmodonoff","checkbox",false)
-            +textinput("attributmodname","")
+            +textinput("attributmodname","", false,  {placeholder: "Zauber etc."})
             select(name="attr_modattribut") 
                 optgroup(label="Attribute")
                     each labelText, id in splittermond.attribute
