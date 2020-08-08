@@ -1,0 +1,86 @@
+{
+    "verwundet": {
+        "tooltip": "verwundet",
+        "modifier": {
+            "gesundheitsstufe": 1
+        }
+    },
+    "benommen": {
+        "tooltip": "benommen",
+        "modifier": {
+            "tickplus": 1
+        }
+    },
+    "erschöpft": {
+        "tooltip": "erschöpft",
+        "modifier": {
+            "akrobatik": -1,
+            "alchemie": -1,
+            "anfuehren": -1,
+            "arkanekunde": -1,
+            "athletik": -1,
+            "darbietung": -1,
+            "diplomatie": -1,
+            "edelhandwerk": -1,
+            "empathie": -1,
+            "entschlossenheit": -1,
+            "fingerfertigkeit": -1,
+            "geschichtenundmythen": -1,
+            "handwerk": -1,
+            "heilkunde": -1,
+            "heimlichkeit": -1,
+            "jagdkunst": -1,
+            "laenderkunde": -1,
+            "naturkunde": -1,
+            "redegewandtheit": -1,
+            "schloesserundfallen": -1,
+            "schwimmen": -1,
+            "seefahrt": -1,
+            "strassenkunde": -1,
+            "tierfuehrung": -1,
+            "ueberleben": -1,
+            "wahrnehmung": -1,
+            "zaehigkeit": -1,
+            "handgemenge": -1,
+            "hiebwaffen": -1,
+            "kettenwaffen": -1,
+            "klingenwaffen": -1,
+            "stangenwaffen": -1,
+            "schusswaffen": -1,
+            "wurfwaffen": -1,
+            "initiative": 1,
+            "geschwindigkeit": -1
+        }
+    },
+    "lahm": {
+        "tooltip": "lahm",
+        "modifier": {},
+        "multiplier": {
+            "geschwindigkeit": 0.5
+        }
+    },
+    "glaubenskrise": {
+        "glaubenskrise": "Glaubenskrise",
+        "modifier": {
+            "bannmagie": -1,
+            "beherrschungsmagie": -1,
+            "bewegungsmagie": -1,
+            "erkenntnismagie": -1,
+            "felsmagie": -1,
+            "feuermagie": -1,
+            "heilungsmagie": -1,
+            "illusionsmagie": -1,
+            "kampfmagie": -1,
+            "lichtmagie": -1,
+            "naturmagie": -1,
+            "schattenmagie": -1,
+            "schicksalsmagie": -1,
+            "schutzmagie": -1,
+            "staerkungsmagie": -1,
+            "todesmagie": -1,
+            "verwandlungsmagie": -1,
+            "wassermagie": -1,
+            "windmagie": -1
+        }
+    }
+}

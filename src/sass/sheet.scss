@@ -220,17 +220,18 @@ $font-size-small: 1.2rem;
             background: transparent;
             border: none;
             outline: none;
-            font-weight: bold;
+            font-weight: 900;
             
-            background: -webkit-linear-gradient(#fff, $wood-color);
+            background: linear-gradient(#fff, $wood-color);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(2px 2px #333);
+            filter: drop-shadow(0px 1px 2px black);
             text-transform: uppercase;
 
             &:hover,
             &:active {
-                background: linear-gradient(180deg, #FFFFFF 0%, $main-color-light 100%);
+                background-color: $main-color-light;
+                background: linear-gradient(180deg, #FFFFFF 20%, $main-color-light 80%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
             }
@@ -251,7 +252,8 @@ $font-size-small: 1.2rem;
             }
 
             &[value=#{$tabid}] ~ div.tab-nav button[name="act_#{$tabid}"] {
-                background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #6DCFF6;
+                background-color: $main-color-light;
+                background: linear-gradient(180deg, #FFFFFF 20%, $main-color-light 80%), ;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
             }
@@ -296,7 +298,7 @@ $font-size-small: 1.2rem;
         border-bottom: 1px solid;
 
         span {
-            @include standard-font($font-size-small)
+            @include standard-font($font-size-small);
             color: #666;
             justify-self: center;
         }
@@ -370,7 +372,7 @@ $font-size-small: 1.2rem;
             .data-area {
                 padding-bottom: 5px;
                 label {
-                    @include standard-font($font-size-normal)
+                    @include standard-font($font-size-normal);
                     text-align: right;
                     align-self: center;
                     font-weight: bold;
@@ -391,7 +393,7 @@ $font-size-small: 1.2rem;
                 }
 
                 input {
-                    @include standard-font($font-size-normal)
+                    @include standard-font($font-size-normal);
                 }
             }
         }
@@ -475,16 +477,9 @@ $font-size-small: 1.2rem;
                     align-items: baseline;
                     margin-bottom: 5px;
                     padding-bottom: 0px;
-                    input[type="checkbox"]:checked,
-                    input[type="checkbox"]:checked ~ * {
-                        opacity: 1;
+                    input[type="checkbox"]:not(:checked) ~ * {
+                        color: rgba(0,0,0,0.5);
                     }
-
-                    input, select {
-
-                        opacity: 0.5;
-                    }
-                    
                 }
             }
         }
@@ -544,6 +539,7 @@ $font-size-small: 1.2rem;
                     grid-template-columns: 1fr 1fr 1fr 1fr;
                     gap: 5px;
                     font-size: 1em;
+                    width: 12em;
                     label {
                         font-size: 1em;
                         width: 100%;
@@ -557,18 +553,16 @@ $font-size-small: 1.2rem;
                         font-weight: bold;
                     }
                     span.pre {
-                        text-align: left;
+                        text-align: left!important;
                         color: $main-color;
                         font-size: 1em;
                         grid-column-start: 1;
-                        grid-column-end: 3;
+                        grid-column-end: 5;
                         font-weight: normal;
                         text-align: center;
                     }
                 }
             }
-
-            
         }
 
         .data-section-magieschulen {
@@ -583,6 +577,12 @@ $font-size-small: 1.2rem;
     .kampf {
         flex-direction: column;
         align-items: center;
+
+        > div {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
         .data-section-lebenspunkte {
             display: flex;
             flex-direction: column;
@@ -700,10 +700,71 @@ $font-size-small: 1.2rem;
                         width: 6em;
                     }
                 }
-                
-
             }
         }
+
+        
+        .data-section-zustaende {
+            max-width: 20em;
+            min-width: 16em;
+            .data-header {
+                h3 {
+                    text-align: center;
+                }
+            }
+            .data-area {
+                padding-top: 5px;
+                
+                div > div {
+                    display: grid;
+                    gap: 5px;
+                    grid-template-columns: 2.5em auto 2.5em;
+                    align-items: baseline;
+                    margin-bottom: 5px;
+
+                    input[type="checkbox"]:not(:checked) ~ * {
+                        color: rgba(0,0,0,0.5)
+                    }
+                    
+                }
+            }
+        }
+
+        .data-section-fokus {
+            display: flex;
+            flex-direction: column;
+
+            width: 12em;
+
+            .data-header {
+                h3 {
+                    text-align:center;
+                }
+            }
+
+            .data-area.fokus  {
+                font-family: "Pictos";
+                word-break: break-word;
+
+                .verzehrt {
+                    color: $main-color;
+                }
+
+                .erschoepft {
+                    color: $main-color-light;
+                }
+
+                .kanalisiert {
+                    color: #999;
+                }
+
+                .lebenspunkte-t {
+                    color: white;
+                }
+            }
+        }
+
+
         .data-section-waffen {
             display: flex;
             flex-direction: column;
@@ -728,7 +789,7 @@ $font-size-small: 1.2rem;
                     font-size: 1em;
                 }
                 input[name="attr_waffenname"] {
-                    @include standard-font($font-size-large)
+                    @include standard-font($font-size-large);
                     text-align:left;
                     
                 }
@@ -739,7 +800,7 @@ $font-size-small: 1.2rem;
                 }
 
                 span[name="attr_waffenwert"] {
-                    @include standard-font($font-size-large)
+                    @include standard-font($font-size-large);
                     text-align: center;
                 }
 
@@ -802,6 +863,7 @@ $font-size-small: 1.2rem;
             }
         }
 
+
         .data-section-zauber {
             display: flex;
             flex-direction: column;
@@ -826,12 +888,12 @@ $font-size-small: 1.2rem;
                     font-size: 1em;
                 }
                 input[name="attr_zaubername"] {
-                    @include standard-font($font-size-large)
+                    @include standard-font($font-size-large);
                     text-align:left;
                 }
 
                 span[name="attr_zauberwert"] {
-                    @include standard-font($font-size-large)
+                    @include standard-font($font-size-large);
                     text-align: center;
                 }
 

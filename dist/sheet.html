@@ -714,41 +714,69 @@
           <input name="attr_lahm" type="hidden" value="0"/>
           <input name="attr_benommen" type="hidden" value="0"/>
           <input name="attr_verwundet" type="hidden" value="0"/>
-          <div class="sheet-data-section-lebenspunkte">
-            <div class="sheet-data-header">
-              <h3>Gesundheit</h3>
-            </div>
-            <div class="sheet-data-area sheet-lebenspunkte">
-              <input name="attr_lebenspunkte" type="hidden" value="0"/>
-              <div class="sheet-gesundheitsstufen">
-                <input name="attr_wundabzug" type="hidden" value="0"/>
-                <input name="attr_gesundheitsstufe" type="hidden" value="1"/><span class="sheet-unverletzt">Unverletzt</span><span class="sheet-angeschlagen">Angeschlagen</span><span class="sheet-verletzt">Verletzt</span><span class="sheet-schwerverletzt">Schwer verletzt</span><span class="sheet-todgeweiht">Todgeweiht</span>
+          <div class="sheet-data-section-row">
+            <div class="sheet-data-section-lebenspunkte">
+              <div class="sheet-data-header">
+                <h3>Gesundheit</h3>
               </div>
-              <div class="sheet-lebenspunkte">
-                <input name="attr_lebenspunkte_v" type="hidden" value="0"/>
-                <input name="attr_lebenspunkte_b" type="hidden" value="0"/>
-                <input name="attr_lebenspunkte_k" type="hidden" value="0"/>
-                <input name="attr_lebenspunkte_t" type="hidden" value="0"/>
+              <div class="sheet-data-area sheet-lebenspunkte">
+                <input name="attr_lebenspunkte" type="hidden" value="0"/>
+                <div class="sheet-gesundheitsstufen">
+                  <input name="attr_wundabzug" type="hidden" value="0"/>
+                  <input name="attr_gesundheitsstufe" type="hidden" value="1"/><span class="sheet-unverletzt">Unverletzt</span><span class="sheet-angeschlagen">Angeschlagen</span><span class="sheet-verletzt">Verletzt</span><span class="sheet-schwerverletzt">Schwer verletzt</span><span class="sheet-todgeweiht">Todgeweiht</span>
+                </div>
+                <div class="sheet-lebenspunkte">
+                  <input name="attr_lebenspunkte_v" type="hidden" value="0"/>
+                  <input name="attr_lebenspunkte_e" type="hidden" value="0"/>
+                  <input name="attr_lebenspunkte_k" type="hidden" value="0"/>
+                  <input name="attr_lebenspunkte_t" type="hidden" value="0"/>
+                  <input name="attr_sr1" type="hidden" value="1"/>
+                  <input name="attr_sr2" type="hidden" value="1"/><span class="sheet-verzehrt" name="attr_lebenspunkte_v_bar"></span><span class="sheet-erschoepft" name="attr_lebenspunkte_e_bar"></span><span class="sheet-kanalisiert" name="attr_lebenspunkte_k_bar"></span><span class="sheet-lebenspunkte-t" name="attr_lebenspunkte_t_bar"></span>
+                </div>
+              </div>
+              <div class="sheet-data-area sheet-wundabzug">
+                <label>Wundabzug</label><span name="attr_wundabzug"></span>
+                <input name="attr_wundabzugmod" type="hidden" value="0"/>
+                <input name="attr_wundabzugmoduser" type="number" value=""/>
+              </div>
+              <div class="sheet-data-area sheet-schaden">
+                <label>Schaden</label>
+                <div class="sheet-action">
+                  <button name="act_removeschaden" type="action">heilen</button>
+                  <input name="attr_anzahlschaden" type="number" value=""/>
+                  <select name="attr_anzahlschadenart">
+                    <option value="v">verzehrt</option>
+                    <option value="e">erschöpft</option>
+                    <option value="k">kanalisiert</option>
+                  </select>
+                  <button name="act_addschaden" type="action">zufügen</button>
+                </div>
+              </div>
+            </div>
+            <div class="sheet-data-section-zustaende">
+              <div class="sheet-data-header">
+                <h3>Zustände</h3>
+              </div>
+              <div class="sheet-data-area">
+                <input name="attr_zustaendemod" type="hidden" value=""/>
+                <fieldset class="repeating_zustaende">
+                  <input name="attr_zustandonoff" type="checkbox" value="1"/>
+                  <input name="attr_zustandsname" type="text" value="" placeholder="Zustand"/>
+                  <input name="attr_zustandsstufe" type="number" value="1"/>
+                </fieldset>
+              </div>
+            </div>
+            <div class="sheet-data-section-fokus">
+              <div class="sheet-data-header">
+                <h3>Fokus</h3>
+              </div>
+              <div class="sheet-data-area sheet-fokus">
+                <input name="attr_fokus_v" type="hidden" value="0"/>
+                <input name="attr_fokus_e" type="hidden" value="0"/>
+                <input name="attr_fokus_k" type="hidden" value="0"/>
+                <input name="attr_fokus_t" type="hidden" value="0"/>
                 <input name="attr_sr1" type="hidden" value="1"/>
-                <input name="attr_sr2" type="hidden" value="1"/><span class="sheet-verzehrt" name="attr_lebenspunkte_v_bar"></span><span class="sheet-erschoepft" name="attr_lebenspunkte_e_bar"></span><span class="sheet-kanalisiert" name="attr_lebenspunkte_k_bar"></span><span class="sheet-lebenspunkte-t" name="attr_lebenspunkte_t_bar"></span>
-              </div>
-            </div>
-            <div class="sheet-data-area sheet-wundabzug">
-              <label>Wundabzug</label><span name="attr_wundabzug"></span>
-              <input name="attr_wundabzugmod" type="hidden" value="0"/>
-              <input name="attr_wundabzugmoduser" type="number" value=""/>
-            </div>
-            <div class="sheet-data-area sheet-schaden">
-              <label>Schaden</label>
-              <div class="sheet-action">
-                <button name="act_removeschaden" type="action">heilen</button>
-                <input name="attr_anzahlschaden" type="number" value=""/>
-                <select name="attr_anzahlschadenart">
-                  <option value="v">verzehrt</option>
-                  <option value="e">erschöpft</option>
-                  <option value="k">kanalisiert</option>
-                </select>
-                <button name="act_addschaden" type="action">zufügen</button>
+                <input name="attr_sr2" type="hidden" value="1"/><span class="sheet-verzehrt" name="attr_fokus_v_bar"></span><span class="sheet-erschoepft" name="attr_fokus_e_bar"></span><span class="sheet-kanalisiert" name="attr_fokus_k_bar"></span><span class="sheet-lebenspunkte-t" name="attr_fokus_t_bar"></span>
               </div>
             </div>
           </div>
@@ -841,7 +869,7 @@
                 <input name="attr_zauberkosten" type="text" value="0"/><span>
                   <button type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}">                               </button></span>
                 <div class="sheet-second-line">
-                  <input name="attr_kampfonoff" type="hidden" value=""/><span style="max-width: 3em;"><span class="sheet-autoexpand">
+                  <input name="attr_kampfonoff" type="hidden" value="1"/><span style="max-width: 3em;"><span class="sheet-autoexpand">
                       <input name="attr_zauberdauer" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberdauer" placeholder="-"></span></span>
                     <label>Dauer</label></span><span style="max-width: 3em;"><span class="sheet-autoexpand">
                       <input name="attr_zauberrw" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberrw" placeholder="-"></span></span>
@@ -881,7 +909,7 @@
     </div>
   </div>
 </div>
-<script type="text/worker">var splittermond = {"rassen":{"mensch":{"name":"Mensch","groessenklasse":5},"varg":{"name":"Varg","groessenklasse":6},"alb":{"name":"Alb","groessenklasse":5},"gnom":{"name":"Gnom","groessenklasse":3},"zwerg":{"name":"Zwerg","groessenklasse":4}},"abgeleiteteWerte":{"groessenklasse":{"long":"Größenklasse","short":"GK"},"geschwindigkeit":{"long":"Geschwindigkeit","short":"GSW"},"initiative":{"long":"Initiative","short":"INI"},"lebenspunkte":{"long":"Lebenspunkte","short":"LP"},"fokus":{"long":"Fokus","short":"FO"},"verteidigung":{"long":"Verteidigung","short":"VTD"},"geistigerwiderstand":{"long":"Geistiger Widerstand","short":"GW"},"koerperlicherwiderstand":{"long":"Körperlicher Widerstand","short":"KW"}},"attribute":{"ausstrahlung":{"long":"Ausstrahlung","short":"AUS"},"beweglichkeit":{"long":"Beweglichkeit","short":"BEW"},"intuition":{"long":"Intuition","short":"INT"},"konstitution":{"long":"Konstitution","short":"KON"},"mystik":{"long":"Mystik","short":"MYS"},"staerke":{"long":"Stärke","short":"STÄ"},"verstand":{"long":"Verstand","short":"VER"},"willenskraft":{"long":"Willenskraft","short":"WIL"}},"fertigkeiten":{"akrobatik":{"Name":"Akrobatik","Attribute":["Beweglichkeit","Staerke"]},"alchemie":{"Name":"Alchemie","Attribute":["Mystik","Verstand"]},"anfuehren":{"Name":"Anführen","Attribute":["Ausstrahlung","Willenskraft"]},"arkanekunde":{"Name":"Arkane Kunde","Attribute":["Mystik","Verstand"]},"athletik":{"Name":"Athletik","Attribute":["Beweglichkeit","Staerke"]},"darbietung":{"Name":"Darbietung","Attribute":["Ausstrahlung","Willenskraft"]},"diplomatie":{"Name":"Diplomatie","Attribute":["Ausstrahlung","Verstand"]},"edelhandwerk":{"Name":"Edelhandwerk","Attribute":["Intuition","Verstand"]},"empathie":{"Name":"Empathie","Attribute":["Intuition","Verstand"]},"entschlossenheit":{"Name":"Entschlossenheit","Attribute":["Ausstrahlung","Willenskraft"]},"fingerfertigkeit":{"Name":"Fingerfertigkeit","Attribute":["Ausstrahlung","Beweglichkeit"]},"geschichtenundmythen":{"Name":"Geschichten & Mythen","Attribute":["Mystik","Verstand"]},"handwerk":{"Name":"Handwerk","Attribute":["Konstitution","Verstand"]},"heilkunde":{"Name":"Heilkunde","Attribute":["Intuition","Verstand"]},"heimlichkeit":{"Name":"Heimlichkeit","Attribute":["Beweglichkeit","Intuition"]},"jagdkunst":{"Name":"Jagdkunst","Attribute":["Konstitution","Verstand"]},"laenderkunde":{"Name":"Länderkunde","Attribute":["Intuition","Verstand"]},"naturkunde":{"Name":"Naturkunde","Attribute":["Intuition","Verstand"]},"redegewandtheit":{"Name":"Redegewandtheit","Attribute":["Ausstrahlung","Willenskraft"]},"schloesserundfallen":{"Name":"Schlösser & Fallen","Attribute":["Intuition","Beweglichkeit"]},"schwimmen":{"Name":"Schwimmen","Attribute":["Konstitution","Staerke"]},"seefahrt":{"Name":"Seefahrt","Attribute":["Beweglichkeit","Konstitution"]},"strassenkunde":{"Name":"Straßenkunde","Attribute":["Ausstrahlung","Intuition"]},"tierfuehrung":{"Name":"Tierfuehrung","Attribute":["Ausstrahlung","Beweglichkeit"]},"ueberleben":{"Name":"Überleben","Attribute":["Intuition","Konstitution"]},"wahrnehmung":{"Name":"Wahrnehmung","Attribute":["Intuition","Willenskraft"]},"zaehigkeit":{"Name":"Zähigkeit","Attribute":["Konstitution","Willenskraft"]}},"kampffertigkeiten":{"handgemenge":{"Name":"Handgemenge"},"hiebwaffen":{"Name":"Hiebwaffen"},"kettenwaffen":{"Name":"Kettenwaffen"},"klingenwaffen":{"Name":"Klingenwaffen"},"stangenwaffen":{"Name":"Stangenwaffen"},"schusswaffen":{"Name":"Schusswaffen"},"wurfwaffen":{"Name":"Wurfwaffen"}},"magieschulen":{"bannmagie":{"Name":"Bannmagie","Attribute":["Mystik","Willenskraft"]},"beherrschungsmagie":{"Name":"Beherrschungsmagie","Attribute":["Mystik","Willenskraft"]},"bewegungsmagie":{"Name":"Bewegungsmagie","Attribute":["Mystik","Beweglichkeit"]},"erkenntnismagie":{"Name":"Erkenntnismagie","Attribute":["Mystik","Verstand"]},"felsmagie":{"Name":"Fellsmagie","Attribute":["Mystik","Konstitution"]},"feuermagie":{"Name":"Feuermagie","Attribute":["Mystik","Ausstrahlung"]},"heilungsmagie":{"Name":"Heilungsmagie","Attribute":["Mystik","Ausstrahlung"]},"illusionsmagie":{"Name":"Illusionsmagie","Attribute":["Mystik","Ausstrahlung"]},"kampfmagie":{"Name":"Kampfmagie","Attribute":["Mystik","Staerke"]},"lichtmagie":{"Name":"Lichtmagie","Attribute":["Mystik","Ausstrahlung"]},"naturmagie":{"Name":"Naturmagie","Attribute":["Mystik","Ausstrahlung"]},"schattenmagie":{"Name":"Schattenmagie","Attribute":["Mystik","Intuition"]},"schicksalsmagie":{"Name":"Schicksalsmagie","Attribute":["Mystik","Ausstrahlung"]},"schutzmagie":{"Name":"Schutzmagie","Attribute":["Mystik","Ausstrahlung"]},"staerkungsmagie":{"Name":"Stärkungsmagie","Attribute":["Mystik","Staerke"]},"todesmagie":{"Name":"Todesmagie","Attribute":["Mystik","Verstand"]},"verwandlungsmagie":{"Name":"Verwandlungsmagie","Attribute":["Mystik","Konstitution"]},"wassermagie":{"Name":"Wassermagie","Attribute":["Mystik","Intuition"]},"windmagie":{"Name":"Windmagie","Attribute":["Mystik","Verstand"]}},"staerken":{"natürlicher rüstungsschutz":{"tooltip":"nat. Rüstung","modifier":{"schadensreduktion":1}},"erhöhter fokuspool":{"tooltip":"erhöhter FO","modifier":{"fokus":5}},"flink":{"tooltip":"Flink","modifier":{"geschwindigkeit":1}},"robust":{"tooltip":"Robust","modifier":{"lebenspunkte":1}},"hoher körperlicher widerstand":{"tooltip":"Hoher KW","modifier":{"koerperlicherwiderstand":2}},"hoher geistiger widerstand":{"tooltip":"Hoher GW","modifier":{"geistigerwiderstand":2}},"verbesserte initiative":{"tooltip":"Verb. INI","modifier":{"initiative":-3}},"schmerzresistenz":{"tooltip":"Schmerzres.","modifier":{"wundabzug":-2}},"zusätzliche splitterpunkte":{"tooltip":"Zus. Splitterp.","modifier":{"splitterpunkt":2}},"erhöhte fokusregeneration":{"tooltip":"Hohe FO-Reg.","modifier":{"fokusreg":2}},"erhöhte lebensregeneration":{"tooltip":"Hohe LP-Reg.","modifier":{"lifereg":2}}}};
+<script type="text/worker">var splittermond = {"rassen":{"mensch":{"name":"Mensch","groessenklasse":5},"varg":{"name":"Varg","groessenklasse":6},"alb":{"name":"Alb","groessenklasse":5},"gnom":{"name":"Gnom","groessenklasse":3},"zwerg":{"name":"Zwerg","groessenklasse":4}},"abgeleiteteWerte":{"groessenklasse":{"long":"Größenklasse","short":"GK"},"geschwindigkeit":{"long":"Geschwindigkeit","short":"GSW"},"initiative":{"long":"Initiative","short":"INI"},"lebenspunkte":{"long":"Lebenspunkte","short":"LP"},"fokus":{"long":"Fokus","short":"FO"},"verteidigung":{"long":"Verteidigung","short":"VTD"},"geistigerwiderstand":{"long":"Geistiger Widerstand","short":"GW"},"koerperlicherwiderstand":{"long":"Körperlicher Widerstand","short":"KW"}},"attribute":{"ausstrahlung":{"long":"Ausstrahlung","short":"AUS"},"beweglichkeit":{"long":"Beweglichkeit","short":"BEW"},"intuition":{"long":"Intuition","short":"INT"},"konstitution":{"long":"Konstitution","short":"KON"},"mystik":{"long":"Mystik","short":"MYS"},"staerke":{"long":"Stärke","short":"STÄ"},"verstand":{"long":"Verstand","short":"VER"},"willenskraft":{"long":"Willenskraft","short":"WIL"}},"fertigkeiten":{"akrobatik":{"Name":"Akrobatik","Attribute":["Beweglichkeit","Staerke"]},"alchemie":{"Name":"Alchemie","Attribute":["Mystik","Verstand"]},"anfuehren":{"Name":"Anführen","Attribute":["Ausstrahlung","Willenskraft"]},"arkanekunde":{"Name":"Arkane Kunde","Attribute":["Mystik","Verstand"]},"athletik":{"Name":"Athletik","Attribute":["Beweglichkeit","Staerke"]},"darbietung":{"Name":"Darbietung","Attribute":["Ausstrahlung","Willenskraft"]},"diplomatie":{"Name":"Diplomatie","Attribute":["Ausstrahlung","Verstand"]},"edelhandwerk":{"Name":"Edelhandwerk","Attribute":["Intuition","Verstand"]},"empathie":{"Name":"Empathie","Attribute":["Intuition","Verstand"]},"entschlossenheit":{"Name":"Entschlossenheit","Attribute":["Ausstrahlung","Willenskraft"]},"fingerfertigkeit":{"Name":"Fingerfertigkeit","Attribute":["Ausstrahlung","Beweglichkeit"]},"geschichtenundmythen":{"Name":"Geschichten & Mythen","Attribute":["Mystik","Verstand"]},"handwerk":{"Name":"Handwerk","Attribute":["Konstitution","Verstand"]},"heilkunde":{"Name":"Heilkunde","Attribute":["Intuition","Verstand"]},"heimlichkeit":{"Name":"Heimlichkeit","Attribute":["Beweglichkeit","Intuition"]},"jagdkunst":{"Name":"Jagdkunst","Attribute":["Konstitution","Verstand"]},"laenderkunde":{"Name":"Länderkunde","Attribute":["Intuition","Verstand"]},"naturkunde":{"Name":"Naturkunde","Attribute":["Intuition","Verstand"]},"redegewandtheit":{"Name":"Redegewandtheit","Attribute":["Ausstrahlung","Willenskraft"]},"schloesserundfallen":{"Name":"Schlösser & Fallen","Attribute":["Intuition","Beweglichkeit"]},"schwimmen":{"Name":"Schwimmen","Attribute":["Konstitution","Staerke"]},"seefahrt":{"Name":"Seefahrt","Attribute":["Beweglichkeit","Konstitution"]},"strassenkunde":{"Name":"Straßenkunde","Attribute":["Ausstrahlung","Intuition"]},"tierfuehrung":{"Name":"Tierfuehrung","Attribute":["Ausstrahlung","Beweglichkeit"]},"ueberleben":{"Name":"Überleben","Attribute":["Intuition","Konstitution"]},"wahrnehmung":{"Name":"Wahrnehmung","Attribute":["Intuition","Willenskraft"]},"zaehigkeit":{"Name":"Zähigkeit","Attribute":["Konstitution","Willenskraft"]}},"kampffertigkeiten":{"handgemenge":{"Name":"Handgemenge"},"hiebwaffen":{"Name":"Hiebwaffen"},"kettenwaffen":{"Name":"Kettenwaffen"},"klingenwaffen":{"Name":"Klingenwaffen"},"stangenwaffen":{"Name":"Stangenwaffen"},"schusswaffen":{"Name":"Schusswaffen"},"wurfwaffen":{"Name":"Wurfwaffen"}},"magieschulen":{"bannmagie":{"Name":"Bannmagie","Attribute":["Mystik","Willenskraft"]},"beherrschungsmagie":{"Name":"Beherrschungsmagie","Attribute":["Mystik","Willenskraft"]},"bewegungsmagie":{"Name":"Bewegungsmagie","Attribute":["Mystik","Beweglichkeit"]},"erkenntnismagie":{"Name":"Erkenntnismagie","Attribute":["Mystik","Verstand"]},"felsmagie":{"Name":"Fellsmagie","Attribute":["Mystik","Konstitution"]},"feuermagie":{"Name":"Feuermagie","Attribute":["Mystik","Ausstrahlung"]},"heilungsmagie":{"Name":"Heilungsmagie","Attribute":["Mystik","Ausstrahlung"]},"illusionsmagie":{"Name":"Illusionsmagie","Attribute":["Mystik","Ausstrahlung"]},"kampfmagie":{"Name":"Kampfmagie","Attribute":["Mystik","Staerke"]},"lichtmagie":{"Name":"Lichtmagie","Attribute":["Mystik","Ausstrahlung"]},"naturmagie":{"Name":"Naturmagie","Attribute":["Mystik","Ausstrahlung"]},"schattenmagie":{"Name":"Schattenmagie","Attribute":["Mystik","Intuition"]},"schicksalsmagie":{"Name":"Schicksalsmagie","Attribute":["Mystik","Ausstrahlung"]},"schutzmagie":{"Name":"Schutzmagie","Attribute":["Mystik","Ausstrahlung"]},"staerkungsmagie":{"Name":"Stärkungsmagie","Attribute":["Mystik","Staerke"]},"todesmagie":{"Name":"Todesmagie","Attribute":["Mystik","Verstand"]},"verwandlungsmagie":{"Name":"Verwandlungsmagie","Attribute":["Mystik","Konstitution"]},"wassermagie":{"Name":"Wassermagie","Attribute":["Mystik","Intuition"]},"windmagie":{"Name":"Windmagie","Attribute":["Mystik","Verstand"]}},"staerken":{"natürlicher rüstungsschutz":{"tooltip":"nat. Rüstung","modifier":{"schadensreduktion":1}},"erhöhter fokuspool":{"tooltip":"erhöhter FO","modifier":{"fokus":5}},"flink":{"tooltip":"Flink","modifier":{"geschwindigkeit":1}},"robust":{"tooltip":"Robust","modifier":{"lebenspunkte":1}},"hoher körperlicher widerstand":{"tooltip":"Hoher KW","modifier":{"koerperlicherwiderstand":2}},"hoher geistiger widerstand":{"tooltip":"Hoher GW","modifier":{"geistigerwiderstand":2}},"verbesserte initiative":{"tooltip":"Verb. INI","modifier":{"initiative":-3}},"schmerzresistenz":{"tooltip":"Schmerzres.","modifier":{"wundabzug":-2}},"zusätzliche splitterpunkte":{"tooltip":"Zus. Splitterp.","modifier":{"splitterpunkt":2}},"erhöhte fokusregeneration":{"tooltip":"Hohe FO-Reg.","modifier":{"fokusreg":2}},"erhöhte lebensregeneration":{"tooltip":"Hohe LP-Reg.","modifier":{"lifereg":2}}},"zustaende":{"verwundet":{"tooltip":"verwundet","modifier":{"gesundheitsstufe":1}},"benommen":{"tooltip":"benommen","modifier":{"tickplus":1}},"erschöpft":{"tooltip":"erschöpft","modifier":{"akrobatik":-1,"alchemie":-1,"anfuehren":-1,"arkanekunde":-1,"athletik":-1,"darbietung":-1,"diplomatie":-1,"edelhandwerk":-1,"empathie":-1,"entschlossenheit":-1,"fingerfertigkeit":-1,"geschichtenundmythen":-1,"handwerk":-1,"heilkunde":-1,"heimlichkeit":-1,"jagdkunst":-1,"laenderkunde":-1,"naturkunde":-1,"redegewandtheit":-1,"schloesserundfallen":-1,"schwimmen":-1,"seefahrt":-1,"strassenkunde":-1,"tierfuehrung":-1,"ueberleben":-1,"wahrnehmung":-1,"zaehigkeit":-1,"handgemenge":-1,"hiebwaffen":-1,"kettenwaffen":-1,"klingenwaffen":-1,"stangenwaffen":-1,"schusswaffen":-1,"wurfwaffen":-1,"initiative":1,"geschwindigkeit":-1}},"lahm":{"tooltip":"lahm","modifier":{},"multiplier":{"geschwindigkeit":0.5}},"glaubenskrise":{"glaubenskrise":"Glaubenskrise","modifier":{"bannmagie":-1,"beherrschungsmagie":-1,"bewegungsmagie":-1,"erkenntnismagie":-1,"felsmagie":-1,"feuermagie":-1,"heilungsmagie":-1,"illusionsmagie":-1,"kampfmagie":-1,"lichtmagie":-1,"naturmagie":-1,"schattenmagie":-1,"schicksalsmagie":-1,"schutzmagie":-1,"staerkungsmagie":-1,"todesmagie":-1,"verwandlungsmagie":-1,"wassermagie":-1,"windmagie":-1}}}};
 ["einstellungen", "grundwerte", "fertigkeiten", "magie", "entwicklung", "ausruestung", "kampf"].forEach(button => {
     on(`clicked:${button}`, function () {
         setAttrs({
@@ -1100,7 +1128,7 @@ on("change:repeating_staerken remove:repeating_staerken", function () {
             var staerkenmod = {};
 
             idarray.forEach(function (id) {
-                var staerke = v["repeating_staerken_" + id + "_staerkename"].toLowerCase();
+                var staerke = str(v["repeating_staerken_" + id + "_staerkename"]).toLowerCase();
                 var staerkenwert = int(v["repeating_staerken_" + id + "_staerkenwert"]);
                 if (staerke in splittermond.staerken) {
                     for (var key in splittermond.staerken[staerke].modifier) {
@@ -1117,6 +1145,41 @@ on("change:repeating_staerken remove:repeating_staerken", function () {
         });
     });
 });
+
+// Calculate modifier from "zustaende"
+on("change:repeating_zustaende remove:repeating_zustaende", function () {
+    getSectionIDs("repeating_zustaende", function (idarray) {
+
+        idAttrsStr = idarray.map(id => "repeating_zustaende_" + id + "_zustandsname");
+        idAttrsStr = idAttrsStr.concat(idarray.map(id => "repeating_zustaende_" + id + "_zustandsstufe"));
+        idAttrsStr = idAttrsStr.concat(idarray.map(id => "repeating_zustaende_" + id + "_zustandonoff"));
+        getAttrs(idAttrsStr, function (v) {
+            var zustandmod = {};
+
+            idarray.forEach(function (id) {
+                var zustand = str(v["repeating_zustaende_" + id + "_zustandsname"]).toLowerCase();
+                var zustandwert = int(v["repeating_zustaende_" + id + "_zustandsstufe"]);
+                var zustandonoff = int(v["repeating_zustaende_" + id + "_zustandonoff"]);
+                if (zustandonoff == 1) {
+                    for (var splimoZustand in splittermond.zustaende) {
+                        if (zustand.startsWith(splimoZustand) && zustand != "") {
+                            for (var key in splittermond.zustaende[splimoZustand].modifier) {
+                                var modifier = { name: splittermond.zustaende[splimoZustand].tooltip, value: int(splittermond.zustaende[splimoZustand].modifier[key]) * zustandwert };
+                                if (!(key in zustandmod)) {
+                                    zustandmod[key] = [];
+                                }
+                                zustandmod[key].push(modifier);
+                            }
+                        }
+                    }
+                }
+
+            });
+            setAttrs({ zustaendemod: JSON.stringify(zustandmod) });
+        });
+    });
+});
+
 
 // Calculate modifier from "Attributmodifikatoren"
 on("change:repeating_attributmods remove:repeating_attributmods", function () {
@@ -1174,46 +1237,6 @@ on("change:repeating_attributmods remove:repeating_attributmods", function () {
     });
 });
 
-// Update internal modifier
-on("change:staerkenmod change:attributmodsmod change:groessenklasse change:wundabzug", function () {
-    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug"], function (v) {
-        var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod)]
-        var update = {};
-        allModifier.forEach(function (v) {
-            var modifier = v + "mod";
-            update[modifier + "tooltip"] = "";
-            update[modifier] = 0;
-            allmod.forEach(function (modobj) {
-                if (v in modobj) {
-                    modobj[v].forEach(function (v) {
-                        update[modifier] += int(v.value);
-                        update[modifier + "tooltip"] += `\n${modStr(v.value)} (${v.name})`;
-                    })
-                }
-            })
-
-        });
-
-        var heimlichkeitmodgk = -(int(v.groessenklasse) - 5);
-        update["heimlichkeitmod"] += heimlichkeitmodgk;
-        if (heimlichkeitmodgk != 0) {
-            update["heimlichkeitmodtooltip"] = `\n${heimlichkeitmodgk} (GK)`
-        }
-
-        //wundabzug
-        if (int(v.wundabzug) > 0) {
-            var attr = Object.keys(splittermond.fertigkeiten);
-            attr = attr.concat(Object.keys(splittermond.magieschulen));
-            attr = attr.concat(Object.keys(splittermond.kampffertigkeiten));
-            attr.push("initiative");
-            attr.forEach(function (f) {
-                update[f + "mod"] -= int(v.wundabzug);
-                update[f + "modtooltip"] += `\n${modStr(-int(v.wundabzug))} (Wundabzug)`;
-            })
-        }
-        setAttrs(update);
-    });
-});
 
 
 // Update Tooltips
@@ -1280,125 +1303,19 @@ on("change:repeating_meisterschaften:meisterschaftsschwelle", function () {
     });
 });
 
-
-on("change:repeating_zauber:magieschulen change:hiddenausstrahlungmod change:hiddenbeweglichkeitmod change:hiddenintuitionmod change:hiddenkonstitutionmod change:hiddenmystikmod change:hiddenstaerkemod change:hiddenverstandmod change:hiddenwillenskraftmod change:bannmagiebonus change:beherrschungsmagiebonus change:bewegungsmagiebonus change:erkenntnismagiebonus change:felsmagiebonus change:feuermagiebonus change:heilungsmagiebonus change:illusionsmagiebonus change:kampfmagiebonus change:lichtmagiebonus change:naturmagiebonus change:schattenmagiebonus change:schicksalsmagiebonus change:schutzmagiebonus change:staerkungsmagiebonus change:todesmagiebonus change:verwandlungsmagiebonus change:wassermagiebonus change:windmagiebonus", function () {
+// Calc "Zauber"
+on("change:repeating_zauber:magieschulen", function () {
     getSectionIDs("repeating_zauber", function (idarray) {
         if (idarray.length > 0) {
             var update = {};
-            var skill = 0;
-            var bonus = 0;
-            var attr = 0;
-            _.each(idarray, function (currentID, i) {
-                getAttrs(["repeating_zauber_" + currentID + "_magieschulen", "arkanekunde1", "arkanekunde2", "arkanekundepunkte", "arkanekundebonus", "bannmagie", "bannmagiebonus", "beherrschungsmagie", "beherrschungsmagiebonus", "bewegungsmagie", "bewegungsmagiebonus", "erkenntnismagie", "erkenntnismagiebonus", "felsmagie", "felsmagiebonus", "feuermagie", "feuermagiebonus", "heilungsmagie", "heilungsmagiebonus", "illusionsmagie", "illusionsmagiebonus", "kampfmagie", "kampfmagiebonus", "lichtmagie", "lichtmagiebonus", "naturmagie", "naturmagiebonus", "schattenmagie", "schattenmagiebonus", "schicksalsmagie", "schicksalsmagiebonus", "schutzmagie", "schutzmagiebonus", "staerkungsmagie", "staerkungsmagiebonus", "todesmagie", "todesmagiebonus", "verwandlungsmagie", "verwandlungsmagiebonus", "wassermagie", "wassermagiebonus", "windmagie", "windmagiebonus", "hiddenausstrahlungmod", "hiddenbeweglichkeitmod", "hiddenintuitionmod", "hiddenkonstitutionmod", "hiddenmystikmod", "hiddenstaerkemod", "hiddenverstandmod", "hiddenwillenskraftmod"], function (v) {
-                    switch (v["repeating_zauber_" + currentID + "_magieschulen"]) {
-                        case "arkanekundezauber":
-                            skill = +v.arkanekunde1 + +v.arkanekunde2 + +v.arkanekundepunkte,
-                                bonus = +v.arkanekundebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                        case "bann":
-                            skill = v.bannmagie;
-                            bonus = v.bannmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenwillenskraftmod;
-                            break;
-                        case "beherrschung":
-                            skill = v.beherrschungsmagie;
-                            bonus = v.beherrschungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenwillenskraftmod;
-                            break;
-                        case "bewegung":
-                            skill = v.bewegungsmagie;
-                            bonus = v.bewegungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenbeweglichkeitmod;
-                            break;
-                        case "erkenntnis":
-                            skill = v.erkenntnismagie;
-                            bonus = v.erkenntnismagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                        case "fels":
-                            skill = v.felsmagie;
-                            bonus = v.felsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenkonstitutionmod;
-                            break;
-                        case "feuer":
-                            skill = v.feuermagie;
-                            bonus = v.feuermagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "heilung":
-                            skill = v.heilungsmagie;
-                            bonus = v.heilungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "illusion":
-                            skill = v.illusionsmagie;
-                            bonus = v.illusionsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "kampf":
-                            skill = v.kampfmagie;
-                            bonus = v.kampfmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenstaerkemod;
-                            break;
-                        case "licht":
-                            skill = v.lichtmagie;
-                            bonus = v.lichtmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "natur":
-                            skill = v.naturmagie;
-                            bonus = v.naturmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "schatten":
-                            skill = v.schattenmagie;
-                            bonus = v.schattenmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenintuitionmod;
-                            break;
-                        case "schicksal":
-                            skill = v.schicksalsmagie;
-                            bonus = v.schicksalsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "schutz":
-                            skill = v.schutzmagie;
-                            bonus = v.schutzmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "staerkung":
-                            skill = v.staerkungsmagie;
-                            bonus = v.staerkungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenstaerkemod;
-                            break;
-                        case "tod":
-                            skill = v.todesmagie;
-                            bonus = v.todesmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                        case "verwandlung":
-                            skill = v.verwandlungsmagie;
-                            bonus = v.verwandlungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenkonstitutionmod;
-                            break;
-                        case "wasser":
-                            skill = v.wassermagie;
-                            bonus = v.wassermagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                        case "wind":
-                            skill = v.windmagie;
-                            bonus = v.windmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                    }
-                    update["repeating_zauber_" + currentID + "_zauberwert"] = +skill;
-                    update["repeating_zauber_" + currentID + "_hiddenmod"] = +bonus;
-                    update["repeating_zauber_" + currentID + "_zauberattrmod"] = +attr;
-                    setAttrs(update);
-                });
+            var fields = idarray.map(id => "repeating_zauber_" + id + "_magieschulen");
+            fields = fields.concat(Object.keys(splittermond.magieschulen));
+            getAttrs(fields, function (v) {
+                idarray.forEach(function (id) {
+                    update["repeating_zauber_" + id + "_zauberwert"] = v[v["repeating_zauber_" + id + "_magieschulen"]];
+                })
+                setAttrs(update);
             });
-
         }
     });
 });
@@ -1646,8 +1563,13 @@ on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:leben
 
 on("change:fokus", function (e) {
     getAttrs(["fokus", "fokus_e", "fokus_k", "fokus_v"], function (v) {
+        var temp = int(v.fokus) - int(v.fokus_e) - int(v.fokus_k) - int(v.fokus_v);
         setAttrs({
-            fokus_t: +v.fokus - +v.fokus_e - +v.fokus_k - +v.fokus_v
+            fokus_t: temp,
+            fokus_v_bar: "6".repeat(int(v.fokus_v)),
+            fokus_k_bar: "6".repeat(int(v.fokus_k)),
+            fokus_e_bar: "6".repeat(int(v.fokus_e)),
+            fokus_t_bar: "6".repeat(Math.max(temp, 0))
         });
     });
 });
@@ -2677,31 +2599,32 @@ on("change:lebenspunkte_v", function (eventInfo) {
             let newrowid = generateRowID();
             update["repeating_zustaende_" + newrowid + "_zustandsname"] = "sterbendw";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 2;
-            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = true;
+            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
         if (oldGesundheitsstufe == 5 && gesundheitsstufe == 6) {
             let newrowid = generateRowID();
             update["repeating_zustaende_" + newrowid + "_zustandsname"] = "sterbendw";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 3;
-            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = true;
+            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
             newrowid = generateRowID();
             update["repeating_zustaende_" + newrowid + "_zustandsname"] = "bewusstlos";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 1;
-            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = true;
+            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
         if (lp_v >= (+v.lebenspunkte * 6)) {
             let newrowid = generateRowID();
             update["repeating_zustaende_" + newrowid + "_zustandsname"] = "totw";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 1;
-            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = true;
+            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
         update.gesundheitsstufe = gesundheitsstufe;
         setAttrs(update);
     });
 });
 
+allModifier.push("gesundheitsstufe");
 autoUpdate(["gesundheitsstufe", "wundabzugmod", "wundabzugmoduser"], v => ({
-    wundabzug: Math.max((Math.min(int(v.gesundheitsstufe), 5) - 1) * 2 + int(v.wundabzugmod) + int(v.wundabzugmoduser), 0)
+    wundabzug: Math.min(Math.max(Math.pow(2, Math.max(Math.min(int(v.gesundheitsstufe + v.gesundheitsstufemod), 5) - 1, 0) - 1) + int(v.wundabzugmod) + int(v.wundabzugmoduser), 0), 8)
 }));
 
 
@@ -2855,6 +2778,48 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
         let sum = +v.gesamtlast_koerper + +v.gesamtlast_behaelter1 + +v.gesamtlast_behaelter2 + +v.gesamtlast_behaelter3 + +v.gesamtlast_behaelter4 + +v.gesamtlast_behaelter5;
         let update = {};
         update["gesamtlast"] = sum;
+        setAttrs(update);
+    });
+});
+
+
+// Update internal modifier
+on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:wundabzug", function () {
+    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod"], function (v) {
+        var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod), , JSON.parse(v.zustaendemod)]
+        var update = {};
+        allModifier.forEach(function (v) {
+            var modifier = v + "mod";
+            update[modifier + "tooltip"] = "";
+            update[modifier] = 0;
+            allmod.forEach(function (modobj) {
+                if (v in modobj) {
+                    modobj[v].forEach(function (v) {
+                        update[modifier] += int(v.value);
+                        update[modifier + "tooltip"] += `\n${modStr(v.value)} (${v.name})`;
+                    })
+                }
+            })
+
+        });
+
+        var heimlichkeitmodgk = -(int(v.groessenklasse) - 5);
+        update["heimlichkeitmod"] += heimlichkeitmodgk;
+        if (heimlichkeitmodgk != 0) {
+            update["heimlichkeitmodtooltip"] = `\n${heimlichkeitmodgk} (GK)`
+        }
+
+        //wundabzug
+        if (int(v.wundabzug) > 0) {
+            var attr = Object.keys(splittermond.fertigkeiten);
+            attr = attr.concat(Object.keys(splittermond.magieschulen));
+            attr = attr.concat(Object.keys(splittermond.kampffertigkeiten));
+            attr.push("initiative");
+            attr.forEach(function (f) {
+                update[f + "mod"] -= int(v.wundabzug);
+                update[f + "modtooltip"] += `\n${modStr(-int(v.wundabzug))} (Wundabzug)`;
+            })
+        }
         setAttrs(update);
     });
 });

@@ -210,7 +210,7 @@ on("change:repeating_staerken remove:repeating_staerken", function () {
             var staerkenmod = {};
 
             idarray.forEach(function (id) {
-                var staerke = v["repeating_staerken_" + id + "_staerkename"].toLowerCase();
+                var staerke = str(v["repeating_staerken_" + id + "_staerkename"]).toLowerCase();
                 var staerkenwert = int(v["repeating_staerken_" + id + "_staerkenwert"]);
                 if (staerke in splittermond.staerken) {
                     for (var key in splittermond.staerken[staerke].modifier) {
@@ -227,6 +227,41 @@ on("change:repeating_staerken remove:repeating_staerken", function () {
         });
     });
 });
+
+// Calculate modifier from "zustaende"
+on("change:repeating_zustaende remove:repeating_zustaende", function () {
+    getSectionIDs("repeating_zustaende", function (idarray) {
+
+        idAttrsStr = idarray.map(id => "repeating_zustaende_" + id + "_zustandsname");
+        idAttrsStr = idAttrsStr.concat(idarray.map(id => "repeating_zustaende_" + id + "_zustandsstufe"));
+        idAttrsStr = idAttrsStr.concat(idarray.map(id => "repeating_zustaende_" + id + "_zustandonoff"));
+        getAttrs(idAttrsStr, function (v) {
+            var zustandmod = {};
+
+            idarray.forEach(function (id) {
+                var zustand = str(v["repeating_zustaende_" + id + "_zustandsname"]).toLowerCase();
+                var zustandwert = int(v["repeating_zustaende_" + id + "_zustandsstufe"]);
+                var zustandonoff = int(v["repeating_zustaende_" + id + "_zustandonoff"]);
+                if (zustandonoff == 1) {
+                    for (var splimoZustand in splittermond.zustaende) {
+                        if (zustand.startsWith(splimoZustand) && zustand != "") {
+                            for (var key in splittermond.zustaende[splimoZustand].modifier) {
+                                var modifier = { name: splittermond.zustaende[splimoZustand].tooltip, value: int(splittermond.zustaende[splimoZustand].modifier[key]) * zustandwert };
+                                if (!(key in zustandmod)) {
+                                    zustandmod[key] = [];
+                                }
+                                zustandmod[key].push(modifier);
+                            }
+                        }
+                    }
+                }
+
+            });
+            setAttrs({ zustaendemod: JSON.stringify(zustandmod) });
+        });
+    });
+});
+
 
 // Calculate modifier from "Attributmodifikatoren"
 on("change:repeating_attributmods remove:repeating_attributmods", function () {
@@ -284,46 +319,6 @@ on("change:repeating_attributmods remove:repeating_attributmods", function () {
     });
 });
 
-// Update internal modifier
-on("change:staerkenmod change:attributmodsmod change:groessenklasse change:wundabzug", function () {
-    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug"], function (v) {
-        var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod)]
-        var update = {};
-        allModifier.forEach(function (v) {
-            var modifier = v + "mod";
-            update[modifier + "tooltip"] = "";
-            update[modifier] = 0;
-            allmod.forEach(function (modobj) {
-                if (v in modobj) {
-                    modobj[v].forEach(function (v) {
-                        update[modifier] += int(v.value);
-                        update[modifier + "tooltip"] += `\n${modStr(v.value)} (${v.name})`;
-                    })
-                }
-            })
-
-        });
-
-        var heimlichkeitmodgk = -(int(v.groessenklasse) - 5);
-        update["heimlichkeitmod"] += heimlichkeitmodgk;
-        if (heimlichkeitmodgk != 0) {
-            update["heimlichkeitmodtooltip"] = `\n${heimlichkeitmodgk} (GK)`
-        }
-
-        //wundabzug
-        if (int(v.wundabzug) > 0) {
-            var attr = Object.keys(splittermond.fertigkeiten);
-            attr = attr.concat(Object.keys(splittermond.magieschulen));
-            attr = attr.concat(Object.keys(splittermond.kampffertigkeiten));
-            attr.push("initiative");
-            attr.forEach(function (f) {
-                update[f + "mod"] -= int(v.wundabzug);
-                update[f + "modtooltip"] += `\n${modStr(-int(v.wundabzug))} (Wundabzug)`;
-            })
-        }
-        setAttrs(update);
-    });
-});
 
 
 // Update Tooltips
@@ -390,125 +385,19 @@ on("change:repeating_meisterschaften:meisterschaftsschwelle", function () {
     });
 });
 
-
-on("change:repeating_zauber:magieschulen change:hiddenausstrahlungmod change:hiddenbeweglichkeitmod change:hiddenintuitionmod change:hiddenkonstitutionmod change:hiddenmystikmod change:hiddenstaerkemod change:hiddenverstandmod change:hiddenwillenskraftmod change:bannmagiebonus change:beherrschungsmagiebonus change:bewegungsmagiebonus change:erkenntnismagiebonus change:felsmagiebonus change:feuermagiebonus change:heilungsmagiebonus change:illusionsmagiebonus change:kampfmagiebonus change:lichtmagiebonus change:naturmagiebonus change:schattenmagiebonus change:schicksalsmagiebonus change:schutzmagiebonus change:staerkungsmagiebonus change:todesmagiebonus change:verwandlungsmagiebonus change:wassermagiebonus change:windmagiebonus", function () {
+// Calc "Zauber"
+on("change:repeating_zauber:magieschulen", function () {
     getSectionIDs("repeating_zauber", function (idarray) {
         if (idarray.length > 0) {
             var update = {};
-            var skill = 0;
-            var bonus = 0;
-            var attr = 0;
-            _.each(idarray, function (currentID, i) {
-                getAttrs(["repeating_zauber_" + currentID + "_magieschulen", "arkanekunde1", "arkanekunde2", "arkanekundepunkte", "arkanekundebonus", "bannmagie", "bannmagiebonus", "beherrschungsmagie", "beherrschungsmagiebonus", "bewegungsmagie", "bewegungsmagiebonus", "erkenntnismagie", "erkenntnismagiebonus", "felsmagie", "felsmagiebonus", "feuermagie", "feuermagiebonus", "heilungsmagie", "heilungsmagiebonus", "illusionsmagie", "illusionsmagiebonus", "kampfmagie", "kampfmagiebonus", "lichtmagie", "lichtmagiebonus", "naturmagie", "naturmagiebonus", "schattenmagie", "schattenmagiebonus", "schicksalsmagie", "schicksalsmagiebonus", "schutzmagie", "schutzmagiebonus", "staerkungsmagie", "staerkungsmagiebonus", "todesmagie", "todesmagiebonus", "verwandlungsmagie", "verwandlungsmagiebonus", "wassermagie", "wassermagiebonus", "windmagie", "windmagiebonus", "hiddenausstrahlungmod", "hiddenbeweglichkeitmod", "hiddenintuitionmod", "hiddenkonstitutionmod", "hiddenmystikmod", "hiddenstaerkemod", "hiddenverstandmod", "hiddenwillenskraftmod"], function (v) {
-                    switch (v["repeating_zauber_" + currentID + "_magieschulen"]) {
-                        case "arkanekundezauber":
-                            skill = +v.arkanekunde1 + +v.arkanekunde2 + +v.arkanekundepunkte,
-                                bonus = +v.arkanekundebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                        case "bann":
-                            skill = v.bannmagie;
-                            bonus = v.bannmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenwillenskraftmod;
-                            break;
-                        case "beherrschung":
-                            skill = v.beherrschungsmagie;
-                            bonus = v.beherrschungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenwillenskraftmod;
-                            break;
-                        case "bewegung":
-                            skill = v.bewegungsmagie;
-                            bonus = v.bewegungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenbeweglichkeitmod;
-                            break;
-                        case "erkenntnis":
-                            skill = v.erkenntnismagie;
-                            bonus = v.erkenntnismagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                        case "fels":
-                            skill = v.felsmagie;
-                            bonus = v.felsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenkonstitutionmod;
-                            break;
-                        case "feuer":
-                            skill = v.feuermagie;
-                            bonus = v.feuermagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "heilung":
-                            skill = v.heilungsmagie;
-                            bonus = v.heilungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "illusion":
-                            skill = v.illusionsmagie;
-                            bonus = v.illusionsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "kampf":
-                            skill = v.kampfmagie;
-                            bonus = v.kampfmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenstaerkemod;
-                            break;
-                        case "licht":
-                            skill = v.lichtmagie;
-                            bonus = v.lichtmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "natur":
-                            skill = v.naturmagie;
-                            bonus = v.naturmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "schatten":
-                            skill = v.schattenmagie;
-                            bonus = v.schattenmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenintuitionmod;
-                            break;
-                        case "schicksal":
-                            skill = v.schicksalsmagie;
-                            bonus = v.schicksalsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "schutz":
-                            skill = v.schutzmagie;
-                            bonus = v.schutzmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenausstrahlungmod;
-                            break;
-                        case "staerkung":
-                            skill = v.staerkungsmagie;
-                            bonus = v.staerkungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenstaerkemod;
-                            break;
-                        case "tod":
-                            skill = v.todesmagie;
-                            bonus = v.todesmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                        case "verwandlung":
-                            skill = v.verwandlungsmagie;
-                            bonus = v.verwandlungsmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenkonstitutionmod;
-                            break;
-                        case "wasser":
-                            skill = v.wassermagie;
-                            bonus = v.wassermagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                        case "wind":
-                            skill = v.windmagie;
-                            bonus = v.windmagiebonus;
-                            attr = +v.hiddenmystikmod + +v.hiddenverstandmod;
-                            break;
-                    }
-                    update["repeating_zauber_" + currentID + "_zauberwert"] = +skill;
-                    update["repeating_zauber_" + currentID + "_hiddenmod"] = +bonus;
-                    update["repeating_zauber_" + currentID + "_zauberattrmod"] = +attr;
-                    setAttrs(update);
-                });
+            var fields = idarray.map(id => "repeating_zauber_" + id + "_magieschulen");
+            fields = fields.concat(Object.keys(splittermond.magieschulen));
+            getAttrs(fields, function (v) {
+                idarray.forEach(function (id) {
+                    update["repeating_zauber_" + id + "_zauberwert"] = v[v["repeating_zauber_" + id + "_magieschulen"]];
+                })
+                setAttrs(update);
             });
-
         }
     });
 });
@@ -756,8 +645,13 @@ on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:leben
 
 on("change:fokus", function (e) {
     getAttrs(["fokus", "fokus_e", "fokus_k", "fokus_v"], function (v) {
+        var temp = int(v.fokus) - int(v.fokus_e) - int(v.fokus_k) - int(v.fokus_v);
         setAttrs({
-            fokus_t: +v.fokus - +v.fokus_e - +v.fokus_k - +v.fokus_v
+            fokus_t: temp,
+            fokus_v_bar: "6".repeat(int(v.fokus_v)),
+            fokus_k_bar: "6".repeat(int(v.fokus_k)),
+            fokus_e_bar: "6".repeat(int(v.fokus_e)),
+            fokus_t_bar: "6".repeat(Math.max(temp, 0))
         });
     });
 });
@@ -1787,31 +1681,32 @@ on("change:lebenspunkte_v", function (eventInfo) {
             let newrowid = generateRowID();
             update["repeating_zustaende_" + newrowid + "_zustandsname"] = "sterbendw";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 2;
-            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = true;
+            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
         if (oldGesundheitsstufe == 5 && gesundheitsstufe == 6) {
             let newrowid = generateRowID();
             update["repeating_zustaende_" + newrowid + "_zustandsname"] = "sterbendw";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 3;
-            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = true;
+            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
             newrowid = generateRowID();
             update["repeating_zustaende_" + newrowid + "_zustandsname"] = "bewusstlos";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 1;
-            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = true;
+            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
         if (lp_v >= (+v.lebenspunkte * 6)) {
             let newrowid = generateRowID();
             update["repeating_zustaende_" + newrowid + "_zustandsname"] = "totw";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 1;
-            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = true;
+            update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
         update.gesundheitsstufe = gesundheitsstufe;
         setAttrs(update);
     });
 });
 
+allModifier.push("gesundheitsstufe");
 autoUpdate(["gesundheitsstufe", "wundabzugmod", "wundabzugmoduser"], v => ({
-    wundabzug: Math.max((Math.min(int(v.gesundheitsstufe), 5) - 1) * 2 + int(v.wundabzugmod) + int(v.wundabzugmoduser), 0)
+    wundabzug: Math.min(Math.max(Math.pow(2, Math.max(Math.min(int(v.gesundheitsstufe + v.gesundheitsstufemod), 5) - 1, 0) - 1) + int(v.wundabzugmod) + int(v.wundabzugmoduser), 0), 8)
 }));
 
 
@@ -1965,6 +1860,48 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
         let sum = +v.gesamtlast_koerper + +v.gesamtlast_behaelter1 + +v.gesamtlast_behaelter2 + +v.gesamtlast_behaelter3 + +v.gesamtlast_behaelter4 + +v.gesamtlast_behaelter5;
         let update = {};
         update["gesamtlast"] = sum;
+        setAttrs(update);
+    });
+});
+
+
+// Update internal modifier
+on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:wundabzug", function () {
+    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod"], function (v) {
+        var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod), , JSON.parse(v.zustaendemod)]
+        var update = {};
+        allModifier.forEach(function (v) {
+            var modifier = v + "mod";
+            update[modifier + "tooltip"] = "";
+            update[modifier] = 0;
+            allmod.forEach(function (modobj) {
+                if (v in modobj) {
+                    modobj[v].forEach(function (v) {
+                        update[modifier] += int(v.value);
+                        update[modifier + "tooltip"] += `\n${modStr(v.value)} (${v.name})`;
+                    })
+                }
+            })
+
+        });
+
+        var heimlichkeitmodgk = -(int(v.groessenklasse) - 5);
+        update["heimlichkeitmod"] += heimlichkeitmodgk;
+        if (heimlichkeitmodgk != 0) {
+            update["heimlichkeitmodtooltip"] = `\n${heimlichkeitmodgk} (GK)`
+        }
+
+        //wundabzug
+        if (int(v.wundabzug) > 0) {
+            var attr = Object.keys(splittermond.fertigkeiten);
+            attr = attr.concat(Object.keys(splittermond.magieschulen));
+            attr = attr.concat(Object.keys(splittermond.kampffertigkeiten));
+            attr.push("initiative");
+            attr.forEach(function (f) {
+                update[f + "mod"] -= int(v.wundabzug);
+                update[f + "modtooltip"] += `\n${modStr(-int(v.wundabzug))} (Wundabzug)`;
+            })
+        }
         setAttrs(update);
     });
 });

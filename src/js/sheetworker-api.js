@@ -39,10 +39,23 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
         }
 
         var elementName = "attr_" + key;
-        $('span[name=' + elementName + ']').text(value);
-        $('input[name=' + elementName + '][type=hidden], input[name=' + elementName + '][type=text], input[name=' + elementName + '][type=number], select[name=' + elementName + ']').val(value);
-        $('input[name=' + elementName + '][type=radio], input[name=' + elementName + '][type=checkbox]').filter('[value="' + value + '"]').attr('checked', true);
 
+        $(`span[name="${elementName}"], input[name="${elementName}"], select[name="${elementName}"]`).each(function () {
+            var el = $(this);
+            var tagName = this.tagName;
+
+            if (value != undefined) {
+                if (tagName == "SPAN") {
+                    el.text(value);
+                } else {
+                    if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
+                        el.prop("checked", el.val() == value);
+                    } else {
+                        el.val(value);
+                    }
+                }
+            }
+        });
 
 
         if (key.startsWith("repeating_")) {
@@ -76,21 +89,26 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
 
 
             var elementName = "attr_" + rowId[3];
-            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] span[name="${elementName}"]`).text(value);
-            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=hidden], 
-            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=text],
-            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=number]
-               .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] select[name="${elementName}"]`).val(value);
-            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=radio]
-            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"][type=checkbox]`).filter(`[value="${value}"]`).attr('checked', true);
 
-            $(`fieldset[class="${rowId[1]}"] span[name="${elementName}"]`).text(value);
-            $(`fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=text],
-            fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=number],  
-            fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=hidden],  
-               fieldset[class="${rowId[1]}"] select[name="${elementName}"]`).val(value);
-            $(`fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=radio],
-            fieldset[class="${rowId[1]}"] input[name="${elementName}"][type=checkbox]`).filter(`[value="${value}"]`).attr('checked', true);
+            $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"],
+            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] select[name="${elementName}"],
+            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] span[name="${elementName}"]`).each(function () {
+                var el = $(this);
+                var tagName = this.tagName;
+
+                if (value != undefined) {
+                    if (tagName == "SPAN") {
+                        el.text(value);
+                    } else {
+                        if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
+                            el.prop("checked", el.val() == value);
+                        } else {
+                            el.val(value);
+                        }
+                    }
+                }
+            });
+
             if (opt != "silent") {
                 throwEvent("change:" + rowId[3], eventInfo);
                 throwEvent("change:" + rowId[1], eventInfo);
@@ -227,7 +245,7 @@ function addRepeatingRow(repcontainer, dataGroupName, itemId) {
 
     repcontainer.find(`.repitem[reprowid="${itemId}"] input, .repitem[reprowid="${itemId}"] select`).change(function () {
         var data = {};
-        if ($(this).attr("type") == "checkbox") {
+        if ($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio") {
             if ($(this).prop("checked")) {
                 data[`${dataGroupName}_${itemId}_${this.name.substr(5)}`] = this.value;
             } else {
@@ -253,7 +271,7 @@ function addRepeatingRow(repcontainer, dataGroupName, itemId) {
                 if (tagName == "SPAN") {
                     el.text(data[attrName]);
                 } else {
-                    if (el.attr("type") == "checkbox") {
+                    if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
                         el.prop("checked", el.val() == data[attrName]);
                     } else {
                         el.val(data[attrName]);

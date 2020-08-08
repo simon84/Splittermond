@@ -3,48 +3,73 @@
 +hiddeninput("benommen", 0)
 +hiddeninput("verwundet", 0)
 
-.data-section-lebenspunkte
-    .data-header
-        h3 Gesundheit
-    .data-area.lebenspunkte
-        +hiddeninput("lebenspunkte",0)
-        .gesundheitsstufen
-            
-            +hiddeninput("wundabzug",0)
-            +hiddeninput("gesundheitsstufe",1)
-            span.unverletzt Unverletzt
-            span.angeschlagen Angeschlagen
-            span.verletzt Verletzt
-            span.schwerverletzt Schwer verletzt
-            span.todgeweiht Todgeweiht
-        .lebenspunkte
-            +hiddeninput("lebenspunkte_v",0)
-            +hiddeninput("lebenspunkte_b",0)
-            +hiddeninput("lebenspunkte_k",0)
-            +hiddeninput("lebenspunkte_t",0)
+.data-section-row
+    .data-section-lebenspunkte
+        .data-header
+            h3 Gesundheit
+        .data-area.lebenspunkte
+            +hiddeninput("lebenspunkte",0)
+            .gesundheitsstufen
+                
+                +hiddeninput("wundabzug",0)
+                +hiddeninput("gesundheitsstufe",1)
+                span.unverletzt Unverletzt
+                span.angeschlagen Angeschlagen
+                span.verletzt Verletzt
+                span.schwerverletzt Schwer verletzt
+                span.todgeweiht Todgeweiht
+            .lebenspunkte
+                +hiddeninput("lebenspunkte_v",0)
+                +hiddeninput("lebenspunkte_e",0)
+                +hiddeninput("lebenspunkte_k",0)
+                +hiddeninput("lebenspunkte_t",0)
+                +hiddeninput("sr1",1)
+                +hiddeninput("sr2",1)
+                span.verzehrt(name="attr_lebenspunkte_v_bar")
+                span.erschoepft(name="attr_lebenspunkte_e_bar")
+                span.kanalisiert(name="attr_lebenspunkte_k_bar")
+                span.lebenspunkte-t(name="attr_lebenspunkte_t_bar")
+        .data-area.wundabzug
+            label Wundabzug
+            span(name="attr_wundabzug")
+            +hiddeninput("wundabzugmod",0)
+            +numberinput("wundabzugmoduser")
+        .data-area.schaden
+            label Schaden
+            .action
+                button(name="act_removeschaden", type="action") heilen
+                +numberinput("anzahlschaden")
+                select(name="attr_anzahlschadenart")
+                    option(value="v") verzehrt
+                    option(value="e") erschöpft
+                    option(value="k") kanalisiert
+                button(name="act_addschaden", type="action") zufügen
+
+    .data-section-zustaende
+        .data-header
+            h3 Zustände
+        .data-area
+            +hiddeninput("zustaendemod","")
+            fieldset.repeating_zustaende
+                +input("zustandonoff","checkbox",1)
+                +textinput("zustandsname","", false,  {placeholder: "Zustand"})
+                +numberinput("zustandsstufe",1)
+    .data-section-fokus
+        .data-header
+            h3 Fokus
+        .data-area.fokus
+            +hiddeninput("fokus_v",0)
+            +hiddeninput("fokus_e",0)
+            +hiddeninput("fokus_k",0)
+            +hiddeninput("fokus_t",0)
             +hiddeninput("sr1",1)
             +hiddeninput("sr2",1)
-            span.verzehrt(name="attr_lebenspunkte_v_bar")
-            span.erschoepft(name="attr_lebenspunkte_e_bar")
-            span.kanalisiert(name="attr_lebenspunkte_k_bar")
-            span.lebenspunkte-t(name="attr_lebenspunkte_t_bar")
-    .data-area.wundabzug
-        label Wundabzug
-        span(name="attr_wundabzug")
-        +hiddeninput("wundabzugmod",0)
-        +numberinput("wundabzugmoduser")
-    .data-area.schaden
-        label Schaden
-        .action
-            button(name="act_removeschaden", type="action") heilen
-            +numberinput("anzahlschaden")
-            select(name="attr_anzahlschadenart")
-                option(value="v") verzehrt
-                option(value="e") erschöpft
-                option(value="k") kanalisiert
-            button(name="act_addschaden", type="action") zufügen
-    
-        
+            span.verzehrt(name="attr_fokus_v_bar")
+            span.erschoepft(name="attr_fokus_e_bar")
+            span.kanalisiert(name="attr_fokus_k_bar")
+            span.lebenspunkte-t(name="attr_fokus_t_bar")
+            
+
 
 .data-section-waffen
     .data-header
@@ -112,7 +137,7 @@
             span
                 button(type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs>10cf<1 | Sicherheitswurf, 2d10d1cs>10cf<1 | Risikowurf, 4d10k2cs>10cf<1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}")                                
             .second-line
-                +hiddeninput("kampfonoff")
+                +hiddeninput("kampfonoff",1)
                 span(style="max-width: 3em;")
                     +textinput("zauberdauer","", true, {placeholder: "-"})
                     label Dauer
