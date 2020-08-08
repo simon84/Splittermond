@@ -805,6 +805,9 @@ $font-size-small: 1.2rem;
         .data-section-waffen {
             display: flex;
             flex-direction: column;
+            align-self: stretch;
+            margin-left: 5%;
+            margin-right: 5%;
 
             .data-header {
                 align-items: baseline;
@@ -918,7 +921,9 @@ $font-size-small: 1.2rem;
         .data-section-zauber {
             display: flex;
             flex-direction: column;
-
+            align-self: stretch;
+            margin-left: 5%;
+            margin-right: 5%;
             .data-header {
                 align-items: baseline;
             }
@@ -927,8 +932,9 @@ $font-size-small: 1.2rem;
 
             .data-area > div > div,
             .data-header {
+                width:100%;
                 display: grid;
-                grid-template-columns: 12em 10em 3em 2em 3em 6em 3em;
+                grid-template-columns: auto 10em 3em 2em 3em 6em 3em;
                 gap: 5px;
                 align-items: baseline;
                 padding-top: 5px;
@@ -949,17 +955,6 @@ $font-size-small: 1.2rem;
                 span[name="attr_zauberwert"] {
                     @include standard-font($font-size-large);
                     text-align: center;
-                }
-
-                
-
-                .attribute {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                }
-
-                input:read-only {
-                    color: #666;
                 }
 
                 span button {
@@ -994,7 +989,7 @@ $font-size-small: 1.2rem;
                     div.schaden {
                         display: none;
                     }
-                    input[name="attr_kampfonoff"][value="on"] ~ span.schaden {
+                    input[name="attr_kampfonoff"][value="1"] ~ span.schaden {
                         display: flex;
                     }
 
@@ -1011,6 +1006,45 @@ $font-size-small: 1.2rem;
                         }
                     }
                 }
+            }
+        }
+        .data-section-ruestungen {
+            display: flex;
+            flex-direction: column;
+
+            align-self: stretch;
+            margin-left: 5%;
+            margin-right: 5%;
+
+            .data-header {
+                align-items: baseline;
+            }
+
+            
+
+            .data-area > div > div,
+            .data-header {
+                display: grid;
+                grid-template-columns: 2.5em 1.5fr 2.5em 2.5em 2.5em 2.5em 1fr;
+                gap: 5px;
+                align-items: baseline;
+                padding-top: 5px;
+
+                input[type="checkbox"]:not(:checked) ~ * {
+                    color: rgba(0,0,0,0.5);
+                }
+
+                input, select {
+                    text-align:center;
+                    width: 100%;
+                    font-size: 1em;
+                }
+                input[name="attr_ruestungsname"] {
+                    @include standard-font($font-size-large);
+                    text-align:left;
+                }
+
+                
             }
         }
     }

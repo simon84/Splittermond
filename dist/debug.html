@@ -1336,7 +1336,7 @@ $(document).ready(function () {
                   <option value="wassermagie">Wassermagie</option>
                   <option value="windmagie">Windmagie</option>
                 </select><span class="sheet-main-value" name="attr_zauberwert"></span>
-                <input name="attr_kampfonoff" type="checkbox"/>
+                <input name="attr_kampfonoff" type="checkbox" value="1"/>
                 <input name="attr_zauberschwierigkeit" type="text" value="" placeholder="SG"/>
                 <input name="attr_zauberkosten" type="text" value="0"/><span>
                   <button type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}">                               </button></span>
@@ -1364,6 +1364,36 @@ $(document).ready(function () {
                     <label>Wirkung</label>
                     <textarea name="attr_zauberwirkung"></textarea>
                   </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+          <div class="sheet-data-section-ruestungen">
+            <div class="sheet-data-header">
+              <h3>Rüstung</h3><span></span><span>VTD+</span><span>SR</span><span>BE</span><span>Tick+</span><span>Merkmale</span>
+            </div>
+            <div class="sheet-data-area">
+              <fieldset class="repeating_ruestungen">
+                <input name="attr_ruestungonoff" type="checkbox" value="1"/>
+                <input name="attr_ruestungsname" type="text" value="" placeholder="Rüstungsname"/>
+                <div>
+                  <input name="attr_ruestungsvtd" type="number" value="0"/>
+                  <input name="attr_ruestungsvtdmod" type="hidden" value="0"/>
+                </div>
+                <div>
+                  <input name="attr_ruestungssr" type="number" value="0"/>
+                  <input name="attr_ruestungssrmod" type="hidden" value="0"/>
+                </div>
+                <div>
+                  <input name="attr_ruestungsbe" type="number" value="0"/>
+                  <input name="attr_ruestungsbemod" type="hidden" value="0"/>
+                </div>
+                <div>
+                  <input name="attr_ruestungstickplus" type="number" value="0"/>
+                  <input name="attr_ruestungstickplusmod" type="hidden" value="0"/>
+                </div>
+                <div>
+                  <input name="attr_ruestungsmerkmal" type="text" value="" placeholder="-"/>
                 </div>
               </fieldset>
             </div>

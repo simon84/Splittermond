@@ -136,7 +136,7 @@
                 each fertigkeit, id in splittermond.magieschulen
                     option(value=id)= fertigkeit.Name
             span.main-value(name="attr_zauberwert")
-            +input("kampfonoff","checkbox",false)
+            +input("kampfonoff","checkbox",1)
             +textinput("zauberschwierigkeit","", false, {placeholder: "SG"})
             +textinput("zauberkosten", 0)
             span
@@ -159,8 +159,33 @@
                 div.wirkung
                     label Wirkung
                     textarea(name="attr_zauberwirkung")
-            
-            
-            
+
+.data-section-ruestungen
+    .data-header
+        h3 Rüstung
+        span
+        span VTD+
+        span SR
+        span BE
+        span Tick+
+        span Merkmale
+    .data-area
+        fieldset.repeating_ruestungen
+            +input("ruestungonoff","checkbox",1)
+            +textinput("ruestungsname","", false, {placeholder: "Rüstungsname"})
+            div
+                +numberinput("ruestungsvtd", 0)
+                +hiddeninput("ruestungsvtdmod", 0)
+            div
+                +numberinput("ruestungssr", 0)
+                +hiddeninput("ruestungssrmod", 0)
+            div
+                +numberinput("ruestungsbe", 0)
+                +hiddeninput("ruestungsbemod", 0)
+            div
+                +numberinput("ruestungstickplus", 0)
+                +hiddeninput("ruestungstickplusmod", 0)
+            div
+                +textinput("ruestungsmerkmal", "", false, {placeholder: "-"})
             
             
