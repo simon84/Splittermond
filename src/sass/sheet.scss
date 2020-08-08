@@ -158,6 +158,40 @@ $font-size-small: 1.2rem;
         }
     }
 
+    .paper textarea {
+        font-size: 1em;
+        font-weight: inherit;
+        line-height: inherit;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        padding-left: 0.2em;
+        padding-right: 0.2em;
+        margin: 0;
+        border: none;
+        background-color: transparent;
+        border-bottom: none;
+        border-radius: 3px;
+        display: inline-block;
+        min-width: 1.6em;
+        width: 100%;
+        @include gradient-background();
+        @include gradient-border;
+        border-bottom: 1px solid;
+            border-top: 1px solid;
+        color: black;
+        vertical-align: baseline!important;
+        height: auto!important;
+        box-sizing: border-box;
+
+        &:hover,
+        &:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            
+            
+        }
+    }
+
     button {
         font-size: 1em;
         font-weight: inherit;
@@ -199,6 +233,7 @@ $font-size-small: 1.2rem;
 
     .pre {
         white-space: pre-line;
+        text-align: left;
     }
     .tab-content {
         display: none;
@@ -540,6 +575,8 @@ $font-size-small: 1.2rem;
                     gap: 5px;
                     font-size: 1em;
                     width: 12em;
+                    margin-left: -6em;
+                    
                     label {
                         font-size: 1em;
                         width: 100%;
@@ -775,13 +812,16 @@ $font-size-small: 1.2rem;
 
             
 
-            .data-area div > div,
+            .data-area > div > div,
             .data-header {
                 display: grid;
                 grid-template-columns: 12em 7em 7em 3em 3em 6em;
                 gap: 5px;
                 align-items: baseline;
                 padding-top: 5px;
+
+                @include gradient-border();
+                border-bottom: solid 1px;
 
                 input, select {
                     text-align:center;
@@ -804,10 +844,6 @@ $font-size-small: 1.2rem;
                     text-align: center;
                 }
 
-                div.second-line span.reichweite {
-                    display: none;
-                }
-
                 
 
                 .attribute {
@@ -825,40 +861,55 @@ $font-size-small: 1.2rem;
 
                 .second-line {
                     grid-column-start: 1;
-                    grid-column-end: 6;
+                    grid-column-end: 7;
                     display: flex;
                     flex-direction: row;
                     justify-content: space-evenly;
                     padding-bottom: 5px;
 
-                    @include gradient-border();
-                    border-bottom: solid 1px;
+                    
 
-                    span {
+                    div {
                         margin-left: 5px;
                         margin-right: 5px;
+                        margin-bottom: 10px;
                         display: flex;
                         flex-direction: column;
+                        align-items: center;
                         &.reichweite {
                             display: none;
                         }
                         label {
+                            display: block;
                             text-align: center;
+                            
+                            padding: 0;
+                            margin: 0;
+                            margin-top: -0.4em;
                         }
+                    }
+
+                    div.reichweite {
+                        display: none;
                     }
 
                     input[name="attr_waffenskill"][value^="wurf"] ~ span.reichweite,
                     input[name="attr_waffenskill"][value^="schuss"] ~ span.reichweite  {
                         display: flex;
                     }
-                }
 
-                div.line {
-                    grid-column-start: 1;
-                    grid-column-end: 6;
-                    height: 0px;
-                    @include gradient-border();
-                    border-bottom: solid 1px;
+                    div.notizen {
+                        width: 100%;
+                        align-items: start;
+                        justify-content: baseline;
+                        label {
+                            display: block;
+                            width: 100%;
+                            text-align: left;
+                        }
+                    }
+
+                    
                 }
             }
         }
@@ -874,13 +925,16 @@ $font-size-small: 1.2rem;
 
             
 
-            .data-area div > div,
+            .data-area > div > div,
             .data-header {
                 display: grid;
                 grid-template-columns: 12em 10em 3em 2em 3em 6em 3em;
                 gap: 5px;
                 align-items: baseline;
                 padding-top: 5px;
+
+                @include gradient-border();
+                border-bottom: solid 1px;
 
                 input, select {
                     text-align:center;
@@ -917,38 +971,45 @@ $font-size-small: 1.2rem;
                     grid-column-end: 8;
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-evenly;
-                    padding-bottom: 5px;
+                    justify-content: space-evenly;                    
 
-                    @include gradient-border();
-                    border-bottom: solid 1px;
-
-                    span {
+                    div {
                         margin-left: 5px;
                         margin-right: 5px;
+                        margin-bottom: 10px;
                         display: flex;
                         flex-direction: column;
+                        align-items: center;
                         &.reichweite {
                             display: none;
                         }
                         label {
+                            display: block;
                             text-align: center;
+                            padding: 0;
+                            margin: 0;
+                            margin-top: -0.4em;
                         }
                     }
-                    span.schaden {
+                    div.schaden {
                         display: none;
                     }
                     input[name="attr_kampfonoff"][value="on"] ~ span.schaden {
                         display: flex;
                     }
-                }
 
-                div.line {
-                    grid-column-start: 1;
-                    grid-column-end: 6;
-                    height: 0px;
-                    @include gradient-border();
-                    border-bottom: solid 1px;
+                    
+
+                    .wirkung {
+                        width: 100%;
+                        align-items: start;
+                        justify-content: baseline;
+                        label {
+                            display: block;
+                            width: 100%;
+                            text-align: left;
+                        }
+                    }
                 }
             }
         }
@@ -965,6 +1026,7 @@ $font-size-small: 1.2rem;
     /* Tooltip text */
     .tooltip .tooltiptext {
         position: absolute;
+        box-sizing: border-box;
         z-index: 2000;
         visibility: hidden;
         background-color: white;

@@ -1679,23 +1679,23 @@ on("change:lebenspunkte_v", function (eventInfo) {
         var update = {};
         if (oldGesundheitsstufe == 4 && gesundheitsstufe == 5) {
             let newrowid = generateRowID();
-            update["repeating_zustaende_" + newrowid + "_zustandsname"] = "sterbendw";
+            update["repeating_zustaende_" + newrowid + "_zustandsname"] = "sterbend (Gesundheitsst.)";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 2;
             update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
         if (oldGesundheitsstufe == 5 && gesundheitsstufe == 6) {
             let newrowid = generateRowID();
-            update["repeating_zustaende_" + newrowid + "_zustandsname"] = "sterbendw";
+            update["repeating_zustaende_" + newrowid + "_zustandsname"] = "sterbend (Gesundheitsst.)";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 3;
             update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
             newrowid = generateRowID();
-            update["repeating_zustaende_" + newrowid + "_zustandsname"] = "bewusstlos";
+            update["repeating_zustaende_" + newrowid + "_zustandsname"] = "bewusstlos (Gesundheitsst.)";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 1;
             update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
         if (lp_v >= (+v.lebenspunkte * 6)) {
             let newrowid = generateRowID();
-            update["repeating_zustaende_" + newrowid + "_zustandsname"] = "totw";
+            update["repeating_zustaende_" + newrowid + "_zustandsname"] = "tot (Gesundheitsst.)";
             update["repeating_zustaende_" + newrowid + "_zustandsstufe"] = 1;
             update["repeating_zustaende_" + newrowid + "_zustandonoff"] = 1;
         }
@@ -1706,7 +1706,7 @@ on("change:lebenspunkte_v", function (eventInfo) {
 
 allModifier.push("gesundheitsstufe");
 autoUpdate(["gesundheitsstufe", "wundabzugmod", "wundabzugmoduser"], v => ({
-    wundabzug: Math.min(Math.max(Math.pow(2, Math.max(Math.min(int(v.gesundheitsstufe + v.gesundheitsstufemod), 5) - 1, 0) - 1) + int(v.wundabzugmod) + int(v.wundabzugmoduser), 0), 8)
+    wundabzug: Math.min(Math.max(Math.floor(Math.pow(2, Math.max(Math.min(int(v.gesundheitsstufe) + int(v.gesundheitsstufemod) - 1, 5), 0) - 1)) + int(v.wundabzugmod) + int(v.wundabzugmoduser), 0), 8)
 }));
 
 

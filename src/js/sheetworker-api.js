@@ -55,6 +55,7 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
                     }
                 }
             }
+            el.trigger("change");
         });
 
 
@@ -107,6 +108,7 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
                         }
                     }
                 }
+                el.trigger("change");
             });
 
             if (opt != "silent") {
