@@ -1,0 +1,98 @@
+{
+    "blitzreflexe": {
+        "tooltip": "Blitzreflexe",
+        "modifier": {
+            "initiative": 3
+        }
+    },
+    "gute reflexe": {
+        "tooltip": "Gute Reflexe",
+        "modifier": {
+            "verteidigung": 1
+        }
+    },
+    "rüstungsträger i": {
+        "tooltip": "Rüstungsträger I",
+        "modifier": {
+            "ruestungsbe": -1
+        }
+    },
+    "rüstungsträger 1": {
+        "tooltip": "Rüstungsträger I",
+        "modifier": {
+            "ruestungsbe": -1
+        }
+    },
+    "rüstungsträger ii": {
+        "tooltip": "Rüstungsträger II",
+        "modifier": {
+            "ruestungstickplus": -1
+        }
+    },
+    "rüstungsträger 2": {
+        "tooltip": "Rüstungsträger II",
+        "modifier": {
+            "ruestungstickplus": -1
+        }
+    },
+    "starker schildarm i": {
+        "tooltip": "Starker Schildarm I",
+        "modifier": {
+            "schildbe": -1
+        }
+    },
+    "starker schildarm 1": {
+        "tooltip": "Starker Schildarm I",
+        "modifier": {
+            "schildbe": -1
+        }
+    },
+    "starker schildarm ii": {
+        "tooltip": "Starker Schildarm II",
+        "modifier": {
+            "schildtickplus": -1
+        }
+    },
+    "starker schildarm 2": {
+        "tooltip": "Starker Schildarm II",
+        "modifier": {
+            "schildtickplus": -1
+        }
+    },
+    "schmerzwiderstand i": {
+        "tooltip": "Schmerzwiderstand I",
+        "modifier": {
+            "wundabzug": -1
+        }
+    },
+    "schmerzwiderstand 1": {
+        "tooltip": "Schmerzwiderstand I",
+        "modifier": {
+            "wundabzug": -1
+        }
+    },
+    "schmerzwiderstand ii": {
+        "tooltip": "Schmerzwiderstand II",
+        "modifier": {
+            "wundabzug": -1
+        }
+    },
+    "schmerzwiderstand 2": {
+        "tooltip": "Schmerzwiderstand II",
+        "modifier": {
+            "wundabzug": -1
+        }
+    },
+    "arkane geschwindigkeit": {
+        "tooltip": "Arkane Geschwindigkeit",
+        "modifier": {
+            "geschwindigkeit": 1
+        }
+    },
+    "sprinter": {
+        "tooltip": "Sprinter",
+        "modifier": {
+            "geschwindigkeit": 1
+        }
+    }
+}

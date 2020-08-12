@@ -222,7 +222,6 @@ on("change:repeating_staerken remove:repeating_staerken", function () {
                     }
                 }
             });
-            console.log(staerkenmod);
             setAttrs({ staerkenmod: JSON.stringify(staerkenmod) });
         });
     });
@@ -279,7 +278,6 @@ on("change:repeating_attributmods remove:repeating_attributmods", function () {
                 var name = str(v["repeating_attributmods_" + id + "_attributmodname"]);
                 var modvalue = int(v["repeating_attributmods_" + id + "_attributmod"]);
                 var modactive = str(v["repeating_attributmods_" + id + "_attributmodonoff"]);
-                console.log(modactive);
                 if (modactive == "on") {
                     var attribute = []
                     switch (attribut) {
@@ -313,77 +311,39 @@ on("change:repeating_attributmods remove:repeating_attributmods", function () {
                 }
 
             });
-            console.log(attributmod);
             setAttrs({ attributmodsmod: JSON.stringify(attributmod) });
         });
     });
 });
 
 
+// Calculate modifier from "zustaende"
+on("change:repeating_meisterschaften remove:repeating_meisterschaften", function () {
+    getSectionIDs("repeating_meisterschaften", function (idarray) {
 
-// Update Tooltips
-allModifier.forEach(function (attr) {
-    on(`change:${attr} change:${attr}mod change:${attr}moduser change:${attr}modtooltip`, function (e) {
-        getAttrs([attr, attr + "mod", attr + "modtooltip", attr + "moduser"], function (v) {
-            var tooltip = "Basis: " + (int(v[attr]) - int(v[attr + "mod"]) - int(v[attr + "moduser"])) + str(v[attr + "modtooltip"]);
-            if (int(v[attr + "moduser"]) != 0) {
-                tooltip += "\n" + modStr(v[attr + "moduser"]) + " (mod.)"
-            }
+        idAttrsStr = idarray.map(id => "repeating_meisterschaften_" + id + "_meisterschaftsname"); getAttrs(idAttrsStr, function (v) {
+            var meisterschaftmod = {};
 
-            var update = {};
-            update[attr + "tooltip"] = tooltip;
-            setAttrs(update);
+            idarray.forEach(function (id) {
+                var meisterschaft = str(v["repeating_meisterschaften_" + id + "_meisterschaftsname"]).toLowerCase();
+                for (var splimoMeisterschaft in splittermond.meisterschaften) {
+                    if (meisterschaft == splimoMeisterschaft) {
+                        for (var key in splittermond.meisterschaften[splimoMeisterschaft].modifier) {
+                            var modifier = { name: splittermond.meisterschaften[splimoMeisterschaft].tooltip, value: int(splittermond.meisterschaften[splimoMeisterschaft].modifier[key]) };
+                            if (!(key in meisterschaftmod)) {
+                                meisterschaftmod[key] = [];
+                            }
+                            meisterschaftmod[key].push(modifier);
+                        }
+                    }
+                }
+
+            });
+            setAttrs({ meisterschaftmod: JSON.stringify(meisterschaftmod) });
         });
     });
 });
 
-on("change:repeating_meisterschaften:meisterschaftsschwelle", function () {
-    getAttrs(["repeating_meisterschaften_meisterschaftsname", "repeating_meisterschaften_meisterschaftsfertigkeit", "blitzreflexecount", "sprintercount"], function (values) {
-        var name = values.repeating_meisterschaften_meisterschaftsname;
-        var fertigkeit = values.repeating_meisterschaften_meisterschaftsfertigkeit;
-        var update = {};
-        if (name != "" && fertigkeit != "") {
-            switch (name.toLowerCase()) {
-                case "blitzreflexe":
-                    update["blitzreflexecount"] = +values.blitzreflexecount + 1;
-                    break;
-                case "gute reflexe":
-                    update["hiddenvtdgr"] = 1;
-                    break;
-                case "rüstungsträger i":
-                case "rüstungsträger 1":
-                    update["rt1"] = 1;
-                    break;
-                case "rüstungsträger ii":
-                case "rüstungsträger 2":
-                    update["rt2"] = 1;
-                case "starker schildarm i":
-                case "starker schildarm 1":
-                    update["st1"] = 1;
-                    break;
-                case "schmerzwiderstand i":
-                case "schmerzwiderstand 1":
-                    update["sw1"] = 1;
-                    break
-                case "starker schildarm ii":
-                case "starker schildarm 2":
-                    update["st2"] = 1;
-                    break;
-                case "schmerzwiderstand ii":
-                case "schmerzwiderstand 2":
-                    update["sw2"] = 1;
-                    break;
-                case "arkane geschwindigkeit":
-                    update["hiddengswag"] = 1;
-                    break;
-                case "sprinter":
-                    update["sprintercount"] = +values.sprintercount + 1;
-                    break;
-            }
-            setAttrs(update);
-        }
-    });
-});
 
 // Calc "Zauber"
 on("change:repeating_zauber:magieschulen", function () {
@@ -426,7 +386,6 @@ on("change:repeating_waffen:waffenskill change:repeating_waffen:waffenattr1 chan
                         var attr1 = v["repeating_waffen_" + currentID + "_waffenattr1"];
                         var attr2 = v["repeating_waffen_" + currentID + "_waffenattr2"];
                         var mod = int(v["repeating_waffen_" + currentID + "_waffenmod"]);
-                        console.log(mod);
                         update["repeating_waffen_" + currentID + "_waffenwert"] = int(v[skill]) + int(v[attr1]) + int(v[attr2]) + mod;
                     });
                     setAttrs(update);
@@ -434,56 +393,6 @@ on("change:repeating_waffen:waffenskill change:repeating_waffen:waffenattr1 chan
             }
         });
     });
-
-
-on("change:repeating_ruestungen remove:repeating_ruestungen change:repeating_ruestungen:ruestungonoff change:rt1 change:rt2", function () {
-    getSectionIDs("repeating_ruestungen", function (idarray) {
-        if (idarray.length == 0) {
-            setAttrs({
-                hiddenruestungsvtd: 0,
-                hiddenruestungssr: 0,
-                hiddenruestungsbe: 0,
-                hiddenruestungstickplus: 0
-            });
-        } else {
-            var insgesamtvtd = 0;
-            var insgesamtbe = 0;
-            var insgesamtsr = 0;
-            var insgesamttickplus = 0;
-            var keineausgeruestet = true;
-            _.each(idarray, function (currentID, i) {
-                getAttrs(["repeating_ruestungen_" + currentID + "_ruestungsvtd", "repeating_ruestungen_" + currentID + "_ruestungsbe", "repeating_ruestungen_" + currentID + "_ruestungssr", "repeating_ruestungen_" + currentID + "_ruestungonoff", "repeating_ruestungen_" + currentID + "_ruestungstickplus", "gesamtvtd", "gesamtsr", "gesamtbe", "rt1", "rt2"], function (v) {
-                    var vtd = v["repeating_ruestungen_" + currentID + "_ruestungsvtd"];
-                    var be = v["repeating_ruestungen_" + currentID + "_ruestungsbe"];
-                    var sr = v["repeating_ruestungen_" + currentID + "_ruestungssr"];
-                    var tp = v["repeating_ruestungen_" + currentID + "_ruestungstickplus"];
-                    var onoff = v["repeating_ruestungen_" + currentID + "_ruestungonoff"];
-                    if (onoff == true) {
-                        keineausgeruestet = false;
-                        insgesamtvtd += +vtd;
-                        insgesamtbe += +be;
-                        insgesamtsr += +sr;
-                        insgesamttickplus += +tp;
-                        setAttrs({
-                            hiddenruestungsvtd: +insgesamtvtd,
-                            hiddenruestungssr: +insgesamtsr,
-                            hiddenruestungsbe: +insgesamtbe - +v.rt1,
-                            hiddenruestungstickplus: +insgesamttickplus - +v.rt2
-                        });
-                    }
-                });
-            });
-            if (keineausgeruestet == true) {
-                setAttrs({
-                    hiddenruestungsvtd: 0,
-                    hiddenruestungssr: 0,
-                    hiddenruestungsbe: 0,
-                    hiddenruestungstickplus: 0
-                });
-            }
-        }
-    });
-});
 
 on("change:hiddenschildvtd change:hiddenruestungsvtd change:hiddenruestungssr change:hiddenschildbe change:hiddenruestungsbe change:hiddenschildtickplus change:hiddenruestungstickplus change:hiddensr change:hiddenbehinderungfruehstueck", function (g) {
     getAttrs(["hiddenschildvtd", "hiddenruestungsvtd", "hiddenruestungssr", "hiddenschildbe", "hiddenruestungsbe", "hiddenschildtickplus", "hiddenruestungstickplus", "hiddensr", "hiddenbehinderungfruehstueck", "hiddenschadensreduktionfruehstueck"], function (f) {
@@ -496,116 +405,6 @@ on("change:hiddenschildvtd change:hiddenruestungsvtd change:hiddenruestungssr ch
     });
 });
 
-on("change:repeating_zustaende remove:repeating_zustaende", function (g) {
-    getSectionIDs("zustaende", function (idarray) {
-        if (idarray.length == 0) {
-            var deleteAll = {};
-            deleteAll["verwundet"] = 0;
-            deleteAll["benommen"] = 0;
-            deleteAll["geblendet"] = 0;
-            deleteAll["erschoepft"] = 0;
-            deleteAll["lahm"] = 0;
-            deleteAll["glaubenskrise"] = 0;
-            setAttrs(deleteAll);
-        } else {
-            var verwundet = 0;
-            var benommen = 0;
-            var erschoepft = 0;
-            var geblendet = 0;
-            var lahm = 0;
-            var glaubenskrise = 0;
-            var keineraktiviert = true;
-            _.each(idarray, function (currentID, i) {
-                getAttrs(["repeating_zustaende_" + currentID + "_zustandsname", "repeating_zustaende_" + currentID + "_zustandsstufe", "repeating_zustaende_" + currentID + "_zustandonoff", "beweglichkeit", "groessenklasse", "geschwindigkeitmod", "hiddengsw", "hiddengswag", "hiddengswspr", "hiddengswbe", "erschoepft"], function (v) {
-                    var zustandsname = v["repeating_zustaende_" + currentID + "_zustandsname"];
-                    var zustandsstufe = v["repeating_zustaende_" + currentID + "_zustandsstufe"];
-                    var zustandonoff = v["repeating_zustaende_" + currentID + "_zustandonoff"];
-                    if (+zustandonoff == 1) {
-                        keineraktiviert = false;
-                        switch (zustandsname) {
-                            case "verwundet":
-                                verwundet += +zustandsstufe;
-                                setAttrs({
-                                    verwundet: +verwundet
-                                });
-                                break;
-                            case "benommen":
-                                benommen += +zustandsstufe;
-                                setAttrs({
-                                    benommen: +benommen
-                                });
-                                break;
-                            case "geblendet":
-                                geblendet += +zustandsstufe * 2;
-                                setAttrs({
-                                    geblendet: +geblendet
-                                });
-                                break;
-                            case "erschoepft":
-                                erschoepft += +zustandsstufe;
-                                setAttrs({
-                                    erschoepft: +erschoepft
-                                });
-                                break;
-                            case "glaubenskrise":
-                                glaubenskrise += +zustandsstufe;
-                                setAttrs({
-                                    glaubenskrise: +glaubenskrise
-                                });
-                                break;
-                            case "lahm":
-                                let lahmAlt = +v.beweglichkeit + +v.groessenklasse + +v.geschwindigkeitmod + +v.hiddengsw + +v.hiddengswag + +v.hiddengswspr - +v.hiddengswbe - +v.erschoepft;
-                                let lahm = 0;
-                                let lahmTemp = 0;
-                                if (zustandsstufe == 0) {
-                                    setAttrs({ lahm: +zustandsstufe });
-                                } else if (zustandsstufe > 0) {
-                                    for (var i = 1; i <= +zustandsstufe; i++) {
-                                        lahmTemp = lahmAlt;
-                                        lahmAlt /= 2;
-                                        lahm += (lahmTemp - lahmAlt);
-                                    }
-                                    setAttrs({ lahm: +Math.floor(lahm) });
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
-            });
-            if (keineraktiviert == true) {
-                setAttrs({
-                    verwundet: 0,
-                    benommen: 0,
-                    geblendet: 0,
-                    erschoepft: 0,
-                    lahm: 0
-                });
-            }
-        }
-    });
-});
-
-on("change:schildonoff change:schildvtd change:schildbe change:schildtickplus change:st1 change:st2", function (info) {
-    getAttrs(["schildonoff"], function (f) {
-        if (f.schildonoff == true) {
-            getAttrs(["schildvtd", "schildbe", "schildtickplus", "st1", "st2"], function (g) {
-                setAttrs({
-                    hiddenschildvtd: +g.schildvtd,
-                    hiddenschildbe: +g.schildbe - +g.st1,
-                    hiddenschildtickplus: +g.schildtickplus - +g.st2
-                });
-            });
-        } else {
-            setAttrs({
-                hiddenschildvtd: 0,
-                hiddenschildbe: 0,
-                hiddenschildtickplus: 0
-            });
-        }
-    });
-});
 
 on("change:gesamtvtd change:gesamtsr change:gesamtbe", function (eventinfo) {
     getAttrs(["gesamtvtd", "gesamtsr", "gesamtbe", "schadensreduktionmod", "hiddenschadensreduktionfruehstueck"], function (values) {
@@ -616,16 +415,6 @@ on("change:gesamtvtd change:gesamtsr change:gesamtbe", function (eventinfo) {
         });
     });
 });
-
-on("change:behinderung", function (eventinfo) {
-    getAttrs(["behinderung"], function (values) {
-        var modifier = Math.floor(+values.behinderung / 2);
-        setAttrs({
-            hiddengswbe: modifier
-        });
-    });
-});
-
 
 
 
@@ -655,236 +444,7 @@ on("change:fokus", function (e) {
         });
     });
 });
-
-on("change:lebenspunkte_v change:lebenspunkte change:schmerzresistenz change:sw1 change:sw2 change:verwundet change:schadenimmun change:wundabzugsmod", function (e) {
-    getAttrs(["lebenspunkte", "lebenspunkte_v", "lebenspunkte_k", "lebenspunkte_e", "schmerzresistenz", "sw1", "sw2", "verwundet", "schadenimmun", "wundabzugsmod"], function (v) {
-        var mod;
-        var row = Math.ceil(+v.lebenspunkte_v / +v.lebenspunkte);
-        row += +v.verwundet;
-        var sr = v.schmerzresistenz;
-        var sw1 = v.sw1;
-        var sw2 = v.sw2;
-        var war = +v.wundabzugsmod;
-        switch (row) {
-            case 0:
-            case 1:
-                mod = 0;
-                break;
-            case 2:
-                mod = 1 - +sr - +sw1 - +sw2;
-                break;
-            case 3:
-                mod = 2 - +sr - +sw1 - +sw2;
-                break;
-            case 4:
-                mod = 4 - +sr - +sw1 - +sw2;
-                break;
-            case 5:
-                mod = 8 - +sr - +sw1 - +sw2;
-                break;
-            default:
-                mod = 8 - +sr - +sw1 - +sw2;
-                break;
-        }
-        mod -= +war;
-        if (mod < 0 || v.schadenimmun > 0) { mod = 0; }
-        setAttrs({
-            schadensmod: +mod,
-        });
-        if (e.sourceAttribute == "lebenspunkte_v") {
-            setAttrs({
-                lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_v - +v.lebenspunkte_e - +v.lebenspunkte_k,
-            });
-        }
-    });
-});
-
-on("change:repeating_attributmods remove:repeating_attributmods", function () {
-    getSectionIDs("repeating_attributmods", function (idarray) {
-        if (idarray.length == 0) {
-            setAttrs({
-                hiddenausstrahlungmod: 0,
-                hiddenbeweglichkeitmod: 0,
-                hiddenintuitionmod: 0,
-                hiddenkonstitutionmod: 0,
-                hiddenmystikmod: 0,
-                hiddenstaerkemod: 0,
-                hiddenverstandmod: 0,
-                hiddenwillenskraftmod: 0,
-                hiddenvtdbonus: 0,
-                hiddengwbonus: 0,
-                hiddenkwbonus: 0,
-                hiddenallgfert: 0,
-                hiddenbehinderungfruehsteuck: 0,
-                hiddenschadensreduktionfruehstueck: 0,
-                angriffsbonus: 0,
-                kampffertigkeitenbonus: 0,
-                schadenimmun: 0,
-                hiddenallfert: 0,
-                hiddenallwiderstand: 0,
-                wundabzugsmod: 0,
-                hiddenmodini: 0,
-                hiddenmodgsw: 0
-            });
-        } else {
-            var ausstrahlung = 0;
-            var beweglichkeit = 0;
-            var intuition = 0;
-            var konstitution = 0;
-            var mystik = 0;
-            var staerke = 0;
-            var verstand = 0;
-            var willenskraft = 0;
-            var vtd = 0;
-            var kw = 0;
-            var gw = 0;
-            var allgfert = 0;
-            var beh = 0;
-            var sr = 0;
-            var ab = 0;
-            var kf = 0;
-            var si = 0;
-            var allfert = 0;
-            var allwiderstand = 0;
-            var wundabzugsmod = 0;
-            var ini = 0;
-            var gsw = 0;
-            var keineaktiv = true;
-            _.each(idarray, function (currentID, i) {
-                getAttrs(["repeating_attributmods_" + currentID + "_modattribut", "repeating_attributmods_" + currentID + "_attributmod", "repeating_attributmods_" + currentID + "_attributmodonoff"], function (v) {
-                    var attr = v["repeating_attributmods_" + currentID + "_modattribut"];
-                    var mod = v["repeating_attributmods_" + currentID + "_attributmod"];
-                    var onoff = v["repeating_attributmods_" + currentID + "_attributmodonoff"];
-                    var update = {};
-                    if (onoff == "on") {
-                        keineaktiv = false;
-                        switch (attr) {
-                            case "aus":
-                                ausstrahlung += +mod;
-                                update["hiddenausstrahlungmod"] = +ausstrahlung;
-                                break;
-                            case "bew":
-                                beweglichkeit += +mod;
-                                update["hiddenbeweglichkeitmod"] = +beweglichkeit;
-                                break;
-                            case "int":
-                                intuition += +mod;
-                                update["hiddenintuitionmod"] = +intuition;
-                                break;
-                            case "kon":
-                                konstitution += +mod;
-                                update["hiddenkonstitutionmod"] = +konstitution;
-                                break;
-                            case "mys":
-                                mystik += +mod;
-                                update["hiddenmystikmod"] = +mystik;
-                                break;
-                            case "stae":
-                                staerke += +mod;
-                                update["hiddenstaerkemod"] = +staerke;
-                                break;
-                            case "ver":
-                                verstand += +mod;
-                                update["hiddenverstandmod"] = +verstand;
-                                break;
-                            case "wil":
-                                willenskraft += +mod;
-                                update["hiddenwillenskraftmod"] = +willenskraft;
-                                break;
-                            case "vtd":
-                                vtd += +mod;
-                                update["hiddenvtdbonus"] = +vtd;
-                                break;
-                            case "kw":
-                                kw += +mod;
-                                update["hiddenkwbonus"] = +kw;
-                                break;
-                            case "gw":
-                                gw += +mod;
-                                update["hiddengwbonus"] = +gw;
-                                break;
-                            case "allgfert":
-                                allgfert += +mod;
-                                update["hiddenallgfert"] = +allgfert;
-                                break;
-                            case "beh":
-                                beh += +mod;
-                                update["hiddenbehinderungfruehstueck"] = +beh;
-                                break;
-                            case "sr":
-                                sr += +mod;
-                                update["hiddenschadensreduktionfruehstueck"] = +sr;
-                                break;
-                            case "ab":
-                                ab += +mod;
-                                update["angriffsbonus"] = +ab;
-                                break;
-                            case "kampffert":
-                                kf += +mod;
-                                update["kampffertigkeitenbonus"] = +kf;
-                                break;
-                            case "si":
-                                si += +mod;
-                                if (si > 1) { si = 1; }
-                                update["schadenimmun"] = +si;
-                                break;
-                            case "allfert":
-                                allfert += +mod;
-                                update["hiddenallfert"] = +allfert;
-                                break;
-                            case "allwiderstand":
-                                allwiderstand += +mod;
-                                update["hiddenallwiderstand"] = +allwiderstand;
-                                break;
-                            case "war":
-                                wundabzugsmod += +mod;
-                                update["wundabzugsmod"] = +wundabzugsmod;
-                                break;
-                            case "ini":
-                                ini += +mod;
-                                update["hiddenmodini"] = +ini;
-                                break;
-                            case "gsw":
-                                gsw += +mod;
-                                update["hiddenmodgsw"] = +gsw;
-                                break;
-                            default:
-                                break;
-                        }
-                        setAttrs(update);
-                    }
-                });
-            });
-            if (keineaktiv == true) {
-                setAttrs({
-                    hiddenausstrahlungmod: 0,
-                    hiddenbeweglichkeitmod: 0,
-                    hiddenintuitionmod: 0,
-                    hiddenkonstitutionmod: 0,
-                    hiddenmystikmod: 0,
-                    hiddenstaerkemod: 0,
-                    hiddenverstandmod: 0,
-                    hiddenwillenskraftmod: 0,
-                    hiddenvtdbonus: 0,
-                    hiddenkwbonus: 0,
-                    hiddengwbonus: 0,
-                    hiddenallgfert: 0,
-                    hiddenbehinderungfruehstueck: 0,
-                    hiddenschadensreduktionfruehstueck: 0,
-                    angriffsbonus: 0,
-                    kampffertigkeitenbonus: 0,
-                    schadenimmun: 0,
-                    hiddenallfert: 0,
-                    hiddenallwiderstand: 0,
-                    wundabzugsmod: 0,
-                    hiddenmodini: 0,
-                    hiddenmodgsw: 0
-                });
-            }
-        }
-    });
-});
-
+/*
 
 on("change:repeating_nahkampfwaffen:waffenmerkmale", function (eventInfo) {
     getAttrs(["repeating_nahkampfwaffen_waffenmerkmale"], function (v) {
@@ -915,6 +475,7 @@ on("change:repeating_nahkampfwaffen:waffenmerkmale", function (eventInfo) {
         });
     });
 });
+
 
 on("change:repeating_nahkampfwaffen:waffenscharf change:repeating_nahkampfwaffen:waffenexakt change:repeating_nahkampfwaffen:waffenkritisch change:repeating_nahkampfwaffen:waffenschaden change:repeating_nahkampfwaffen:waffenname", function (eventInfo) {
     getAttrs(["repeating_nahkampfwaffen_waffenexakt", "repeating_nahkampfwaffen_waffenkritisch", "repeating_nahkampfwaffen_waffenscharf", "repeating_nahkampfwaffen_waffenschaden"], function (v) {
@@ -1035,7 +596,7 @@ on("change:repeating_fernkampfwaffen:waffenscharf change:repeating_fernkampfwaff
     });
 });
 
-
+*/
 
 
 on("change:notizen", function (eventInfo) {
@@ -1478,27 +1039,6 @@ on("change:repeating_zauber:directcalcv", function (f) {
     });
 });
 
-on("change:repeating_zaubernsc:directcalcnsc", function (f) {
-    getAttrs(["repeating_zaubernsc_directcalcnsc", "repeating_zaubernsc_zauberkostennsc"], function (values) {
-        var update = {};
-        var kosten = 0;
-        update["repeating_zaubernsc_directcalcnsc"] = "off";
-        setAttrs(update);
-        kosten = values.repeating_zaubernsc_zauberkostennsc;
-        calculateSpell(kosten, "nsc");
-    });
-});
-
-on("change:repeating_zaubernsc:directcalcvnscv", function (f) {
-    getAttrs(["repeating_zaubernsc_directcalcnscv", "repeating_zaubernsc_zauberkostennscv"], function (values) {
-        var update = {};
-        var kosten = 0;
-        update["repeating_zaubernsc_directcalcnscv"] = "off";
-        setAttrs(update);
-        kosten = values.repeating_zaubernsc_zauberkostennscv;
-        calculateSpell(kosten, "nsc");
-    });
-});
 
 on("change:hiddensbm", function (f) {
     getAttrs(["hiddensbm"], function (v) {
@@ -1510,101 +1050,6 @@ on("change:hiddensbm", function (f) {
     });
 });
 
-on("remove:repeating_staerken", function (eventInfo) {
-    var rowid = eventInfo.sourceAttribute.substring(19, 39);
-    var staerke = eventInfo.removedInfo["repeating_staerken_" + rowid + "_staerkename"];
-    var update = {};
-    var attribs = {
-        "robust": "hiddenlp",
-        "erhöhter fokuspool": "hiddenfokus",
-        "flink": "hiddengsw",
-        "hoher geistiger widerstand": "hiddengw",
-        "hoher körperlicher widerstand": "hiddenkw",
-        "natürlicher rüstungsschutz": "hiddensr",
-        "verbesserte initiative": "hiddenini",
-        "schmerzresistenz": "schmerzresistenz",
-        "zusätzliche splitterpunkte": "hiddensplitterpunkte",
-        "erhöhte fokusregeneration": "hiddenfokreg",
-        "erhöhte lebensregeneration": "hiddenlifereg",
-        "stabile magie": "hiddensbm"
-    };
-    if (attribs[staerke] != "undefined") {
-        update[attribs[staerke.toLowerCase()]] = 0;
-        setAttrs(update);
-    }
-});
-
-on("remove:repeating_meisterschaften", function (eventInfo) {
-    var rowid = eventInfo.sourceAttribute.substring(26, 46);
-    var meisterschaft = eventInfo.removedInfo["repeating_meisterschaften_" + rowid + "_meisterschaftsname"];
-    var update = {};
-    var meisterschaften = {
-        "blitzreflexe": "blitzreflexecount",
-        "gute reflexe": "hiddenvtdgr",
-        "rüstungsträger i": "rt1",
-        "rüstungsträger 1": "rt1",
-        "rüstungsträger ii": "rt2",
-        "rüstungsträger 2": "rt2",
-        "starker schildarm i": "st1",
-        "starker schildarm 1": "st1",
-        "schmerzwiderstand i": "sw1",
-        "schmerzwiderstand 1": "sw1",
-        "starker schildarm ii": "st2",
-        "starker schildarm 2": "st2",
-        "schmerzwiderstand ii": "sw2",
-        "schmerzwiderstand 2": "sw2",
-        "arkane geschwindigkeit": "hiddengswag",
-        "sprinter": "sprintercount"
-    };
-    if (meisterschaft.toLowerCase() == "blitzreflexe") {
-        getAttrs(["blitzreflexecount"], function (v) {
-            if (+v.blitzreflexecount > 0) {
-                update[meisterschaften[meisterschaft.toLowerCase()]] = +v.blitzreflexecount - 1;
-                setAttrs(update);
-            }
-        });
-    } else if (meisterschaft.toLowerCase() == "sprinter") {
-        getAttrs(["sprintercount"], function (v) {
-            if (+v.sprintercount > 0) {
-                update[meisterschaften[meisterschaft.toLowerCase()]] = +v.sprintercount - 1;
-                setAttrs(update);
-            }
-        });
-    } else {
-        if (meisterschaften[meisterschaft] != "undefined") {
-            update[meisterschaften[meisterschaft.toLowerCase()]] = 0;
-            setAttrs(update);
-        }
-    }
-});
-
-on("change:blitzreflexecount", function (eventInfo) {
-    getAttrs(["blitzreflexecount", "hiddeninibr"], function (v) {
-        let update = {};
-        let blitzreflexecount = +v.blitzreflexecount;
-        if (+blitzreflexecount <= 2) {
-            update["hiddeninibr"] = +blitzreflexecount * 3;
-            setAttrs(update);
-        } else {
-            update["hiddeninibr"] = 0;
-            setAttrs(update);
-        }
-    });
-});
-
-on("change:sprintercount", function (eventInfo) {
-    getAttrs(["sprintercount", "hiddengswspr"], function (v) {
-        let update = {};
-        let sprintercount = +v.sprintercount;
-        if (+sprintercount <= 2) {
-            update["hiddengswspr"] = +sprintercount;
-            setAttrs(update);
-        } else {
-            update["hiddengswspr"] = 0;
-            setAttrs(update);
-        }
-    });
-});
 
 on("clicked:addschaden", function (e) {
     getAttrs(["anzahlschaden", "anzahlschadenart", "lebenspunkte", "lebenspunkte_v", "lebenspunkte_e", "lebenspunkte_k"], function (v) {
@@ -1705,7 +1150,8 @@ on("change:lebenspunkte_v", function (eventInfo) {
 });
 
 allModifier.push("gesundheitsstufe");
-autoUpdate(["gesundheitsstufe", "wundabzugmod", "wundabzugmoduser"], v => ({
+allModifier.push("wundabzug");
+autoUpdate(["gesundheitsstufe", "gesundheitsstufemod", "wundabzugmod", "wundabzugmoduser"], v => ({
     wundabzug: Math.min(Math.max(Math.floor(Math.pow(2, Math.max(Math.min(int(v.gesundheitsstufe) + int(v.gesundheitsstufemod) - 1, 5), 0) - 1)) + int(v.wundabzugmod) + int(v.wundabzugmoduser), 0), 8)
 }));
 
@@ -1753,73 +1199,7 @@ on("change:rolldamagecheck change:rolldamagensccheck", function (eventInfo) {
     });
 });
 
-on("change:repeating_masterytooltips:masterytooltipname change:repeating_masterytooltips:masterytooltiptext", function () {
-    getAttrs(["repeating_masterytooltips_masterytooltipname", "repeating_masterytooltips_masterytooltiptext"], function (values) {
-        let mastery = values.repeating_masterytooltips_masterytooltipname;
-        let tooltip = values.repeating_masterytooltips_masterytooltiptext;
-        let update = {};
-        getSectionIDs("repeating_meisterschaften", function (idarray) {
-            if (idarray.length > 0) {
-                _.each(idarray, function (currentID, i) {
-                    getAttrs(["repeating_meisterschaften_" + currentID + "_meisterschaftsname"], function (v) {
-                        var name = v["repeating_meisterschaften_" + currentID + "_meisterschaftsname"];
-                        if (name.toLowerCase() == mastery.toLowerCase()) {
-                            update["repeating_meisterschaften_" + currentID + "_meisterschaftsbeschreibung"] = tooltip;
-                            setAttrs(update);
-                        }
-                    });
-                });
-            }
-        });
-    });
-});
 
-on("change:repeating_spelltooltips:spelltooltipname change:repeating_spelltooltips:spelltooltiptext", function () {
-    getAttrs(["repeating_spelltooltips_spelltooltipname", "repeating_spelltooltips_spelltooltiptext"], function (values) {
-        let spell = values.repeating_spelltooltips_spelltooltipname;
-        let tooltip = values.repeating_spelltooltips_spelltooltiptext;
-        let update = {};
-        getSectionIDs("repeating_zauber", function (idarray) {
-            if (idarray.length > 0) {
-                _.each(idarray, function (currentID, i) {
-                    getAttrs(["repeating_zauber_" + currentID + "_zaubername"], function (v) {
-                        var name = v["repeating_zauber_" + currentID + "_zaubername"];
-                        if (name.toLowerCase() == spell.toLowerCase()) {
-                            update["repeating_zauber_" + currentID + "_zauberbeschreibung"] = tooltip;
-                            setAttrs(update);
-                        }
-                    });
-                });
-            }
-        });
-    });
-});
-
-on("change:tooltips change:tooltips_spells", function () {
-    getAttrs(["tooltips", "tooltips_spells"], function (values) {
-        let tooltips_m = values.tooltips;
-        let tooltips_s = values.tooltips_spells;
-        let update = {};
-
-        getSectionIDs("repeating_meisterschaften", function (idarray) {
-            if (idarray.length > 0) {
-                _.each(idarray, function (currentID, i) {
-                    update["repeating_meisterschaften_" + currentID + "_tooltips_inside"] = tooltips_m;
-                    setAttrs(update);
-                });
-            }
-        });
-
-        getSectionIDs("repeating_zauber", function (idarray) {
-            if (idarray.length > 0) {
-                _.each(idarray, function (currentID, i) {
-                    update["repeating_zauber_" + currentID + "_tooltips_inside_spells"] = tooltips_s;
-                    setAttrs(update);
-                });
-            }
-        });
-    });
-});
 
 on("change:repeating_ausruestung:last change:repeating_ausruestung:getragen change:repeating_ausruestung:anzahl remove:repeating_ausruestung change:repeating_behaelter1:last change:repeating_behaelter1:getragen change:repeating_behaelter1:anzahl remove:repeating_behaelter1 change:repeating_behaelter2:last change:repeating_behaelter2:getragen change:repeating_behaelter2:anzahl remove:repeating_behaelter2 change:repeating_behaelter3:last change:repeating_behaelter3:getragen change:repeating_behaelter3:anzahl remove:repeating_behaelter3 change:repeating_behaelter4:last change:repeating_behaelter4:getragen change:repeating_behaelter4:anzahl remove:repeating_behaelter4 change:repeating_behaelter5:last change:repeating_behaelter5:getragen change:repeating_behaelter5:anzahl remove:repeating_behaelter5", function (eventInfo) {
     let row = eventInfo.sourceAttribute.split("_")[1];
@@ -1865,10 +1245,34 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
 });
 
 
+//update Schadensreduktion, Behinderung, Tick+, VTD+
+["sr", "be", "tickplus", "vtd"].forEach(function (type) {
+    allModifier.push("ruestungs" + type);
+    allModifier.push("schild" + type);
+    on(`change:repeating_ruestungen change:schild${type} change:ruestungs${type}mod change:schild${type}mod change:schildonoff`, function () {
+        getSectionIDs("repeating_ruestungen", function (rid) {
+            var fields = [`ruestungs${type}mod`, `schild${type}mod`, `schild${type}`, "schildonoff"];
+            fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungs${type}`));
+            fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungonoff`));
+            getAttrs(fields, function (v) {
+                var val = 0;
+                rid.forEach(function (rowid) {
+                    val = (v[`repeating_ruestungen_${rowid}_ruestungonoff`] == "1") ? int(val) + Math.max(int(v[`repeating_ruestungen_${rowid}_ruestungs${type}`]) + int(v[`ruestungs${type}mod`]), 0) : val;
+                });
+                val += ((v["schildonoff"] == "1") ? Math.max(int(v[`schild${type}`]) + int(v[`schild${type}mod`]), 0) : 0);
+                var update = {};
+                update["ruestung" + type] = val;
+                setAttrs(update);
+            });
+        })
+    });
+});
+
+
 // Update internal modifier
-on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:wundabzug", function () {
-    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod"], function (v) {
-        var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod), , JSON.parse(v.zustaendemod)]
+on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:meisterschaftmod change:wundabzug change:ruestungvtd", function () {
+    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod", "meisterschaftmod", "ruestungvtd"], function (v) {
+        var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod), JSON.parse(v.zustaendemod), JSON.parse(v.meisterschaftmod)]
         var update = {};
         allModifier.forEach(function (v) {
             var modifier = v + "mod";
@@ -1902,6 +1306,28 @@ on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zusta
                 update[f + "modtooltip"] += `\n${modStr(-int(v.wundabzug))} (Wundabzug)`;
             })
         }
+
+        //Ausrüstung VTD+
+        if (int(v.ruestungvtd) != 0) {
+            update["verteidigungmod"] += int(v.ruestungvtd);
+            update["verteidigungmodtooltip"] += `\n${modStr(int(v.ruestungvtd))} (Schild & Rüstung)`;
+        }
         setAttrs(update);
+    });
+});
+
+// Update Tooltips
+allModifier.forEach(function (attr) {
+    on(`change:${attr} change:${attr}mod change:${attr}moduser change:${attr}modtooltip`, function (e) {
+        getAttrs([attr, attr + "mod", attr + "modtooltip", attr + "moduser"], function (v) {
+            var tooltip = "Basis: " + (int(v[attr]) - int(v[attr + "mod"]) - int(v[attr + "moduser"])) + str(v[attr + "modtooltip"]);
+            if (int(v[attr + "moduser"]) != 0) {
+                tooltip += "\n" + modStr(v[attr + "moduser"]) + " (mod.)"
+            }
+
+            var update = {};
+            update[attr + "tooltip"] = tooltip;
+            setAttrs(update);
+        });
     });
 });

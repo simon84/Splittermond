@@ -115,6 +115,14 @@ $font-size-small: 1.2rem;
         }
     }
 
+    .small {
+        @include standard-font($font-size-small);
+    }
+
+    .large {
+        @include standard-font($font-size-large);
+    }
+
     
     .paper input, .paper select {
         font-size: 1em;
@@ -156,6 +164,10 @@ $font-size-small: 1.2rem;
                 line-height: inherit;
             }
         }
+    }
+
+    .paper select {
+        width: auto;
     }
 
     .paper textarea {
@@ -217,8 +229,8 @@ $font-size-small: 1.2rem;
             font-size: 1em;
             font-weight: inherit;
             line-height: inherit;
-            padding-top: 0.1em;
-            padding-bottom: 0.1em;
+            padding-top: 0.2em;
+            padding-bottom: 0.2em;
             padding-left: 0.2em;
             padding-right: 0.2em;
             //min-width: 1.5em;
@@ -497,7 +509,7 @@ $font-size-small: 1.2rem;
             .data-header {
                 display: grid;
                 align-items: baseline;
-                grid-template-columns: 2.5em auto 15em 2.5em;
+                grid-template-columns: 1.5em 1fr 15em 2.5em;
 
                 h3 {
                     text-align: left;
@@ -508,7 +520,7 @@ $font-size-small: 1.2rem;
             .data-area {
                 div > div {
                     gap: 5px;
-                    grid-template-columns: 2.5em auto 15em 2.5em;
+                    grid-template-columns: 1.5em 1fr 15em 2.5em;
                     align-items: baseline;
                     margin-bottom: 5px;
                     padding-bottom: 0px;
@@ -755,7 +767,7 @@ $font-size-small: 1.2rem;
                 div > div {
                     display: grid;
                     gap: 5px;
-                    grid-template-columns: 2.5em auto 2.5em;
+                    grid-template-columns: 1.5em 1fr 2.5em;
                     align-items: baseline;
                     margin-bottom: 5px;
 
@@ -810,113 +822,64 @@ $font-size-small: 1.2rem;
             margin-right: 5%;
 
             .data-header {
-                align-items: baseline;
+                h3 {
+                    width: 100%;
+                    text-align: center;
+                }
             }
 
-            
+            .waffen-eintrag {
+                margin-top: 10px;
+                .data-header,
+                .data-area {
+                    display: grid;
+                    align-items: end;
+                    justify-items: center;
+                    grid-template-columns: minmax(12em, auto) 2.5em 2.5em 4em 2.5em 12em 5em;
 
-            .data-area > div > div,
-            .data-header {
-                display: grid;
-                grid-template-columns: 12em 7em 7em 3em 3em 6em;
-                gap: 5px;
-                align-items: baseline;
-                padding-top: 5px;
-
-                @include gradient-border();
-                border-bottom: solid 1px;
-
-                input, select {
-                    text-align:center;
-                    width: 100%;
-                    font-size: 1em;
-                }
-                input[name="attr_waffenname"] {
-                    @include standard-font($font-size-large);
-                    text-align:left;
-                    
+                    input[name="attr_waffenname"] {
+                        @include standard-font($font-size-large);
+                        padding-bottom: 0px;
+                        margin-bottom: -1px;
+                    }
                 }
 
-                select[name^="attr_waffenattr"],
-                select[name="attr_waffenskill"] {
-                    text-align:left;
-                }
+                .data-area {
+                    align-items: baseline;
 
-                span[name="attr_waffenwert"] {
-                    @include standard-font($font-size-large);
-                    text-align: center;
+                    select[name="attr_waffenskill"],
+                    select[name^="attr_waffenattr"] {
+                        @include standard-font($font-size-small);
+                        width: auto;
+                    }
+
+                    span[name="attr_waffenwert"] {
+                        @include standard-font($font-size-large);
+                        text-align: center;
+                    }
+
+                    input[name="attr_waffenmod"]:before {
+                        content: "+";
+                    }
+
+                    input[name="attr_waffennotizen"] {
+                        text-align: left;
+                    }
+
+                    label {
+                        display: inline;
+                    }
+
+                    div {
+                        white-space: nowrap;
+                        width: 100%;
+                    }
                 }
 
                 
-
-                .attribute {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                }
-
-                input:read-only {
-                    color: #666;
-                }
-
-                span button {
-                    align-self: center;
-                }
-
-                .second-line {
-                    grid-column-start: 1;
-                    grid-column-end: 7;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-evenly;
-                    padding-bottom: 5px;
-
-                    
-
-                    div {
-                        margin-left: 5px;
-                        margin-right: 5px;
-                        margin-bottom: 10px;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        &.reichweite {
-                            display: none;
-                        }
-                        label {
-                            display: block;
-                            text-align: center;
-                            
-                            padding: 0;
-                            margin: 0;
-                            margin-top: -0.4em;
-                        }
-                    }
-
-                    div.reichweite {
-                        display: none;
-                    }
-
-                    input[name="attr_waffenskill"][value^="wurf"] ~ span.reichweite,
-                    input[name="attr_waffenskill"][value^="schuss"] ~ span.reichweite  {
-                        display: flex;
-                    }
-
-                    div.notizen {
-                        width: 100%;
-                        align-items: start;
-                        justify-content: baseline;
-                        label {
-                            display: block;
-                            width: 100%;
-                            text-align: left;
-                        }
-                    }
-
-                    
-                }
             }
+            
         }
-
 
         .data-section-zauber {
             display: flex;
@@ -924,90 +887,59 @@ $font-size-small: 1.2rem;
             align-self: stretch;
             margin-left: 5%;
             margin-right: 5%;
+
             .data-header {
-                align-items: baseline;
-            }
-
-            
-
-            .data-area > div > div,
-            .data-header {
-                width:100%;
-                display: grid;
-                grid-template-columns: auto 10em 3em 2em 3em 6em 3em;
-                gap: 5px;
-                align-items: baseline;
-                padding-top: 5px;
-
-                @include gradient-border();
-                border-bottom: solid 1px;
-
-                input, select {
-                    text-align:center;
+                h3 {
                     width: 100%;
-                    font-size: 1em;
-                }
-                input[name="attr_zaubername"] {
-                    @include standard-font($font-size-large);
-                    text-align:left;
-                }
-
-                span[name="attr_zauberwert"] {
-                    @include standard-font($font-size-large);
                     text-align: center;
                 }
+            }
 
-                span button {
-                    align-self: center;
+            .zauber-eintrag {
+                margin-top: 10px;
+                .data-header,
+                .data-area {
+                    display: grid;
+                    align-items: end;
+                    justify-items: center;
+                    grid-template-columns: minmax(10em, auto) 2.5em 2.5em 2.5em 4em 4em 2.5em 2.5em 2.5em 5em;
+
+                    input[name="attr_zaubername"] {
+                        @include standard-font($font-size-large);
+                        padding-bottom: 0px;
+                        margin-bottom: -1px;
+                    }
                 }
 
-                .second-line {
-                    grid-column-start: 1;
-                    grid-column-end: 8;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-evenly;                    
+                .data-area {
+                    align-items: baseline;
+
+                    select[name="attr_magieschulen"]{
+                        @include standard-font($font-size-small);
+                        width: auto;
+                    }
+
+                    span[name="attr_zauberwert"] {
+                        @include standard-font($font-size-large);
+                        text-align: center;
+                    }
+
+                    input[name="attr_zauberwirkung"] {
+                        text-align: left;
+                    }
+
+                    label {
+                        display: inline;
+                    }
 
                     div {
-                        margin-left: 5px;
-                        margin-right: 5px;
-                        margin-bottom: 10px;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        &.reichweite {
-                            display: none;
-                        }
-                        label {
-                            display: block;
-                            text-align: center;
-                            padding: 0;
-                            margin: 0;
-                            margin-top: -0.4em;
-                        }
-                    }
-                    div.schaden {
-                        display: none;
-                    }
-                    input[name="attr_kampfonoff"][value="1"] ~ span.schaden {
-                        display: flex;
-                    }
-
-                    
-
-                    .wirkung {
+                        white-space: nowrap;
                         width: 100%;
-                        align-items: start;
-                        justify-content: baseline;
-                        label {
-                            display: block;
-                            width: 100%;
-                            text-align: left;
-                        }
                     }
                 }
             }
         }
+
         .data-section-ruestungen {
             display: flex;
             flex-direction: column;
@@ -1016,19 +948,22 @@ $font-size-small: 1.2rem;
             margin-left: 5%;
             margin-right: 5%;
 
+            .data-area > div > div,
             .data-header {
                 align-items: baseline;
+                display: grid;
+                grid-template-columns: 1.5em 1.5fr 2.5em 2.5em 2.5em 2.5em 1fr;
+                gap: 5px;
             }
 
             
 
             .data-area > div > div,
             .data-header {
-                display: grid;
-                grid-template-columns: 2.5em 1.5fr 2.5em 2.5em 2.5em 2.5em 1fr;
-                gap: 5px;
+               
                 align-items: baseline;
                 padding-top: 5px;
+                padding-bottom: 5px;
 
                 input[type="checkbox"]:not(:checked) ~ * {
                     color: rgba(0,0,0,0.5);
@@ -1039,11 +974,56 @@ $font-size-small: 1.2rem;
                     width: 100%;
                     font-size: 1em;
                 }
-                input[name="attr_ruestungsname"] {
+                input[name$="name"] {
                     @include standard-font($font-size-large);
                     text-align:left;
                 }
+                span {
+                    text-align: center;
+                }
 
+                label {
+                    text-align: right;
+                }
+                
+            }
+        }
+
+        .data-section-meisterschaften {
+            display: flex;
+            flex-direction: column;
+
+            align-self: stretch;
+            margin-left: 5%;
+            margin-right: 5%;
+
+            .data-area > div > div,
+            .data-header {
+                align-items: baseline;
+                display: grid;
+                grid-template-columns: 12em 11em 2.5em auto;
+                gap: 5px;
+            }
+
+            
+
+            .data-area > div > div,
+            .data-header {
+               
+                align-items: baseline;
+                padding-top: 5px;
+                padding-bottom: 5px;
+
+
+                input, select {
+                    text-align:left;
+                    width: 100%;
+                }
+
+                input[type="number"] {
+                    text-align:center;
+                    width: 100%;
+                }
                 
             }
         }

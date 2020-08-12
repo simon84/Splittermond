@@ -295,7 +295,7 @@ $(document).ready(function () {
     $("input, select").change(function () {
         var data = {};
         if ($(this).attr("type") == "checkbox") {
-            if ($(this).checked) {
+            if ($(this).prop("checked")) {
                 data[this.name.substr(5)] = this.value;
             } else {
                 data[this.name.substr(5)] = "";

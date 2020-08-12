@@ -22,6 +22,12 @@ mixin tab-nav-item(tabId)
     .watermark
         .tab-content.einstellungen
             h2 Einstellungen
+            div
+                | 7
+                +textinput("test","7", true)
+                |&nbsp(+
+                +textinput("testmod","0", true)
+                | )
         .tab-content.grundwerte
             include tabs/grundwerte.pug
         .tab-content.fertigkeiten

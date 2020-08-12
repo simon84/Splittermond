@@ -68,99 +68,84 @@
             span.erschoepft(name="attr_fokus_e_bar")
             span.kanalisiert(name="attr_fokus_k_bar")
             span.lebenspunkte-t(name="attr_fokus_t_bar")
-            
-
 
 .data-section-waffen
     .data-header
         h3 Waffen
-        span Fertigkeit
-        span Attribute
-        span Mod.
-        span Wert
-        span
-    .data-area
-        fieldset.repeating_waffen
-            +textinput("waffenname","", false, {placeholder: "Waffenname"})
-            select(name="attr_waffenskill") 
-                each fertigkeit, id in splittermond.kampffertigkeiten
-                    option(value=id)= fertigkeit.Name
-            span.attribute
-                select(name="attr_waffenattr1") 
-                    each attribut, id in splittermond.attribute
-                        option(value=id)= attribut.short
-                select(name="attr_waffenattr2") 
-                    each attribut, id in splittermond.attribute
-                        option(value=id)= attribut.short
-            +numberinput("waffenmod",0)
-            span(name="attr_waffenwert")
-            span
-                +hiddeninput("damageroll")
-                +hiddeninput("rolldamage","[Wirf!](~repeating_nahkampfwaffen_show_damage)")
-                +hiddeninput("showing_damage","[Wirf!](~repeating_nahkampfwaffen_show_damage)", "&{template:splittermond_damage} {{charactername=@{character_name}}} {{name=Waffe: @{waffenname}}} {{damage=[[@{damageroll}]]}}")
-                button(type="roll" value="@{abilityroll} {{name=Waffe: @{waffenname}}} {{charactername=@{character_name}}} {{damage=@{rolldamage}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs>10cf<1 | Sicherheitswurf, 2d10d1cs>10cf<1 | Risikowurf, 4d10k2cs>10cf<1} + @{waffenwert} + @{waffenmod} + @{nahwaffenattrmod} + ?{Modifikator|0} + @{angriffsbonus} + @{kampffertigkeitenbonus} + @{hiddenallfert} - @{geblendet} - @{erschoepft} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|15}]]}} {{Ticks=[[@{waffenwgs}+@{gesamttickplus}+@{benommen}}]]}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}")
-                button(type="roll",value="&{template:splittermond_aktiveabwehr} {{waffenname=@{waffenname}}} {{naming=[[2d1]]}} {{def=[[1d0 + @{waffendefensiv}]]}} {{charactername=@{character_name}}} {{Wurf=[[?{Art des Wurfs|Standardwurf, 2d10cs>10cf<1 | Sicherheitswurf, 2d10d1cs>10cf<1 | Risikowurf, 4d10k2cs>10cf<1} + ?{Modifikator|0} + @{waffenwert} + @{waffenmod} + @{kampffertigkeitenbonus} + @{hiddenallfert} - @{erschoepft} - @{schadensmod}]]}} {{schwierigkeit=[[?{Schwierigkeit|15}]]}} {{v=[[1d0 + @{verteidigung}]]}} {{Ticks=[[3]]}} {{v1=[[1d1 + @{verteidigung}]]}} {{v2=[[2d1 + @{verteidigung}]]}} {{v3=[[3d1 + @{verteidigung}]]}} {{v4=[[4d1 + @{verteidigung}]]}} {{v5=[[5d1 + @{verteidigung}]]}} {{v6=[[6d1 + @{verteidigung}]]}} {{v7=[[7d1 + @{verteidigung}]]}} {{v8=[[8d1 + @{verteidigung}]]}} {{v9=[[9d1 + @{verteidigung}]]}} {{v10=[[10d1 + @{verteidigung}]]}} {{v11=[[11d1 + @{verteidigung}]]}} {{v12=[[12d1 + @{verteidigung}]]}} {{v13=[[13d1 + @{verteidigung}]]}} {{v14=[[14d1 + @{verteidigung}]]}} {{v15=[[15d1 + @{verteidigung}]]}} {{v16=[[16d1 + @{verteidigung}]]}} {{v17=[[17d1 + @{verteidigung}]]}} {{v18=[[18d1 + @{verteidigung}]]}} {{v19=[[19d1 + @{verteidigung}]]}} {{v20=[[20d1 + @{verteidigung}]]}} {{v21=[[21d1 + @{verteidigung}]]}}")
-                                
-            .second-line
-                +hiddeninput("waffenskill")
+    fieldset.repeating_waffen
+        .waffen-eintrag
+            .data-header
+                +textinput("waffenname","", false, {placeholder: "Waffenname"})
+                span Wert
+                span Mod
+                span Schaden
+                span RW
+                span Merkmale
+            .data-area
+                div.small
+                    select(name="attr_waffenskill") 
+                        each fertigkeit, id in splittermond.kampffertigkeiten
+                            option(value=id)= fertigkeit.Name
+                    | +
+                    select(name="attr_waffenattr1") 
+                        each attribut, id in splittermond.attribute
+                            option(value=id)= attribut.short
+                    | +
+                    select(name="attr_waffenattr2") 
+                        each attribut, id in splittermond.attribute
+                            option(value=id)= attribut.short
+                span(name="attr_waffenwert")
+                +numberinput("waffenmoduser",0)
+                +textinput("waffenschaden","W6")
+                +numberinput("waffenreichweite",3)
+                +textinput("waffenmerkmale","", true, {placeholder: "-"})
+                span
+                    +hiddeninput("damageroll")
+                    +hiddeninput("rolldamage","[Wirf!](~repeating_nahkampfwaffen_show_damage)")
+                    +hiddeninput("showing_damage","[Wirf!](~repeating_nahkampfwaffen_show_damage)", "&{template:splittermond_damage} {{charactername=@{character_name}}} {{name=Waffe: @{waffenname}}} {{damage=[[@{damageroll}]]}}")
+                    button(type="roll" value="@{abilityroll} {{name=Waffe: @{waffenname}}} {{charactername=@{character_name}}} {{damage=@{rolldamage}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs>10cf<1 | Sicherheitswurf, 2d10d1cs>10cf<1 | Risikowurf, 4d10k2cs>10cf<1} + @{waffenwert} + @{waffenmod} + @{nahwaffenattrmod} + ?{Modifikator|0} + @{angriffsbonus} + @{kampffertigkeitenbonus} + @{hiddenallfert} - @{geblendet} - @{erschoepft} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|15}]]}} {{Ticks=[[@{waffenwgs}+@{gesamttickplus}+@{benommen}}]]}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}")
+                    button(type="roll",value="&{template:splittermond_aktiveabwehr} {{waffenname=@{waffenname}}} {{naming=[[2d1]]}} {{def=[[1d0 + @{waffendefensiv}]]}} {{charactername=@{character_name}}} {{Wurf=[[?{Art des Wurfs|Standardwurf, 2d10cs>10cf<1 | Sicherheitswurf, 2d10d1cs>10cf<1 | Risikowurf, 4d10k2cs>10cf<1} + ?{Modifikator|0} + @{waffenwert} + @{waffenmod} + @{kampffertigkeitenbonus} + @{hiddenallfert} - @{erschoepft} - @{schadensmod}]]}} {{schwierigkeit=[[?{Schwierigkeit|15}]]}} {{v=[[1d0 + @{verteidigung}]]}} {{Ticks=[[3]]}} {{v1=[[1d1 + @{verteidigung}]]}} {{v2=[[2d1 + @{verteidigung}]]}} {{v3=[[3d1 + @{verteidigung}]]}} {{v4=[[4d1 + @{verteidigung}]]}} {{v5=[[5d1 + @{verteidigung}]]}} {{v6=[[6d1 + @{verteidigung}]]}} {{v7=[[7d1 + @{verteidigung}]]}} {{v8=[[8d1 + @{verteidigung}]]}} {{v9=[[9d1 + @{verteidigung}]]}} {{v10=[[10d1 + @{verteidigung}]]}} {{v11=[[11d1 + @{verteidigung}]]}} {{v12=[[12d1 + @{verteidigung}]]}} {{v13=[[13d1 + @{verteidigung}]]}} {{v14=[[14d1 + @{verteidigung}]]}} {{v15=[[15d1 + @{verteidigung}]]}} {{v16=[[16d1 + @{verteidigung}]]}} {{v17=[[17d1 + @{verteidigung}]]}} {{v18=[[18d1 + @{verteidigung}]]}} {{v19=[[19d1 + @{verteidigung}]]}} {{v20=[[20d1 + @{verteidigung}]]}} {{v21=[[21d1 + @{verteidigung}]]}}")
                 div
-                    +textinput("waffenmerkmale","", true, {placeholder: "-"})
-                    label Merkmale
-                div
-                    +numberinput("waffenwgs",3)
-                    label WGS
-                div.reichweite
-                    +numberinput("waffenreichweite",3)
-                    label RW
-                div
-                    +textinput("waffenschaden","W6")
-                    label Schaden
-            .second-line
-                div.notizen
-                    label Notizen
-                    textarea(name="attr_waffennotizen")
-            
+                    label Notizen:
+                    +textinput("waffennotizen","", true, {placeholder: "-"})
+        
 
 .data-section-zauber
     .data-header
-        h3 Zauberspruch
-        span Magieschule
-        span
-        span Kampf?
-        span SG
-        span Kosten (verstärkt)
-    .data-area
-        fieldset.repeating_zauber
-            +textinput("zaubername","", false, {placeholder: "Zaubername"})
-            select(name="attr_magieschulen") 
-                each fertigkeit, id in splittermond.magieschulen
-                    option(value=id)= fertigkeit.Name
-            span.main-value(name="attr_zauberwert")
-            +input("kampfonoff","checkbox",1)
-            +textinput("zauberschwierigkeit","", false, {placeholder: "SG"})
-            +textinput("zauberkosten", 0)
-            span
-                button(type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs>10cf<1 | Sicherheitswurf, 2d10d1cs>10cf<1 | Risikowurf, 4d10k2cs>10cf<1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}")                                
-            .second-line
-                +hiddeninput("kampfonoff",1)
+        h3 Zauber
+    fieldset.repeating_zauber
+        .zauber-eintrag
+            .data-header
+                +textinput("zaubername","", false, {placeholder: "Zaubername"})
+                span Wert
+                span Mod
+                span SG
+                span Schaden
+                span Kosten
+                span ZD
+                span RW
+                span WD
+            .data-area
                 div
-                    +textinput("zauberdauer","", true, {placeholder: "-"})
-                    label Dauer
+                    select(name="attr_magieschulen") 
+                        each fertigkeit, id in splittermond.magieschulen
+                            option(value=id)= fertigkeit.Name
+                span(name="attr_zauberwert")
+                +numberinput("zaubermoduser",0)
+                +textinput("zauberschwierigkeit","", false, {placeholder: "SG"})
+                +textinput("zauberschaden","", true, {placeholder: "-"})
+                +textinput("zauberkosten", "", true, {placeholder: "-"})
+                +textinput("zauberdauer","", true, {placeholder: "ZD"})
+                +textinput("zauberrw","", true, {placeholder: "RW"})
+                +textinput("zauberwd","", true, {placeholder: "WD"})
+                span
+                    button(type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs>10cf<1 | Sicherheitswurf, 2d10d1cs>10cf<1 | Risikowurf, 4d10k2cs>10cf<1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}")
                 div
-                    +textinput("zauberrw","", true, {placeholder: "-"})
-                    label Reichweite
-                div
-                    +textinput("zauberwd","", true, {placeholder: "-"})
-                    label Wirkdauer
-                div.schaden
-                    +textinput("zauberschaden","", true, {placeholder: "-"})
-                    label Schaden
-            .second-line
-                div.wirkung
-                    label Wirkung
-                    textarea(name="attr_zauberwirkung")
+                    label Wirkung:
+                    +textinput("zauberwirkung","", true, {placeholder: "-"})
 
 .data-section-ruestungen
+    +hiddeninput("ruestungmod", "")
     .data-header
         h3 Rüstung
         span
@@ -170,22 +155,73 @@
         span Tick+
         span Merkmale
     .data-area
+        +hiddeninput("ruestungsvtdmod", 0)
+        +hiddeninput("ruestungssrmod", 0)
+        +hiddeninput("ruestungsbemod", 0)
+        +hiddeninput("ruestungstickplusmod", 0)
         fieldset.repeating_ruestungen
             +input("ruestungonoff","checkbox",1)
             +textinput("ruestungsname","", false, {placeholder: "Rüstungsname"})
+            +numberinput("ruestungsvtd", 0)
+            +numberinput("ruestungssr", 0)
+            +numberinput("ruestungsbe", 0)
+            +numberinput("ruestungstickplus", 0)
+            +textinput("ruestungsmerkmal", "", false, {placeholder: "-"})
+    .data-header
+        h3 Schild
+        span
+        span VTD+
+        span SR
+        span BE
+        span Tick+
+        span Merkmale
+    .data-area
+        +hiddeninput("schildvtdmod", 0)
+        +hiddeninput("schildsrmod", 0)
+        +hiddeninput("schildbemod", 0)
+        +hiddeninput("schildtickplusmod", 0)
+        div 
             div
-                +numberinput("ruestungsvtd", 0)
-                +hiddeninput("ruestungsvtdmod", 0)
+                +input("schildonoff","checkbox",1)
+                +textinput("schildname","", false, {placeholder: "Schildname"})
+                +numberinput("schildvtd", 0)
+                +numberinput("schildsr", 0)
+                +numberinput("schildbe", 0)
+                +numberinput("schildtickplus", 0)
+                +textinput("schildmerkmale", "", false, {placeholder: "-"})
+    .data-area
+        div 
             div
-                +numberinput("ruestungssr", 0)
-                +hiddeninput("ruestungssrmod", 0)
-            div
-                +numberinput("ruestungsbe", 0)
-                +hiddeninput("ruestungsbemod", 0)
-            div
-                +numberinput("ruestungstickplus", 0)
-                +hiddeninput("ruestungstickplusmod", 0)
-            div
-                +textinput("ruestungsmerkmal", "", false, {placeholder: "-"})
+                span
+                label Gesamt:
+                span(name="attr_ruestungvtd")
+                span(name="attr_ruestungsr")
+                span(name="attr_ruestungbe")
+                span(name="attr_ruestungtickplus")
+
+.data-section-meisterschaften
+    .data-header
+        h3 Meisterschaften
+        span Fertigkeit
+        span Schwelle
+        span Beschreibung
+    .data-area
+        +hiddeninput("meisterschaftmod","")
+        fieldset.repeating_meisterschaften
+            +textinput("meisterschaftsname","", false, {placeholder: "Meisterschaft"})
+            select(name="attr_magieschulen")
+                optgroup(label="Allgemeine Fertigkeiten")
+                    each fertigkeit, id in splittermond.fertigkeiten
+                        option(value=id)= fertigkeit.Name
+                optgroup(label="Magieschulen")
+                    each fertigkeit, id in splittermond.magieschulen
+                        option(value=id)= fertigkeit.Name
+                optgroup(label="Kampffertigkeiten")
+                    each fertigkeit, id in splittermond.kampffertigkeiten
+                        option(value=id)= fertigkeit.Name
+            +numberinput("meisterschaftsschwelle",0)
+            +textinput("meisterschaftswirkung","", true, {placeholder: "Beschreibung"})
+
+
             
             

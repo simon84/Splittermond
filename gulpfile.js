@@ -13,6 +13,7 @@ SplittermondData.kampffertigkeiten = require('./src/js/data/kampffertigkeiten.js
 SplittermondData.magieschulen = require('./src/js/data/magieschulen.json');
 SplittermondData.staerken = require('./src/js/data/staerken.json');
 SplittermondData.zustaende = require('./src/js/data/zustaende.json');
+SplittermondData.meisterschaften = require('./src/js/data/meisterschaften.json');
 
 gulp.task('BuildStyle', function () {
     return gulp.src('src/sass/sheet.scss')

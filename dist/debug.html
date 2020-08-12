@@ -303,7 +303,7 @@ $(document).ready(function () {
     $("input, select").change(function () {
         var data = {};
         if ($(this).attr("type") == "checkbox") {
-            if ($(this).checked) {
+            if ($(this).prop("checked")) {
                 data[this.name.substr(5)] = this.value;
             } else {
                 data[this.name.substr(5)] = "";
@@ -482,6 +482,10 @@ $(document).ready(function () {
       <div class="sheet-watermark">
         <div class="sheet-tab-content sheet-einstellungen">
           <h2>Einstellungen</h2>
+          <div>7<span class="sheet-autoexpand">
+              <input name="attr_test" type="text" value="7"/><span class="sheet-autoexpand" name="attr_test"></span></span>&nbsp(+<span class="sheet-autoexpand">
+              <input name="attr_testmod" type="text" value="0"/><span class="sheet-autoexpand" name="attr_testmod"></span></span>)
+          </div>
         </div>
         <div class="sheet-tab-content sheet-grundwerte">
           <h1><span class="sheet-autoexpand">
@@ -1240,161 +1244,230 @@ $(document).ready(function () {
           </div>
           <div class="sheet-data-section-waffen">
             <div class="sheet-data-header">
-              <h3>Waffen</h3><span>Fertigkeit</span><span>Attribute</span><span>Mod.</span><span>Wert</span><span></span>
+              <h3>Waffen</h3>
             </div>
-            <div class="sheet-data-area">
-              <fieldset class="repeating_waffen">
-                <input name="attr_waffenname" type="text" value="" placeholder="Waffenname"/>
-                <select name="attr_waffenskill"> 
-                  <option value="handgemenge">Handgemenge</option>
-                  <option value="hiebwaffen">Hiebwaffen</option>
-                  <option value="kettenwaffen">Kettenwaffen</option>
-                  <option value="klingenwaffen">Klingenwaffen</option>
-                  <option value="stangenwaffen">Stangenwaffen</option>
-                  <option value="schusswaffen">Schusswaffen</option>
-                  <option value="wurfwaffen">Wurfwaffen</option>
-                </select><span class="sheet-attribute">
-                  <select name="attr_waffenattr1"> 
-                    <option value="ausstrahlung">AUS</option>
-                    <option value="beweglichkeit">BEW</option>
-                    <option value="intuition">INT</option>
-                    <option value="konstitution">KON</option>
-                    <option value="mystik">MYS</option>
-                    <option value="staerke">STÄ</option>
-                    <option value="verstand">VER</option>
-                    <option value="willenskraft">WIL</option>
-                  </select>
-                  <select name="attr_waffenattr2"> 
-                    <option value="ausstrahlung">AUS</option>
-                    <option value="beweglichkeit">BEW</option>
-                    <option value="intuition">INT</option>
-                    <option value="konstitution">KON</option>
-                    <option value="mystik">MYS</option>
-                    <option value="staerke">STÄ</option>
-                    <option value="verstand">VER</option>
-                    <option value="willenskraft">WIL</option>
-                  </select></span>
-                <input name="attr_waffenmod" type="number" value="0"/><span name="attr_waffenwert"></span><span>
-                  <input name="attr_damageroll" type="hidden" value=""/>
-                  <input name="attr_rolldamage" type="hidden" value="[Wirf!](~repeating_nahkampfwaffen_show_damage)"/>
-                  <input 0="&" 1="{" 2="t" 3="e" 4="m" 5="p" 6="l" 7="a" 8="t" 9="e" 10=":" 11="s" 12="p" 13="l" 14="i" 15="t" 16="t" 17="e" 18="r" 19="m" 20="o" 21="n" 22="d" 23="_" 24="d" 25="a" 26="m" 27="a" 28="g" 29="e" 30="}" 31=" " 32="{" 33="{" 34="c" 35="h" 36="a" 37="r" 38="a" 39="c" 40="t" 41="e" 42="r" 43="n" 44="a" 45="m" 46="e" 47="=" 48="@" 49="{" 50="c" 51="h" 52="a" 53="r" 54="a" 55="c" 56="t" 57="e" 58="r" 59="_" 60="n" 61="a" 62="m" 63="e" 64="}" 65="}" 66="}" 67=" " 68="{" 69="{" 70="n" 71="a" 72="m" 73="e" 74="=" 75="W" 76="a" 77="f" 78="f" 79="e" 80=":" 81=" " 82="@" 83="{" 84="w" 85="a" 86="f" 87="f" 88="e" 89="n" 90="n" 91="a" 92="m" 93="e" 94="}" 95="}" 96="}" 97=" " 98="{" 99="{" 100="d" 101="a" 102="m" 103="a" 104="g" 105="e" 106="=" 107="[" 108="[" 109="@" 110="{" 111="d" 112="a" 113="m" 114="a" 115="g" 116="e" 117="r" 118="o" 119="l" 120="l" 121="}" 122="]" 123="]" 124="}" 125="}" name="attr_showing_damage" type="hidden" value="[Wirf!](~repeating_nahkampfwaffen_show_damage)"/>
-                  <button type="roll" value="@{abilityroll} {{name=Waffe: @{waffenname}}} {{charactername=@{character_name}}} {{damage=@{rolldamage}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + @{waffenwert} + @{waffenmod} + @{nahwaffenattrmod} + ?{Modifikator|0} + @{angriffsbonus} + @{kampffertigkeitenbonus} + @{hiddenallfert} - @{geblendet} - @{erschoepft} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|15}]]}} {{Ticks=[[@{waffenwgs}+@{gesamttickplus}+@{benommen}}]]}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}"></button>
-                  <button type="roll" value="&amp;{template:splittermond_aktiveabwehr} {{waffenname=@{waffenname}}} {{naming=[[2d1]]}} {{def=[[1d0 + @{waffendefensiv}]]}} {{charactername=@{character_name}}} {{Wurf=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + ?{Modifikator|0} + @{waffenwert} + @{waffenmod} + @{kampffertigkeitenbonus} + @{hiddenallfert} - @{erschoepft} - @{schadensmod}]]}} {{schwierigkeit=[[?{Schwierigkeit|15}]]}} {{v=[[1d0 + @{verteidigung}]]}} {{Ticks=[[3]]}} {{v1=[[1d1 + @{verteidigung}]]}} {{v2=[[2d1 + @{verteidigung}]]}} {{v3=[[3d1 + @{verteidigung}]]}} {{v4=[[4d1 + @{verteidigung}]]}} {{v5=[[5d1 + @{verteidigung}]]}} {{v6=[[6d1 + @{verteidigung}]]}} {{v7=[[7d1 + @{verteidigung}]]}} {{v8=[[8d1 + @{verteidigung}]]}} {{v9=[[9d1 + @{verteidigung}]]}} {{v10=[[10d1 + @{verteidigung}]]}} {{v11=[[11d1 + @{verteidigung}]]}} {{v12=[[12d1 + @{verteidigung}]]}} {{v13=[[13d1 + @{verteidigung}]]}} {{v14=[[14d1 + @{verteidigung}]]}} {{v15=[[15d1 + @{verteidigung}]]}} {{v16=[[16d1 + @{verteidigung}]]}} {{v17=[[17d1 + @{verteidigung}]]}} {{v18=[[18d1 + @{verteidigung}]]}} {{v19=[[19d1 + @{verteidigung}]]}} {{v20=[[20d1 + @{verteidigung}]]}} {{v21=[[21d1 + @{verteidigung}]]}}"></button></span>
-                <div class="sheet-second-line">
-                  <input name="attr_waffenskill" type="hidden" value=""/>
-                  <div><span class="sheet-autoexpand">
-                      <input name="attr_waffenmerkmale" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_waffenmerkmale" placeholder="-"></span></span>
-                    <label>Merkmale</label>
-                  </div>
+            <fieldset class="repeating_waffen">
+              <div class="sheet-waffen-eintrag">
+                <div class="sheet-data-header">
+                  <input name="attr_waffenname" type="text" value="" placeholder="Waffenname"/><span>Wert</span><span>Mod</span><span>Schaden</span><span>RW</span><span>Merkmale</span>
+                </div>
+                <div class="sheet-data-area">
+                  <div class="sheet-small">
+                    <select name="attr_waffenskill"> 
+                      <option value="handgemenge">Handgemenge</option>
+                      <option value="hiebwaffen">Hiebwaffen</option>
+                      <option value="kettenwaffen">Kettenwaffen</option>
+                      <option value="klingenwaffen">Klingenwaffen</option>
+                      <option value="stangenwaffen">Stangenwaffen</option>
+                      <option value="schusswaffen">Schusswaffen</option>
+                      <option value="wurfwaffen">Wurfwaffen</option>
+                    </select>+
+                    <select name="attr_waffenattr1"> 
+                      <option value="ausstrahlung">AUS</option>
+                      <option value="beweglichkeit">BEW</option>
+                      <option value="intuition">INT</option>
+                      <option value="konstitution">KON</option>
+                      <option value="mystik">MYS</option>
+                      <option value="staerke">STÄ</option>
+                      <option value="verstand">VER</option>
+                      <option value="willenskraft">WIL</option>
+                    </select>+
+                    <select name="attr_waffenattr2"> 
+                      <option value="ausstrahlung">AUS</option>
+                      <option value="beweglichkeit">BEW</option>
+                      <option value="intuition">INT</option>
+                      <option value="konstitution">KON</option>
+                      <option value="mystik">MYS</option>
+                      <option value="staerke">STÄ</option>
+                      <option value="verstand">VER</option>
+                      <option value="willenskraft">WIL</option>
+                    </select>
+                  </div><span name="attr_waffenwert"></span>
+                  <input name="attr_waffenmoduser" type="number" value="0"/>
+                  <input name="attr_waffenschaden" type="text" value="W6"/>
+                  <input name="attr_waffenreichweite" type="number" value="3"/><span class="sheet-autoexpand">
+                    <input name="attr_waffenmerkmale" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_waffenmerkmale" placeholder="-"></span></span><span>
+                    <input name="attr_damageroll" type="hidden" value=""/>
+                    <input name="attr_rolldamage" type="hidden" value="[Wirf!](~repeating_nahkampfwaffen_show_damage)"/>
+                    <input 0="&" 1="{" 2="t" 3="e" 4="m" 5="p" 6="l" 7="a" 8="t" 9="e" 10=":" 11="s" 12="p" 13="l" 14="i" 15="t" 16="t" 17="e" 18="r" 19="m" 20="o" 21="n" 22="d" 23="_" 24="d" 25="a" 26="m" 27="a" 28="g" 29="e" 30="}" 31=" " 32="{" 33="{" 34="c" 35="h" 36="a" 37="r" 38="a" 39="c" 40="t" 41="e" 42="r" 43="n" 44="a" 45="m" 46="e" 47="=" 48="@" 49="{" 50="c" 51="h" 52="a" 53="r" 54="a" 55="c" 56="t" 57="e" 58="r" 59="_" 60="n" 61="a" 62="m" 63="e" 64="}" 65="}" 66="}" 67=" " 68="{" 69="{" 70="n" 71="a" 72="m" 73="e" 74="=" 75="W" 76="a" 77="f" 78="f" 79="e" 80=":" 81=" " 82="@" 83="{" 84="w" 85="a" 86="f" 87="f" 88="e" 89="n" 90="n" 91="a" 92="m" 93="e" 94="}" 95="}" 96="}" 97=" " 98="{" 99="{" 100="d" 101="a" 102="m" 103="a" 104="g" 105="e" 106="=" 107="[" 108="[" 109="@" 110="{" 111="d" 112="a" 113="m" 114="a" 115="g" 116="e" 117="r" 118="o" 119="l" 120="l" 121="}" 122="]" 123="]" 124="}" 125="}" name="attr_showing_damage" type="hidden" value="[Wirf!](~repeating_nahkampfwaffen_show_damage)"/>
+                    <button type="roll" value="@{abilityroll} {{name=Waffe: @{waffenname}}} {{charactername=@{character_name}}} {{damage=@{rolldamage}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + @{waffenwert} + @{waffenmod} + @{nahwaffenattrmod} + ?{Modifikator|0} + @{angriffsbonus} + @{kampffertigkeitenbonus} + @{hiddenallfert} - @{geblendet} - @{erschoepft} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|15}]]}} {{Ticks=[[@{waffenwgs}+@{gesamttickplus}+@{benommen}}]]}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}"></button>
+                    <button type="roll" value="&amp;{template:splittermond_aktiveabwehr} {{waffenname=@{waffenname}}} {{naming=[[2d1]]}} {{def=[[1d0 + @{waffendefensiv}]]}} {{charactername=@{character_name}}} {{Wurf=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + ?{Modifikator|0} + @{waffenwert} + @{waffenmod} + @{kampffertigkeitenbonus} + @{hiddenallfert} - @{erschoepft} - @{schadensmod}]]}} {{schwierigkeit=[[?{Schwierigkeit|15}]]}} {{v=[[1d0 + @{verteidigung}]]}} {{Ticks=[[3]]}} {{v1=[[1d1 + @{verteidigung}]]}} {{v2=[[2d1 + @{verteidigung}]]}} {{v3=[[3d1 + @{verteidigung}]]}} {{v4=[[4d1 + @{verteidigung}]]}} {{v5=[[5d1 + @{verteidigung}]]}} {{v6=[[6d1 + @{verteidigung}]]}} {{v7=[[7d1 + @{verteidigung}]]}} {{v8=[[8d1 + @{verteidigung}]]}} {{v9=[[9d1 + @{verteidigung}]]}} {{v10=[[10d1 + @{verteidigung}]]}} {{v11=[[11d1 + @{verteidigung}]]}} {{v12=[[12d1 + @{verteidigung}]]}} {{v13=[[13d1 + @{verteidigung}]]}} {{v14=[[14d1 + @{verteidigung}]]}} {{v15=[[15d1 + @{verteidigung}]]}} {{v16=[[16d1 + @{verteidigung}]]}} {{v17=[[17d1 + @{verteidigung}]]}} {{v18=[[18d1 + @{verteidigung}]]}} {{v19=[[19d1 + @{verteidigung}]]}} {{v20=[[20d1 + @{verteidigung}]]}} {{v21=[[21d1 + @{verteidigung}]]}}"></button></span>
                   <div>
-                    <input name="attr_waffenwgs" type="number" value="3"/>
-                    <label>WGS</label>
-                  </div>
-                  <div class="sheet-reichweite">
-                    <input name="attr_waffenreichweite" type="number" value="3"/>
-                    <label>RW</label>
-                  </div>
-                  <div>
-                    <input name="attr_waffenschaden" type="text" value="W6"/>
-                    <label>Schaden</label>
+                    <label>Notizen:</label><span class="sheet-autoexpand">
+                      <input name="attr_waffennotizen" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_waffennotizen" placeholder="-"></span></span>
                   </div>
                 </div>
-                <div class="sheet-second-line">
-                  <div class="sheet-notizen">
-                    <label>Notizen</label>
-                    <textarea name="attr_waffennotizen"></textarea>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
+              </div>
+            </fieldset>
           </div>
           <div class="sheet-data-section-zauber">
             <div class="sheet-data-header">
-              <h3>Zauberspruch</h3><span>Magieschule</span><span></span><span>Kampf?</span><span>SG</span><span>Kosten (verstärkt)</span>
+              <h3>Zauber</h3>
             </div>
-            <div class="sheet-data-area">
-              <fieldset class="repeating_zauber">
-                <input name="attr_zaubername" type="text" value="" placeholder="Zaubername"/>
-                <select name="attr_magieschulen"> 
-                  <option value="bannmagie">Bannmagie</option>
-                  <option value="beherrschungsmagie">Beherrschungsmagie</option>
-                  <option value="bewegungsmagie">Bewegungsmagie</option>
-                  <option value="erkenntnismagie">Erkenntnismagie</option>
-                  <option value="felsmagie">Fellsmagie</option>
-                  <option value="feuermagie">Feuermagie</option>
-                  <option value="heilungsmagie">Heilungsmagie</option>
-                  <option value="illusionsmagie">Illusionsmagie</option>
-                  <option value="kampfmagie">Kampfmagie</option>
-                  <option value="lichtmagie">Lichtmagie</option>
-                  <option value="naturmagie">Naturmagie</option>
-                  <option value="schattenmagie">Schattenmagie</option>
-                  <option value="schicksalsmagie">Schicksalsmagie</option>
-                  <option value="schutzmagie">Schutzmagie</option>
-                  <option value="staerkungsmagie">Stärkungsmagie</option>
-                  <option value="todesmagie">Todesmagie</option>
-                  <option value="verwandlungsmagie">Verwandlungsmagie</option>
-                  <option value="wassermagie">Wassermagie</option>
-                  <option value="windmagie">Windmagie</option>
-                </select><span class="sheet-main-value" name="attr_zauberwert"></span>
-                <input name="attr_kampfonoff" type="checkbox" value="1"/>
-                <input name="attr_zauberschwierigkeit" type="text" value="" placeholder="SG"/>
-                <input name="attr_zauberkosten" type="text" value="0"/><span>
-                  <button type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}">                               </button></span>
-                <div class="sheet-second-line">
-                  <input name="attr_kampfonoff" type="hidden" value="1"/>
-                  <div><span class="sheet-autoexpand">
-                      <input name="attr_zauberdauer" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberdauer" placeholder="-"></span></span>
-                    <label>Dauer</label>
-                  </div>
-                  <div><span class="sheet-autoexpand">
-                      <input name="attr_zauberrw" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberrw" placeholder="-"></span></span>
-                    <label>Reichweite</label>
-                  </div>
-                  <div><span class="sheet-autoexpand">
-                      <input name="attr_zauberwd" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberwd" placeholder="-"></span></span>
-                    <label>Wirkdauer</label>
-                  </div>
-                  <div class="sheet-schaden"><span class="sheet-autoexpand">
-                      <input name="attr_zauberschaden" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberschaden" placeholder="-"></span></span>
-                    <label>Schaden</label>
+            <fieldset class="repeating_zauber">
+              <div class="sheet-zauber-eintrag">
+                <div class="sheet-data-header">
+                  <input name="attr_zaubername" type="text" value="" placeholder="Zaubername"/><span>Wert</span><span>Mod</span><span>SG</span><span>Schaden</span><span>Kosten</span><span>ZD</span><span>RW</span><span>WD</span>
+                </div>
+                <div class="sheet-data-area">
+                  <div>
+                    <select name="attr_magieschulen"> 
+                      <option value="bannmagie">Bannmagie</option>
+                      <option value="beherrschungsmagie">Beherrschungsmagie</option>
+                      <option value="bewegungsmagie">Bewegungsmagie</option>
+                      <option value="erkenntnismagie">Erkenntnismagie</option>
+                      <option value="felsmagie">Fellsmagie</option>
+                      <option value="feuermagie">Feuermagie</option>
+                      <option value="heilungsmagie">Heilungsmagie</option>
+                      <option value="illusionsmagie">Illusionsmagie</option>
+                      <option value="kampfmagie">Kampfmagie</option>
+                      <option value="lichtmagie">Lichtmagie</option>
+                      <option value="naturmagie">Naturmagie</option>
+                      <option value="schattenmagie">Schattenmagie</option>
+                      <option value="schicksalsmagie">Schicksalsmagie</option>
+                      <option value="schutzmagie">Schutzmagie</option>
+                      <option value="staerkungsmagie">Stärkungsmagie</option>
+                      <option value="todesmagie">Todesmagie</option>
+                      <option value="verwandlungsmagie">Verwandlungsmagie</option>
+                      <option value="wassermagie">Wassermagie</option>
+                      <option value="windmagie">Windmagie</option>
+                    </select>
+                  </div><span name="attr_zauberwert"></span>
+                  <input name="attr_zaubermoduser" type="number" value="0"/>
+                  <input name="attr_zauberschwierigkeit" type="text" value="" placeholder="SG"/><span class="sheet-autoexpand">
+                    <input name="attr_zauberschaden" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberschaden" placeholder="-"></span></span><span class="sheet-autoexpand">
+                    <input name="attr_zauberkosten" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberkosten" placeholder="-"></span></span><span class="sheet-autoexpand">
+                    <input name="attr_zauberdauer" type="text" value="" placeholder="ZD"/><span class="sheet-autoexpand" name="attr_zauberdauer" placeholder="ZD"></span></span><span class="sheet-autoexpand">
+                    <input name="attr_zauberrw" type="text" value="" placeholder="RW"/><span class="sheet-autoexpand" name="attr_zauberrw" placeholder="RW"></span></span><span class="sheet-autoexpand">
+                    <input name="attr_zauberwd" type="text" value="" placeholder="WD"/><span class="sheet-autoexpand" name="attr_zauberwd" placeholder="WD"></span></span><span>
+                    <button type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs&gt;10cf&lt;1 | Sicherheitswurf, 2d10d1cs&gt;10cf&lt;1 | Risikowurf, 4d10k2cs&gt;10cf&lt;1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}"></button></span>
+                  <div>
+                    <label>Wirkung:</label><span class="sheet-autoexpand">
+                      <input name="attr_zauberwirkung" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberwirkung" placeholder="-"></span></span>
                   </div>
                 </div>
-                <div class="sheet-second-line">
-                  <div class="sheet-wirkung">
-                    <label>Wirkung</label>
-                    <textarea name="attr_zauberwirkung"></textarea>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
+              </div>
+            </fieldset>
           </div>
           <div class="sheet-data-section-ruestungen">
+            <input name="attr_ruestungmod" type="hidden" value=""/>
             <div class="sheet-data-header">
               <h3>Rüstung</h3><span></span><span>VTD+</span><span>SR</span><span>BE</span><span>Tick+</span><span>Merkmale</span>
             </div>
             <div class="sheet-data-area">
+              <input name="attr_ruestungsvtdmod" type="hidden" value="0"/>
+              <input name="attr_ruestungssrmod" type="hidden" value="0"/>
+              <input name="attr_ruestungsbemod" type="hidden" value="0"/>
+              <input name="attr_ruestungstickplusmod" type="hidden" value="0"/>
               <fieldset class="repeating_ruestungen">
                 <input name="attr_ruestungonoff" type="checkbox" value="1"/>
                 <input name="attr_ruestungsname" type="text" value="" placeholder="Rüstungsname"/>
+                <input name="attr_ruestungsvtd" type="number" value="0"/>
+                <input name="attr_ruestungssr" type="number" value="0"/>
+                <input name="attr_ruestungsbe" type="number" value="0"/>
+                <input name="attr_ruestungstickplus" type="number" value="0"/>
+                <input name="attr_ruestungsmerkmal" type="text" value="" placeholder="-"/>
+              </fieldset>
+            </div>
+            <div class="sheet-data-header">
+              <h3>Schild</h3><span></span><span>VTD+</span><span>SR</span><span>BE</span><span>Tick+</span><span>Merkmale</span>
+            </div>
+            <div class="sheet-data-area">
+              <input name="attr_schildvtdmod" type="hidden" value="0"/>
+              <input name="attr_schildsrmod" type="hidden" value="0"/>
+              <input name="attr_schildbemod" type="hidden" value="0"/>
+              <input name="attr_schildtickplusmod" type="hidden" value="0"/>
+              <div> 
                 <div>
-                  <input name="attr_ruestungsvtd" type="number" value="0"/>
-                  <input name="attr_ruestungsvtdmod" type="hidden" value="0"/>
+                  <input name="attr_schildonoff" type="checkbox" value="1"/>
+                  <input name="attr_schildname" type="text" value="" placeholder="Schildname"/>
+                  <input name="attr_schildvtd" type="number" value="0"/>
+                  <input name="attr_schildsr" type="number" value="0"/>
+                  <input name="attr_schildbe" type="number" value="0"/>
+                  <input name="attr_schildtickplus" type="number" value="0"/>
+                  <input name="attr_schildmerkmale" type="text" value="" placeholder="-"/>
                 </div>
-                <div>
-                  <input name="attr_ruestungssr" type="number" value="0"/>
-                  <input name="attr_ruestungssrmod" type="hidden" value="0"/>
+              </div>
+            </div>
+            <div class="sheet-data-area">
+              <div> 
+                <div><span></span>
+                  <label>Gesamt:</label><span name="attr_ruestungvtd"></span><span name="attr_ruestungsr"></span><span name="attr_ruestungbe"></span><span name="attr_ruestungtickplus"></span>
                 </div>
-                <div>
-                  <input name="attr_ruestungsbe" type="number" value="0"/>
-                  <input name="attr_ruestungsbemod" type="hidden" value="0"/>
-                </div>
-                <div>
-                  <input name="attr_ruestungstickplus" type="number" value="0"/>
-                  <input name="attr_ruestungstickplusmod" type="hidden" value="0"/>
-                </div>
-                <div>
-                  <input name="attr_ruestungsmerkmal" type="text" value="" placeholder="-"/>
-                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sheet-data-section-meisterschaften">
+            <div class="sheet-data-header">
+              <h3>Meisterschaften</h3><span>Fertigkeit</span><span>Schwelle</span><span>Beschreibung</span>
+            </div>
+            <div class="sheet-data-area">
+              <input name="attr_meisterschaftmod" type="hidden" value=""/>
+              <fieldset class="repeating_meisterschaften">
+                <input name="attr_meisterschaftsname" type="text" value="" placeholder="Meisterschaft"/>
+                <select name="attr_magieschulen">
+                  <optgroup label="Allgemeine Fertigkeiten">
+                    <option value="akrobatik">Akrobatik</option>
+                    <option value="alchemie">Alchemie</option>
+                    <option value="anfuehren">Anführen</option>
+                    <option value="arkanekunde">Arkane Kunde</option>
+                    <option value="athletik">Athletik</option>
+                    <option value="darbietung">Darbietung</option>
+                    <option value="diplomatie">Diplomatie</option>
+                    <option value="edelhandwerk">Edelhandwerk</option>
+                    <option value="empathie">Empathie</option>
+                    <option value="entschlossenheit">Entschlossenheit</option>
+                    <option value="fingerfertigkeit">Fingerfertigkeit</option>
+                    <option value="geschichtenundmythen">Geschichten &amp; Mythen</option>
+                    <option value="handwerk">Handwerk</option>
+                    <option value="heilkunde">Heilkunde</option>
+                    <option value="heimlichkeit">Heimlichkeit</option>
+                    <option value="jagdkunst">Jagdkunst</option>
+                    <option value="laenderkunde">Länderkunde</option>
+                    <option value="naturkunde">Naturkunde</option>
+                    <option value="redegewandtheit">Redegewandtheit</option>
+                    <option value="schloesserundfallen">Schlösser &amp; Fallen</option>
+                    <option value="schwimmen">Schwimmen</option>
+                    <option value="seefahrt">Seefahrt</option>
+                    <option value="strassenkunde">Straßenkunde</option>
+                    <option value="tierfuehrung">Tierfuehrung</option>
+                    <option value="ueberleben">Überleben</option>
+                    <option value="wahrnehmung">Wahrnehmung</option>
+                    <option value="zaehigkeit">Zähigkeit</option>
+                  </optgroup>
+                  <optgroup label="Magieschulen">
+                    <option value="bannmagie">Bannmagie</option>
+                    <option value="beherrschungsmagie">Beherrschungsmagie</option>
+                    <option value="bewegungsmagie">Bewegungsmagie</option>
+                    <option value="erkenntnismagie">Erkenntnismagie</option>
+                    <option value="felsmagie">Fellsmagie</option>
+                    <option value="feuermagie">Feuermagie</option>
+                    <option value="heilungsmagie">Heilungsmagie</option>
+                    <option value="illusionsmagie">Illusionsmagie</option>
+                    <option value="kampfmagie">Kampfmagie</option>
+                    <option value="lichtmagie">Lichtmagie</option>
+                    <option value="naturmagie">Naturmagie</option>
+                    <option value="schattenmagie">Schattenmagie</option>
+                    <option value="schicksalsmagie">Schicksalsmagie</option>
+                    <option value="schutzmagie">Schutzmagie</option>
+                    <option value="staerkungsmagie">Stärkungsmagie</option>
+                    <option value="todesmagie">Todesmagie</option>
+                    <option value="verwandlungsmagie">Verwandlungsmagie</option>
+                    <option value="wassermagie">Wassermagie</option>
+                    <option value="windmagie">Windmagie</option>
+                  </optgroup>
+                  <optgroup label="Kampffertigkeiten">
+                    <option value="handgemenge">Handgemenge</option>
+                    <option value="hiebwaffen">Hiebwaffen</option>
+                    <option value="kettenwaffen">Kettenwaffen</option>
+                    <option value="klingenwaffen">Klingenwaffen</option>
+                    <option value="stangenwaffen">Stangenwaffen</option>
+                    <option value="schusswaffen">Schusswaffen</option>
+                    <option value="wurfwaffen">Wurfwaffen</option>
+                  </optgroup>
+                </select>
+                <input name="attr_meisterschaftsschwelle" type="number" value="0"/><span class="sheet-autoexpand">
+                  <input name="attr_meisterschaftswirkung" type="text" value="" placeholder="Beschreibung"/><span class="sheet-autoexpand" name="attr_meisterschaftswirkung" placeholder="Beschreibung"></span></span>
               </fieldset>
             </div>
           </div>
@@ -1425,7 +1498,7 @@ $(document).ready(function () {
     </div>
   </div>
 </div>
-<script type="text/worker">var splittermond = {"rassen":{"mensch":{"name":"Mensch","groessenklasse":5},"varg":{"name":"Varg","groessenklasse":6},"alb":{"name":"Alb","groessenklasse":5},"gnom":{"name":"Gnom","groessenklasse":3},"zwerg":{"name":"Zwerg","groessenklasse":4}},"abgeleiteteWerte":{"groessenklasse":{"long":"Größenklasse","short":"GK"},"geschwindigkeit":{"long":"Geschwindigkeit","short":"GSW"},"initiative":{"long":"Initiative","short":"INI"},"lebenspunkte":{"long":"Lebenspunkte","short":"LP"},"fokus":{"long":"Fokus","short":"FO"},"verteidigung":{"long":"Verteidigung","short":"VTD"},"geistigerwiderstand":{"long":"Geistiger Widerstand","short":"GW"},"koerperlicherwiderstand":{"long":"Körperlicher Widerstand","short":"KW"}},"attribute":{"ausstrahlung":{"long":"Ausstrahlung","short":"AUS"},"beweglichkeit":{"long":"Beweglichkeit","short":"BEW"},"intuition":{"long":"Intuition","short":"INT"},"konstitution":{"long":"Konstitution","short":"KON"},"mystik":{"long":"Mystik","short":"MYS"},"staerke":{"long":"Stärke","short":"STÄ"},"verstand":{"long":"Verstand","short":"VER"},"willenskraft":{"long":"Willenskraft","short":"WIL"}},"fertigkeiten":{"akrobatik":{"Name":"Akrobatik","Attribute":["Beweglichkeit","Staerke"]},"alchemie":{"Name":"Alchemie","Attribute":["Mystik","Verstand"]},"anfuehren":{"Name":"Anführen","Attribute":["Ausstrahlung","Willenskraft"]},"arkanekunde":{"Name":"Arkane Kunde","Attribute":["Mystik","Verstand"]},"athletik":{"Name":"Athletik","Attribute":["Beweglichkeit","Staerke"]},"darbietung":{"Name":"Darbietung","Attribute":["Ausstrahlung","Willenskraft"]},"diplomatie":{"Name":"Diplomatie","Attribute":["Ausstrahlung","Verstand"]},"edelhandwerk":{"Name":"Edelhandwerk","Attribute":["Intuition","Verstand"]},"empathie":{"Name":"Empathie","Attribute":["Intuition","Verstand"]},"entschlossenheit":{"Name":"Entschlossenheit","Attribute":["Ausstrahlung","Willenskraft"]},"fingerfertigkeit":{"Name":"Fingerfertigkeit","Attribute":["Ausstrahlung","Beweglichkeit"]},"geschichtenundmythen":{"Name":"Geschichten & Mythen","Attribute":["Mystik","Verstand"]},"handwerk":{"Name":"Handwerk","Attribute":["Konstitution","Verstand"]},"heilkunde":{"Name":"Heilkunde","Attribute":["Intuition","Verstand"]},"heimlichkeit":{"Name":"Heimlichkeit","Attribute":["Beweglichkeit","Intuition"]},"jagdkunst":{"Name":"Jagdkunst","Attribute":["Konstitution","Verstand"]},"laenderkunde":{"Name":"Länderkunde","Attribute":["Intuition","Verstand"]},"naturkunde":{"Name":"Naturkunde","Attribute":["Intuition","Verstand"]},"redegewandtheit":{"Name":"Redegewandtheit","Attribute":["Ausstrahlung","Willenskraft"]},"schloesserundfallen":{"Name":"Schlösser & Fallen","Attribute":["Intuition","Beweglichkeit"]},"schwimmen":{"Name":"Schwimmen","Attribute":["Konstitution","Staerke"]},"seefahrt":{"Name":"Seefahrt","Attribute":["Beweglichkeit","Konstitution"]},"strassenkunde":{"Name":"Straßenkunde","Attribute":["Ausstrahlung","Intuition"]},"tierfuehrung":{"Name":"Tierfuehrung","Attribute":["Ausstrahlung","Beweglichkeit"]},"ueberleben":{"Name":"Überleben","Attribute":["Intuition","Konstitution"]},"wahrnehmung":{"Name":"Wahrnehmung","Attribute":["Intuition","Willenskraft"]},"zaehigkeit":{"Name":"Zähigkeit","Attribute":["Konstitution","Willenskraft"]}},"kampffertigkeiten":{"handgemenge":{"Name":"Handgemenge"},"hiebwaffen":{"Name":"Hiebwaffen"},"kettenwaffen":{"Name":"Kettenwaffen"},"klingenwaffen":{"Name":"Klingenwaffen"},"stangenwaffen":{"Name":"Stangenwaffen"},"schusswaffen":{"Name":"Schusswaffen"},"wurfwaffen":{"Name":"Wurfwaffen"}},"magieschulen":{"bannmagie":{"Name":"Bannmagie","Attribute":["Mystik","Willenskraft"]},"beherrschungsmagie":{"Name":"Beherrschungsmagie","Attribute":["Mystik","Willenskraft"]},"bewegungsmagie":{"Name":"Bewegungsmagie","Attribute":["Mystik","Beweglichkeit"]},"erkenntnismagie":{"Name":"Erkenntnismagie","Attribute":["Mystik","Verstand"]},"felsmagie":{"Name":"Fellsmagie","Attribute":["Mystik","Konstitution"]},"feuermagie":{"Name":"Feuermagie","Attribute":["Mystik","Ausstrahlung"]},"heilungsmagie":{"Name":"Heilungsmagie","Attribute":["Mystik","Ausstrahlung"]},"illusionsmagie":{"Name":"Illusionsmagie","Attribute":["Mystik","Ausstrahlung"]},"kampfmagie":{"Name":"Kampfmagie","Attribute":["Mystik","Staerke"]},"lichtmagie":{"Name":"Lichtmagie","Attribute":["Mystik","Ausstrahlung"]},"naturmagie":{"Name":"Naturmagie","Attribute":["Mystik","Ausstrahlung"]},"schattenmagie":{"Name":"Schattenmagie","Attribute":["Mystik","Intuition"]},"schicksalsmagie":{"Name":"Schicksalsmagie","Attribute":["Mystik","Ausstrahlung"]},"schutzmagie":{"Name":"Schutzmagie","Attribute":["Mystik","Ausstrahlung"]},"staerkungsmagie":{"Name":"Stärkungsmagie","Attribute":["Mystik","Staerke"]},"todesmagie":{"Name":"Todesmagie","Attribute":["Mystik","Verstand"]},"verwandlungsmagie":{"Name":"Verwandlungsmagie","Attribute":["Mystik","Konstitution"]},"wassermagie":{"Name":"Wassermagie","Attribute":["Mystik","Intuition"]},"windmagie":{"Name":"Windmagie","Attribute":["Mystik","Verstand"]}},"staerken":{"natürlicher rüstungsschutz":{"tooltip":"nat. Rüstung","modifier":{"schadensreduktion":1}},"erhöhter fokuspool":{"tooltip":"erhöhter FO","modifier":{"fokus":5}},"flink":{"tooltip":"Flink","modifier":{"geschwindigkeit":1}},"robust":{"tooltip":"Robust","modifier":{"lebenspunkte":1}},"hoher körperlicher widerstand":{"tooltip":"Hoher KW","modifier":{"koerperlicherwiderstand":2}},"hoher geistiger widerstand":{"tooltip":"Hoher GW","modifier":{"geistigerwiderstand":2}},"verbesserte initiative":{"tooltip":"Verb. INI","modifier":{"initiative":-3}},"schmerzresistenz":{"tooltip":"Schmerzres.","modifier":{"wundabzug":-2}},"zusätzliche splitterpunkte":{"tooltip":"Zus. Splitterp.","modifier":{"splitterpunkt":2}},"erhöhte fokusregeneration":{"tooltip":"Hohe FO-Reg.","modifier":{"fokusreg":2}},"erhöhte lebensregeneration":{"tooltip":"Hohe LP-Reg.","modifier":{"lifereg":2}}},"zustaende":{"verwundet":{"tooltip":"verwundet","modifier":{"gesundheitsstufe":1}},"benommen":{"tooltip":"benommen","modifier":{"tickplus":1}},"erschöpft":{"tooltip":"erschöpft","modifier":{"akrobatik":-1,"alchemie":-1,"anfuehren":-1,"arkanekunde":-1,"athletik":-1,"darbietung":-1,"diplomatie":-1,"edelhandwerk":-1,"empathie":-1,"entschlossenheit":-1,"fingerfertigkeit":-1,"geschichtenundmythen":-1,"handwerk":-1,"heilkunde":-1,"heimlichkeit":-1,"jagdkunst":-1,"laenderkunde":-1,"naturkunde":-1,"redegewandtheit":-1,"schloesserundfallen":-1,"schwimmen":-1,"seefahrt":-1,"strassenkunde":-1,"tierfuehrung":-1,"ueberleben":-1,"wahrnehmung":-1,"zaehigkeit":-1,"handgemenge":-1,"hiebwaffen":-1,"kettenwaffen":-1,"klingenwaffen":-1,"stangenwaffen":-1,"schusswaffen":-1,"wurfwaffen":-1,"initiative":1,"geschwindigkeit":-1}},"lahm":{"tooltip":"lahm","modifier":{},"multiplier":{"geschwindigkeit":0.5}},"glaubenskrise":{"glaubenskrise":"Glaubenskrise","modifier":{"bannmagie":-1,"beherrschungsmagie":-1,"bewegungsmagie":-1,"erkenntnismagie":-1,"felsmagie":-1,"feuermagie":-1,"heilungsmagie":-1,"illusionsmagie":-1,"kampfmagie":-1,"lichtmagie":-1,"naturmagie":-1,"schattenmagie":-1,"schicksalsmagie":-1,"schutzmagie":-1,"staerkungsmagie":-1,"todesmagie":-1,"verwandlungsmagie":-1,"wassermagie":-1,"windmagie":-1}}}};
+<script type="text/worker">var splittermond = {"rassen":{"mensch":{"name":"Mensch","groessenklasse":5},"varg":{"name":"Varg","groessenklasse":6},"alb":{"name":"Alb","groessenklasse":5},"gnom":{"name":"Gnom","groessenklasse":3},"zwerg":{"name":"Zwerg","groessenklasse":4}},"abgeleiteteWerte":{"groessenklasse":{"long":"Größenklasse","short":"GK"},"geschwindigkeit":{"long":"Geschwindigkeit","short":"GSW"},"initiative":{"long":"Initiative","short":"INI"},"lebenspunkte":{"long":"Lebenspunkte","short":"LP"},"fokus":{"long":"Fokus","short":"FO"},"verteidigung":{"long":"Verteidigung","short":"VTD"},"geistigerwiderstand":{"long":"Geistiger Widerstand","short":"GW"},"koerperlicherwiderstand":{"long":"Körperlicher Widerstand","short":"KW"}},"attribute":{"ausstrahlung":{"long":"Ausstrahlung","short":"AUS"},"beweglichkeit":{"long":"Beweglichkeit","short":"BEW"},"intuition":{"long":"Intuition","short":"INT"},"konstitution":{"long":"Konstitution","short":"KON"},"mystik":{"long":"Mystik","short":"MYS"},"staerke":{"long":"Stärke","short":"STÄ"},"verstand":{"long":"Verstand","short":"VER"},"willenskraft":{"long":"Willenskraft","short":"WIL"}},"fertigkeiten":{"akrobatik":{"Name":"Akrobatik","Attribute":["Beweglichkeit","Staerke"]},"alchemie":{"Name":"Alchemie","Attribute":["Mystik","Verstand"]},"anfuehren":{"Name":"Anführen","Attribute":["Ausstrahlung","Willenskraft"]},"arkanekunde":{"Name":"Arkane Kunde","Attribute":["Mystik","Verstand"]},"athletik":{"Name":"Athletik","Attribute":["Beweglichkeit","Staerke"]},"darbietung":{"Name":"Darbietung","Attribute":["Ausstrahlung","Willenskraft"]},"diplomatie":{"Name":"Diplomatie","Attribute":["Ausstrahlung","Verstand"]},"edelhandwerk":{"Name":"Edelhandwerk","Attribute":["Intuition","Verstand"]},"empathie":{"Name":"Empathie","Attribute":["Intuition","Verstand"]},"entschlossenheit":{"Name":"Entschlossenheit","Attribute":["Ausstrahlung","Willenskraft"]},"fingerfertigkeit":{"Name":"Fingerfertigkeit","Attribute":["Ausstrahlung","Beweglichkeit"]},"geschichtenundmythen":{"Name":"Geschichten & Mythen","Attribute":["Mystik","Verstand"]},"handwerk":{"Name":"Handwerk","Attribute":["Konstitution","Verstand"]},"heilkunde":{"Name":"Heilkunde","Attribute":["Intuition","Verstand"]},"heimlichkeit":{"Name":"Heimlichkeit","Attribute":["Beweglichkeit","Intuition"]},"jagdkunst":{"Name":"Jagdkunst","Attribute":["Konstitution","Verstand"]},"laenderkunde":{"Name":"Länderkunde","Attribute":["Intuition","Verstand"]},"naturkunde":{"Name":"Naturkunde","Attribute":["Intuition","Verstand"]},"redegewandtheit":{"Name":"Redegewandtheit","Attribute":["Ausstrahlung","Willenskraft"]},"schloesserundfallen":{"Name":"Schlösser & Fallen","Attribute":["Intuition","Beweglichkeit"]},"schwimmen":{"Name":"Schwimmen","Attribute":["Konstitution","Staerke"]},"seefahrt":{"Name":"Seefahrt","Attribute":["Beweglichkeit","Konstitution"]},"strassenkunde":{"Name":"Straßenkunde","Attribute":["Ausstrahlung","Intuition"]},"tierfuehrung":{"Name":"Tierfuehrung","Attribute":["Ausstrahlung","Beweglichkeit"]},"ueberleben":{"Name":"Überleben","Attribute":["Intuition","Konstitution"]},"wahrnehmung":{"Name":"Wahrnehmung","Attribute":["Intuition","Willenskraft"]},"zaehigkeit":{"Name":"Zähigkeit","Attribute":["Konstitution","Willenskraft"]}},"kampffertigkeiten":{"handgemenge":{"Name":"Handgemenge"},"hiebwaffen":{"Name":"Hiebwaffen"},"kettenwaffen":{"Name":"Kettenwaffen"},"klingenwaffen":{"Name":"Klingenwaffen"},"stangenwaffen":{"Name":"Stangenwaffen"},"schusswaffen":{"Name":"Schusswaffen"},"wurfwaffen":{"Name":"Wurfwaffen"}},"magieschulen":{"bannmagie":{"Name":"Bannmagie","Attribute":["Mystik","Willenskraft"]},"beherrschungsmagie":{"Name":"Beherrschungsmagie","Attribute":["Mystik","Willenskraft"]},"bewegungsmagie":{"Name":"Bewegungsmagie","Attribute":["Mystik","Beweglichkeit"]},"erkenntnismagie":{"Name":"Erkenntnismagie","Attribute":["Mystik","Verstand"]},"felsmagie":{"Name":"Fellsmagie","Attribute":["Mystik","Konstitution"]},"feuermagie":{"Name":"Feuermagie","Attribute":["Mystik","Ausstrahlung"]},"heilungsmagie":{"Name":"Heilungsmagie","Attribute":["Mystik","Ausstrahlung"]},"illusionsmagie":{"Name":"Illusionsmagie","Attribute":["Mystik","Ausstrahlung"]},"kampfmagie":{"Name":"Kampfmagie","Attribute":["Mystik","Staerke"]},"lichtmagie":{"Name":"Lichtmagie","Attribute":["Mystik","Ausstrahlung"]},"naturmagie":{"Name":"Naturmagie","Attribute":["Mystik","Ausstrahlung"]},"schattenmagie":{"Name":"Schattenmagie","Attribute":["Mystik","Intuition"]},"schicksalsmagie":{"Name":"Schicksalsmagie","Attribute":["Mystik","Ausstrahlung"]},"schutzmagie":{"Name":"Schutzmagie","Attribute":["Mystik","Ausstrahlung"]},"staerkungsmagie":{"Name":"Stärkungsmagie","Attribute":["Mystik","Staerke"]},"todesmagie":{"Name":"Todesmagie","Attribute":["Mystik","Verstand"]},"verwandlungsmagie":{"Name":"Verwandlungsmagie","Attribute":["Mystik","Konstitution"]},"wassermagie":{"Name":"Wassermagie","Attribute":["Mystik","Intuition"]},"windmagie":{"Name":"Windmagie","Attribute":["Mystik","Verstand"]}},"staerken":{"natürlicher rüstungsschutz":{"tooltip":"nat. Rüstung","modifier":{"schadensreduktion":1}},"erhöhter fokuspool":{"tooltip":"erhöhter FO","modifier":{"fokus":5}},"flink":{"tooltip":"Flink","modifier":{"geschwindigkeit":1}},"robust":{"tooltip":"Robust","modifier":{"lebenspunkte":1}},"hoher körperlicher widerstand":{"tooltip":"Hoher KW","modifier":{"koerperlicherwiderstand":2}},"hoher geistiger widerstand":{"tooltip":"Hoher GW","modifier":{"geistigerwiderstand":2}},"verbesserte initiative":{"tooltip":"Verb. INI","modifier":{"initiative":-3}},"schmerzresistenz":{"tooltip":"Schmerzres.","modifier":{"wundabzug":-2}},"zusätzliche splitterpunkte":{"tooltip":"Zus. Splitterp.","modifier":{"splitterpunkt":2}},"erhöhte fokusregeneration":{"tooltip":"Hohe FO-Reg.","modifier":{"fokusreg":2}},"erhöhte lebensregeneration":{"tooltip":"Hohe LP-Reg.","modifier":{"lifereg":2}}},"zustaende":{"verwundet":{"tooltip":"verwundet","modifier":{"gesundheitsstufe":1}},"benommen":{"tooltip":"benommen","modifier":{"tickplus":1}},"erschöpft":{"tooltip":"erschöpft","modifier":{"akrobatik":-1,"alchemie":-1,"anfuehren":-1,"arkanekunde":-1,"athletik":-1,"darbietung":-1,"diplomatie":-1,"edelhandwerk":-1,"empathie":-1,"entschlossenheit":-1,"fingerfertigkeit":-1,"geschichtenundmythen":-1,"handwerk":-1,"heilkunde":-1,"heimlichkeit":-1,"jagdkunst":-1,"laenderkunde":-1,"naturkunde":-1,"redegewandtheit":-1,"schloesserundfallen":-1,"schwimmen":-1,"seefahrt":-1,"strassenkunde":-1,"tierfuehrung":-1,"ueberleben":-1,"wahrnehmung":-1,"zaehigkeit":-1,"handgemenge":-1,"hiebwaffen":-1,"kettenwaffen":-1,"klingenwaffen":-1,"stangenwaffen":-1,"schusswaffen":-1,"wurfwaffen":-1,"initiative":1,"geschwindigkeit":-1}},"lahm":{"tooltip":"lahm","modifier":{},"multiplier":{"geschwindigkeit":0.5}},"glaubenskrise":{"tooltip":"Glaubenskrise","modifier":{"bannmagie":-1,"beherrschungsmagie":-1,"bewegungsmagie":-1,"erkenntnismagie":-1,"felsmagie":-1,"feuermagie":-1,"heilungsmagie":-1,"illusionsmagie":-1,"kampfmagie":-1,"lichtmagie":-1,"naturmagie":-1,"schattenmagie":-1,"schicksalsmagie":-1,"schutzmagie":-1,"staerkungsmagie":-1,"todesmagie":-1,"verwandlungsmagie":-1,"wassermagie":-1,"windmagie":-1}}},"meisterschaften":{"blitzreflexe":{"tooltip":"Blitzreflexe","modifier":{"initiative":3}},"gute reflexe":{"tooltip":"Gute Reflexe","modifier":{"verteidigung":1}},"rüstungsträger i":{"tooltip":"Rüstungsträger I","modifier":{"ruestungsbe":-1}},"rüstungsträger 1":{"tooltip":"Rüstungsträger I","modifier":{"ruestungsbe":-1}},"rüstungsträger ii":{"tooltip":"Rüstungsträger II","modifier":{"ruestungstickplus":-1}},"rüstungsträger 2":{"tooltip":"Rüstungsträger II","modifier":{"ruestungstickplus":-1}},"starker schildarm i":{"tooltip":"Starker Schildarm I","modifier":{"schildbe":-1}},"starker schildarm 1":{"tooltip":"Starker Schildarm I","modifier":{"schildbe":-1}},"starker schildarm ii":{"tooltip":"Starker Schildarm II","modifier":{"schildtickplus":-1}},"starker schildarm 2":{"tooltip":"Starker Schildarm II","modifier":{"schildtickplus":-1}},"schmerzwiderstand i":{"tooltip":"Schmerzwiderstand I","modifier":{"wundabzug":-1}},"schmerzwiderstand 1":{"tooltip":"Schmerzwiderstand I","modifier":{"wundabzug":-1}},"schmerzwiderstand ii":{"tooltip":"Schmerzwiderstand II","modifier":{"wundabzug":-1}},"schmerzwiderstand 2":{"tooltip":"Schmerzwiderstand II","modifier":{"wundabzug":-1}},"arkane geschwindigkeit":{"tooltip":"Arkane Geschwindigkeit","modifier":{"geschwindigkeit":1}},"sprinter":{"tooltip":"Sprinter","modifier":{"geschwindigkeit":1}}}};
 ["einstellungen", "grundwerte", "fertigkeiten", "magie", "entwicklung", "ausruestung", "kampf"].forEach(button => {
     on(`clicked:${button}`, function () {
         setAttrs({
@@ -1656,7 +1729,6 @@ on("change:repeating_staerken remove:repeating_staerken", function () {
                     }
                 }
             });
-            console.log(staerkenmod);
             setAttrs({ staerkenmod: JSON.stringify(staerkenmod) });
         });
     });
@@ -1713,7 +1785,6 @@ on("change:repeating_attributmods remove:repeating_attributmods", function () {
                 var name = str(v["repeating_attributmods_" + id + "_attributmodname"]);
                 var modvalue = int(v["repeating_attributmods_" + id + "_attributmod"]);
                 var modactive = str(v["repeating_attributmods_" + id + "_attributmodonoff"]);
-                console.log(modactive);
                 if (modactive == "on") {
                     var attribute = []
                     switch (attribut) {
@@ -1747,77 +1818,39 @@ on("change:repeating_attributmods remove:repeating_attributmods", function () {
                 }
 
             });
-            console.log(attributmod);
             setAttrs({ attributmodsmod: JSON.stringify(attributmod) });
         });
     });
 });
 
 
+// Calculate modifier from "zustaende"
+on("change:repeating_meisterschaften remove:repeating_meisterschaften", function () {
+    getSectionIDs("repeating_meisterschaften", function (idarray) {
 
-// Update Tooltips
-allModifier.forEach(function (attr) {
-    on(`change:${attr} change:${attr}mod change:${attr}moduser change:${attr}modtooltip`, function (e) {
-        getAttrs([attr, attr + "mod", attr + "modtooltip", attr + "moduser"], function (v) {
-            var tooltip = "Basis: " + (int(v[attr]) - int(v[attr + "mod"]) - int(v[attr + "moduser"])) + str(v[attr + "modtooltip"]);
-            if (int(v[attr + "moduser"]) != 0) {
-                tooltip += "\n" + modStr(v[attr + "moduser"]) + " (mod.)"
-            }
+        idAttrsStr = idarray.map(id => "repeating_meisterschaften_" + id + "_meisterschaftsname"); getAttrs(idAttrsStr, function (v) {
+            var meisterschaftmod = {};
 
-            var update = {};
-            update[attr + "tooltip"] = tooltip;
-            setAttrs(update);
+            idarray.forEach(function (id) {
+                var meisterschaft = str(v["repeating_meisterschaften_" + id + "_meisterschaftsname"]).toLowerCase();
+                for (var splimoMeisterschaft in splittermond.meisterschaften) {
+                    if (meisterschaft == splimoMeisterschaft) {
+                        for (var key in splittermond.meisterschaften[splimoMeisterschaft].modifier) {
+                            var modifier = { name: splittermond.meisterschaften[splimoMeisterschaft].tooltip, value: int(splittermond.meisterschaften[splimoMeisterschaft].modifier[key]) };
+                            if (!(key in meisterschaftmod)) {
+                                meisterschaftmod[key] = [];
+                            }
+                            meisterschaftmod[key].push(modifier);
+                        }
+                    }
+                }
+
+            });
+            setAttrs({ meisterschaftmod: JSON.stringify(meisterschaftmod) });
         });
     });
 });
 
-on("change:repeating_meisterschaften:meisterschaftsschwelle", function () {
-    getAttrs(["repeating_meisterschaften_meisterschaftsname", "repeating_meisterschaften_meisterschaftsfertigkeit", "blitzreflexecount", "sprintercount"], function (values) {
-        var name = values.repeating_meisterschaften_meisterschaftsname;
-        var fertigkeit = values.repeating_meisterschaften_meisterschaftsfertigkeit;
-        var update = {};
-        if (name != "" && fertigkeit != "") {
-            switch (name.toLowerCase()) {
-                case "blitzreflexe":
-                    update["blitzreflexecount"] = +values.blitzreflexecount + 1;
-                    break;
-                case "gute reflexe":
-                    update["hiddenvtdgr"] = 1;
-                    break;
-                case "rüstungsträger i":
-                case "rüstungsträger 1":
-                    update["rt1"] = 1;
-                    break;
-                case "rüstungsträger ii":
-                case "rüstungsträger 2":
-                    update["rt2"] = 1;
-                case "starker schildarm i":
-                case "starker schildarm 1":
-                    update["st1"] = 1;
-                    break;
-                case "schmerzwiderstand i":
-                case "schmerzwiderstand 1":
-                    update["sw1"] = 1;
-                    break
-                case "starker schildarm ii":
-                case "starker schildarm 2":
-                    update["st2"] = 1;
-                    break;
-                case "schmerzwiderstand ii":
-                case "schmerzwiderstand 2":
-                    update["sw2"] = 1;
-                    break;
-                case "arkane geschwindigkeit":
-                    update["hiddengswag"] = 1;
-                    break;
-                case "sprinter":
-                    update["sprintercount"] = +values.sprintercount + 1;
-                    break;
-            }
-            setAttrs(update);
-        }
-    });
-});
 
 // Calc "Zauber"
 on("change:repeating_zauber:magieschulen", function () {
@@ -1860,7 +1893,6 @@ on("change:repeating_waffen:waffenskill change:repeating_waffen:waffenattr1 chan
                         var attr1 = v["repeating_waffen_" + currentID + "_waffenattr1"];
                         var attr2 = v["repeating_waffen_" + currentID + "_waffenattr2"];
                         var mod = int(v["repeating_waffen_" + currentID + "_waffenmod"]);
-                        console.log(mod);
                         update["repeating_waffen_" + currentID + "_waffenwert"] = int(v[skill]) + int(v[attr1]) + int(v[attr2]) + mod;
                     });
                     setAttrs(update);
@@ -1868,56 +1900,6 @@ on("change:repeating_waffen:waffenskill change:repeating_waffen:waffenattr1 chan
             }
         });
     });
-
-
-on("change:repeating_ruestungen remove:repeating_ruestungen change:repeating_ruestungen:ruestungonoff change:rt1 change:rt2", function () {
-    getSectionIDs("repeating_ruestungen", function (idarray) {
-        if (idarray.length == 0) {
-            setAttrs({
-                hiddenruestungsvtd: 0,
-                hiddenruestungssr: 0,
-                hiddenruestungsbe: 0,
-                hiddenruestungstickplus: 0
-            });
-        } else {
-            var insgesamtvtd = 0;
-            var insgesamtbe = 0;
-            var insgesamtsr = 0;
-            var insgesamttickplus = 0;
-            var keineausgeruestet = true;
-            _.each(idarray, function (currentID, i) {
-                getAttrs(["repeating_ruestungen_" + currentID + "_ruestungsvtd", "repeating_ruestungen_" + currentID + "_ruestungsbe", "repeating_ruestungen_" + currentID + "_ruestungssr", "repeating_ruestungen_" + currentID + "_ruestungonoff", "repeating_ruestungen_" + currentID + "_ruestungstickplus", "gesamtvtd", "gesamtsr", "gesamtbe", "rt1", "rt2"], function (v) {
-                    var vtd = v["repeating_ruestungen_" + currentID + "_ruestungsvtd"];
-                    var be = v["repeating_ruestungen_" + currentID + "_ruestungsbe"];
-                    var sr = v["repeating_ruestungen_" + currentID + "_ruestungssr"];
-                    var tp = v["repeating_ruestungen_" + currentID + "_ruestungstickplus"];
-                    var onoff = v["repeating_ruestungen_" + currentID + "_ruestungonoff"];
-                    if (onoff == true) {
-                        keineausgeruestet = false;
-                        insgesamtvtd += +vtd;
-                        insgesamtbe += +be;
-                        insgesamtsr += +sr;
-                        insgesamttickplus += +tp;
-                        setAttrs({
-                            hiddenruestungsvtd: +insgesamtvtd,
-                            hiddenruestungssr: +insgesamtsr,
-                            hiddenruestungsbe: +insgesamtbe - +v.rt1,
-                            hiddenruestungstickplus: +insgesamttickplus - +v.rt2
-                        });
-                    }
-                });
-            });
-            if (keineausgeruestet == true) {
-                setAttrs({
-                    hiddenruestungsvtd: 0,
-                    hiddenruestungssr: 0,
-                    hiddenruestungsbe: 0,
-                    hiddenruestungstickplus: 0
-                });
-            }
-        }
-    });
-});
 
 on("change:hiddenschildvtd change:hiddenruestungsvtd change:hiddenruestungssr change:hiddenschildbe change:hiddenruestungsbe change:hiddenschildtickplus change:hiddenruestungstickplus change:hiddensr change:hiddenbehinderungfruehstueck", function (g) {
     getAttrs(["hiddenschildvtd", "hiddenruestungsvtd", "hiddenruestungssr", "hiddenschildbe", "hiddenruestungsbe", "hiddenschildtickplus", "hiddenruestungstickplus", "hiddensr", "hiddenbehinderungfruehstueck", "hiddenschadensreduktionfruehstueck"], function (f) {
@@ -1930,116 +1912,6 @@ on("change:hiddenschildvtd change:hiddenruestungsvtd change:hiddenruestungssr ch
     });
 });
 
-on("change:repeating_zustaende remove:repeating_zustaende", function (g) {
-    getSectionIDs("zustaende", function (idarray) {
-        if (idarray.length == 0) {
-            var deleteAll = {};
-            deleteAll["verwundet"] = 0;
-            deleteAll["benommen"] = 0;
-            deleteAll["geblendet"] = 0;
-            deleteAll["erschoepft"] = 0;
-            deleteAll["lahm"] = 0;
-            deleteAll["glaubenskrise"] = 0;
-            setAttrs(deleteAll);
-        } else {
-            var verwundet = 0;
-            var benommen = 0;
-            var erschoepft = 0;
-            var geblendet = 0;
-            var lahm = 0;
-            var glaubenskrise = 0;
-            var keineraktiviert = true;
-            _.each(idarray, function (currentID, i) {
-                getAttrs(["repeating_zustaende_" + currentID + "_zustandsname", "repeating_zustaende_" + currentID + "_zustandsstufe", "repeating_zustaende_" + currentID + "_zustandonoff", "beweglichkeit", "groessenklasse", "geschwindigkeitmod", "hiddengsw", "hiddengswag", "hiddengswspr", "hiddengswbe", "erschoepft"], function (v) {
-                    var zustandsname = v["repeating_zustaende_" + currentID + "_zustandsname"];
-                    var zustandsstufe = v["repeating_zustaende_" + currentID + "_zustandsstufe"];
-                    var zustandonoff = v["repeating_zustaende_" + currentID + "_zustandonoff"];
-                    if (+zustandonoff == 1) {
-                        keineraktiviert = false;
-                        switch (zustandsname) {
-                            case "verwundet":
-                                verwundet += +zustandsstufe;
-                                setAttrs({
-                                    verwundet: +verwundet
-                                });
-                                break;
-                            case "benommen":
-                                benommen += +zustandsstufe;
-                                setAttrs({
-                                    benommen: +benommen
-                                });
-                                break;
-                            case "geblendet":
-                                geblendet += +zustandsstufe * 2;
-                                setAttrs({
-                                    geblendet: +geblendet
-                                });
-                                break;
-                            case "erschoepft":
-                                erschoepft += +zustandsstufe;
-                                setAttrs({
-                                    erschoepft: +erschoepft
-                                });
-                                break;
-                            case "glaubenskrise":
-                                glaubenskrise += +zustandsstufe;
-                                setAttrs({
-                                    glaubenskrise: +glaubenskrise
-                                });
-                                break;
-                            case "lahm":
-                                let lahmAlt = +v.beweglichkeit + +v.groessenklasse + +v.geschwindigkeitmod + +v.hiddengsw + +v.hiddengswag + +v.hiddengswspr - +v.hiddengswbe - +v.erschoepft;
-                                let lahm = 0;
-                                let lahmTemp = 0;
-                                if (zustandsstufe == 0) {
-                                    setAttrs({ lahm: +zustandsstufe });
-                                } else if (zustandsstufe > 0) {
-                                    for (var i = 1; i <= +zustandsstufe; i++) {
-                                        lahmTemp = lahmAlt;
-                                        lahmAlt /= 2;
-                                        lahm += (lahmTemp - lahmAlt);
-                                    }
-                                    setAttrs({ lahm: +Math.floor(lahm) });
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
-            });
-            if (keineraktiviert == true) {
-                setAttrs({
-                    verwundet: 0,
-                    benommen: 0,
-                    geblendet: 0,
-                    erschoepft: 0,
-                    lahm: 0
-                });
-            }
-        }
-    });
-});
-
-on("change:schildonoff change:schildvtd change:schildbe change:schildtickplus change:st1 change:st2", function (info) {
-    getAttrs(["schildonoff"], function (f) {
-        if (f.schildonoff == true) {
-            getAttrs(["schildvtd", "schildbe", "schildtickplus", "st1", "st2"], function (g) {
-                setAttrs({
-                    hiddenschildvtd: +g.schildvtd,
-                    hiddenschildbe: +g.schildbe - +g.st1,
-                    hiddenschildtickplus: +g.schildtickplus - +g.st2
-                });
-            });
-        } else {
-            setAttrs({
-                hiddenschildvtd: 0,
-                hiddenschildbe: 0,
-                hiddenschildtickplus: 0
-            });
-        }
-    });
-});
 
 on("change:gesamtvtd change:gesamtsr change:gesamtbe", function (eventinfo) {
     getAttrs(["gesamtvtd", "gesamtsr", "gesamtbe", "schadensreduktionmod", "hiddenschadensreduktionfruehstueck"], function (values) {
@@ -2050,16 +1922,6 @@ on("change:gesamtvtd change:gesamtsr change:gesamtbe", function (eventinfo) {
         });
     });
 });
-
-on("change:behinderung", function (eventinfo) {
-    getAttrs(["behinderung"], function (values) {
-        var modifier = Math.floor(+values.behinderung / 2);
-        setAttrs({
-            hiddengswbe: modifier
-        });
-    });
-});
-
 
 
 
@@ -2089,236 +1951,7 @@ on("change:fokus", function (e) {
         });
     });
 });
-
-on("change:lebenspunkte_v change:lebenspunkte change:schmerzresistenz change:sw1 change:sw2 change:verwundet change:schadenimmun change:wundabzugsmod", function (e) {
-    getAttrs(["lebenspunkte", "lebenspunkte_v", "lebenspunkte_k", "lebenspunkte_e", "schmerzresistenz", "sw1", "sw2", "verwundet", "schadenimmun", "wundabzugsmod"], function (v) {
-        var mod;
-        var row = Math.ceil(+v.lebenspunkte_v / +v.lebenspunkte);
-        row += +v.verwundet;
-        var sr = v.schmerzresistenz;
-        var sw1 = v.sw1;
-        var sw2 = v.sw2;
-        var war = +v.wundabzugsmod;
-        switch (row) {
-            case 0:
-            case 1:
-                mod = 0;
-                break;
-            case 2:
-                mod = 1 - +sr - +sw1 - +sw2;
-                break;
-            case 3:
-                mod = 2 - +sr - +sw1 - +sw2;
-                break;
-            case 4:
-                mod = 4 - +sr - +sw1 - +sw2;
-                break;
-            case 5:
-                mod = 8 - +sr - +sw1 - +sw2;
-                break;
-            default:
-                mod = 8 - +sr - +sw1 - +sw2;
-                break;
-        }
-        mod -= +war;
-        if (mod < 0 || v.schadenimmun > 0) { mod = 0; }
-        setAttrs({
-            schadensmod: +mod,
-        });
-        if (e.sourceAttribute == "lebenspunkte_v") {
-            setAttrs({
-                lebenspunkte_t: (+v.lebenspunkte * 5) - +v.lebenspunkte_v - +v.lebenspunkte_e - +v.lebenspunkte_k,
-            });
-        }
-    });
-});
-
-on("change:repeating_attributmods remove:repeating_attributmods", function () {
-    getSectionIDs("repeating_attributmods", function (idarray) {
-        if (idarray.length == 0) {
-            setAttrs({
-                hiddenausstrahlungmod: 0,
-                hiddenbeweglichkeitmod: 0,
-                hiddenintuitionmod: 0,
-                hiddenkonstitutionmod: 0,
-                hiddenmystikmod: 0,
-                hiddenstaerkemod: 0,
-                hiddenverstandmod: 0,
-                hiddenwillenskraftmod: 0,
-                hiddenvtdbonus: 0,
-                hiddengwbonus: 0,
-                hiddenkwbonus: 0,
-                hiddenallgfert: 0,
-                hiddenbehinderungfruehsteuck: 0,
-                hiddenschadensreduktionfruehstueck: 0,
-                angriffsbonus: 0,
-                kampffertigkeitenbonus: 0,
-                schadenimmun: 0,
-                hiddenallfert: 0,
-                hiddenallwiderstand: 0,
-                wundabzugsmod: 0,
-                hiddenmodini: 0,
-                hiddenmodgsw: 0
-            });
-        } else {
-            var ausstrahlung = 0;
-            var beweglichkeit = 0;
-            var intuition = 0;
-            var konstitution = 0;
-            var mystik = 0;
-            var staerke = 0;
-            var verstand = 0;
-            var willenskraft = 0;
-            var vtd = 0;
-            var kw = 0;
-            var gw = 0;
-            var allgfert = 0;
-            var beh = 0;
-            var sr = 0;
-            var ab = 0;
-            var kf = 0;
-            var si = 0;
-            var allfert = 0;
-            var allwiderstand = 0;
-            var wundabzugsmod = 0;
-            var ini = 0;
-            var gsw = 0;
-            var keineaktiv = true;
-            _.each(idarray, function (currentID, i) {
-                getAttrs(["repeating_attributmods_" + currentID + "_modattribut", "repeating_attributmods_" + currentID + "_attributmod", "repeating_attributmods_" + currentID + "_attributmodonoff"], function (v) {
-                    var attr = v["repeating_attributmods_" + currentID + "_modattribut"];
-                    var mod = v["repeating_attributmods_" + currentID + "_attributmod"];
-                    var onoff = v["repeating_attributmods_" + currentID + "_attributmodonoff"];
-                    var update = {};
-                    if (onoff == "on") {
-                        keineaktiv = false;
-                        switch (attr) {
-                            case "aus":
-                                ausstrahlung += +mod;
-                                update["hiddenausstrahlungmod"] = +ausstrahlung;
-                                break;
-                            case "bew":
-                                beweglichkeit += +mod;
-                                update["hiddenbeweglichkeitmod"] = +beweglichkeit;
-                                break;
-                            case "int":
-                                intuition += +mod;
-                                update["hiddenintuitionmod"] = +intuition;
-                                break;
-                            case "kon":
-                                konstitution += +mod;
-                                update["hiddenkonstitutionmod"] = +konstitution;
-                                break;
-                            case "mys":
-                                mystik += +mod;
-                                update["hiddenmystikmod"] = +mystik;
-                                break;
-                            case "stae":
-                                staerke += +mod;
-                                update["hiddenstaerkemod"] = +staerke;
-                                break;
-                            case "ver":
-                                verstand += +mod;
-                                update["hiddenverstandmod"] = +verstand;
-                                break;
-                            case "wil":
-                                willenskraft += +mod;
-                                update["hiddenwillenskraftmod"] = +willenskraft;
-                                break;
-                            case "vtd":
-                                vtd += +mod;
-                                update["hiddenvtdbonus"] = +vtd;
-                                break;
-                            case "kw":
-                                kw += +mod;
-                                update["hiddenkwbonus"] = +kw;
-                                break;
-                            case "gw":
-                                gw += +mod;
-                                update["hiddengwbonus"] = +gw;
-                                break;
-                            case "allgfert":
-                                allgfert += +mod;
-                                update["hiddenallgfert"] = +allgfert;
-                                break;
-                            case "beh":
-                                beh += +mod;
-                                update["hiddenbehinderungfruehstueck"] = +beh;
-                                break;
-                            case "sr":
-                                sr += +mod;
-                                update["hiddenschadensreduktionfruehstueck"] = +sr;
-                                break;
-                            case "ab":
-                                ab += +mod;
-                                update["angriffsbonus"] = +ab;
-                                break;
-                            case "kampffert":
-                                kf += +mod;
-                                update["kampffertigkeitenbonus"] = +kf;
-                                break;
-                            case "si":
-                                si += +mod;
-                                if (si > 1) { si = 1; }
-                                update["schadenimmun"] = +si;
-                                break;
-                            case "allfert":
-                                allfert += +mod;
-                                update["hiddenallfert"] = +allfert;
-                                break;
-                            case "allwiderstand":
-                                allwiderstand += +mod;
-                                update["hiddenallwiderstand"] = +allwiderstand;
-                                break;
-                            case "war":
-                                wundabzugsmod += +mod;
-                                update["wundabzugsmod"] = +wundabzugsmod;
-                                break;
-                            case "ini":
-                                ini += +mod;
-                                update["hiddenmodini"] = +ini;
-                                break;
-                            case "gsw":
-                                gsw += +mod;
-                                update["hiddenmodgsw"] = +gsw;
-                                break;
-                            default:
-                                break;
-                        }
-                        setAttrs(update);
-                    }
-                });
-            });
-            if (keineaktiv == true) {
-                setAttrs({
-                    hiddenausstrahlungmod: 0,
-                    hiddenbeweglichkeitmod: 0,
-                    hiddenintuitionmod: 0,
-                    hiddenkonstitutionmod: 0,
-                    hiddenmystikmod: 0,
-                    hiddenstaerkemod: 0,
-                    hiddenverstandmod: 0,
-                    hiddenwillenskraftmod: 0,
-                    hiddenvtdbonus: 0,
-                    hiddenkwbonus: 0,
-                    hiddengwbonus: 0,
-                    hiddenallgfert: 0,
-                    hiddenbehinderungfruehstueck: 0,
-                    hiddenschadensreduktionfruehstueck: 0,
-                    angriffsbonus: 0,
-                    kampffertigkeitenbonus: 0,
-                    schadenimmun: 0,
-                    hiddenallfert: 0,
-                    hiddenallwiderstand: 0,
-                    wundabzugsmod: 0,
-                    hiddenmodini: 0,
-                    hiddenmodgsw: 0
-                });
-            }
-        }
-    });
-});
-
+/*
 
 on("change:repeating_nahkampfwaffen:waffenmerkmale", function (eventInfo) {
     getAttrs(["repeating_nahkampfwaffen_waffenmerkmale"], function (v) {
@@ -2349,6 +1982,7 @@ on("change:repeating_nahkampfwaffen:waffenmerkmale", function (eventInfo) {
         });
     });
 });
+
 
 on("change:repeating_nahkampfwaffen:waffenscharf change:repeating_nahkampfwaffen:waffenexakt change:repeating_nahkampfwaffen:waffenkritisch change:repeating_nahkampfwaffen:waffenschaden change:repeating_nahkampfwaffen:waffenname", function (eventInfo) {
     getAttrs(["repeating_nahkampfwaffen_waffenexakt", "repeating_nahkampfwaffen_waffenkritisch", "repeating_nahkampfwaffen_waffenscharf", "repeating_nahkampfwaffen_waffenschaden"], function (v) {
@@ -2469,7 +2103,7 @@ on("change:repeating_fernkampfwaffen:waffenscharf change:repeating_fernkampfwaff
     });
 });
 
-
+*/
 
 
 on("change:notizen", function (eventInfo) {
@@ -2912,27 +2546,6 @@ on("change:repeating_zauber:directcalcv", function (f) {
     });
 });
 
-on("change:repeating_zaubernsc:directcalcnsc", function (f) {
-    getAttrs(["repeating_zaubernsc_directcalcnsc", "repeating_zaubernsc_zauberkostennsc"], function (values) {
-        var update = {};
-        var kosten = 0;
-        update["repeating_zaubernsc_directcalcnsc"] = "off";
-        setAttrs(update);
-        kosten = values.repeating_zaubernsc_zauberkostennsc;
-        calculateSpell(kosten, "nsc");
-    });
-});
-
-on("change:repeating_zaubernsc:directcalcvnscv", function (f) {
-    getAttrs(["repeating_zaubernsc_directcalcnscv", "repeating_zaubernsc_zauberkostennscv"], function (values) {
-        var update = {};
-        var kosten = 0;
-        update["repeating_zaubernsc_directcalcnscv"] = "off";
-        setAttrs(update);
-        kosten = values.repeating_zaubernsc_zauberkostennscv;
-        calculateSpell(kosten, "nsc");
-    });
-});
 
 on("change:hiddensbm", function (f) {
     getAttrs(["hiddensbm"], function (v) {
@@ -2944,101 +2557,6 @@ on("change:hiddensbm", function (f) {
     });
 });
 
-on("remove:repeating_staerken", function (eventInfo) {
-    var rowid = eventInfo.sourceAttribute.substring(19, 39);
-    var staerke = eventInfo.removedInfo["repeating_staerken_" + rowid + "_staerkename"];
-    var update = {};
-    var attribs = {
-        "robust": "hiddenlp",
-        "erhöhter fokuspool": "hiddenfokus",
-        "flink": "hiddengsw",
-        "hoher geistiger widerstand": "hiddengw",
-        "hoher körperlicher widerstand": "hiddenkw",
-        "natürlicher rüstungsschutz": "hiddensr",
-        "verbesserte initiative": "hiddenini",
-        "schmerzresistenz": "schmerzresistenz",
-        "zusätzliche splitterpunkte": "hiddensplitterpunkte",
-        "erhöhte fokusregeneration": "hiddenfokreg",
-        "erhöhte lebensregeneration": "hiddenlifereg",
-        "stabile magie": "hiddensbm"
-    };
-    if (attribs[staerke] != "undefined") {
-        update[attribs[staerke.toLowerCase()]] = 0;
-        setAttrs(update);
-    }
-});
-
-on("remove:repeating_meisterschaften", function (eventInfo) {
-    var rowid = eventInfo.sourceAttribute.substring(26, 46);
-    var meisterschaft = eventInfo.removedInfo["repeating_meisterschaften_" + rowid + "_meisterschaftsname"];
-    var update = {};
-    var meisterschaften = {
-        "blitzreflexe": "blitzreflexecount",
-        "gute reflexe": "hiddenvtdgr",
-        "rüstungsträger i": "rt1",
-        "rüstungsträger 1": "rt1",
-        "rüstungsträger ii": "rt2",
-        "rüstungsträger 2": "rt2",
-        "starker schildarm i": "st1",
-        "starker schildarm 1": "st1",
-        "schmerzwiderstand i": "sw1",
-        "schmerzwiderstand 1": "sw1",
-        "starker schildarm ii": "st2",
-        "starker schildarm 2": "st2",
-        "schmerzwiderstand ii": "sw2",
-        "schmerzwiderstand 2": "sw2",
-        "arkane geschwindigkeit": "hiddengswag",
-        "sprinter": "sprintercount"
-    };
-    if (meisterschaft.toLowerCase() == "blitzreflexe") {
-        getAttrs(["blitzreflexecount"], function (v) {
-            if (+v.blitzreflexecount > 0) {
-                update[meisterschaften[meisterschaft.toLowerCase()]] = +v.blitzreflexecount - 1;
-                setAttrs(update);
-            }
-        });
-    } else if (meisterschaft.toLowerCase() == "sprinter") {
-        getAttrs(["sprintercount"], function (v) {
-            if (+v.sprintercount > 0) {
-                update[meisterschaften[meisterschaft.toLowerCase()]] = +v.sprintercount - 1;
-                setAttrs(update);
-            }
-        });
-    } else {
-        if (meisterschaften[meisterschaft] != "undefined") {
-            update[meisterschaften[meisterschaft.toLowerCase()]] = 0;
-            setAttrs(update);
-        }
-    }
-});
-
-on("change:blitzreflexecount", function (eventInfo) {
-    getAttrs(["blitzreflexecount", "hiddeninibr"], function (v) {
-        let update = {};
-        let blitzreflexecount = +v.blitzreflexecount;
-        if (+blitzreflexecount <= 2) {
-            update["hiddeninibr"] = +blitzreflexecount * 3;
-            setAttrs(update);
-        } else {
-            update["hiddeninibr"] = 0;
-            setAttrs(update);
-        }
-    });
-});
-
-on("change:sprintercount", function (eventInfo) {
-    getAttrs(["sprintercount", "hiddengswspr"], function (v) {
-        let update = {};
-        let sprintercount = +v.sprintercount;
-        if (+sprintercount <= 2) {
-            update["hiddengswspr"] = +sprintercount;
-            setAttrs(update);
-        } else {
-            update["hiddengswspr"] = 0;
-            setAttrs(update);
-        }
-    });
-});
 
 on("clicked:addschaden", function (e) {
     getAttrs(["anzahlschaden", "anzahlschadenart", "lebenspunkte", "lebenspunkte_v", "lebenspunkte_e", "lebenspunkte_k"], function (v) {
@@ -3139,7 +2657,8 @@ on("change:lebenspunkte_v", function (eventInfo) {
 });
 
 allModifier.push("gesundheitsstufe");
-autoUpdate(["gesundheitsstufe", "wundabzugmod", "wundabzugmoduser"], v => ({
+allModifier.push("wundabzug");
+autoUpdate(["gesundheitsstufe", "gesundheitsstufemod", "wundabzugmod", "wundabzugmoduser"], v => ({
     wundabzug: Math.min(Math.max(Math.floor(Math.pow(2, Math.max(Math.min(int(v.gesundheitsstufe) + int(v.gesundheitsstufemod) - 1, 5), 0) - 1)) + int(v.wundabzugmod) + int(v.wundabzugmoduser), 0), 8)
 }));
 
@@ -3187,73 +2706,7 @@ on("change:rolldamagecheck change:rolldamagensccheck", function (eventInfo) {
     });
 });
 
-on("change:repeating_masterytooltips:masterytooltipname change:repeating_masterytooltips:masterytooltiptext", function () {
-    getAttrs(["repeating_masterytooltips_masterytooltipname", "repeating_masterytooltips_masterytooltiptext"], function (values) {
-        let mastery = values.repeating_masterytooltips_masterytooltipname;
-        let tooltip = values.repeating_masterytooltips_masterytooltiptext;
-        let update = {};
-        getSectionIDs("repeating_meisterschaften", function (idarray) {
-            if (idarray.length > 0) {
-                _.each(idarray, function (currentID, i) {
-                    getAttrs(["repeating_meisterschaften_" + currentID + "_meisterschaftsname"], function (v) {
-                        var name = v["repeating_meisterschaften_" + currentID + "_meisterschaftsname"];
-                        if (name.toLowerCase() == mastery.toLowerCase()) {
-                            update["repeating_meisterschaften_" + currentID + "_meisterschaftsbeschreibung"] = tooltip;
-                            setAttrs(update);
-                        }
-                    });
-                });
-            }
-        });
-    });
-});
 
-on("change:repeating_spelltooltips:spelltooltipname change:repeating_spelltooltips:spelltooltiptext", function () {
-    getAttrs(["repeating_spelltooltips_spelltooltipname", "repeating_spelltooltips_spelltooltiptext"], function (values) {
-        let spell = values.repeating_spelltooltips_spelltooltipname;
-        let tooltip = values.repeating_spelltooltips_spelltooltiptext;
-        let update = {};
-        getSectionIDs("repeating_zauber", function (idarray) {
-            if (idarray.length > 0) {
-                _.each(idarray, function (currentID, i) {
-                    getAttrs(["repeating_zauber_" + currentID + "_zaubername"], function (v) {
-                        var name = v["repeating_zauber_" + currentID + "_zaubername"];
-                        if (name.toLowerCase() == spell.toLowerCase()) {
-                            update["repeating_zauber_" + currentID + "_zauberbeschreibung"] = tooltip;
-                            setAttrs(update);
-                        }
-                    });
-                });
-            }
-        });
-    });
-});
-
-on("change:tooltips change:tooltips_spells", function () {
-    getAttrs(["tooltips", "tooltips_spells"], function (values) {
-        let tooltips_m = values.tooltips;
-        let tooltips_s = values.tooltips_spells;
-        let update = {};
-
-        getSectionIDs("repeating_meisterschaften", function (idarray) {
-            if (idarray.length > 0) {
-                _.each(idarray, function (currentID, i) {
-                    update["repeating_meisterschaften_" + currentID + "_tooltips_inside"] = tooltips_m;
-                    setAttrs(update);
-                });
-            }
-        });
-
-        getSectionIDs("repeating_zauber", function (idarray) {
-            if (idarray.length > 0) {
-                _.each(idarray, function (currentID, i) {
-                    update["repeating_zauber_" + currentID + "_tooltips_inside_spells"] = tooltips_s;
-                    setAttrs(update);
-                });
-            }
-        });
-    });
-});
 
 on("change:repeating_ausruestung:last change:repeating_ausruestung:getragen change:repeating_ausruestung:anzahl remove:repeating_ausruestung change:repeating_behaelter1:last change:repeating_behaelter1:getragen change:repeating_behaelter1:anzahl remove:repeating_behaelter1 change:repeating_behaelter2:last change:repeating_behaelter2:getragen change:repeating_behaelter2:anzahl remove:repeating_behaelter2 change:repeating_behaelter3:last change:repeating_behaelter3:getragen change:repeating_behaelter3:anzahl remove:repeating_behaelter3 change:repeating_behaelter4:last change:repeating_behaelter4:getragen change:repeating_behaelter4:anzahl remove:repeating_behaelter4 change:repeating_behaelter5:last change:repeating_behaelter5:getragen change:repeating_behaelter5:anzahl remove:repeating_behaelter5", function (eventInfo) {
     let row = eventInfo.sourceAttribute.split("_")[1];
@@ -3299,10 +2752,34 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
 });
 
 
+//update Schadensreduktion, Behinderung, Tick+, VTD+
+["sr", "be", "tickplus", "vtd"].forEach(function (type) {
+    allModifier.push("ruestungs" + type);
+    allModifier.push("schild" + type);
+    on(`change:repeating_ruestungen change:schild${type} change:ruestungs${type}mod change:schild${type}mod change:schildonoff`, function () {
+        getSectionIDs("repeating_ruestungen", function (rid) {
+            var fields = [`ruestungs${type}mod`, `schild${type}mod`, `schild${type}`, "schildonoff"];
+            fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungs${type}`));
+            fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungonoff`));
+            getAttrs(fields, function (v) {
+                var val = 0;
+                rid.forEach(function (rowid) {
+                    val = (v[`repeating_ruestungen_${rowid}_ruestungonoff`] == "1") ? int(val) + Math.max(int(v[`repeating_ruestungen_${rowid}_ruestungs${type}`]) + int(v[`ruestungs${type}mod`]), 0) : val;
+                });
+                val += ((v["schildonoff"] == "1") ? Math.max(int(v[`schild${type}`]) + int(v[`schild${type}mod`]), 0) : 0);
+                var update = {};
+                update["ruestung" + type] = val;
+                setAttrs(update);
+            });
+        })
+    });
+});
+
+
 // Update internal modifier
-on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:wundabzug", function () {
-    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod"], function (v) {
-        var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod), , JSON.parse(v.zustaendemod)]
+on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:meisterschaftmod change:wundabzug change:ruestungvtd", function () {
+    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod", "meisterschaftmod", "ruestungvtd"], function (v) {
+        var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod), JSON.parse(v.zustaendemod), JSON.parse(v.meisterschaftmod)]
         var update = {};
         allModifier.forEach(function (v) {
             var modifier = v + "mod";
@@ -3336,7 +2813,29 @@ on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zusta
                 update[f + "modtooltip"] += `\n${modStr(-int(v.wundabzug))} (Wundabzug)`;
             })
         }
+
+        //Ausrüstung VTD+
+        if (int(v.ruestungvtd) != 0) {
+            update["verteidigungmod"] += int(v.ruestungvtd);
+            update["verteidigungmodtooltip"] += `\n${modStr(int(v.ruestungvtd))} (Schild & Rüstung)`;
+        }
         setAttrs(update);
+    });
+});
+
+// Update Tooltips
+allModifier.forEach(function (attr) {
+    on(`change:${attr} change:${attr}mod change:${attr}moduser change:${attr}modtooltip`, function (e) {
+        getAttrs([attr, attr + "mod", attr + "modtooltip", attr + "moduser"], function (v) {
+            var tooltip = "Basis: " + (int(v[attr]) - int(v[attr + "mod"]) - int(v[attr + "moduser"])) + str(v[attr + "modtooltip"]);
+            if (int(v[attr + "moduser"]) != 0) {
+                tooltip += "\n" + modStr(v[attr + "moduser"]) + " (mod.)"
+            }
+
+            var update = {};
+            update[attr + "tooltip"] = tooltip;
+            setAttrs(update);
+        });
     });
 });
 

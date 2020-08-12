@@ -60,7 +60,7 @@
         }
     },
     "glaubenskrise": {
-        "glaubenskrise": "Glaubenskrise",
+        "tooltip": "Glaubenskrise",
         "modifier": {
             "bannmagie": -1,
             "beherrschungsmagie": -1,
