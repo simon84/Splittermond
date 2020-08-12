@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Grenze:wght@100,200,300,400,500,600,700,800,900&display=swap');
 
+$background-wood: url(images/seamless_wood.jpg);
+$background-paper: url(images/book_page_baby_blue.png);
+$image-splittermond: url(images/splittermond_trans.png);
+
 $main-font: "Grenze", serif;
 
 $wood-color: #2B1619ff;
@@ -41,7 +45,7 @@ $font-size-small: 1.2rem;
 .splittermond {
     display: flex;
     flex-direction: column;
-    background: url(images/seamless_wood.jpg), linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
+    background: $background-wood, linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
     background-blend-mode: overlay, normal;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5);
     border-radius: 6px;
@@ -105,10 +109,10 @@ $font-size-small: 1.2rem;
         color: black;
         border: 60px solid transparent;
         border-width: 40px 60px 60px 20px;
-        border-image:url(images/book_page_baby_blue.png) 40 60 60 20 fill stretch;
+        border-image:$background-paper 40 60 60 20 fill stretch;
 
         .watermark {
-            background: url(images/splittermond_trans.png);
+            background: $image-splittermond;
             background-repeat: no-repeat;
             background-size: contain;
             background-position: top;
@@ -538,7 +542,7 @@ $font-size-small: 1.2rem;
             flex-direction: column;
 
             .data-header,
-            .data-area, {
+            .data-area {
                 display: grid;
                 align-items: baseline;
                 grid-template-columns: 9em 2.5em 2.5em 2.5em 2.5em;
@@ -902,7 +906,7 @@ $font-size-small: 1.2rem;
                     display: grid;
                     align-items: end;
                     justify-items: center;
-                    grid-template-columns: minmax(10em, auto) 2.5em 2.5em 2.5em 4em 4em 2.5em 2.5em 2.5em 5em;
+                    grid-template-columns: minmax(10em, auto) 2.5em 2.5em 2.5em 4em 6em 2.5em 2.5em 2.5em 5em;
 
                     input[name="attr_zaubername"] {
                         @include standard-font($font-size-large);
