@@ -40,12 +40,12 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
 
         var elementName = "attr_" + key;
 
-        $(`span[name="${elementName}"], input[name="${elementName}"], select[name="${elementName}"]`).each(function () {
+        $(`span[name="${elementName}"], input[name="${elementName}"], select[name="${elementName}"], textarea[name="${elementName}"]`).each(function () {
             var el = $(this);
             var tagName = this.tagName;
 
             if (value != undefined) {
-                if (tagName == "SPAN") {
+                if (tagName == "SPAN" || tagName == "TEXTAREA") {
                     el.text(value);
                 } else {
                     if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
@@ -93,12 +93,13 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
 
             $(`.repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] input[name="${elementName}"],
             .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] select[name="${elementName}"],
-            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] span[name="${elementName}"]`).each(function () {
+            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] span[name="${elementName}"],
+            .repcontainer[data-groupname="${rowId[1]}"] .repitem[reprowid="${rowId[2]}"] textarea[name="${elementName}"]`).each(function () {
                 var el = $(this);
                 var tagName = this.tagName;
 
                 if (value != undefined) {
-                    if (tagName == "SPAN") {
+                    if (tagName == "SPAN" || tagName == "TEXTAREA") {
                         el.text(value);
                     } else {
                         if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
@@ -245,7 +246,7 @@ function addRepeatingRow(repcontainer, dataGroupName, itemId) {
         removeRepeatingRow(`${dataGroupName}_${itemId}`);
     });
 
-    repcontainer.find(`.repitem[reprowid="${itemId}"] input, .repitem[reprowid="${itemId}"] select`).change(function () {
+    repcontainer.find(`.repitem[reprowid="${itemId}"] input[name^="attr_"], .repitem[reprowid="${itemId}"] select[name^="attr_"], .repitem[reprowid="${itemId}"] textarea[name^="attr_"]`).change(function () {
         var data = {};
         if ($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio") {
             if ($(this).prop("checked")) {
@@ -263,14 +264,17 @@ function addRepeatingRow(repcontainer, dataGroupName, itemId) {
 
     repcontainer.trigger('sortupdate');
 
-    repcontainer.find(`.repitem[reprowid="${itemId}"] input, .repitem[reprowid="${itemId}"] select, .repitem[reprowid="${itemId}"] span[name^="attr_"]`).each(function () {
+    repcontainer.find(`.repitem[reprowid="${itemId}"] input[name^="attr_"], 
+    .repitem[reprowid="${itemId}"] select[name^="attr_"], 
+    .repitem[reprowid="${itemId}"] span[name^="attr_"], 
+    .repitem[reprowid="${itemId}"] textarea[name^="attr_"]`).each(function () {
         var attrName = `${dataGroupName}_${itemId}_${this.getAttribute("name").substr(5)}`;
         var el = $(this);
         var tagName = this.tagName;
 
         getAttrs([attrName], function (data) {
             if (data[attrName] != undefined) {
-                if (tagName == "SPAN") {
+                if (tagName == "SPAN" || tagName == "TEXTAREA") {
                     el.text(data[attrName]);
                 } else {
                     if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
@@ -292,7 +296,7 @@ $(document).ready(function () {
 
 
 
-    $("input, select").change(function () {
+    $('input[name^="attr_"], select[name^="attr_"], textarea[name^="attr_"]').change(function () {
         var data = {};
         if ($(this).attr("type") == "checkbox") {
             if ($(this).prop("checked")) {
@@ -307,17 +311,18 @@ $(document).ready(function () {
 
         setAttrs(data);
     });
-    $('input, select, span[name^="attr_"]').each(function () {
+
+    $('input[name^="attr_"], select[name^="attr_"], span[name^="attr_"], textarea[name^="attr_"]').each(function () {
         var attrName = this.getAttribute("name").substr(5);
         var el = $(this);
         var tagName = this.tagName;
 
         getAttrs([attrName], function (data) {
             if (data[attrName] != undefined) {
-                if (tagName == "SPAN") {
+                if (tagName == "SPAN" || tagName == "TEXTAREA") {
                     el.text(data[attrName]);
                 } else {
-                    if (el.attr("type") == "checkbox") {
+                    if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
                         el.prop("checked", el.val() == data[attrName]);
                     } else {
                         el.val(data[attrName]);

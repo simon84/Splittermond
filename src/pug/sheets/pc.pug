@@ -35,18 +35,6 @@ mixin tab-nav-item(tabId)
         .tab-content.kampf
             include tabs/kampf.pug
         .tab-content.entwicklung
-            h2 entwicklung
-            div
-                label Erfahrungspunkte
-                +numberinput("epgesamt")
-            div
-                label Erfahrungspunkte (eingesetzt)
-                +numberinput("epeingesetzt")
-            div
-                label Erfahrungspunkte (offen)
-                +numberinput("epoffen")
-            div
-                label Heldengrad
-                +numberinput("heldengrad")
+            include tabs/charakterentwicklung.pug
         .tab-content.ausruestung 
             h2 Aussrüstung

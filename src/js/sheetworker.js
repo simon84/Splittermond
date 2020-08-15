@@ -1268,10 +1268,14 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
     });
 });
 
+autoUpdate(["ruestungbe"], v => ({
+    behinderung: v.ruestungbe
+}));
+
 
 // Update internal modifier
-on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:meisterschaftmod change:wundabzug change:ruestungvtd", function () {
-    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod", "meisterschaftmod", "ruestungvtd"], function (v) {
+on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:meisterschaftmod change:wundabzug change:ruestungvtd change:behinderung", function () {
+    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod", "meisterschaftmod", "ruestungvtd", "behinderung"], function (v) {
         var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod), JSON.parse(v.zustaendemod), JSON.parse(v.meisterschaftmod)]
         var update = {};
         allModifier.forEach(function (v) {
@@ -1311,6 +1315,20 @@ on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zusta
         if (int(v.ruestungvtd) != 0) {
             update["verteidigungmod"] += int(v.ruestungvtd);
             update["verteidigungmodtooltip"] += `\n${modStr(int(v.ruestungvtd))} (Schild & Rüstung)`;
+        }
+
+        //Behinderung
+        if (int(v.behinderung) != 0) {
+            ["athletik", "akrobatik", "fingerfertigkeit", "heimlichkeit", "schloesserundfallen", "seefahrt", "tierfuehrung"].forEach(function (attr) {
+                update[attr + "mod"] -= int(v.behinderung);
+                update[attr + "modtooltip"] += `\n${modStr(-int(v.behinderung))} (Behinderung)`;
+            });
+            if (Math.floor(int(v.behinderung) / 2) > 0) {
+                var val = Math.floor(int(v.behinderung) / 2);
+                update["geschwindigkeitmod"] -= val;
+                update["geschwindigkeitmodtooltip"] += `\n${modStr(-val)} (Behinderung)`;
+            }
+
         }
         setAttrs(update);
     });

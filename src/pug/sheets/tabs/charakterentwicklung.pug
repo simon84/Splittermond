@@ -1,0 +1,35 @@
+.data-section-row
+    .data-section-erfahrungspunkte
+        .data-header
+            h3 Erfahrungspunkte
+        .data-area
+            label Gesamt:
+            +numberinput("epgesamt", 0)
+            label Eingesetzt:
+            +numberinput("epeingesetzt", 0)
+            label Offen:
+            +numberinput("offen", 0)
+            label Heldengrad:
+            span(name="attr_heldengrad")
+    .data-section-erfahrungspunkte
+        .data-header
+            h3 Geld
+        .data-area
+            label Solare:
+            +numberinput("solare", 0)
+            label Lunare:
+            +numberinput("lunare", 0)
+            label Telare:
+            +numberinput("telare", 0)
+
+.data-section-ausruestung
+        .data-header
+            h3 Ausrüstung
+        .data-area
+            textarea(name="attr_stuff")
+
+.data-section-notizen
+        .data-header
+            h3 Notizen
+        .data-area
+            textarea(name="attr_notizen")

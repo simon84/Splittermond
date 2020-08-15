@@ -1017,22 +1017,50 @@
           </div>
         </div>
         <div class="sheet-tab-content sheet-entwicklung">
-          <h2>entwicklung</h2>
-          <div>
-            <label>Erfahrungspunkte</label>
-            <input name="attr_epgesamt" type="number" value=""/>
+          <div class="sheet-data-section-row">
+            <div class="sheet-data-section-erfahrungspunkte">
+              <div class="sheet-data-header">
+                <h3>Erfahrungspunkte</h3>
+              </div>
+              <div class="sheet-data-area">
+                <label>Gesamt:</label>
+                <input name="attr_epgesamt" type="number" value="0"/>
+                <label>Eingesetzt:</label>
+                <input name="attr_epeingesetzt" type="number" value="0"/>
+                <label>Offen:</label>
+                <input name="attr_offen" type="number" value="0"/>
+                <label>Heldengrad:</label><span name="attr_heldengrad"></span>
+              </div>
+            </div>
+            <div class="sheet-data-section-erfahrungspunkte">
+              <div class="sheet-data-header">
+                <h3>Geld</h3>
+              </div>
+              <div class="sheet-data-area">
+                <label>Solare:</label>
+                <input name="attr_solare" type="number" value="0"/>
+                <label>Lunare:</label>
+                <input name="attr_lunare" type="number" value="0"/>
+                <label>Telare:</label>
+                <input name="attr_telare" type="number" value="0"/>
+              </div>
+            </div>
           </div>
-          <div>
-            <label>Erfahrungspunkte (eingesetzt)</label>
-            <input name="attr_epeingesetzt" type="number" value=""/>
+          <div class="sheet-data-section-ausruestung">
+            <div class="sheet-data-header">
+              <h3>Ausrüstung</h3>
+            </div>
+            <div class="sheet-data-area">
+              <textarea name="attr_stuff"></textarea>
+            </div>
           </div>
-          <div>
-            <label>Erfahrungspunkte (offen)</label>
-            <input name="attr_epoffen" type="number" value=""/>
-          </div>
-          <div>
-            <label>Heldengrad</label>
-            <input name="attr_heldengrad" type="number" value=""/>
+          <div class="sheet-data-section-notizen">
+            <div class="sheet-data-header">
+              <h3>Notizen</h3>
+            </div>
+            <div class="sheet-data-area">
+              <textarea name="attr_notizen"></textarea>
+            </div>
           </div>
         </div>
         <div class="sheet-tab-content sheet-ausruestung"> 
@@ -2319,10 +2347,14 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
     });
 });
 
+autoUpdate(["ruestungbe"], v => ({
+    behinderung: v.ruestungbe
+}));
+
 
 // Update internal modifier
-on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:meisterschaftmod change:wundabzug change:ruestungvtd", function () {
-    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod", "meisterschaftmod", "ruestungvtd"], function (v) {
+on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zustaendemod change:meisterschaftmod change:wundabzug change:ruestungvtd change:behinderung", function () {
+    getAttrs(["staerkenmod", "attributmodsmod", "groessenklasse", "wundabzug", "zustaendemod", "meisterschaftmod", "ruestungvtd", "behinderung"], function (v) {
         var allmod = [JSON.parse(v.staerkenmod), JSON.parse(v.attributmodsmod), JSON.parse(v.zustaendemod), JSON.parse(v.meisterschaftmod)]
         var update = {};
         allModifier.forEach(function (v) {
@@ -2362,6 +2394,20 @@ on("change:staerkenmod change:attributmodsmod change:groessenklasse change:zusta
         if (int(v.ruestungvtd) != 0) {
             update["verteidigungmod"] += int(v.ruestungvtd);
             update["verteidigungmodtooltip"] += `\n${modStr(int(v.ruestungvtd))} (Schild & Rüstung)`;
+        }
+
+        //Behinderung
+        if (int(v.behinderung) != 0) {
+            ["athletik", "akrobatik", "fingerfertigkeit", "heimlichkeit", "schloesserundfallen", "seefahrt", "tierfuehrung"].forEach(function (attr) {
+                update[attr + "mod"] -= int(v.behinderung);
+                update[attr + "modtooltip"] += `\n${modStr(-int(v.behinderung))} (Behinderung)`;
+            });
+            if (Math.floor(int(v.behinderung) / 2) > 0) {
+                var val = Math.floor(int(v.behinderung) / 2);
+                update["geschwindigkeitmod"] -= val;
+                update["geschwindigkeitmodtooltip"] += `\n${modStr(-val)} (Behinderung)`;
+            }
+
         }
         setAttrs(update);
     });

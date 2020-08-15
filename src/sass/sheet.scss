@@ -537,6 +537,10 @@ $font-size-small: 1.2rem;
     }
 
     .fertigkeiten {
+        > div {
+            margin-top:20px;
+        }
+
         .data-section-fertigkeiten {
             display: flex;
             flex-direction: column;
@@ -632,8 +636,7 @@ $font-size-small: 1.2rem;
         align-items: center;
 
         > div {
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top:20px;
         }
 
         .data-section-lebenspunkte {
@@ -1030,6 +1033,51 @@ $font-size-small: 1.2rem;
                 }
                 
             }
+        }
+    }
+
+    .entwicklung {
+        flex-direction: column;
+        align-items: center;
+        > div {
+            margin-top:20px;
+        }
+
+        .data-header {
+            h3 {
+                text-align: center;
+            }
+        }
+
+        textarea {
+            border: none;
+            width: 100%;
+            height: auto;
+        }
+
+        .data-section-geld,
+        .data-section-erfahrungspunkte {
+            .data-area {
+                align-items: baseline;
+                display: grid;
+                justify-content: start;
+                grid-template-columns: 1fr 1fr;
+                gap: 5px;
+
+                label {
+                    text-align: right;
+                }
+
+                input, span {
+                    width: 3em;
+                    text-align: center;
+                }
+            }
+        }
+
+        .data-section-notizen,
+        .data-section-ausruestung {
+            width: 100%;
         }
     }
 
