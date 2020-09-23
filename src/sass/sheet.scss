@@ -1081,6 +1081,49 @@ $font-size-small: 1.2rem;
         }
     }
 
+    .ausruestung {
+        flex-direction: column;
+        align-items: center;
+        > div {
+            margin-top:20px;
+        }
+        .data-section-ausruestung {
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+            margin-left: 5%;
+            margin-right: 5%;
+
+            h3 {
+                width: 100%;
+                text-align: center;
+                input[type="text"] {
+                    text-align: center;
+                }
+            }
+
+            .data-header,
+            .data-area {
+                display: grid;
+                align-items: end;
+                justify-items: center;
+                grid-template-columns: 2em 2.5em minmax(10em, auto) 2.5em 2.5em 8em minmax(10em, auto);
+            }
+
+            .data-area {
+                align-items: baseline;
+
+                input[type="text"] {
+                    text-align: left;
+                }
+
+                select[name="attr_zustand"]{
+                    width: auto;
+                }
+            }
+        }
+    }
+
 
 
     .tooltip {

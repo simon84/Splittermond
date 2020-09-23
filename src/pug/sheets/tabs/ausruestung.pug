@@ -1,0 +1,50 @@
+.data-section-ausruestung
+    h3 Am Körper
+    .data-header
+        span Getr.
+        span Anzahl
+        span Name
+        span Last
+        span Härte
+        span Zustand
+        span Info
+    fieldset.repeating_ausruestung
+        .data-area
+            +input("getragen","checkbox",1)
+            +numberinput("anzahl",1)
+            +textinput("name","", false, {placeholder: "Name des Gegenstands"})
+            +numberinput("last", 0)
+            +numberinput("haerte", 0)
+            select(name="attr_zustand") 
+                option(value="benommen") Unbeschädigt
+                option(value="bewusstlos") Angeschlagen (-3)
+                option(value="erschoepft") Demoliert
+            +textinput("info","", false, {placeholder: "Infos zur Ausrüstung"})
+
+- 
+    var behaelterlist = ["behaelter1","behaelter2","behaelter3","behaelter4","behaelter5"]
+
+each behaelterid in behaelterlist
+    .data-section-ausruestung
+        h3
+            +textinput(behaelterid+"_name","Behälter")
+        .data-header
+            span Getr.
+            span Anzahl
+            span Name
+            span Last
+            span Härte
+            span Zustand
+            span Info
+        fieldset(class="repeating_"+behaelterid)
+            .data-area
+                +input("getragen","checkbox",1)
+                +numberinput("anzahl",1)
+                +textinput("name","", false, {placeholder: "Name des Gegenstands"})
+                +numberinput("last", 0)
+                +numberinput("haerte", 0)
+                select(name="attr_zustand") 
+                    option(value="benommen") Unbeschädigt
+                    option(value="bewusstlos") Angeschlagen (-3)
+                    option(value="erschoepft") Demoliert
+                +textinput("info","", false, {placeholder: "Infos zur Ausrüstung"})
