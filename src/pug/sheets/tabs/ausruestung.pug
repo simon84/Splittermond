@@ -1,3 +1,14 @@
+.data-section-erfahrungspunkte
+    .data-header
+        h3 Geld
+    .data-area
+        label Solare
+        +numberinput("solare", 0, false, {class: "main-value"})
+        label Lunare
+        +numberinput("lunare", 0)
+        label Telare
+        +numberinput("telare", 0)
+
 .data-section-ausruestung
     h3 Am Körper
     .data-header
@@ -48,3 +59,9 @@ each behaelterid in behaelterlist
                     option(value="bewusstlos") Angeschlagen (-3)
                     option(value="erschoepft") Demoliert
                 +textinput("info","", false, {placeholder: "Infos zur Ausrüstung"})
+
+.data-section-notizen
+        .data-header
+            h3 Notizen
+        .data-area
+            textarea(name="attr_notizen")

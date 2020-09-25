@@ -29,9 +29,9 @@ h1
         .data-header
             h3 Attribute
             span
-            span Start
-            span Basis
-            span Mod.
+            span.edit-only Start
+            span.edit-only Basis
+            span.edit-only Mod.
         .data-area
             each labelText, id in splittermond.attribute
                 label= labelText.short
@@ -39,14 +39,15 @@ h1
                 span.tooltip
                     span.main-value(name="attr_"+id)
                     span.tooltiptext.pre(name="attr_" + id + "tooltip")
-                +numberinput(id+"start", 0)
-                span.tooltip
+                span.edit-only
+                    +numberinput(id+"start", 0)
+                span.tooltip.edit-only
                     +numberinput(id+"basis", 0)
                     span.tooltiptext 
                         | Max:&nbsp;
                         span(name="attr_" + id + "max")  
                         
-                span
+                span.edit-only
                     +hiddeninput(id+"mod", 0)
                     +numberinput(id+"moduser", 0)
                        
@@ -55,7 +56,7 @@ h1
         .data-header
             h3 Abgeleitete Werte
             span
-            span Mod.
+            span.edit-only Mod.
         .data-area
             each labelText, id in splittermond.abgeleiteteWerte
                 label= labelText.short
@@ -63,10 +64,21 @@ h1
                 span.tooltip
                     span.main-value(name="attr_"+id)
                     span.tooltiptext.pre(name="attr_" + id + "tooltip")
-                span
+                span.edit-only
                     +numberinput(id+"moduser", 0)
                     +hiddeninput(id+"mod", 0)
-
+    .data-section-erfahrungspunkte
+        .data-header
+            h3 Erfahrungspunkte
+        .data-area
+            label Gesamt:
+            +numberinput("epgesamt", 0)
+            label Eingesetzt:
+            +numberinput("epeingesetzt", 0)
+            label Offen:
+            +numberinput("offen", 0)
+            label Heldengrad:
+            span(name="attr_heldengrad")
 .data-section-row
     .data-section-ressourcen
         .data-header

@@ -19,7 +19,7 @@ gulp.task('BuildStyle', function () {
     return gulp.src('src/sass/sheet.scss')
         .pipe(sass())
         .pipe(cssPrefix('sheet-', {
-            ignored: [".charsheet"]
+            ignored: [".charsheet", ".repcontrol button", /\.repcontrol/]
         }))
         .pipe(gulp.dest('dist'));
 });

@@ -34,24 +34,99 @@ $font-size-small: 1.2rem;
 
 
 
-
+/*
 .charsheet {
     padding: 0px !important;
     
 }
+*/
 
+.repcontrol button {
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    box-sizing: content-box;
+    padding: 0.2em;
+    border-radius: 6px;
+
+    box-shadow: 0 2px 2px rgba(0,0,0,0.2), 0 -2px 2px rgba(255,255,255,0.2);
+
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+
+    &:hover, &:focus {
+        background-color: transparent;
+        background-image: none;
+        border:none;
+        outline: none;
+        box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
+    }
+
+    &:active {
+        background-color: transparent;
+        background-image: none;
+        border:none;
+        outline: none;
+        box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+    }
+}
+
+button.play-only[type="action"] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        border: none;
+        box-sizing: content-box;
+        padding: 0;
+        border-radius: 6px;
+
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+
+        &:hover, &:focus {
+
+            border:none;
+            outline: none;
+            box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
+        }
+
+        &:active {
+
+            border:none;
+            outline: none;
+            box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+        }
+    }
+
+input[name="attr_editmode"][value=""] ~ * .repcontrol {
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin: 0;
+    left: -10000px;
+}
 
 
 .splittermond {
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    //display: flex;
+    //flex-direction: column;
     background: $background-wood, linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
     background-blend-mode: overlay, normal;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5);
     border-radius: 6px;
-    padding-top: 6px;
     padding-bottom: 6px;
-    overflow-x: hidden;
+    margin: -10px;
+    min-width: 690px;
+    //overflow-x: hidden;
+    clip: rect(0%,0%,100%,100%);
     color: white;
     @include standard-font();
 
@@ -103,13 +178,13 @@ $font-size-small: 1.2rem;
 
     .paper {
         max-width: 960px;
-        min-width: 760px;
         min-height: 800px;
         margin-right: -30px;
         color: black;
         border: 60px solid transparent;
         border-width: 40px 60px 60px 20px;
         border-image:$background-paper 40 60 60 20 fill stretch;
+        box-sizing: border-box;
 
         .watermark {
             background: $image-splittermond;
@@ -127,6 +202,44 @@ $font-size-small: 1.2rem;
         @include standard-font($font-size-large);
     }
 
+    .pc {
+        position: relative;
+        
+    }
+
+    .overlay {
+        position: sticky;
+        top: 0;
+        height: 0;
+        z-index: 5000;
+
+        .dice-roller {
+
+            display: none;
+            flex-direction: column;
+            position: relative;
+            background: url(images/seamless_wood.jpg), linear-gradient(90deg, #2B1619ff 0%, rgba(43, 22, 25, 0.8) 50%, #2B1619ff 100%);
+            background-blend-mode: overlay, normal;
+            background-position: 0 -3.08em;
+            box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5), inset 0px 2px 4px rgba(255, 255, 255, 0.1), inset 0px -2px 4px rgba(0, 0, 0, 0.3);
+            top: 3.08em;
+
+            h2 {
+                font-weight: 700;
+                text-align: center;
+                background: linear-gradient(black 10%, $wood-color 80%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                filter: drop-shadow(0px 1px 0.5px rgba(255,255,255,0.4));
+            }
+        }
+    }
+
+    
+
+    
+
+    
     
     .paper input, .paper select {
         font-size: 1em;
@@ -193,7 +306,7 @@ $font-size-small: 1.2rem;
         @include gradient-background();
         @include gradient-border;
         border-bottom: 1px solid;
-            border-top: 1px solid;
+        border-top: 1px solid;
         color: black;
         vertical-align: baseline!important;
         height: auto!important;
@@ -212,6 +325,26 @@ $font-size-small: 1.2rem;
         font-size: 1em;
         font-weight: inherit;
         line-height: inherit;
+    }
+
+    input[name="attr_editmode"][value=""] ~ * .edit-only {
+        position: absolute;
+        height: 0px;
+        width: 0px;
+        overflow: hidden;
+        margin: 0px;
+        padding: 0px;
+        left: -10000;
+    }
+
+    input[name="attr_editmode"][value="on"] ~ * .play-only {
+        position: absolute;
+        height: 0px;
+        width: 0px;
+        overflow: hidden;
+        margin: 0px;
+        padding: 0px;
+        left: -10000;
     }
 
 
@@ -256,12 +389,173 @@ $font-size-small: 1.2rem;
         margin-top: 10px;
     }
 
+    .tab-nav-shadow {
+        position: sticky;
+        top: 1rem;
+        height: 4rem;
+        z-index: 1999;
+        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
+        margin-top:  -5rem;
+    }
+
+    .switch {
+        display: inline-block;
+        border-radius: 0.75em;
+        width: auto;
+        height: 1.5em;
+        padding: 0px;
+        margin: 0px;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        
+        overflow: hidden;
+
+        color: white;
+        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3);
+
+        position: relative;
+
+        .slider {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            margin-bottom: -1.5em;
+            
+            
+            box-sizing: border-box;
+            border-radius: 0.75em;
+            box-shadow: inset 0px 4px 8px black;
+            
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        input[type="checkbox"]:checked ~ .slider {
+            background-color: $main-color-light;
+        }
+
+        .slider:before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 1.2em;
+            height: 1.2em;
+            border-radius: 0.7em;
+            margin: 0.15em;
+            background: $background-wood, $wood-color;
+            background-blend-mode: overlay, normal;
+            box-shadow: 0px 4px 8px black, inset 0px 1px 1px rgba(255, 255, 255, 0.3);
+            left: 0;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        input[type="checkbox"]:checked ~ .slider:before {
+            left: 100%;
+            margin-left: -1.35em;
+        }
+
+
+
+
+        .active, .inactive {
+            display: block;
+            clear: both;
+            float: left;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .active {
+            padding-right: 1.6em;
+            padding-left: 0.5em;
+        }
+
+        .inactive {
+            padding-left: 1.6em;
+            padding-right: 0.5em;
+        }
+        
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked ~ .active,
+        input[type="checkbox"]:not(:checked) ~ .inactive {
+            height: 100%;
+        }
+
+        input[type="checkbox"]:checked ~ .inactive,
+        input[type="checkbox"]:not(:checked) ~ .active {
+            height: 0px;
+        }
+    }
+
+    .paper .switch {
+        .slider:before {
+            background: $background-paper;
+            background-position: center;
+        }
+    }
+
+    button.play-only[type="action"] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        border: none;
+        box-sizing: content-box;
+        padding: 0;
+        border-radius: 6px;
+
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+
+        &:hover, &:focus {
+
+            border:none;
+            outline: none;
+            box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
+        }
+
+        &:active {
+
+            border:none;
+            outline: none;
+            box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+        }
+    }
 
     .tab-nav {
         position: sticky;
         vertical-align: baseline;
+        top: 0;
+        z-index: 2000;
+        height: 5rem;
+        box-sizing: border-box;
+        background: $background-wood, linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
+        background-blend-mode: overlay, normal;
+        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5);
+        padding-top: 6px;
+        padding-bottom: 6px;
+        margin-bottom: -6px;
+        display: flex;
+        align-items: center;
 
-        
+        > * {
+            flex-shrink: 0;
+        }
 
         button {
             @include standard-font();
@@ -296,7 +590,7 @@ $font-size-small: 1.2rem;
     }
 
     input[name="attr_tab"] {
-        $pc_tabs: einstellungen, grundwerte, fertigkeiten, kampf, entwicklung, ausruestung;
+        $pc_tabs: einstellungen, grundwerte, fertigkeiten, kampf, ausruestung;
         @each $tabid in $pc_tabs {
             &[value=#{$tabid}] ~ .tab-group div .tab-content.#{$tabid} {
                 display: flex;
@@ -375,162 +669,211 @@ $font-size-small: 1.2rem;
             width: 100%;
             text-align: center;
         }
-        .data-section-personal {
-            margin-top: 10px;
-            margin-bottom: 10px;
+        
+    }
 
+    .data-section-personal {
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-bottom: 1px solid;
+        @include gradient-border;
+
+        .data-set {
             display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
+            flex-direction: column-reverse;
             justify-content: center;
-            border-bottom: 1px solid;
-            @include gradient-border;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
 
-            .data-set {
-                display: flex;
-                flex-direction: column-reverse;
-                justify-content: center;
-                margin-bottom: 10px;
-                margin-left: 10px;
-                margin-right: 10px;
+            input {
+                text-align: center;
+            }
 
-                input {
-                    text-align: center;
-                }
-
-                label {
-                    display: block;
-                    text-align: center;
-                    margin-top: -0.4em;
-                }
+            label {
+                display: block;
+                text-align: center;
+                margin-top: -0.4em;
             }
         }
-        .data-section-attribute {
-            display: flex;
-            flex-direction: column;
-        
+    }
 
-            margin-top: 10px;
-            margin-bottom: 10px;
+    .data-section-attribute,
+    .data-section-abgeleitetewerte,
+    .data-section-erfahrungspunkte  {
+        display: flex;
+        flex-direction: column;
+    
 
-            .data-area,
-            .data-header {
-                display: grid;
-                align-items: baseline;
-                grid-template-columns: 6em 2em 2.5em 2.5em 2.5em;
-            }
+        margin-top: 10px;
+        margin-bottom: 10px;
 
-            .data-area {
-                padding-bottom: 5px;
-                label {
-                    @include standard-font($font-size-normal);
-                    text-align: right;
-                    align-self: center;
-                    font-weight: bold;
-                    .secondary{
-                        display:block;
-                        font-weight: normal;
-                        line-height: 1em;
-                    }
-                }
+        .data-area,
+        .data-header {
+            display: grid;
+            align-items: baseline;
+            grid-template-columns: 6em 2em 2.5em 2.5em 2.5em;
+        }
 
-                label span.secondary {
+        .data-area {
+            padding-bottom: 5px;
+            label {
+                @include standard-font($font-size-normal);
+                text-align: right;
+                align-self: center;
+                font-weight: bold;
+                .secondary{
+                    display:block;
+                    font-weight: normal;
                     line-height: 1em;
                 }
+            }
+
+            label span.secondary {
+                line-height: 1em;
+            }
 
 
-                input[name$="start"] {
-                    color: #666;
-                }
+            input[name$="start"] {
+                color: #666;
+            }
 
-                input {
-                    @include standard-font($font-size-normal);
-                }
+            input {
+                @include standard-font($font-size-normal);
+            }
+        }
+    }
+
+    input[name="attr_editmode"][value=""] ~ * .data-section-attribute {
+        .data-area,
+        .data-header {
+            grid-template-columns:  6em 2em;
+        }
+    }
+    
+
+    .data-section-abgeleitetewerte {
+        .data-area,
+        .data-header {
+            grid-template-columns: 8em 3.5em 2.5em;
+        }
+    }
+
+    input[name="attr_editmode"][value=""] ~ * .data-section-abgeleitetewerte {
+        .data-area,
+        .data-header {
+            grid-template-columns:  8em 3.5em;
+        }
+    }
+
+    
+
+    .data-section-erfahrungspunkte {
+        .data-header {
+            grid-template-columns: 1fr;
+            h3 {
+                text-align: center;
             }
         }
 
-        .data-section-abgeleitetewerte {
-            @extend .data-section-attribute;
+        .data-area {
+            justify-content: start;
+            grid-template-columns: 1fr 1fr;
+            gap: 0px;
 
-            .data-area,
-            .data-header {
-                grid-template-columns: 8em 3.5em 2.5em;
+            label {
+                text-align: right;
+            }
+
+            input, span {
+                width: 3em;
+                text-align: center;
+            }
+
+            input {
+                @include standard-font($font-size-large);
             }
         }
-        .data-section-ressourcen {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            min-width: 15em;
-            box-sizing: border-box;
-            .data-header {
-                h3 {
+    }
+
+    .data-section-ressourcen {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        min-width: 15em;
+        box-sizing: border-box;
+        .data-header {
+            h3 {
+                text-align: center;
+            }
+        }
+
+        .data-area {
+            margin-bottom: 5px;
+            > div {
+                margin-bottom: 5px;
+            }
+            div > div {
+                display: grid;
+                grid-template-columns: 12em 2.5em;
+                padding-bottom: 5px;
+
+                input{
                     text-align: center;
                 }
             }
-
-            .data-area {
-                margin-bottom: 5px;
-                > div {
-                    margin-bottom: 5px;
-                }
-                div > div {
-                    display: grid;
-                    grid-template-columns: 12em 2.5em;
-                    padding-bottom: 5px;
-
-                    input{
-                        text-align: center;
-                    }
-                }
+        }
+    }
+    .data-section-staerken {
+        @extend .data-section-ressourcen;
+    }
+    .data-section-schwaechen {
+        @extend .data-section-ressourcen;
+        min-width: 12em;
+        .data-area {
+            div > div {
+                grid-template-columns: 12em;
             }
         }
-        .data-section-staerken {
-            @extend .data-section-ressourcen;
-        }
-        .data-section-schwaechen {
-            @extend .data-section-ressourcen;
-            min-width: 12em;
-            .data-area {
-                div > div {
-                    grid-template-columns: 12em;
-                }
+    }
+
+    .data-section-sprachen {
+        @extend .data-section-schwaechen;
+    }
+
+    .data-section-kulturkunde {
+        @extend .data-section-schwaechen;
+    }
+
+    .data-section-attributmods {
+        @extend .data-section-staerken;
+        min-width: 35em;
+        max-width: 45em;
+
+        .data-header {
+            display: grid;
+            align-items: baseline;
+            grid-template-columns: 1.5em 1fr 15em 2.5em;
+
+            h3 {
+                text-align: left;
+                grid-column-start: 1;
+                grid-column-end: 3;
             }
         }
-
-        .data-section-sprachen {
-            @extend .data-section-schwaechen;
-        }
-
-        .data-section-kulturkunde {
-            @extend .data-section-schwaechen;
-        }
-
-        .data-section-attributmods {
-            @extend .data-section-staerken;
-            min-width: 35em;
-            max-width: 45em;
-
-            .data-header {
-                display: grid;
-                align-items: baseline;
+        .data-area {
+            div > div {
+                gap: 5px;
                 grid-template-columns: 1.5em 1fr 15em 2.5em;
-
-                h3 {
-                    text-align: left;
-                    grid-column-start: 1;
-                    grid-column-end: 3;
-                }
-            }
-            .data-area {
-                div > div {
-                    gap: 5px;
-                    grid-template-columns: 1.5em 1fr 15em 2.5em;
-                    align-items: baseline;
-                    margin-bottom: 5px;
-                    padding-bottom: 0px;
-                    input[type="checkbox"]:not(:checked) ~ * {
-                        color: rgba(0,0,0,0.5);
-                    }
+                align-items: baseline;
+                margin-bottom: 5px;
+                padding-bottom: 0px;
+                input[type="checkbox"]:not(:checked) ~ * {
+                    color: rgba(0,0,0,0.5);
                 }
             }
         }
@@ -541,93 +884,99 @@ $font-size-small: 1.2rem;
             margin-top:20px;
         }
 
-        .data-section-fertigkeiten {
-            display: flex;
-            flex-direction: column;
+        
+    }
 
-            .data-header,
-            .data-area {
-                display: grid;
-                align-items: baseline;
-                grid-template-columns: 9em 2.5em 2.5em 2.5em 2.5em;
+    .data-section-fertigkeiten {
+        display: flex;
+        flex-direction: column;
+
+        .data-header,
+        .data-area .data-entry {
+            position: relative;
+            display: grid;
+            align-items: baseline;
+            gap: 5px;
+            grid-template-columns: 9em 2.5em 2.5em 2.5em;
+        }
+
+        
+
+        .data-area {
+            display: grid;
+            align-items: center;
+            gap: 0px;
+            grid-template-columns: 1fr;
+            border-bottom: none;
+
+            label {
+                text-align: right;
+                .secondary{
+                    display:block;
+                }
             }
 
-            
+            input {
+                @include standard-font($font-size-large);
+            }
 
-            .data-area {
-                padding-bottom: 5px;
+            input[name$="punkte"],
+            input[name$="moduser"] {
+                @include standard-font($font-size-normal);
+            }           
+
+            .data-entry {
+                @include gradient-border();
+                border-bottom: solid 1px;
                 padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+            .tooltiptext {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                gap: 5px;
+                font-size: 1em;
+                width: 12em;
+                margin-left: -6em;
+                
                 label {
-                    text-align: right;
-                    .secondary{
-                        display:block;
-                    }
-                }
-
-                input {
-                    @include standard-font($font-size-large);
-                }
-
-                input[name$="punkte"],
-                input[name$="moduser"] {
-                    @include standard-font($font-size-normal);
-                }
-
-
-                span button {
-                    align-self: baseline;
-                }
-
-                div.line {
-                    grid-column-start: 1;
-                    grid-column-end: 6;
-                    height: 0px;
-                    @include gradient-border();
-                    border-bottom: solid 1px;
-                    &:last-child {
-                        display: none;
-                    }
-                }
-
-                .tooltiptext {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr 1fr 1fr;
-                    gap: 5px;
                     font-size: 1em;
-                    width: 12em;
-                    margin-left: -6em;
-                    
-                    label {
-                        font-size: 1em;
-                        width: 100%;
-                        text-align: right;
-                    }
+                    width: 100%;
+                    text-align: right;
+                }
 
-                    span {
-                        text-align: left;
-                        color: black;
-                        font-size: 1em;
-                        font-weight: bold;
-                    }
-                    span.pre {
-                        text-align: left!important;
-                        color: $main-color;
-                        font-size: 1em;
-                        grid-column-start: 1;
-                        grid-column-end: 5;
-                        font-weight: normal;
-                        text-align: center;
-                    }
+                span {
+                    text-align: left;
+                    color: black;
+                    font-size: 1em;
+                    font-weight: bold;
+                }
+                span.pre {
+                    text-align: left!important;
+                    color: $main-color;
+                    font-size: 1em;
+                    grid-column-start: 1;
+                    grid-column-end: 5;
+                    font-weight: normal;
+                    text-align: center;
                 }
             }
         }
+    }
 
-        .data-section-magieschulen {
-            @extend .data-section-fertigkeiten;
-        }
+    .data-section-magieschulen {
+        @extend .data-section-fertigkeiten;
+    }
 
-        .data-section-kampffertigkeiten {
-            @extend .data-section-fertigkeiten;
+    .data-section-kampffertigkeiten {
+        @extend .data-section-fertigkeiten;
+    }
+
+    input[name="attr_editmode"][value=""] ~ * .data-section-fertigkeiten {
+        .data-header,
+        .data-area .data-entry {
+            grid-template-columns:  9em 2.5em;
         }
     }
 
@@ -639,166 +988,49 @@ $font-size-small: 1.2rem;
             margin-top:20px;
         }
 
-        .data-section-lebenspunkte {
-            display: flex;
-            flex-direction: column;
-
-            .data-header {
-                padding-top: 5px;
-                align-items: baseline;
-                h3 {
-                    text-align:center;
-                }
-            }
-
-            .data-area.lebenspunkte  {
-                display: flex;
-                flex-direction: row;
-                align-items: baseline;
-                padding-top: 5px;
-                padding-bottom: 5px;
-
-                .gesundheitsstufen {
-                    width: 8em;
-                    padding-right: 10px;
-                    span {
-                        display: block;
-                        text-align: right;
-                        width: 100%;
-                        color: #666;
-                    }
-
-                    input[name="attr_gesundheitsstufe"][value="1"] ~ span.unverletzt,
-                    input[name="attr_gesundheitsstufe"][value="2"] ~ span.angeschlagen,
-                    input[name="attr_gesundheitsstufe"][value="3"] ~ span.verletzt,
-                    input[name="attr_gesundheitsstufe"][value="4"] ~ span.schwerverletzt,
-                    input[name="attr_gesundheitsstufe"][value="5"] ~ span.todgeweiht,
-                    input[name="attr_gesundheitsstufe"][value="6"] ~ span.todgeweiht {
-                        font-weight: bold;
-                        color: black;
-                    }
-                }
-                .lebenspunkte {
-                    font-family: "Pictos";
-                    word-break: break-word;
-
-                    .verzehrt {
-                        color: $main-color;
-                    }
-
-                    .erschoepft {
-                        color: $main-color-light;
-                    }
-
-                    .kanalisiert {
-                        color: #999;
-                    }
-
-                    .lebenspunkte-t {
-                        color: white;
-                    }
-                }
-
-                @for $i from 4 through 30 {
-                    input[name="attr_lebenspunkte"][value="#{$i}"] ~ .lebenspunkte {
-                        width: 0.84em * $i;
-                    }
-                }
-                
-
-            }
-
-            .data-area.wundabzug {
-                display: flex;
-                flex-direction: row;
-                align-items: baseline;
-                width: 100%;
-                label {
-                    width: 8em;
-                    text-align: right;
-                    padding-right: 10px;
-                }
-
-                span, 
-                input{
-                    display: inline-block;
-                    width: 3em;
-                    font-size: 1.2em;
-                    line-height: 1.5em;
-                }
-            }
-
-            .data-area.schaden {
-                display: flex;
-                flex-direction: column;
-                align-items: baseline;
-                justify-content: center;
-                width: 100%;
-                label {
-                    display: block;
-                    width: 100%;
-                    text-align: center;
-                }
-
-                .action {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: baseline;
-                    justify-content: center;
-                    width: 100%;
-
-                    input {
-                        width: 3em;
-                        text-align: right;
-                    }
-
-                    select {
-                        width: 6em;
-                    }
-                }
-            }
-        }
-
         
-        .data-section-zustaende {
-            max-width: 20em;
-            min-width: 16em;
-            .data-header {
-                h3 {
-                    text-align: center;
-                }
-            }
-            .data-area {
-                padding-top: 5px;
-                
-                div > div {
-                    display: grid;
-                    gap: 5px;
-                    grid-template-columns: 1.5em 1fr 2.5em;
-                    align-items: baseline;
-                    margin-bottom: 5px;
+    }
 
-                    input[type="checkbox"]:not(:checked) ~ * {
-                        color: rgba(0,0,0,0.5)
-                    }
-                    
-                }
+    .data-section-lebenspunkte {
+        display: flex;
+        flex-direction: column;
+
+        .data-header {
+            padding-top: 5px;
+            align-items: baseline;
+            h3 {
+                text-align:center;
             }
         }
 
-        .data-section-fokus {
+        .data-area.lebenspunkte  {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            align-items: baseline;
+            padding-top: 5px;
+            padding-bottom: 5px;
 
-            width: 12em;
+            .gesundheitsstufen {
+                width: 8em;
+                padding-right: 10px;
+                span {
+                    display: block;
+                    text-align: right;
+                    width: 100%;
+                    color: #666;
+                }
 
-            .data-header {
-                h3 {
-                    text-align:center;
+                input[name="attr_gesundheitsstufe"][value="1"] ~ span.unverletzt,
+                input[name="attr_gesundheitsstufe"][value="2"] ~ span.angeschlagen,
+                input[name="attr_gesundheitsstufe"][value="3"] ~ span.verletzt,
+                input[name="attr_gesundheitsstufe"][value="4"] ~ span.schwerverletzt,
+                input[name="attr_gesundheitsstufe"][value="5"] ~ span.todgeweiht,
+                input[name="attr_gesundheitsstufe"][value="6"] ~ span.todgeweiht {
+                    font-weight: bold;
+                    color: black;
                 }
             }
-
-            .data-area.fokus  {
+            .lebenspunkte {
                 font-family: "Pictos";
                 word-break: break-word;
 
@@ -818,268 +1050,347 @@ $font-size-small: 1.2rem;
                     color: white;
                 }
             }
-        }
 
-
-        .data-section-waffen {
-            display: flex;
-            flex-direction: column;
-            align-self: stretch;
-            margin-left: 5%;
-            margin-right: 5%;
-
-            .data-header {
-                h3 {
-                    width: 100%;
-                    text-align: center;
+            @for $i from 4 through 30 {
+                input[name="attr_lebenspunkte"][value="#{$i}"] ~ .lebenspunkte {
+                    width: 0.84em * $i;
                 }
-            }
-
-            .waffen-eintrag {
-                margin-top: 10px;
-                .data-header,
-                .data-area {
-                    display: grid;
-                    align-items: end;
-                    justify-items: center;
-                    grid-template-columns: minmax(12em, auto) 2.5em 2.5em 4em 2.5em 12em 5em;
-
-                    input[name="attr_waffenname"] {
-                        @include standard-font($font-size-large);
-                        padding-bottom: 0px;
-                        margin-bottom: -1px;
-                    }
-                }
-
-                .data-area {
-                    align-items: baseline;
-
-                    select[name="attr_waffenskill"],
-                    select[name^="attr_waffenattr"] {
-                        @include standard-font($font-size-small);
-                        width: auto;
-                    }
-
-                    span[name="attr_waffenwert"] {
-                        @include standard-font($font-size-large);
-                        text-align: center;
-                    }
-
-                    input[name="attr_waffenmod"]:before {
-                        content: "+";
-                    }
-
-                    input[name="attr_waffennotizen"] {
-                        text-align: left;
-                    }
-
-                    label {
-                        display: inline;
-                    }
-
-                    div {
-                        white-space: nowrap;
-                        width: 100%;
-                    }
-                }
-
-                
             }
             
+
         }
 
-        .data-section-zauber {
+        .data-area.wundabzug {
             display: flex;
-            flex-direction: column;
-            align-self: stretch;
-            margin-left: 5%;
-            margin-right: 5%;
-
-            .data-header {
-                h3 {
-                    width: 100%;
-                    text-align: center;
-                }
+            flex-direction: row;
+            align-items: baseline;
+            width: 100%;
+            label {
+                width: 8em;
+                text-align: right;
+                padding-right: 10px;
             }
 
-            .zauber-eintrag {
-                margin-top: 10px;
-                .data-header,
-                .data-area {
-                    display: grid;
-                    align-items: end;
-                    justify-items: center;
-                    grid-template-columns: minmax(10em, auto) 2.5em 2.5em 2.5em 4em 6em 2.5em 2.5em 2.5em 5em;
-
-                    input[name="attr_zaubername"] {
-                        @include standard-font($font-size-large);
-                        padding-bottom: 0px;
-                        margin-bottom: -1px;
-                    }
-                }
-
-                .data-area {
-                    align-items: baseline;
-
-                    select[name="attr_magieschulen"]{
-                        @include standard-font($font-size-small);
-                        width: auto;
-                    }
-
-                    span[name="attr_zauberwert"] {
-                        @include standard-font($font-size-large);
-                        text-align: center;
-                    }
-
-                    input[name="attr_zauberwirkung"] {
-                        text-align: left;
-                    }
-
-                    label {
-                        display: inline;
-                    }
-
-                    div {
-                        white-space: nowrap;
-                        width: 100%;
-                    }
-                }
+            span, 
+            input{
+                display: inline-block;
+                width: 3em;
+                font-size: 1.2em;
+                line-height: 1.5em;
             }
         }
 
-        .data-section-ruestungen {
+        .data-area.schaden {
             display: flex;
             flex-direction: column;
-
-            align-self: stretch;
-            margin-left: 5%;
-            margin-right: 5%;
-
-            .data-area > div > div,
-            .data-header {
-                align-items: baseline;
-                display: grid;
-                grid-template-columns: 1.5em 1.5fr 2.5em 2.5em 2.5em 2.5em 1fr;
-                gap: 5px;
+            align-items: baseline;
+            justify-content: center;
+            width: 100%;
+            label {
+                display: block;
+                width: 100%;
+                text-align: center;
             }
 
-            
-
-            .data-area > div > div,
-            .data-header {
-               
+            .action {
+                display: flex;
+                flex-direction: row;
                 align-items: baseline;
-                padding-top: 5px;
-                padding-bottom: 5px;
+                justify-content: center;
+                width: 100%;
 
-                input[type="checkbox"]:not(:checked) ~ * {
-                    color: rgba(0,0,0,0.5);
-                }
-
-                input, select {
-                    text-align:center;
-                    width: 100%;
-                    font-size: 1em;
-                }
-                input[name$="name"] {
-                    @include standard-font($font-size-large);
-                    text-align:left;
-                }
-                span {
-                    text-align: center;
-                }
-
-                label {
+                input {
+                    width: 3em;
                     text-align: right;
                 }
-                
-            }
-        }
 
-        .data-section-meisterschaften {
-            display: flex;
-            flex-direction: column;
-
-            align-self: stretch;
-            margin-left: 5%;
-            margin-right: 5%;
-
-            .data-area > div > div,
-            .data-header {
-                align-items: baseline;
-                display: grid;
-                grid-template-columns: 12em 11em 2.5em auto;
-                gap: 5px;
-            }
-
-            
-
-            .data-area > div > div,
-            .data-header {
-               
-                align-items: baseline;
-                padding-top: 5px;
-                padding-bottom: 5px;
-
-
-                input, select {
-                    text-align:left;
-                    width: 100%;
+                select {
+                    width: 6em;
                 }
-
-                input[type="number"] {
-                    text-align:center;
-                    width: 100%;
-                }
-                
             }
         }
     }
 
-    .entwicklung {
-        flex-direction: column;
-        align-items: center;
-        > div {
-            margin-top:20px;
-        }
-
+    
+    .data-section-zustaende {
+        max-width: 20em;
+        min-width: 16em;
         .data-header {
             h3 {
                 text-align: center;
             }
         }
-
-        textarea {
-            border: none;
-            width: 100%;
-            height: auto;
-        }
-
-        .data-section-geld,
-        .data-section-erfahrungspunkte {
-            .data-area {
-                align-items: baseline;
+        .data-area {
+            padding-top: 5px;
+            
+            div > div {
                 display: grid;
-                justify-content: start;
-                grid-template-columns: 1fr 1fr;
                 gap: 5px;
+                grid-template-columns: 1.5em 1fr 2.5em;
+                align-items: baseline;
+                margin-bottom: 5px;
 
-                label {
-                    text-align: right;
+                input[type="checkbox"]:not(:checked) ~ * {
+                    color: rgba(0,0,0,0.5)
                 }
+                
+            }
+        }
+    }
 
-                input, span {
-                    width: 3em;
-                    text-align: center;
-                }
+    .data-section-fokus {
+        display: flex;
+        flex-direction: column;
+
+        width: 12em;
+
+        .data-header {
+            h3 {
+                text-align:center;
             }
         }
 
-        .data-section-notizen,
-        .data-section-ausruestung {
-            width: 100%;
+        .data-area.fokus  {
+            font-family: "Pictos";
+            word-break: break-word;
+
+            .verzehrt {
+                color: $main-color;
+            }
+
+            .erschoepft {
+                color: $main-color-light;
+            }
+
+            .kanalisiert {
+                color: #999;
+            }
+
+            .lebenspunkte-t {
+                color: white;
+            }
         }
     }
+
+
+    .data-section-waffen {
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+        margin-left: 5%;
+        margin-right: 5%;
+
+        .data-header {
+            h3 {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .waffen-eintrag {
+            position: relative;
+            box-sizing: border-box;
+            margin-top: 10px;
+
+            .data-header,
+            .data-area {
+                display: grid;
+                align-items: end;
+                justify-items: center;
+                grid-template-columns: minmax(12em, auto) 2.5em 2.5em 4em 2.5em 12em;
+
+                input[name="attr_waffenname"] {
+                    @include standard-font($font-size-large);
+                    padding-bottom: 0px;
+                    margin-bottom: -1px;
+                }
+            }
+
+            .data-area {
+                align-items: baseline;
+
+                select[name="attr_waffenskill"],
+                select[name^="attr_waffenattr"] {
+                    @include standard-font($font-size-small);
+                    width: auto;
+                }
+
+                span[name="attr_waffenwert"] {
+                    @include standard-font($font-size-large);
+                    text-align: center;
+                }
+
+                input[name="attr_waffenmod"]:before {
+                    content: "+";
+                }
+
+                input[name="attr_waffennotizen"] {
+                    text-align: left;
+                }
+
+                label {
+                    display: inline;
+                    padding-left: 10px;
+                }
+
+                div {
+                    white-space: nowrap;
+                    width: 100%;
+                    
+                }
+            }
+
+        }
+        
+    }
+
+    .data-section-zauber {
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+        margin-left: 5%;
+        margin-right: 5%;
+
+        .data-header {
+            h3 {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .zauber-eintrag {
+            margin-top: 10px;
+            .data-header,
+            .data-area {
+                display: grid;
+                align-items: end;
+                justify-items: center;
+                grid-template-columns: minmax(10em, auto) 2.5em 2.5em 2.5em 4em 6em 2.5em 2.5em 2.5em 5em;
+
+                input[name="attr_zaubername"] {
+                    @include standard-font($font-size-large);
+                    padding-bottom: 0px;
+                    margin-bottom: -1px;
+                }
+            }
+
+            .data-area {
+                align-items: baseline;
+
+                select[name="attr_magieschulen"]{
+                    @include standard-font($font-size-small);
+                    width: auto;
+                }
+
+                span[name="attr_zauberwert"] {
+                    @include standard-font($font-size-large);
+                    text-align: center;
+                }
+
+                input[name="attr_zauberwirkung"] {
+                    text-align: left;
+                }
+
+                label {
+                    display: inline;
+                }
+
+                div {
+                    white-space: nowrap;
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .data-section-ruestungen {
+        display: flex;
+        flex-direction: column;
+
+        align-self: stretch;
+        margin-left: 5%;
+        margin-right: 5%;
+
+        .data-area > div > div,
+        .data-header {
+            align-items: baseline;
+            display: grid;
+            grid-template-columns: 1.5em 1.5fr 2.5em 2.5em 2.5em 2.5em 1fr;
+            gap: 5px;
+        }
+
+        
+
+        .data-area > div > div,
+        .data-header {
+            
+            align-items: baseline;
+            padding-top: 5px;
+            padding-bottom: 5px;
+
+            input[type="checkbox"]:not(:checked) ~ * {
+                color: rgba(0,0,0,0.5);
+            }
+
+            input, select {
+                text-align:center;
+                width: 100%;
+                font-size: 1em;
+            }
+            input[name$="name"] {
+                @include standard-font($font-size-large);
+                text-align:left;
+            }
+            span {
+                text-align: center;
+            }
+
+            label {
+                text-align: right;
+            }
+            
+        }
+    }
+
+    .data-section-meisterschaften {
+        display: flex;
+        flex-direction: column;
+
+        align-self: stretch;
+        margin-left: 5%;
+        margin-right: 5%;
+
+        .data-area > div > div,
+        .data-header {
+            align-items: baseline;
+            display: grid;
+            grid-template-columns: 12em 11em 2.5em auto;
+            gap: 5px;
+        }
+
+        
+
+        .data-area > div > div,
+        .data-header {
+            
+            align-items: baseline;
+            padding-top: 5px;
+            padding-bottom: 5px;
+
+
+            input, select {
+                text-align:left;
+                width: 100%;
+            }
+
+            input[type="number"] {
+                text-align:center;
+                width: 100%;
+            }
+            
+        }
+    }
+
 
     .ausruestung {
         flex-direction: column;
@@ -1087,39 +1398,41 @@ $font-size-small: 1.2rem;
         > div {
             margin-top:20px;
         }
-        .data-section-ausruestung {
-            display: flex;
-            flex-direction: column;
-            align-self: stretch;
-            margin-left: 5%;
-            margin-right: 5%;
+        
+    }
 
-            h3 {
-                width: 100%;
+    .data-section-ausruestung {
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+        margin-left: 5%;
+        margin-right: 5%;
+
+        h3 {
+            width: 100%;
+            text-align: center;
+            input[type="text"] {
                 text-align: center;
-                input[type="text"] {
-                    text-align: center;
-                }
+            }
+        }
+
+        .data-header,
+        .data-area {
+            display: grid;
+            align-items: end;
+            justify-items: center;
+            grid-template-columns: 2em 2.5em minmax(10em, auto) 2.5em 2.5em 8em minmax(10em, auto);
+        }
+
+        .data-area {
+            align-items: baseline;
+
+            input[type="text"] {
+                text-align: left;
             }
 
-            .data-header,
-            .data-area {
-                display: grid;
-                align-items: end;
-                justify-items: center;
-                grid-template-columns: 2em 2.5em minmax(10em, auto) 2.5em 2.5em 8em minmax(10em, auto);
-            }
-
-            .data-area {
-                align-items: baseline;
-
-                input[type="text"] {
-                    text-align: left;
-                }
-
-                select[name="attr_zustand"]{
-                    width: auto;
-                }
+            select[name="attr_zustand"]{
+                width: auto;
             }
         }
     }
@@ -1127,9 +1440,9 @@ $font-size-small: 1.2rem;
 
 
     .tooltip {
-    position: relative;
-    display: inline-block;
-    vertical-align: baseline;
+        position: relative;
+        display: inline-block;
+        vertical-align: baseline;
     }
 
     /* Tooltip text */

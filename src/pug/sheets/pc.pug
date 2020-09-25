@@ -2,6 +2,8 @@ mixin tab-nav-item(tabId)
     button(type="action" name="act_"+tabId)
         block
 
++hiddeninput("editmode", "")
+
 +hiddeninput("tab", "grundwerte")
 .tab-nav
     +tab-nav-item("einstellungen", "icon")
@@ -12,11 +14,15 @@ mixin tab-nav-item(tabId)
         | Fertigkeiten & Magie
     +tab-nav-item("kampf") 
         | Kampf &  Meisterschaften
-    +tab-nav-item("entwicklung") 
-        | Charakterentwicklung
     +tab-nav-item("ausruestung")
         | Ausrüstung
+    label.switch
+        input(type="checkbox", name="attr_editmode")
+        span.slider
+        span.active edit
+        span.inactive play
 
+.tab-nav-shadow
 
 .tab-group.paper
     .watermark
@@ -28,13 +34,13 @@ mixin tab-nav-item(tabId)
                 |&nbsp(+
                 +textinput("testmod","0", true)
                 | )
+                
         .tab-content.grundwerte
             include tabs/grundwerte.pug
         .tab-content.fertigkeiten
             include tabs/fertigkeiten.pug
         .tab-content.kampf
             include tabs/kampf.pug
-        .tab-content.entwicklung
-            include tabs/charakterentwicklung.pug
         .tab-content.ausruestung 
             include tabs/ausruestung.pug
+        

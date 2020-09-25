@@ -18,8 +18,25 @@ mixin radioinput(name, value="", attribute={})
 mixin hiddeninput(name, value="", attribute={})
     +input(name, "hidden", value, false, attribute)
 
+
 .splittermond
     +hiddeninput("pc",1)
+    .overlay
+        .dice-roller
+            h2 PROBE
+            .data-section-row
+                span
+                    label Fertigkeit
+                    span Akrobatik 15
+
+                span
+                    label Modifikator
+                    +numberinput("probesmodifikator", 15)
+
+                span
+                    label Schwierigkeit
+                    +numberinput("probeschwierigkeit", 15)
+
     .pc
         include sheets/pc.pug
 script(type="text/worker")
