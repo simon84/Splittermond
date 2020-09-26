@@ -24,6 +24,30 @@ mixin tab-nav-item(tabId)
 
 .tab-nav-shadow
 
+.roll-options
+    h2 Probenoption
+    .data-section-row
+        span
+            label Modifikator
+            +numberinput("probenmodifikator",0)
+        span
+            label Schwierigkeit
+            +numberinput("probenschwierigkeit",15)
+        span
+            label Wurfoption
+            select(name="attr_probenwurfoption")
+                option(value="standard") Standard
+                option(value="sicherheit") Sicherheit
+                option(value="risiko") Risiko
+        span
+            label Sichtbarkeit
+            .switch
+                input(type="checkbox", name="attr_probensichtbarkeit")
+                span.slider
+                span.active GM
+                span.inactive Alle
+.roll-options-shadow.play-only
+
 .tab-group.paper
     .watermark
         .tab-content.einstellungen

@@ -142,38 +142,46 @@ button[type="action"] {
 }
 
 button.play-only[type="action"] {
-        position: absolute;
-        z-index: 1001;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        border: none;
-        box-sizing: content-box;
-        padding: 0;
-        border-radius: 6px;
+    position: absolute;
+    z-index: 1001;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    box-sizing: content-box;
+    padding: 0;
+    border-radius: 6px;
 
-        -webkit-transition: all 0.3s ease;
-        -moz-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-        -ms-transition: all 0.3s ease;
-        transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
 
-        &:hover, &:focus {
+    &:hover, &:focus {
 
-            border:none;
-            outline: none;
-            box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
-        }
-
-        &:active {
-
-            border:none;
-            outline: none;
-            box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
-        }
+        border:none;
+        outline: none;
+        box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
     }
 
+    &:active {
+
+        border:none;
+        outline: none;
+        box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+    }
+}
+
 input[name="attr_editmode"][value=""] ~ * .repcontrol {
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin: 0;
+    left: -10000px;
+}
+input[name="attr_editmode"][value="on"] ~ .play-only,
+input[name="attr_editmode"][value="on"] ~ * .play-only {
     position: absolute;
     width: 0;
     height: 0;
@@ -248,6 +256,8 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         max-width: 960px;
         min-height: 800px;
         margin-right: -30px;
+        margin-top: -10px;
+
         color: black;
         border: 60px solid transparent;
         border-width: 40px 60px 60px 20px;
@@ -275,39 +285,7 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         
     }
 
-    .overlay {
-        position: sticky;
-        top: 0;
-        height: 0;
-        z-index: 5000;
-
-        .probe-fertigkeit {
-            display: none;
-            flex-direction: column;
-            position: relative;
-            background: url(images/seamless_wood.jpg), linear-gradient(90deg, #2B1619ff 0%, rgba(43, 22, 25, 0.8) 50%, #2B1619ff 100%);
-            background-blend-mode: overlay, normal;
-            background-position: 0 -5rem;
-            box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5), inset 0px 2px 4px rgba(255, 255, 255, 0.1), inset 0px -2px 4px rgba(0, 0, 0, 0.3);
-            top: 5rem;
-            padding-bottom: 10px;
-
-            h2 {
-                font-weight: 700;
-                text-align: center;
-                background: linear-gradient(black 10%, $wood-color 80%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                filter: drop-shadow(0px 1px 0.5px rgba(255,255,255,0.4));
-            }
-        }
-
-        [name="attr_probe_fertigkeit"]:not([value=""]) ~ .probe-fertigkeit {
-            display: block;
-        }
-    }
-
-    
+ 
 
     
 
@@ -455,14 +433,7 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         margin-top: 10px;
     }
 
-    .tab-nav-shadow {
-        position: sticky;
-        top: 1rem;
-        height: 4rem;
-        z-index: 1999;
-        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
-        margin-top:  -5rem;
-    }
+    
 
     .switch {
         display: inline-block;
@@ -613,9 +584,7 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         background: $background-wood, linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
         background-blend-mode: overlay, normal;
         box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5);
-        padding-top: 6px;
-        padding-bottom: 6px;
-        margin-bottom: -6px;
+
         display: flex;
         align-items: center;
 
@@ -656,6 +625,16 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
 
     }
 
+    .tab-nav-shadow {
+        position: sticky;
+        top: 1rem;
+        height: 4rem;
+        z-index: 1999;
+        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
+        margin-top:  -5rem;
+        margin-bottom: 1rem;
+    }
+
     input[name="attr_tab"] {
         $pc_tabs: einstellungen, grundwerte, fertigkeiten, kampf, ausruestung;
         @each $tabid in $pc_tabs {
@@ -670,6 +649,89 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
                 -webkit-text-fill-color: transparent;
             }
         }
+    }
+
+    .roll-options {
+        flex-direction: column;
+        position: sticky;
+        background: url(images/seamless_wood.jpg), linear-gradient(90deg, #2B1619ff 0%, rgba(43, 22, 25, 0.8) 50%, #2B1619ff 100%);
+        background-blend-mode: overlay, normal;
+        background-position: 0 -5rem;
+        top: 5rem;
+        height: 10rem;
+        z-index: 2000;
+        overflow: hidden;
+        opacity: 1;
+
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        -ms-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+
+        span {
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-items: center;
+            gap: 5px;
+        }
+
+        h2 {
+            font-weight: 900;
+            text-align: center;
+            color: $wood-color;
+            text-shadow: 0px 1px 1px rgba(255,255,255,0.5),  0px -1px 1px rgba(0,0,0,0.5);
+        }
+
+        label {
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            padding: 0;
+            width: auto;
+            text-align: center;
+            //text-shadow: 0px 1px 1px rgba(255,255,255,0.5),  0px -1px 1px rgba(0,0,0,0.5);
+        }
+
+        input[type="number"] {
+            background-color: transparent;
+            color: white;
+            font-size: $font-size-large;
+            font-weight: 700;
+            border: none;
+            outline: none;
+            box-shadow: inset 0px 4px 8px black, 0px 1px 1px rgba(255, 255, 255, 0.3), 0px -1px 1px black;
+            text-align: center;
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+    }
+
+    input[name="attr_editmode"][value="on"] ~ .roll-options {
+        height: 0rem;
+        opacity: 0;
+    }
+
+    .roll-options-shadow {
+        position: sticky;
+        top: 6rem;
+        height: 9rem;
+        z-index: 1999;
+        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
+        margin-top:  -10rem;
+        margin-bottom: 1rem;
+
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        -ms-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    input[name="attr_editmode"][value="on"] ~ .roll-options-shadow {
+        height: 0rem;
+        opacity: 0;
     }
 
     .data-section {

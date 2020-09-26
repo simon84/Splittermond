@@ -481,17 +481,6 @@ $(document).ready(function () {
             <div class="charactersheet tab-pane charsheet lang-de" style="display: block">
 <div class="sheet-splittermond">
   <input name="attr_pc" type="hidden" value="1"/>
-  <div class="sheet-overlay">
-    <input name="attr_probe_fertigkeit" type="hidden" value=""/>
-    <div class="sheet-probe-fertigkeit">
-      <h2>PROBE</h2><span><span name="attr_probe_fertigkeitlabel"></span><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_probe_fertigkeitswert"></span><span class="sheet-tooltiptext"> <span class="sheet-pre" name="attr_probe_tooltip"></span></span></span></span><span>
-        <label>Modifikator</label>
-        <input name="attr_probe_modifikator" type="number" value="0"/></span><span>
-        <label>Schwierigkeit</label>
-        <input name="attr_probe_schwierigkeit" type="number" value="15"/></span><span>
-        <button type="action" name="act_probe_clear">X</button></span>
-    </div>
-  </div>
   <div class="sheet-pc">
     <input name="attr_editmode" type="hidden" value=""/>
     <input name="attr_tab" type="hidden" value="grundwerte"/>
@@ -513,6 +502,25 @@ $(document).ready(function () {
       </label>
     </div>
     <div class="sheet-tab-nav-shadow"></div>
+    <div class="sheet-roll-options">
+      <h2>Probenoption</h2>
+      <div class="sheet-data-section-row"><span>
+          <label>Modifikator</label>
+          <input name="attr_probenmodifikator" type="number" value="0"/></span><span>
+          <label>Schwierigkeit</label>
+          <input name="attr_probenschwierigkeit" type="number" value="15"/></span><span>
+          <label>Wurfoption</label>
+          <select name="attr_probenwurfoption">
+            <option value="standard">Standard</option>
+            <option value="sicherheit">Sicherheit</option>
+            <option value="risiko">Risiko</option>
+          </select></span><span>
+          <label>Sichtbarkeit</label>
+          <div class="sheet-switch">
+            <input type="checkbox" name="attr_probensichtbarkeit"/><span class="sheet-slider"></span><span class="sheet-active">GM</span><span class="sheet-inactive">Alle</span>
+          </div></span></div>
+    </div>
+    <div class="sheet-roll-options-shadow sheet-play-only"></div>
     <div class="sheet-tab-group sheet-paper">
       <div class="sheet-watermark">
         <div class="sheet-tab-content sheet-einstellungen">

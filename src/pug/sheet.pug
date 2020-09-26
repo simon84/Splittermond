@@ -21,28 +21,6 @@ mixin hiddeninput(name, value="", attribute={})
 
 .splittermond
     +hiddeninput("pc",1)
-    .overlay
-        +hiddeninput("probe_fertigkeit","")
-        .probe-fertigkeit
-            h2 PROBE
-
-            
-            span
-                span(name="attr_probe_fertigkeitlabel")
-                span.tooltip
-                    span.main-value(name="attr_probe_fertigkeitswert")
-                    span.tooltiptext 
-                        span.pre(name="attr_probe_tooltip")
-            span
-                label Modifikator
-                +numberinput("probe_modifikator", 0)
-
-            span
-                label Schwierigkeit
-                +numberinput("probe_schwierigkeit", 15)
-            span
-                button(type="action", name="act_probe_clear") X
-
     .pc
         include sheets/pc.pug
 script(type="text/worker")
