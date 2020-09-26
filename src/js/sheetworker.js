@@ -51,6 +51,10 @@ function autoKampfFertigkeit(fertigkeitId) {
 for (var fertigkeitId in splittermond.fertigkeiten) {
     autoFertigkeit(fertigkeitId, splittermond.fertigkeiten[fertigkeitId])
 }
+
+for (var fertigkeitId in splittermond.fertigkeiten) {
+    autoFertigkeit(fertigkeitId, splittermond.fertigkeiten[fertigkeitId])
+}
 for (var fertigkeitId in splittermond.magieschulen) {
     autoFertigkeit(fertigkeitId, splittermond.magieschulen[fertigkeitId])
 }
@@ -73,9 +77,33 @@ function autoAttribut(attributId) {
     allModifier.push(id);
 }
 
-for (var id in splittermond.attribute) {
-    autoAttribut(id);
+function actionFertigkeitsProbe(id, label) {
+    on("clicked:probe" + id, function () {
+        getAttrs([id, id + "tooltip"], function (v) {
+            setAttrs({
+                "probe_fertigkeit": id,
+                "probe_fertigkeitlabel": label,
+                "probe_fertigkeitswert": v[id],
+                "probe_tooltip": v[id + "tooltip"]
+            });
+        });
+    });
 }
+
+for (var id in splittermond.fertigkeiten) {
+    actionFertigkeitsProbe(id, splittermond.fertigkeiten[id].Name);
+}
+
+for (var id in splittermond.magieschulen) {
+    actionFertigkeitsProbe(id, splittermond.magieschulen[id].Name);
+}
+
+on('clicked:probe_clear', function () {
+    setAttrs({
+        "probe_fertigkeit": ""
+    });
+});
+
 
 
 

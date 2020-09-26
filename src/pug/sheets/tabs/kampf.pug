@@ -73,7 +73,7 @@
     .data-header
         h3 Waffen
     fieldset.repeating_waffen
-        .waffen-eintrag
+        .eintrag
             button(type="action", name="act_rollweapon" class="play-only")
             .data-header
                 +textinput("waffenname","", false, {placeholder: "Waffenname"})
@@ -95,7 +95,7 @@
                     select(name="attr_waffenattr2") 
                         each attribut, id in splittermond.attribute
                             option(value=id)= attribut.short
-                span(name="attr_waffenwert")
+                span.main-value(name="attr_waffenwert")
                 +numberinput("waffenmoduser",0)
                 +textinput("waffenschaden","W6")
                 +numberinput("waffenreichweite",3)
@@ -109,7 +109,7 @@
     .data-header
         h3 Zauber
     fieldset.repeating_zauber
-        .zauber-eintrag
+        .eintrag
             button(type="action", name="act_rollweapon" class="play-only")
             .data-header
                 +textinput("zaubername","", false, {placeholder: "Zaubername"})
@@ -126,7 +126,7 @@
                     select(name="attr_magieschulen") 
                         each fertigkeit, id in splittermond.magieschulen
                             option(value=id)= fertigkeit.Name
-                span(name="attr_zauberwert")
+                span.main-value(name="attr_zauberwert")
                 +numberinput("zaubermoduser",0)
                 +textinput("zauberschwierigkeit","", false, {placeholder: "SG"})
                 +textinput("zauberschaden","", true, {placeholder: "-"})
@@ -134,8 +134,6 @@
                 +textinput("zauberdauer","", true, {placeholder: "ZD"})
                 +textinput("zauberrw","", true, {placeholder: "RW"})
                 +textinput("zauberwd","", true, {placeholder: "WD"})
-                span
-                    button(type="roll" value="@{abilityroll} {{name=Zauber: @{zaubername}}} {{charactername=@{character_name}}} {{Probe=[[?{Art des Wurfs|Standardwurf, 2d10cs>10cf<1 | Sicherheitswurf, 2d10d1cs>10cf<1 | Risikowurf, 4d10k2cs>10cf<1} + @{zauberwert} + @{zaubermod1} + @{zaubermod2} + @{hiddenmod} + @{zauberattrmod} + ?{Modifikator|0} + @{hiddenallfert} - @{geblendet} - @{glaubenskrise} - @{schadensmod}]]}} {{schwierigkeit=[[1d0 + ?{Schwierigkeit|@{zauberschwierigkeit}}]]}} {{Ticks=[[3+@{gesamttickplus}+@{benommen}]]}} {{fokus=@{zauberkosten}}} {{sm27=[[?{Schwierigkeit}-27]]}} {{sm26=[[?{Schwierigkeit}-26]]}} {{sm24=[[?{Schwierigkeit}-24]]}} {{sm23=[[?{Schwierigkeit}-23]]}} {{sm21=[[?{Schwierigkeit}-21]]}} {{sm20=[[?{Schwierigkeit}-20]]}}  {{sm18=[[?{Schwierigkeit}-18]]}} {{sm17=[[?{Schwierigkeit}-17]]}} {{sm15=[[?{Schwierigkeit}-15]]}} {{sm14=[[?{Schwierigkeit}-14]]}} {{sm12=[[?{Schwierigkeit}-12]]}} {{sm11=[[?{Schwierigkeit}-11]]}} {{sm9=[[?{Schwierigkeit}-9]]}} {{sm8=[[?{Schwierigkeit}-8]]}} {{sm6=[[?{Schwierigkeit}-6]]}} {{sm5=[[?{Schwierigkeit}-5]]}} {{sm3=[[?{Schwierigkeit}-3]]}} {{sm2=[[?{Schwierigkeit}-2]]}} {{sm1=[[?{Schwierigkeit}-1]]}} {{s0=[[?{Schwierigkeit}]]}} {{s2=[[2+?{Schwierigkeit}]]}} {{s3=[[3+?{Schwierigkeit}]]}} {{s5=[[5+?{Schwierigkeit}]]}} {{s6=[[6+?{Schwierigkeit}]]}} {{s8=[[8+?{Schwierigkeit}]]}} {{s9=[[9+?{Schwierigkeit}]]}} {{s11=[[11+?{Schwierigkeit}]]}} {{s12=[[12+?{Schwierigkeit}]]}} {{s14=[[14+?{Schwierigkeit}]]}} {{s15=[[15+?{Schwierigkeit}]]}} {{s17=[[17+?{Schwierigkeit}]]}} {{s18=[[18+?{Schwierigkeit}]]}} {{s20=[[20+?{Schwierigkeit}]]}} {{s21=[[21+?{Schwierigkeit}]]}} {{s23=[[23+?{Schwierigkeit}]]}} {{s24=[[24+?{Schwierigkeit}]]}} {{s26=[[26+?{Schwierigkeit}]]}} {{s27=[[27+?{Schwierigkeit}]]}} {{s28=[[28+?{Schwierigkeit}]]}} {{s29=[[29+?{Schwierigkeit}]]}} {{s30=[[30+?{Schwierigkeit}]]}} {{s31=[[31+?{Schwierigkeit}]]}} {{s32=[[32+?{Schwierigkeit}]]}} {{s33=[[33+?{Schwierigkeit}]]}} {{s34=[[34+?{Schwierigkeit}]]}} {{s35=[[35+?{Schwierigkeit}]]}} {{s36=[[36+?{Schwierigkeit}]]}} {{s37=[[37+?{Schwierigkeit}]]}} {{s38=[[38+?{Schwierigkeit}]]}} {{s39=[[39+?{Schwierigkeit}]]}} {{s40=[[40+?{Schwierigkeit}]]}} {{s41=[[41+?{Schwierigkeit}]]}}")
                 div
                     label Wirkung:
                     +textinput("zauberwirkung","", true, {placeholder: "-"})
@@ -163,6 +161,7 @@
             +numberinput("ruestungsbe", 0)
             +numberinput("ruestungstickplus", 0)
             +textinput("ruestungsmerkmal", "", false, {placeholder: "-"})
+.data-section-schilde
     .data-header
         h3 Schild
         span

@@ -262,6 +262,23 @@ function addRepeatingRow(repcontainer, dataGroupName, itemId) {
         setAttrs(data);
     });
 
+    repcontainer.find("button[type=action]").click(function (e) {
+        e.preventDefault();
+
+
+        roll20API.charData[`_lastId_${dataGroupName}`] = itemId;
+        throwEvent("clicked:" + `${dataGroupName}_${itemId}_${this.name.substr(4)}`, {});
+        throwEvent("clicked:" + `${dataGroupName}:${this.name.substr(4)}`, {});
+        throwEvent("clicked:" + `${dataGroupName}`, {});
+        throwEvent("clicked:" + `${this.name.substr(4)}`, {});
+    });
+
+    repcontainer.find("button[type=roll]").click(function (e) {
+        e.preventDefault();
+
+    });
+
+
     repcontainer.trigger('sortupdate');
 
     repcontainer.find(`.repitem[reprowid="${itemId}"] input[name^="attr_"], 
