@@ -29,19 +29,26 @@ mixin tab-nav-item(tabId)
     .data-section-row
         span
             label Modifikator
-            +numberinput("probenmodifikator",0)
+            span
+                button.incdec(type="action", name="act_decmod") _
+                +numberinput("probenmodifikator",0)
+                button.incdec(type="action", name="act_incmod") &
         span
             label Schwierigkeit
-            +numberinput("probenschwierigkeit",15)
+            span
+                button.incdec(type="action", name="act_decschwierigkeit") _
+                +numberinput("probenschwierigkeit",15)
+                button.incdec(type="action", name="act_incschwierigkeit") &
         span
             label Wurfoption
-            select(name="attr_probenwurfoption")
-                option(value="standard") Standard
-                option(value="sicherheit") Sicherheit
-                option(value="risiko") Risiko
+            +hiddeninput("probenwurfoption", "standard")
+            span.switch-field
+                button(type="action", name="act_probenwurfoption_sicherheit") Sicherheit
+                button(type="action", name="act_probenwurfoption_standard") Standard
+                button(type="action", name="act_probenwurfoption_risiko") Risiko
         span
             label Sichtbarkeit
-            .switch
+            label.switch
                 input(type="checkbox", name="attr_probensichtbarkeit")
                 span.slider
                 span.active GM

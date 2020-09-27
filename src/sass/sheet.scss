@@ -513,6 +513,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         .active {
             padding-right: 1.6em;
             padding-left: 0.5em;
+            color: black;
         }
 
         .inactive {
@@ -651,6 +652,60 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         }
     }
 
+    .switch-field {
+        display: flex;
+        border-radius: 0.75em;
+        width: auto;
+        height: 1.5em;
+        padding: 0px;
+        margin: 0px;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        box-sizing: border-box;
+        
+        overflow: hidden;
+
+        color: white;
+        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3), 0px -1px 1px rgba(0, 0, 0, 0.5);
+
+        position: relative;
+
+        
+        button {
+            position: relative;
+            border-radius: 0;
+            display: inline;
+            box-sizing: border-box;
+            padding: 0;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+            color: white;
+            margin: 0;
+            font-weight: normal;
+            
+            height: 1.5em;
+            box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.5), inset 0px 1px 1px rgba(255, 255, 255, 0.3);
+
+            &:first-child {
+                border-top-left-radius: 0.75em;
+                border-bottom-left-radius: 0.75em;
+            }
+
+            &:last-child {
+                border-top-right-radius: 0.75em;
+                border-bottom-right-radius: 0.75em;
+            }
+
+            &:active {
+                color: black;
+                background-color: $main-color-light;
+                box-shadow: inset 0px 4px 8px black;
+            }
+        }
+
+        
+    }
+
     .roll-options {
         flex-direction: column;
         position: sticky;
@@ -660,6 +715,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         top: 5rem;
         height: 10rem;
         z-index: 2000;
+
         overflow: hidden;
         opacity: 1;
 
@@ -669,11 +725,20 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         -ms-transition: all 0.5s ease;
         transition: all 0.5s ease;
 
-        span {
+        .data-section-row > span {
             display: grid;
             grid-template-columns: 1fr;
             justify-items: center;
             gap: 5px;
+        }
+
+        button.incdec {
+            font-family: "Pictos";
+            width: 3.5rem;
+            height: 3.5rem;
+            padding: 0;
+            margin: 0;
+            color: white;
         }
 
         h2 {
@@ -683,7 +748,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
             text-shadow: 0px 1px 1px rgba(255,255,255,0.5),  0px -1px 1px rgba(0,0,0,0.5);
         }
 
-        label {
+        label:not(.switch) {
             font-weight: 700;
             color: white;
             margin: 0;
@@ -697,14 +762,56 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
             background-color: transparent;
             color: white;
             font-size: $font-size-large;
-            font-weight: 700;
+            font-weight: bold;
+            width: 3em;
             border: none;
             outline: none;
             box-shadow: inset 0px 4px 8px black, 0px 1px 1px rgba(255, 255, 255, 0.3), 0px -1px 1px black;
             text-align: center;
-            -webkit-appearance: textfield;
             -moz-appearance: textfield;
             appearance: textfield;
+        }
+
+        input[type="number"][name="attr_probenschwierigkeit"] {
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            font-size: $font-size-very-large;
+            font-weight: 900;
+
+            background: linear-gradient(#fff, $main-color-light);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 1px 2px black);
+            text-transform: uppercase;
+        }
+
+        input[type="number"][name="attr_probenmodifikator"] {
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            font-size: $font-size-very-large;
+            font-weight: 900;
+
+            background: linear-gradient(#fff, $wood-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 1px 2px black);
+            text-transform: uppercase;
+        }
+
+        input[name="attr_probenwurfoption"][value="sicherheit"] ~ * button[name="act_probenwurfoption_sicherheit"],
+        input[name="attr_probenwurfoption"][value="standard"] ~ * button[name="act_probenwurfoption_standard"],
+        input[name="attr_probenwurfoption"][value="risiko"] ~ * button[name="act_probenwurfoption_risiko"] {
+            color: black;
+            background-color: $main-color-light;
+            box-shadow: inset 0px 4px 8px black;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
     }
 
