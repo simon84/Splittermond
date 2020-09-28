@@ -2,7 +2,7 @@ mixin input(name, type="text", value="", isAutoexpand=false,  attribute={})
     if !isAutoexpand
         input(name="attr_"+name, type=type, value=value)&attributes(attribute)
     else
-        span.autoexpand
+        span.autoexpand&attributes(attribute)
             input(name="attr_"+name, type=type, value=value)&attributes(attribute)
             span.autoexpand(name="attr_"+name)&attributes(attribute)
 

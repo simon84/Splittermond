@@ -10,7 +10,7 @@
                 .data-entry
                     button(type="action", class="play-only", name="act_probe"+id)
                     label= fertigkeit.Name
-                    span.tooltip
+                    span.tooltip(style="z-index:1500")
                         span.main-value(name="attr_"+id)
                         span.tooltiptext 
                             label= splittermond.attribute[fertigkeit.Attribute[0].toLowerCase()].short
@@ -36,7 +36,7 @@
                     .data-entry
                         button(type="action", class="play-only", name="act_probe"+id)
                         label= magieschule.Name
-                        span.tooltip
+                        span.tooltip(style="z-index:1500")
                             span.main-value(name="attr_"+id)
                             span.tooltiptext
                                 label= splittermond.attribute[magieschule.Attribute[0].toLowerCase()].short
@@ -60,7 +60,7 @@
                 each kampffertigkeit, id in splittermond.kampffertigkeiten
                     .data-entry
                         label= kampffertigkeit.Name
-                        span.tooltip
+                        span.tooltip(style="z-index:1500")
                             span.main-value(name="attr_"+id)
                             span.tooltiptext
                                 span.pre(name="attr_" + id + "tooltip")

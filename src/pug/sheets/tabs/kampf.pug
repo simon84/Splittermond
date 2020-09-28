@@ -80,6 +80,7 @@
                 span Wert
                 span Mod
                 span Schaden
+                span WGS
                 span RW
                 span Merkmale
             .data-area
@@ -98,8 +99,9 @@
                 span.main-value(name="attr_waffenwert")
                 +numberinput("waffenmoduser",0)
                 +textinput("waffenschaden","W6")
-                +numberinput("waffenreichweite",3)
-                +textinput("waffenmerkmale","", true, {placeholder: "-"})
+                +numberinput("waffenwgs",3)
+                +numberinput("waffenreichweite",0)
+                +textinput("waffenmerkmale","", true, {placeholder: "-", class: "small"})
                 div
                     label Notizen:
                     +textinput("waffennotizen","", true, {placeholder: "-"})
@@ -189,10 +191,22 @@
             div
                 span
                 label Gesamt:
-                span(name="attr_ruestungvtd")
-                span(name="attr_ruestungsr")
-                span(name="attr_ruestungbe")
-                span(name="attr_ruestungtickplus")
+                span.tooltip
+                    span.main-value(name="attr_ruestungvtd")
+                    span.tooltiptext 
+                        span.pre(name="attr_ruestungvtdmodtooltip")
+                span.tooltip
+                    span.main-value(name="attr_ruestungsr")
+                    span.tooltiptext 
+                        span.pre(name="attr_ruestungsrmodtooltip")
+                span.tooltip
+                    span.main-value(name="attr_ruestungbe")
+                    span.tooltiptext 
+                        span.pre(name="attr_ruestungbemodtooltip")
+                span.tooltip
+                    span.main-value(name="attr_ruestungtickplus")
+                    span.tooltiptext
+                        span.pre(name="attr_ruestungtickplusmodtooltip")
 
 .data-section-meisterschaften
     .data-header

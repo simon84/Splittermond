@@ -421,7 +421,7 @@ on("change:repeating_waffen:waffenskill change:repeating_waffen:waffenattr1 chan
             }
         });
     });
-
+/*
 on("change:hiddenschildvtd change:hiddenruestungsvtd change:hiddenruestungssr change:hiddenschildbe change:hiddenruestungsbe change:hiddenschildtickplus change:hiddenruestungstickplus change:hiddensr change:hiddenbehinderungfruehstueck", function (g) {
     getAttrs(["hiddenschildvtd", "hiddenruestungsvtd", "hiddenruestungssr", "hiddenschildbe", "hiddenruestungsbe", "hiddenschildtickplus", "hiddenruestungstickplus", "hiddensr", "hiddenbehinderungfruehstueck", "hiddenschadensreduktionfruehstueck"], function (f) {
         setAttrs({
@@ -443,7 +443,7 @@ on("change:gesamtvtd change:gesamtsr change:gesamtbe", function (eventinfo) {
         });
     });
 });
-
+*/
 
 
 on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:lebenspunkte_v", function (e) {
@@ -1279,17 +1279,21 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
     allModifier.push("schild" + type);
     on(`change:repeating_ruestungen change:schild${type} change:ruestungs${type}mod change:schild${type}mod change:schildonoff`, function () {
         getSectionIDs("repeating_ruestungen", function (rid) {
-            var fields = [`ruestungs${type}mod`, `schild${type}mod`, `schild${type}`, "schildonoff"];
+            var fields = [`ruestungs${type}mod`, `ruestungs${type}modtooltip`, `schild${type}mod`, `schild${type}modtooltip`, `schild${type}`, "schildonoff"];
             fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungs${type}`));
             fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungonoff`));
             getAttrs(fields, function (v) {
                 var val = 0;
+                var tooltip = "";
                 rid.forEach(function (rowid) {
                     val = (v[`repeating_ruestungen_${rowid}_ruestungonoff`] == "1") ? int(val) + Math.max(int(v[`repeating_ruestungen_${rowid}_ruestungs${type}`]) + int(v[`ruestungs${type}mod`]), 0) : val;
+                    tooltip += (v[`repeating_ruestungen_${rowid}_ruestungonoff`] == "1") ? v[`ruestungs${type}modtooltip`] + "\n" : "";
                 });
                 val += ((v["schildonoff"] == "1") ? Math.max(int(v[`schild${type}`]) + int(v[`schild${type}mod`]), 0) : 0);
+                tooltip += (v["schildonoff"] == "1") ? v[`schild${type}modtooltip`] + "\n" : "";
                 var update = {};
                 update["ruestung" + type] = val;
+                update["ruestung" + type + "modtooltip"] = tooltip;
                 setAttrs(update);
             });
         })
