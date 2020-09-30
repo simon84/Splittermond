@@ -45,6 +45,7 @@ $font-size-small: 1.2rem;
     z-index: 2000;
 }
 
+
 .repcontrol button.btn {
     background-color: transparent;
     background-image: none;
@@ -285,11 +286,166 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         
     }
 
- 
+    .switch-field {
+        display: flex;
+        border-radius: 0.75em;
+        width: auto;
+        height: 1.5em;
+        padding: 0px;
+        margin: 0px;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        box-sizing: border-box;
+        
+        overflow: hidden;
 
-    
+        color: white;
+        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3), 0px -1px 1px rgba(0, 0, 0, 0.5);
 
-    
+        position: relative;
+
+        
+        button {
+            position: relative;
+            border-radius: 0;
+            display: inline;
+            box-sizing: border-box;
+            padding: 0;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+            color: white;
+            margin: 0;
+            font-weight: normal;
+            
+            height: 1.5em;
+            box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.5), inset 0px 1px 1px rgba(255, 255, 255, 0.3);
+
+            &:first-child {
+                border-top-left-radius: 0.75em;
+                border-bottom-left-radius: 0.75em;
+            }
+
+            &:last-child {
+                border-top-right-radius: 0.75em;
+                border-bottom-right-radius: 0.75em;
+            }
+
+            &:active {
+                color: black;
+                background-color: $main-color-light;
+                box-shadow: inset 0px 4px 8px black;
+            }
+        }
+    }
+
+    .switch {
+        display: inline-block;
+        border-radius: 0.75em;
+        width: auto;
+        height: 1.5em;
+        padding: 0px;
+        margin: 0px;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        
+        overflow: hidden;
+
+        color: white;
+        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3);
+
+        position: relative;
+
+        .slider {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            margin-bottom: -1.5em;
+            
+            
+            box-sizing: border-box;
+            border-radius: 0.75em;
+            box-shadow: inset 0px 4px 8px black;
+            
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        input[type="checkbox"]:checked ~ .slider {
+            background-color: $main-color-light;
+        }
+
+        .slider:before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 1.2em;
+            height: 1.2em;
+            border-radius: 0.7em;
+            margin: 0.15em;
+            background: $background-wood, $wood-color;
+            background-blend-mode: overlay, normal;
+            box-shadow: 0px 4px 8px black, inset 0px 1px 1px rgba(255, 255, 255, 0.3);
+            left: 0;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        input[type="checkbox"]:checked ~ .slider:before {
+            left: 100%;
+            margin-left: -1.35em;
+        }
+
+
+
+
+        .active, .inactive {
+            display: block;
+            clear: both;
+            float: left;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .active {
+            padding-right: 1.6em;
+            padding-left: 0.5em;
+            color: black;
+        }
+
+        .inactive {
+            padding-left: 1.6em;
+            padding-right: 0.5em;
+        }
+        
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked ~ .active,
+        input[type="checkbox"]:not(:checked) ~ .inactive {
+            height: 100%;
+        }
+
+        input[type="checkbox"]:checked ~ .inactive,
+        input[type="checkbox"]:not(:checked) ~ .active {
+            height: 0px;
+        }
+    }
+
+    .paper .switch {
+        .slider:before {
+            background: $background-paper;
+            background-position: center;
+        }
+    }
     
     .paper input, .paper select {
         font-size: 1em;
@@ -435,115 +591,6 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
 
     
 
-    .switch {
-        display: inline-block;
-        border-radius: 0.75em;
-        width: auto;
-        height: 1.5em;
-        padding: 0px;
-        margin: 0px;
-        margin-left: 0.5em;
-        margin-right: 0.5em;
-        
-        overflow: hidden;
-
-        color: white;
-        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3);
-
-        position: relative;
-
-        .slider {
-            position: relative;
-            display: block;
-            width: 100%;
-            height: 100%;
-            margin-bottom: -1.5em;
-            
-            
-            box-sizing: border-box;
-            border-radius: 0.75em;
-            box-shadow: inset 0px 4px 8px black;
-            
-            -webkit-transition: all 0.3s ease;
-            -moz-transition: all 0.3s ease;
-            -o-transition: all 0.3s ease;
-            -ms-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-        }
-        input[type="checkbox"]:checked ~ .slider {
-            background-color: $main-color-light;
-        }
-
-        .slider:before {
-            content: '';
-            display: block;
-            position: absolute;
-            width: 1.2em;
-            height: 1.2em;
-            border-radius: 0.7em;
-            margin: 0.15em;
-            background: $background-wood, $wood-color;
-            background-blend-mode: overlay, normal;
-            box-shadow: 0px 4px 8px black, inset 0px 1px 1px rgba(255, 255, 255, 0.3);
-            left: 0;
-            -webkit-transition: all 0.3s ease;
-            -moz-transition: all 0.3s ease;
-            -o-transition: all 0.3s ease;
-            -ms-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        input[type="checkbox"]:checked ~ .slider:before {
-            left: 100%;
-            margin-left: -1.35em;
-        }
-
-
-
-
-        .active, .inactive {
-            display: block;
-            clear: both;
-            float: left;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .active {
-            padding-right: 1.6em;
-            padding-left: 0.5em;
-            color: black;
-        }
-
-        .inactive {
-            padding-left: 1.6em;
-            padding-right: 0.5em;
-        }
-        
-
-        input[type="checkbox"] {
-            display: none;
-        }
-
-        input[type="checkbox"]:checked ~ .active,
-        input[type="checkbox"]:not(:checked) ~ .inactive {
-            height: 100%;
-        }
-
-        input[type="checkbox"]:checked ~ .inactive,
-        input[type="checkbox"]:not(:checked) ~ .active {
-            height: 0px;
-        }
-    }
-
-    .paper .switch {
-        .slider:before {
-            background: $background-paper;
-            background-position: center;
-        }
-    }
-
     button.play-only[type="action"] {
         position: absolute;
         width: 100%;
@@ -589,7 +636,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         display: flex;
         align-items: center;
 
-        > * {
+        > button, > .switch {
             flex-shrink: 0;
         }
 
@@ -625,7 +672,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         }
 
     }
-
+    
     .tab-nav-shadow {
         position: sticky;
         top: 1rem;
@@ -635,6 +682,8 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         margin-top:  -5rem;
         margin-bottom: 1rem;
     }
+
+
 
     input[name="attr_tab"] {
         $pc_tabs: einstellungen, grundwerte, fertigkeiten, kampf, ausruestung;
@@ -652,59 +701,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         }
     }
 
-    .switch-field {
-        display: flex;
-        border-radius: 0.75em;
-        width: auto;
-        height: 1.5em;
-        padding: 0px;
-        margin: 0px;
-        margin-left: 0.5em;
-        margin-right: 0.5em;
-        box-sizing: border-box;
-        
-        overflow: hidden;
-
-        color: white;
-        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3), 0px -1px 1px rgba(0, 0, 0, 0.5);
-
-        position: relative;
-
-        
-        button {
-            position: relative;
-            border-radius: 0;
-            display: inline;
-            box-sizing: border-box;
-            padding: 0;
-            padding-left: 0.5em;
-            padding-right: 0.5em;
-            color: white;
-            margin: 0;
-            font-weight: normal;
-            
-            height: 1.5em;
-            box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.5), inset 0px 1px 1px rgba(255, 255, 255, 0.3);
-
-            &:first-child {
-                border-top-left-radius: 0.75em;
-                border-bottom-left-radius: 0.75em;
-            }
-
-            &:last-child {
-                border-top-right-radius: 0.75em;
-                border-bottom-right-radius: 0.75em;
-            }
-
-            &:active {
-                color: black;
-                background-color: $main-color-light;
-                box-shadow: inset 0px 4px 8px black;
-            }
-        }
-
-        
-    }
+    
 
     .roll-options {
         flex-direction: column;
@@ -859,25 +856,28 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         gap: 20px;
     }
 
-    .data-area {
+    .data-area, .data-header {
         @include gradient-border();
-        @include gradient-background();
+        position:relative;
+        display: grid;
+        align-items: baseline;
+        grid-template-columns: 1fr;
         gap: 5px;
         border-bottom: 1px solid;
+        padding-bottom: 5px;
+    }
+
+    .data-area {
+        @include gradient-background();
 
         input[type="number"],
         input[type="text"]{
             text-align:center;
             width: 100%;
         }
-
     }
 
     .data-header {
-        @include gradient-border();
-        gap: 5px;
-        border-bottom: 1px solid;
-
         span {
             @include standard-font($font-size-small);
             color: #666;
@@ -886,6 +886,10 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
 
         h3 {
             white-space: nowrap;
+        }
+
+        h3:last-child {
+            text-align: center;
         }
     }
 
@@ -905,6 +909,11 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
             display: block;
             width: 100%;
             text-align: center;
+        }
+
+        > * {
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
         
     }
@@ -941,19 +950,9 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
     }
 
     .data-section-attribute,
-    .data-section-abgeleitetewerte,
-    .data-section-erfahrungspunkte  {
-        display: flex;
-        flex-direction: column;
-    
-
-        margin-top: 10px;
-        margin-bottom: 10px;
-
+    .data-section-abgeleitetewerte  {
         .data-area,
         .data-header {
-            display: grid;
-            align-items: baseline;
             grid-template-columns: 6em 2em 2.5em 2.5em 2.5em;
         }
 
@@ -978,10 +977,6 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
 
             input[name$="start"] {
                 color: #666;
-            }
-
-            input {
-                @include standard-font($font-size-normal);
             }
         }
     }
@@ -1009,48 +1004,39 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
     }
 
     
-
+    
     .data-section-erfahrungspunkte {
-        .data-header {
-            grid-template-columns: 1fr;
-            h3 {
-                text-align: center;
-            }
-        }
-
+        flex-shrink: 10;
         .data-area {
-            justify-content: start;
-            grid-template-columns: 1fr 1fr;
-            gap: 0px;
+            grid-template-columns: 1fr 3em;
 
             label {
                 text-align: right;
             }
 
-            input, span {
-                width: 3em;
+            span, input {
                 text-align: center;
-            }
-
-            input {
-                @include standard-font($font-size-large);
             }
         }
     }
 
-    .data-section-ressourcen {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        min-width: 15em;
-        box-sizing: border-box;
-        .data-header {
-            h3 {
+    .data-section-geld {
+        .data-area {
+            grid-template-columns: 1fr 3em 1fr 3em 1fr 3em;
+
+            label {
+                text-align: right;
+            }
+
+            span, input {
                 text-align: center;
             }
         }
+    }
+    
 
+    .data-section-ressourcen {
         .data-area {
-            margin-bottom: 5px;
             div > div {
                 display: grid;
                 grid-template-columns: 12em 2.5em;
@@ -1060,6 +1046,10 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
                     text-align: center;
                 }
             }
+
+            div > div:last-child {
+                padding-bottom: 0px;
+            }
         }
     }
     .data-section-staerken {
@@ -1067,7 +1057,6 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
     }
     .data-section-schwaechen {
         @extend .data-section-ressourcen;
-        min-width: 12em;
         .data-area {
             div > div {
                 grid-template-columns: 12em;
@@ -1084,23 +1073,20 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
     }
 
     .data-section-attributmods {
-        @extend .data-section-staerken;
-        min-width: 35em;
-        max-width: 45em;
+        //min-width: 35em;
+        //max-width: 45em;
 
         .data-header {
-            display: grid;
-            align-items: baseline;
             grid-template-columns: 1.5em 1fr 15em 2.5em;
 
             h3 {
-                text-align: left;
                 grid-column-start: 1;
                 grid-column-end: 3;
             }
         }
         .data-area {
             div > div {
+                display: grid;
                 gap: 5px;
                 grid-template-columns: 1.5em 1fr 15em 2.5em;
                 align-items: baseline;
@@ -1126,23 +1112,12 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         flex-direction: column;
 
         .data-header,
-        .data-area .data-entry {
-            position: relative;
-            display: grid;
-            align-items: baseline;
-            gap: 5px;
+        .data-area {
             grid-template-columns: 9em 2.5em 2.5em 2.5em;
         }
-
         
-
         .data-area {
-            display: grid;
-            align-items: center;
-            gap: 0px;
-            grid-template-columns: 1fr;
-            border-bottom: none;
-
+            
             label {
                 text-align: right;
                 .secondary{
@@ -1208,8 +1183,10 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
     }
 
     input[name="attr_editmode"][value=""] ~ * .data-section-fertigkeiten {
-        .data-header,
-        .data-area .data-entry {
+        .data-header {
+            grid-template-columns:  1fr;
+        }
+        .data-area {
             grid-template-columns:  9em 2.5em;
         }
     }
@@ -1228,14 +1205,6 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
     .data-section-lebenspunkte {
         display: flex;
         flex-direction: column;
-
-        .data-header {
-            padding-top: 5px;
-            align-items: baseline;
-            h3 {
-                text-align:center;
-            }
-        }
 
         .data-area.lebenspunkte  {
             display: flex;
@@ -1347,13 +1316,6 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
 
     
     .data-section-zustaende {
-        max-width: 20em;
-        min-width: 16em;
-        .data-header {
-            h3 {
-                text-align: center;
-            }
-        }
         .data-area {
             padding-top: 5px;
             
@@ -1378,13 +1340,13 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
 
         width: 12em;
 
-        .data-header {
-            h3 {
-                text-align:center;
-            }
-        }
-
         .data-area.fokus  {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            padding-top: 5px;
+            padding-bottom: 5px;
+
             font-family: "Pictos";
             word-break: break-word;
 
@@ -1411,92 +1373,114 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         display: flex;
         flex-direction: column;
         align-self: stretch;
+
         margin-left: 5%;
         margin-right: 5%;
 
-        .data-header {
-            h3 {
-                width: 100%;
+        .data-header, .data-area {
+            grid-template-columns: 14em 2.5em 2.5em 4em 2.5em 2.5em 1fr ;
+        }
+
+        .data-area {
+            input[name="attr_waffenname"] {
+                text-align: left;
+                //font-weight: bold;
+                color: $main-color;
+            }
+
+            select[name="attr_waffenskill"],
+            select[name^="attr_waffenattr"] {
+                font-size: $font-size-small;
+                width: auto;
+            }
+
+            span[name="attr_waffenwert"] {
+                @include standard-font($font-size-large);
                 text-align: center;
             }
-        }
 
-        .eintrag {
-            position: relative;
-            box-sizing: border-box;
-            margin-top: 10px;
+            input[name="attr_waffenmod"]:before {
+                content: "+";
+            }
 
-            .data-header,
-            .data-area {
+            input[name="attr_waffennotizen"] {
+                font-size: $font-size-small;
+                font-style: italic;
+                grid-column: 3 / 8;
+                text-align:left;
+            }
+
+            label {
+                display: inline;
+                padding-left: 10px;
+            }
+
+            > div {
+                box-sizing: border-box;
+                grid-column: 1 / 8;
                 display: grid;
-                align-items: end;
-                justify-items: center;
-                grid-template-columns: minmax(12em, auto) 2.5em 2.5em 4em 2.5em 12em;
+                grid-template-columns: 1fr 2fr ;
+                width: 100%;
 
-                input[name="attr_waffenname"] {
-                    @include standard-font($font-size-large);
-                    padding-bottom: 0px;
-                    margin-bottom: -1px;
-                }
+                padding: 5px;
+                border-radius: 6px;
+                box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+                
             }
-
-            .data-area {
-                align-items: baseline;
-
-                select[name="attr_waffenskill"],
-                select[name^="attr_waffenattr"] {
-                    @include standard-font($font-size-small);
-                    width: auto;
-                }
-
-                span[name="attr_waffenwert"] {
-                    @include standard-font($font-size-large);
-                    text-align: center;
-                }
-
-                input[name="attr_waffenmod"]:before {
-                    content: "+";
-                }
-
-                input[name="attr_waffennotizen"] {
-                    text-align: left;
-                }
-
-                label {
-                    display: inline;
-                    padding-left: 10px;
-                }
-
-                div {
-                    white-space: nowrap;
-                    width: 100%;
-                    
-                }
-            }
-
         }
+    }
+
+    .show-more  {
+        position: relative;
+        display: inline-block;
+        input {
+            display: none;
+        }
+
+        input:checked ~ span {
+            transform: rotate(90deg);
+        }
+        
+        span {
+            display: inline-block;
+            font-family: "Pictos";
+            color: black;
+            font-size: $font-size-small;
+
+            -webkit-transition: transform 0.3s ease;
+            -moz-transition: transform 0.3s ease;
+            -o-transition: transform 0.3s ease;
+            -ms-transition: transform 0.3s ease;
+            transition: transform 0.3s ease;
+        }
+
         
     }
 
     .data-section-zauber {
         @extend .data-section-waffen;
-        .eintrag {
 
             .data-header,
             .data-area {
-                grid-template-columns: minmax(10em, auto) 2.5em 2.5em 2.5em 4em 6em 2.5em 2.5em 2.5em;
-
-                input[name="attr_zaubername"] {
-                    @include standard-font($font-size-large);
-                    padding-bottom: 0px;
-                    margin-bottom: -1px;
+                grid-template-columns: 1.5em minmax(10em, auto) 2.5em 2.5em 2.5em 4em 6em 2.5em 2.5em 2.5em;
+                h3 {
+                    grid-column: 1 / 3;
                 }
+                
             }
 
             .data-area {
-                align-items: baseline;
+                input[name="attr_zaubername"] {
+                    text-align: left;
+                    //font-weight: bold;
+                    color: $main-color;
+                }
 
                 select[name="attr_magieschulen"]{
+                    position: relative;
+                    top: -2px;
+                    padding: 2px;
+                    margin: 0px;
                     @include standard-font($font-size-small);
                     width: auto;
                 }
@@ -1506,11 +1490,18 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
                     text-align: center;
                 }
 
-                input[name="attr_zauberwirkung"] {
+                textarea[name="attr_zauberwirkung"] {
+                    display: block;
+                    //box-sizing: border-box;
                     text-align: left;
+                    grid-column: 2 / 11;
+                    height: auto;
+                }
+
+                input[name="attr_zaubershowmore"][value=""] ~ textarea[name="attr_zauberwirkung"] {
+                        display: none;
                 }
             }
-        }
     }
 
     .data-section-ruestungen,
@@ -1549,7 +1540,6 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
                 font-size: 1em;
             }
             input[name$="name"] {
-                @include standard-font($font-size-large);
                 text-align:left;
             }
             span {
@@ -1607,7 +1597,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         flex-direction: column;
         align-items: center;
         > div {
-            margin-top:20px;
+            margin-top:10px;
         }
         
     }
@@ -1629,21 +1619,20 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
 
         .data-header,
         .data-area {
-            display: grid;
-            align-items: end;
-            justify-items: center;
             grid-template-columns: 2em 2.5em minmax(10em, auto) 2.5em 2.5em 8em minmax(10em, auto);
         }
 
         .data-area {
-            align-items: baseline;
-
             input[type="text"] {
                 text-align: left;
             }
 
             select[name="attr_zustand"]{
                 width: auto;
+            }
+
+            label {
+                text-align: right;
             }
         }
     }

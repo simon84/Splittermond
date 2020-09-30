@@ -24,7 +24,7 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
         var eventInfo = {};
         eventInfo.newValue = value;
         eventInfo.previousValue = roll20API.charData[key];
-        eventInfo.sourceAttribute = key.toLowerCase;
+        eventInfo.sourceAttribute = key.toLowerCase();
 
         if (value == eventInfo.previousValue) {
             cb();

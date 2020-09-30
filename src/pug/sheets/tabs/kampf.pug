@@ -72,19 +72,18 @@
 .data-section-waffen
     .data-header
         h3 Waffen
+        span Wert
+        span Mod
+        span Schaden
+        span WGS
+        span RW
+        span(style="text-align:left") Merkmale
     fieldset.repeating_waffen
-        .eintrag
+        .data-area
             button(type="action", name="act_rollweapon" class="play-only")
-            .data-header
-                +textinput("waffenname","", false, {placeholder: "Waffenname"})
-                span Wert
-                span Mod
-                span Schaden
-                span WGS
-                span RW
-                span Merkmale
-            .data-area
-                div.small
+            span
+                +textinput("waffenname","", false, {placeholder: "Waffenname"})    
+                span(style="white-space: nowrap")
                     select(name="attr_waffenskill") 
                         each fertigkeit, id in splittermond.kampffertigkeiten
                             option(value=id)= fertigkeit.Name
@@ -96,49 +95,51 @@
                     select(name="attr_waffenattr2") 
                         each attribut, id in splittermond.attribute
                             option(value=id)= attribut.short
-                span.main-value(name="attr_waffenwert")
-                +numberinput("waffenmoduser",0)
-                +textinput("waffenschaden","W6")
-                +numberinput("waffenwgs",3)
-                +numberinput("waffenreichweite",0)
+            span.main-value(name="attr_waffenwert")
+            +numberinput("waffenmoduser",0)
+            +textinput("waffenschaden","W6")
+            +numberinput("waffenwgs",3)
+            +numberinput("waffenreichweite",0)
+            span
                 +textinput("waffenmerkmale","", true, {placeholder: "-", class: "small"})
-                div
-                    label Notizen:
-                    +textinput("waffennotizen","", true, {placeholder: "-"})
+                +textinput("waffennotizen","", false, {placeholder: "Notizen"})
+            
+                
         
 
 .data-section-zauber
     .data-header
         h3 Zauber
+        span Wert
+        span Mod
+        span SG
+        span Schaden
+        span Kosten (verstärkt)
+        span ZD
+        span RW
+        span WD
     fieldset.repeating_zauber
-        .eintrag
+        .data-area
             button(type="action", name="act_rollweapon" class="play-only")
-            .data-header
+            label.show-more(style="z-index:1999")
+                +input("zaubershowmore","checkbox","on")
+                span 4
+            span
                 +textinput("zaubername","", false, {placeholder: "Zaubername"})
-                span Wert
-                span Mod
-                span SG
-                span Schaden
-                span Kosten (verstärkt)
-                span ZD
-                span RW
-                span WD
-            .data-area
-                div
-                    select(name="attr_magieschulen") 
-                        each fertigkeit, id in splittermond.magieschulen
-                            option(value=id)= fertigkeit.Name
-                span.main-value(name="attr_zauberwert")
-                +numberinput("zaubermoduser",0)
-                +textinput("zauberschwierigkeit","", false, {placeholder: "SG"})
-                +textinput("zauberschaden","", true, {placeholder: "-"})
-                +textinput("zauberkosten", "", true, {placeholder: "-"})
-                +textinput("zauberdauer","", true, {placeholder: "ZD"})
-                +textinput("zauberrw","", true, {placeholder: "RW"})
-                +textinput("zauberwd","", true, {placeholder: "WD"})
-                div
-                    label Wirkung:
-                    +textinput("zauberwirkung","", true, {placeholder: "-"})
+                select(name="attr_magieschulen") 
+                    each fertigkeit, id in splittermond.magieschulen
+                        option(value=id)= fertigkeit.Name
+            span.main-value(name="attr_zauberwert")
+            +numberinput("zaubermoduser",0)
+            +textinput("zauberschwierigkeit","", false, {placeholder: "SG"})
+            +textinput("zauberschaden","", true, {placeholder: "Schaden"})
+            +textinput("zauberkosten", "", true, {placeholder: "Kosten"})
+            +textinput("zauberdauer","", true, {placeholder: "ZD"})
+            +textinput("zauberrw","", true, {placeholder: "RW"})
+            +textinput("zauberwd","", true, {placeholder: "WD"})
+            
+            +hiddeninput("zaubershowmore")
+            textarea(name="attr_zauberwirkung" placeholder="Zauberwirkung" class="small" rows=4)
 
 .data-section-ruestungen
     +hiddeninput("ruestungmod", "")

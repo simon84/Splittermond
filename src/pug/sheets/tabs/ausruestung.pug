@@ -1,4 +1,4 @@
-.data-section-erfahrungspunkte
+.data-section-geld
     .data-header
         h3 Geld
     .data-area
@@ -21,7 +21,7 @@
         span Info
     fieldset.repeating_ausruestung
         .data-area
-            +input("getragen","checkbox",1)
+            +input("getragen","checkbox",1, false, {checked: true})
             +numberinput("anzahl",1)
             +textinput("name","", false, {placeholder: "Name des Gegenstands"})
             +numberinput("last", 0)
@@ -31,6 +31,11 @@
                 option(value="bewusstlos") Angeschlagen (-3)
                 option(value="erschoepft") Demoliert
             +textinput("info","", false, {placeholder: "Infos zur Ausrüstung"})
+    .data-area
+        span
+        span
+        label Gesamtlast
+        span(name="attr_gesamtlast_koerper")
 
 - 
     var behaelterlist = ["behaelter1","behaelter2","behaelter3","behaelter4","behaelter5"]

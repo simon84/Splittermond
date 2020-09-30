@@ -1240,9 +1240,11 @@ on("change:repeating_ausruestung:last change:repeating_ausruestung:getragen chan
         let last = 0;
         let getragen = true;
         let anzahl = 0;
+        
         if (idarray.length > 0) {
             _.each(idarray, function (currentID, i) {
                 getAttrs([`repeating_${row}_` + currentID + `_last`, `repeating_${row}_` + currentID + `_getragen`, `repeating_${row}_` + currentID + `_anzahl`], function (v) {
+                    console.log(v);
                     last = v[`repeating_${row}_` + currentID + `_last`];
                     getragen = v[`repeating_${row}_` + currentID + `_getragen`];
                     anzahl = v[`repeating_${row}_` + currentID + `_anzahl`];
