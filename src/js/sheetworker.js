@@ -1299,11 +1299,26 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
 });
 
 on("change:repeating_waffen sheet:opened", function () {
+    getSectionIDs("repeating_aawaffen", function (idarray) {
+        idarray.forEach(function (v) {
+            removeRepeatingRow("repeating_aawaffen_" + v);
+            console.log("Entferne: repeating_aawaffen_" + v);
+        });
+    });
     getSectionIDs("repeating_waffen", function (idarray) {
         var fields = idarray.map(v => `repeating_waffen_${v}_waffenname`);
         fields = fields.concat(idarray.map(v => `repeating_waffen_${v}_waffenwert`));
-        getAttrs(fields, function (v) {
-
+        getAttrs(fields, function (vw) {
+            var update = {};
+            idarray.forEach(function (id) {
+                var newrowid = generateRowID();
+                console.log(newrowid);
+                console.log(id);
+                update[`repeating_aawaffen_${newrowid}_aawaffe`] = vw[`repeating_waffen_${id}_waffenname`];
+                update[`repeating_aawaffen_${newrowid}_aawert`] = vw[`repeating_waffen_${id}_waffenwert`];
+            });
+            console.log(update);
+            setAttrs(update);
         });
     });
 });

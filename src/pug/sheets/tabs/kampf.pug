@@ -78,20 +78,22 @@
         .data-area
             label Bonus
             +numberinput("regbonus", 0)
-            button(name="act_removeschaden", type="action") Ruhephase
-            button(name="act_addschaden", type="action") Verschnaufpause
+            button(name="act_ruhephase", type="action") Ruhephase
+            button(name="act_verschnaufpause", type="action") Verschnaufpause
 
     .data-section-aktiveabwehr
         .data-header
             h3 Aktive Abwehr
         .data-area
             button(type="roll")
-            span Akrobatik
+            label
+                span Akrobatik
             span(name="attr_akrobatik")
         fieldset.repeating_aawaffen
             .data-area
                 button(type="roll")
-                span(name="attr_aawaffe")
+                label
+                    span(name="attr_aawaffe")
                 span(name="attr_aawert")
             
 .data-section-waffen

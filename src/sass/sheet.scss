@@ -45,6 +45,14 @@ $font-size-small: 1.2rem;
     z-index: 2000;
 }
 
+.repcontrol[data-groupname="repeating_aawaffen"] {
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    display: none;
+    left: -10000;
+}
+
 
 .repcontrol button.btn {
     background-color: transparent;
@@ -127,6 +135,10 @@ button[type="action"] {
     -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
 
+    &:before {
+        content: "";
+    }
+
     &:hover, &:focus {
 
         border:none;
@@ -142,7 +154,7 @@ button[type="action"] {
     }
 }
 
-button.play-only[type="roll"] {
+.splittermond button.play-only[type="roll"] {
     position: absolute;
     z-index: 1001;
     width: 100%;
@@ -158,6 +170,10 @@ button.play-only[type="roll"] {
     -o-transition: all 0.3s ease;
     -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
+
+    &:before {
+        content: "";
+    }
 
     &:hover, &:focus {
 
@@ -1336,9 +1352,20 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
     }
 
     .data-section-aktiveabwehr {
+        
         .data-area {
             padding-top: 5px;
             grid-template-columns:  1fr 2.5em;
+
+            label {
+                text-align: right;
+            }
+
+            span {
+                display: block;
+                box-sizing: border-box;
+                padding: 0.2em;
+            }
 
             button[type="roll"] {
                 position: absolute;
