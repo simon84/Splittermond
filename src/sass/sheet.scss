@@ -275,13 +275,14 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         margin-top: -10px;
 
         color: black;
-        background-color: rgb(203, 218, 224);
+        
         border: 60px solid transparent;
         border-width: 40px 60px 60px 20px;
         border-image:$background-paper 40 60 60 20 fill stretch;
         box-sizing: border-box;
 
         .watermark {
+            background-color: rgb(203, 218, 224);
             background: $image-splittermond;
             background-repeat: no-repeat;
             background-size: contain;
