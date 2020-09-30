@@ -8,7 +8,7 @@
         
         each fertigkeit, id in splittermond.fertigkeiten
             .data-area
-                button(type="roll", class="play-only")
+                button(type="roll", class="play-only", value="@{probensichtbarkeit} &{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{"+id+"} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}}")
                 label= fertigkeit.Name
                 span.tooltip(style="z-index:1500")
                     span.main-value(name="attr_"+id)
@@ -33,7 +33,7 @@
             
             each magieschule, id in splittermond.magieschulen
                 .data-area
-                    button(type="roll", class="play-only")
+                    button(type="roll", class="play-only", value="@{probensichtbarkeit} &{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{"+id+"} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}}")
                     label= magieschule.Name
                     span.tooltip(style="z-index:1500")
                         span.main-value(name="attr_"+id)

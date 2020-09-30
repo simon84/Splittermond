@@ -49,7 +49,13 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
                     el.text(value);
                 } else {
                     if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
-                        el.prop("checked", el.val() == value);
+                        if (el.attr("type") == "checkbox") {
+                            el.prop("checked", el.val() == value);
+                        } else {
+                            if (el.val() == value) {
+                                el.prop("checked", true);
+                            }
+                        }
                     } else {
                         el.val(value);
                     }
@@ -103,7 +109,14 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
                         el.text(value);
                     } else {
                         if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
-                            el.prop("checked", el.val() == value);
+                            if (el.attr("type") == "checkbox") {
+                                el.prop("checked", el.val() == value);
+                            } else {
+                                if (el.val() == value) {
+                                    el.prop("checked", true);
+                                }
+                            }
+
                         } else {
                             el.val(value);
                         }
@@ -315,11 +328,14 @@ $(document).ready(function () {
 
     $('input[name^="attr_"], select[name^="attr_"], textarea[name^="attr_"]').change(function () {
         var data = {};
-        if ($(this).attr("type") == "checkbox") {
+        if ($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio") {
             if ($(this).prop("checked")) {
                 data[this.name.substr(5)] = this.value;
             } else {
-                data[this.name.substr(5)] = "";
+                if ($(this).attr("type") == "checkbox") {
+                    data[this.name.substr(5)] = "";
+                }
+
             }
 
         } else {

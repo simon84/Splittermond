@@ -33,14 +33,22 @@
             <button class="sheet-incdec" type="action" name="act_decschwierigkeit">_</button>
             <input name="attr_probenschwierigkeit" type="number" value="15"/>
             <button class="sheet-incdec" type="action" name="act_incschwierigkeit">&</button></span></span><span>
-          <label>Wurfoption</label>
-          <input name="attr_probenwurfoption" type="hidden" value="standard"/><span class="sheet-switch-field">
-            <button type="action" name="act_probenwurfoption_sicherheit">Sicherheit</button>
-            <button type="action" name="act_probenwurfoption_standard">Standard</button>
-            <button type="action" name="act_probenwurfoption_risiko">Risiko</button></span></span><span>
+          <label>Wurfoption</label><span class="sheet-switch-field">
+            <label>
+              <input name="attr_probenwurfoption" type="radio" value="sicherheit"/><span>Sicherheit</span>
+            </label>
+            <label>
+              <input name="attr_probenwurfoption" type="radio" value="standard"/><span>Standard</span>
+            </label>
+            <label> 
+              <input name="attr_probenwurfoption" type="radio" value="risiko"/><span>Risiko</span>
+            </label>
+            <!--button(type="action", name="act_probenwurfoption_sicherheit") Sicherheit-->
+            <!--button(type="action", name="act_probenwurfoption_standard") Standard-->
+            <!--button(type="action", name="act_probenwurfoption_risiko") Risiko--></span></span><span>
           <label>Sichtbarkeit</label>
           <label class="sheet-switch">
-            <input type="checkbox" name="attr_probensichtbarkeit"/><span class="sheet-slider"></span><span class="sheet-active">GM</span><span class="sheet-inactive">Alle</span>
+            <input type="checkbox" name="attr_probensichtbarkeit" value="/w GM"/><span class="sheet-slider"></span><span class="sheet-active">GM</span><span class="sheet-inactive">Alle</span>
           </label></span></div>
     </div>
     <div class="sheet-roll-options-shadow sheet-play-only"></div>
@@ -1299,7 +1307,7 @@
         });
     });
 });
-
+/*
 ["sicherheit", "standard", "risiko"].forEach(button => {
     on(`clicked:probenwurfoption_${button}`, function () {
         setAttrs({
@@ -1307,6 +1315,7 @@
         });
     });
 });
+*/
 
 on("clicked:incschwierigkeit", function () {
     getAttrs(["probenschwierigkeit"], v => {

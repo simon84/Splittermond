@@ -107,6 +107,7 @@
         span(style="text-align:left") Merkmale
     fieldset.repeating_waffen
         .data-area
+            button(type="roll", class="play-only", value="@{probensichtbarkeit} &{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{waffenwert} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}}")
             button(type="action", name="act_rollweapon" class="play-only")
             span
                 +textinput("waffenname","", false, {placeholder: "Waffenname"})    
@@ -147,7 +148,7 @@
         span WD
     fieldset.repeating_zauber
         .data-area
-            button(type="action", name="act_rollweapon" class="play-only")
+            button(type="roll", class="play-only", value="@{probensichtbarkeit} &{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{zauberwert} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}}")
             label.show-more(style="z-index:1999")
                 +input("zaubershowmore","checkbox","on")
                 span 4

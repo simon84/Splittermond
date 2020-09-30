@@ -320,33 +320,45 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
 
         position: relative;
 
-        
-        button {
-            position: relative;
-            border-radius: 0;
-            display: inline;
-            box-sizing: border-box;
-            padding: 0;
-            padding-left: 0.5em;
-            padding-right: 0.5em;
-            color: white;
-            margin: 0;
+        label {
             font-weight: normal;
-            
-            height: 1.5em;
-            box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.5), inset 0px 1px 1px rgba(255, 255, 255, 0.3);
+            input {
+                display: none;
+            }
+            span {
+                position: relative;
+                border-radius: 0;
+                display: inline-block;
+                box-sizing: border-box;
+                padding: 0;
+                padding-left: 0.5em;
+                padding-right: 0.5em;
+                color: white;
+                margin: 0;
+                font-weight: normal;
+                
+                height: 1.5em;
+                box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.5), inset 0px 1px 1px rgba(255, 255, 255, 0.3);
 
-            &:first-child {
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+
+            }
+
+            &:first-child span {
                 border-top-left-radius: 0.75em;
                 border-bottom-left-radius: 0.75em;
             }
 
-            &:last-child {
+            &:last-child span {
                 border-top-right-radius: 0.75em;
                 border-bottom-right-radius: 0.75em;
             }
 
-            &:active {
+            input[type="radio"]:checked ~ span {
                 color: black;
                 background-color: $main-color-light;
                 box-shadow: inset 0px 4px 8px black;

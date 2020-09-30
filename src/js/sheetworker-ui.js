@@ -6,14 +6,6 @@
     });
 });
 
-["sicherheit", "standard", "risiko"].forEach(button => {
-    on(`clicked:probenwurfoption_${button}`, function () {
-        setAttrs({
-            probenwurfoption: button
-        });
-    });
-});
-
 on("clicked:incschwierigkeit", function () {
     getAttrs(["probenschwierigkeit"], v => {
         setAttrs({

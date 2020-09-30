@@ -41,15 +41,20 @@ mixin tab-nav-item(tabId)
                 button.incdec(type="action", name="act_incschwierigkeit") &
         span
             label Wurfoption
-            +hiddeninput("probenwurfoption", "standard")
             span.switch-field
-                button(type="action", name="act_probenwurfoption_sicherheit") Sicherheit
-                button(type="action", name="act_probenwurfoption_standard") Standard
-                button(type="action", name="act_probenwurfoption_risiko") Risiko
+                label
+                    +radioinput("probenwurfoption", "[[{[[1d10]], [[0]], [[0]], [[0]]}k1]]")
+                    span Sicherheit
+                label
+                    +radioinput("probenwurfoption", "[[{[[1d10]], [[1d10]], [[0]], [[0]]}k2]]")
+                    span Standard
+                label 
+                    +radioinput("probenwurfoption", "[[{[[[[1d10]], [[1d10]], [[1d10]], [[1d10]]]}k2]]")
+                    span Risiko
         span
             label Sichtbarkeit
             label.switch
-                input(type="checkbox", name="attr_probensichtbarkeit")
+                input(type="checkbox", name="attr_probensichtbarkeit", value="/w GM")
                 span.slider
                 span.active GM
                 span.inactive Alle
