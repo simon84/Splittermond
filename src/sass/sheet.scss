@@ -209,8 +209,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
 
 .splittermond {
     position: relative;
-    //display: flex;
-    //flex-direction: column;
+    background-color: $wood-color;
     background: $background-wood, linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
     background-blend-mode: overlay, normal;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5);
@@ -276,6 +275,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         margin-top: -10px;
 
         color: black;
+        background-color: rgb(203, 218, 224);
         border: 60px solid transparent;
         border-width: 40px 60px 60px 20px;
         border-image:$background-paper 40 60 60 20 fill stretch;
@@ -413,6 +413,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
             height: 1.2em;
             border-radius: 0.7em;
             margin: 0.15em;
+            background-color: $wood-color;
             background: $background-wood, $wood-color;
             background-blend-mode: overlay, normal;
             box-shadow: 0px 4px 8px black, inset 0px 1px 1px rgba(255, 255, 255, 0.3);
@@ -422,7 +423,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
             -o-transition: all 0.3s ease;
             -ms-transition: all 0.3s ease;
             transition: all 0.3s ease;
-            z-index: 100;
+            z-index: 1999;
         }
 
         input[type="checkbox"]:checked ~ .slider:before {
@@ -657,6 +658,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         z-index: 2000;
         height: 5rem;
         box-sizing: border-box;
+        background-color: $wood-color;
         background: $background-wood, linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
         background-blend-mode: overlay, normal;
         box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5);
@@ -734,7 +736,8 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
     .roll-options {
         flex-direction: column;
         position: sticky;
-        background: url(images/seamless_wood.jpg), linear-gradient(90deg, #2B1619ff 0%, rgba(43, 22, 25, 0.8) 50%, #2B1619ff 100%);
+        background-color: $wood-color;
+        background: $background-wood, linear-gradient(90deg, #2B1619ff 0%, rgba(43, 22, 25, 0.8) 50%, #2B1619ff 100%);
         background-blend-mode: overlay, normal;
         background-position: 0 -5rem;
         top: 5rem;

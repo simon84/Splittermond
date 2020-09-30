@@ -18,6 +18,8 @@ mixin radioinput(name, value="", attribute={})
 mixin hiddeninput(name, value="", attribute={})
     +input(name, "hidden", value, false, attribute)
 
+mixin rollbutton(titel, fertigkeitswert)
+    button(type="roll", class="play-only", value="@{probensichtbarkeit} &{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + "+fertigkeitswert+" + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel="+titel+"}}")
 
 .splittermond
     +hiddeninput("pc",1)
