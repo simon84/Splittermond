@@ -142,7 +142,7 @@ button[type="action"] {
     }
 }
 
-button.play-only[type="action"] {
+button.play-only[type="roll"] {
     position: absolute;
     z-index: 1001;
     width: 100%;
@@ -864,12 +864,12 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         grid-template-columns: 1fr;
         gap: 5px;
         border-bottom: 1px solid;
-        padding-bottom: 5px;
+        
     }
 
     .data-area {
         @include gradient-background();
-
+        padding-bottom: 5px;
         input[type="number"],
         input[type="text"]{
             text-align:center;
@@ -1314,6 +1314,72 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         }
     }
 
+    .data-section-schaden {
+        .data-area {
+            padding-top: 5px;
+            grid-template-columns:  auto 2.5em auto auto;
+        }
+    }
+
+    .data-section-regeneration {
+        .data-area {
+            padding-top: 5px;
+            grid-template-columns:  1fr 1fr;
+
+            label {
+                text-align: right;
+            }
+            input {
+                width: 2.5em;
+            }
+        }
+    }
+
+    .data-section-aktiveabwehr {
+        .data-area {
+            padding-top: 5px;
+            grid-template-columns:  1fr 2.5em;
+
+            button[type="roll"] {
+                position: absolute;
+                z-index: 1001;
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+                border: none;
+                box-sizing: content-box;
+                padding: 0;
+                border-radius: 6px;
+                &:before {
+                    content: "";
+                }
+
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+
+                &:hover, &:focus {
+
+                    border:none;
+                    outline: none;
+                    box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
+                }
+
+                &:active {
+
+                    border:none;
+                    outline: none;
+                    box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+                }
+            }
+            
+
+            
+        }
+    }
+
     
     .data-section-zustaende {
         .data-area {
@@ -1610,11 +1676,19 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         margin-right: 5%;
 
         h3 {
+            align-items: baseline;
+            display: grid;
+            grid-template-columns: 2em 1fr;
             width: 100%;
-            text-align: center;
+            text-align: left;
+            white-space: nowrap;
             input[type="text"] {
-                text-align: center;
+                text-align: left;
             }
+        }
+
+        input[name^="attr_behaelter"][value=""] ~ div {
+            display: none;
         }
 
         .data-header,
@@ -1634,7 +1708,15 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
             label {
                 text-align: right;
             }
+
+            span {
+                text-align: center;
+            }
         }
+    }
+
+    input[name="attr_editmode"][value=""] ~ * input[name^="attr_behaelter"][value=""] ~ .data-section-ausruestung {
+        display: none;
     }
 
 

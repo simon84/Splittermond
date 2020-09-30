@@ -33,17 +33,8 @@
             label Wundabzug
             span(name="attr_wundabzug")
             +hiddeninput("wundabzugmod",0)
+            | +
             +numberinput("wundabzugmoduser")
-        .data-area.schaden
-            label Schaden
-            .action
-                button(name="act_removeschaden", type="action") heilen
-                +numberinput("anzahlschaden")
-                select(name="attr_anzahlschadenart")
-                    option(value="v") verzehrt
-                    option(value="e") erschöpft
-                    option(value="k") kanalisiert
-                button(name="act_addschaden", type="action") zufügen
 
     .data-section-zustaende
         .data-header
@@ -68,7 +59,41 @@
             span.erschoepft(name="attr_fokus_e_bar")
             span.kanalisiert(name="attr_fokus_k_bar")
             span.lebenspunkte-t(name="attr_fokus_t_bar")
+    
+.data-section-row
+    .data-section-schaden
+        .data-header
+            h3 Schaden
+        .data-area
+            button(name="act_removeschaden", type="action") heilen
+            +numberinput("anzahlschaden")
+            select(name="attr_anzahlschadenart")
+                option(value="v") verzehrt
+                option(value="e") erschöpft
+                option(value="k") kanalisiert
+            button(name="act_addschaden", type="action") zufügen
+    .data-section-regeneration
+        .data-header
+            h3 Regeneration
+        .data-area
+            label Bonus
+            +numberinput("regbonus", 0)
+            button(name="act_removeschaden", type="action") Ruhephase
+            button(name="act_addschaden", type="action") Verschnaufpause
 
+    .data-section-aktiveabwehr
+        .data-header
+            h3 Aktive Abwehr
+        .data-area
+            button(type="roll")
+            span Akrobatik
+            span(name="attr_akrobatik")
+        fieldset.repeating_aawaffen
+            .data-area
+                button(type="roll")
+                span(name="attr_aawaffe")
+                span(name="attr_aawert")
+            
 .data-section-waffen
     .data-header
         h3 Waffen

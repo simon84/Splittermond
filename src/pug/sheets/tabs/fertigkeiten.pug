@@ -8,7 +8,7 @@
         
         each fertigkeit, id in splittermond.fertigkeiten
             .data-area
-                button(type="action", class="play-only", name="act_probe"+id)
+                button(type="roll", class="play-only")
                 label= fertigkeit.Name
                 span.tooltip(style="z-index:1500")
                     span.main-value(name="attr_"+id)
@@ -33,7 +33,7 @@
             
             each magieschule, id in splittermond.magieschulen
                 .data-area
-                    button(type="action", class="play-only", name="act_probe"+id)
+                    button(type="roll", class="play-only")
                     label= magieschule.Name
                     span.tooltip(style="z-index:1500")
                         span.main-value(name="attr_"+id)

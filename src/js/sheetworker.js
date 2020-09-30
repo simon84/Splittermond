@@ -1234,31 +1234,27 @@ on("change:repeating_ausruestung:last change:repeating_ausruestung:getragen chan
     let lastfelder = { "ausruestung": "gesamtlast_koerper", "behaelter1": "gesamtlast_behaelter1", "behaelter2": "gesamtlast_behaelter2", "behaelter3": "gesamtlast_behaelter3", "behaelter4": "gesamtlast_behaelter4", "behaelter5": "gesamtlast_behaelter5" };
     let lastfeld = lastfelder[row];
     getSectionIDs(`repeating_${row}`, function (idarray) {
-        let update = {};
-        let nichtsgetragen = true;
-        let sum = 0;
-        let last = 0;
-        let getragen = true;
-        let anzahl = 0;
-        
         if (idarray.length > 0) {
-            _.each(idarray, function (currentID, i) {
-                getAttrs([`repeating_${row}_` + currentID + `_last`, `repeating_${row}_` + currentID + `_getragen`, `repeating_${row}_` + currentID + `_anzahl`], function (v) {
-                    console.log(v);
-                    last = v[`repeating_${row}_` + currentID + `_last`];
-                    getragen = v[`repeating_${row}_` + currentID + `_getragen`];
-                    anzahl = v[`repeating_${row}_` + currentID + `_anzahl`];
-                    if (getragen == true) {
-                        nichtsgetragen = false;
-                        sum += +last * +anzahl;
-                        update[`${lastfeld}`] = +sum;
-                        setAttrs(update);
-                    }
-
-                });
+            var attrArr = [];
+            idarray.forEach(function (currentID) {
+                attrArr.push(`repeating_${row}_` + currentID + `_last`);
+                attrArr.push(`repeating_${row}_` + currentID + `_getragen`);
+                attrArr.push(`repeating_${row}_` + currentID + `_anzahl`);
             });
-        }
-        if (nichtsgetragen == true) {
+            getAttrs(attrArr, function (v) {
+                var sum = 0;
+                idarray.forEach(function (currentID) {
+                    var last = v[`repeating_${row}_` + currentID + `_last`];
+                    var getragen = v[`repeating_${row}_` + currentID + `_getragen`];
+                    var anzahl = v[`repeating_${row}_` + currentID + `_anzahl`];
+                    sum += int(last) * int(anzahl) * int(getragen);
+                });
+                var update = {};
+                update[`${lastfeld}`] = sum;
+                setAttrs(update);
+            });
+        } else {
+            var update = {}
             update[`${lastfeld}`] = 0;
             setAttrs(update);
         }
@@ -1299,6 +1295,16 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
                 setAttrs(update);
             });
         })
+    });
+});
+
+on("change:repeating_waffen sheet:opened", function () {
+    getSectionIDs("repeating_waffen", function (idarray) {
+        var fields = idarray.map(v => `repeating_waffen_${v}_waffenname`);
+        fields = fields.concat(idarray.map(v => `repeating_waffen_${v}_waffenwert`));
+        getAttrs(fields, function (v) {
+
+        });
     });
 });
 
