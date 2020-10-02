@@ -24,6 +24,42 @@ mixin tab-nav-item(tabId)
 
 .tab-nav-shadow
 
+.roll-options
+    h2 Probenoption
+    .data-section-row
+        span
+            label Modifikator
+            span
+                button.incdec(type="action", name="act_decmod") _
+                +numberinput("probenmodifikator",0)
+                button.incdec(type="action", name="act_incmod") &
+        span
+            label Schwierigkeit
+            span
+                button.incdec(type="action", name="act_decschwierigkeit") _
+                +numberinput("probenschwierigkeit",15)
+                button.incdec(type="action", name="act_incschwierigkeit") &
+        span
+            label Wurfoption
+            span.switch-field
+                label
+                    +radioinput("probenwurfoption", "[[{[[1d10]], [[0]], [[0]], [[0]]}k1]]")
+                    span Sicherheit
+                label
+                    +radioinput("probenwurfoption", "[[{[[1d10]], [[1d10]], [[0]], [[0]]}k2]]")
+                    span Standard
+                label 
+                    +radioinput("probenwurfoption", "[[{[[[[1d10]], [[1d10]], [[1d10]], [[1d10]]]}k2]]")
+                    span Risiko
+        span
+            label Sichtbarkeit
+            label.switch
+                input(type="checkbox", name="attr_probensichtbarkeit", value="/w GM")
+                span.slider
+                span.active GM
+                span.inactive Alle
+.roll-options-shadow.play-only
+
 .tab-group.paper
     .watermark
         .tab-content.einstellungen

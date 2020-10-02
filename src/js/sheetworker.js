@@ -421,7 +421,7 @@ on("change:repeating_waffen:waffenskill change:repeating_waffen:waffenattr1 chan
             }
         });
     });
-
+/*
 on("change:hiddenschildvtd change:hiddenruestungsvtd change:hiddenruestungssr change:hiddenschildbe change:hiddenruestungsbe change:hiddenschildtickplus change:hiddenruestungstickplus change:hiddensr change:hiddenbehinderungfruehstueck", function (g) {
     getAttrs(["hiddenschildvtd", "hiddenruestungsvtd", "hiddenruestungssr", "hiddenschildbe", "hiddenruestungsbe", "hiddenschildtickplus", "hiddenruestungstickplus", "hiddensr", "hiddenbehinderungfruehstueck", "hiddenschadensreduktionfruehstueck"], function (f) {
         setAttrs({
@@ -443,7 +443,7 @@ on("change:gesamtvtd change:gesamtsr change:gesamtbe", function (eventinfo) {
         });
     });
 });
-
+*/
 
 
 on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:lebenspunkte_v", function (e) {
@@ -1234,29 +1234,27 @@ on("change:repeating_ausruestung:last change:repeating_ausruestung:getragen chan
     let lastfelder = { "ausruestung": "gesamtlast_koerper", "behaelter1": "gesamtlast_behaelter1", "behaelter2": "gesamtlast_behaelter2", "behaelter3": "gesamtlast_behaelter3", "behaelter4": "gesamtlast_behaelter4", "behaelter5": "gesamtlast_behaelter5" };
     let lastfeld = lastfelder[row];
     getSectionIDs(`repeating_${row}`, function (idarray) {
-        let update = {};
-        let nichtsgetragen = true;
-        let sum = 0;
-        let last = 0;
-        let getragen = true;
-        let anzahl = 0;
         if (idarray.length > 0) {
-            _.each(idarray, function (currentID, i) {
-                getAttrs([`repeating_${row}_` + currentID + `_last`, `repeating_${row}_` + currentID + `_getragen`, `repeating_${row}_` + currentID + `_anzahl`], function (v) {
-                    last = v[`repeating_${row}_` + currentID + `_last`];
-                    getragen = v[`repeating_${row}_` + currentID + `_getragen`];
-                    anzahl = v[`repeating_${row}_` + currentID + `_anzahl`];
-                    if (getragen == true) {
-                        nichtsgetragen = false;
-                        sum += +last * +anzahl;
-                        update[`${lastfeld}`] = +sum;
-                        setAttrs(update);
-                    }
-
-                });
+            var attrArr = [];
+            idarray.forEach(function (currentID) {
+                attrArr.push(`repeating_${row}_` + currentID + `_last`);
+                attrArr.push(`repeating_${row}_` + currentID + `_getragen`);
+                attrArr.push(`repeating_${row}_` + currentID + `_anzahl`);
             });
-        }
-        if (nichtsgetragen == true) {
+            getAttrs(attrArr, function (v) {
+                var sum = 0;
+                idarray.forEach(function (currentID) {
+                    var last = v[`repeating_${row}_` + currentID + `_last`];
+                    var getragen = v[`repeating_${row}_` + currentID + `_getragen`];
+                    var anzahl = v[`repeating_${row}_` + currentID + `_anzahl`];
+                    sum += int(last) * int(anzahl) * int(getragen);
+                });
+                var update = {};
+                update[`${lastfeld}`] = sum;
+                setAttrs(update);
+            });
+        } else {
+            var update = {}
             update[`${lastfeld}`] = 0;
             setAttrs(update);
         }
@@ -1279,20 +1277,49 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
     allModifier.push("schild" + type);
     on(`change:repeating_ruestungen change:schild${type} change:ruestungs${type}mod change:schild${type}mod change:schildonoff`, function () {
         getSectionIDs("repeating_ruestungen", function (rid) {
-            var fields = [`ruestungs${type}mod`, `schild${type}mod`, `schild${type}`, "schildonoff"];
+            var fields = [`ruestungs${type}mod`, `ruestungs${type}modtooltip`, `schild${type}mod`, `schild${type}modtooltip`, `schild${type}`, "schildonoff"];
             fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungs${type}`));
             fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungonoff`));
             getAttrs(fields, function (v) {
                 var val = 0;
+                var tooltip = "";
                 rid.forEach(function (rowid) {
                     val = (v[`repeating_ruestungen_${rowid}_ruestungonoff`] == "1") ? int(val) + Math.max(int(v[`repeating_ruestungen_${rowid}_ruestungs${type}`]) + int(v[`ruestungs${type}mod`]), 0) : val;
+                    tooltip += (v[`repeating_ruestungen_${rowid}_ruestungonoff`] == "1") ? v[`ruestungs${type}modtooltip`] + "\n" : "";
                 });
                 val += ((v["schildonoff"] == "1") ? Math.max(int(v[`schild${type}`]) + int(v[`schild${type}mod`]), 0) : 0);
+                tooltip += (v["schildonoff"] == "1") ? v[`schild${type}modtooltip`] + "\n" : "";
                 var update = {};
                 update["ruestung" + type] = val;
+                update["ruestung" + type + "modtooltip"] = tooltip;
                 setAttrs(update);
             });
         })
+    });
+});
+
+on("change:repeating_waffen sheet:opened", function () {
+    getSectionIDs("repeating_aawaffen", function (idarray) {
+        idarray.forEach(function (v) {
+            removeRepeatingRow("repeating_aawaffen_" + v);
+            console.log("Entferne: repeating_aawaffen_" + v);
+        });
+    });
+    getSectionIDs("repeating_waffen", function (idarray) {
+        var fields = idarray.map(v => `repeating_waffen_${v}_waffenname`);
+        fields = fields.concat(idarray.map(v => `repeating_waffen_${v}_waffenwert`));
+        getAttrs(fields, function (vw) {
+            var update = {};
+            idarray.forEach(function (id) {
+                var newrowid = generateRowID();
+                console.log(newrowid);
+                console.log(id);
+                update[`repeating_aawaffen_${newrowid}_aawaffe`] = vw[`repeating_waffen_${id}_waffenname`];
+                update[`repeating_aawaffen_${newrowid}_aawert`] = vw[`repeating_waffen_${id}_waffenwert`];
+            });
+            console.log(update);
+            setAttrs(update);
+        });
     });
 });
 

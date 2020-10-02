@@ -32,7 +32,7 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
         var eventInfo = {};
         eventInfo.newValue = value;
         eventInfo.previousValue = roll20API.charData[key];
-        eventInfo.sourceAttribute = key.toLowerCase;
+        eventInfo.sourceAttribute = key.toLowerCase();
 
         if (value == eventInfo.previousValue) {
             cb();
@@ -57,7 +57,13 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
                     el.text(value);
                 } else {
                     if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
-                        el.prop("checked", el.val() == value);
+                        if (el.attr("type") == "checkbox") {
+                            el.prop("checked", el.val() == value);
+                        } else {
+                            if (el.val() == value) {
+                                el.prop("checked", true);
+                            }
+                        }
                     } else {
                         el.val(value);
                     }
@@ -111,7 +117,14 @@ async function setAttrs(obj, opt = "", cb = function () { }) {
                         el.text(value);
                     } else {
                         if (el.attr("type") == "checkbox" || el.attr("type") == "radio") {
-                            el.prop("checked", el.val() == value);
+                            if (el.attr("type") == "checkbox") {
+                                el.prop("checked", el.val() == value);
+                            } else {
+                                if (el.val() == value) {
+                                    el.prop("checked", true);
+                                }
+                            }
+
                         } else {
                             el.val(value);
                         }
@@ -323,11 +336,14 @@ $(document).ready(function () {
 
     $('input[name^="attr_"], select[name^="attr_"], textarea[name^="attr_"]').change(function () {
         var data = {};
-        if ($(this).attr("type") == "checkbox") {
+        if ($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio") {
             if ($(this).prop("checked")) {
                 data[this.name.substr(5)] = this.value;
             } else {
-                data[this.name.substr(5)] = "";
+                if ($(this).attr("type") == "checkbox") {
+                    data[this.name.substr(5)] = "";
+                }
+
             }
 
         } else {
@@ -481,17 +497,6 @@ $(document).ready(function () {
             <div class="charactersheet tab-pane charsheet lang-de" style="display: block">
 <div class="sheet-splittermond">
   <input name="attr_pc" type="hidden" value="1"/>
-  <div class="sheet-overlay">
-    <input name="attr_probe_fertigkeit" type="hidden" value=""/>
-    <div class="sheet-probe-fertigkeit">
-      <h2>PROBE</h2><span><span name="attr_probe_fertigkeitlabel"></span><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_probe_fertigkeitswert"></span><span class="sheet-tooltiptext"> <span class="sheet-pre" name="attr_probe_tooltip"></span></span></span></span><span>
-        <label>Modifikator</label>
-        <input name="attr_probe_modifikator" type="number" value="0"/></span><span>
-        <label>Schwierigkeit</label>
-        <input name="attr_probe_schwierigkeit" type="number" value="15"/></span><span>
-        <button type="action" name="act_probe_clear">X</button></span>
-    </div>
-  </div>
   <div class="sheet-pc">
     <input name="attr_editmode" type="hidden" value=""/>
     <input name="attr_tab" type="hidden" value="grundwerte"/>
@@ -513,6 +518,33 @@ $(document).ready(function () {
       </label>
     </div>
     <div class="sheet-tab-nav-shadow"></div>
+    <div class="sheet-roll-options">
+      <h2>Probenoption</h2>
+      <div class="sheet-data-section-row"><span>
+          <label>Modifikator</label><span>
+            <button class="sheet-incdec" type="action" name="act_decmod">_</button>
+            <input name="attr_probenmodifikator" type="number" value="0"/>
+            <button class="sheet-incdec" type="action" name="act_incmod">&</button></span></span><span>
+          <label>Schwierigkeit</label><span>
+            <button class="sheet-incdec" type="action" name="act_decschwierigkeit">_</button>
+            <input name="attr_probenschwierigkeit" type="number" value="15"/>
+            <button class="sheet-incdec" type="action" name="act_incschwierigkeit">&</button></span></span><span>
+          <label>Wurfoption</label><span class="sheet-switch-field">
+            <label>
+              <input name="attr_probenwurfoption" type="radio" value="[[{[[1d10]], [[0]], [[0]], [[0]]}k1]]"/><span>Sicherheit</span>
+            </label>
+            <label>
+              <input name="attr_probenwurfoption" type="radio" value="[[{[[1d10]], [[1d10]], [[0]], [[0]]}k2]]"/><span>Standard</span>
+            </label>
+            <label> 
+              <input name="attr_probenwurfoption" type="radio" value="[[{[[[[1d10]], [[1d10]], [[1d10]], [[1d10]]]}k2]]"/><span>Risiko</span>
+            </label></span></span><span>
+          <label>Sichtbarkeit</label>
+          <label class="sheet-switch">
+            <input type="checkbox" name="attr_probensichtbarkeit" value="/w GM"/><span class="sheet-slider"></span><span class="sheet-active">GM</span><span class="sheet-inactive">Alle</span>
+          </label></span></div>
+    </div>
+    <div class="sheet-roll-options-shadow sheet-play-only"></div>
     <div class="sheet-tab-group sheet-paper">
       <div class="sheet-watermark">
         <div class="sheet-tab-content sheet-einstellungen">
@@ -523,57 +555,57 @@ $(document).ready(function () {
           </div>
         </div>
         <div class="sheet-tab-content sheet-grundwerte">
-          <h1><span class="sheet-autoexpand">
-              <input name="attr_character_name" type="text" value="" placeholder="Charaktername"/><span class="sheet-autoexpand" name="attr_character_name" placeholder="Charaktername"></span></span>&middot;<span class="sheet-autoexpand">
+          <h1><span class="sheet-autoexpand" placeholder="Charaktername">
+              <input name="attr_character_name" type="text" value="" placeholder="Charaktername"/><span class="sheet-autoexpand" name="attr_character_name" placeholder="Charaktername"></span></span>&middot;<span class="sheet-autoexpand" placeholder="Spielername">
               <input name="attr_spielername" type="text" value="" placeholder="Spielername"/><span class="sheet-autoexpand" name="attr_spielername" placeholder="Spielername"></span></span>
           </h1>
           <div class="sheet-data-section-personal">
             <div class="sheet-data-set sheet-data-set-rasse">
-              <label>Rasse</label><span class="sheet-autoexpand">
+              <label>Rasse</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_rasse" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_rasse" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-kultur">
-              <label>Kultur</label><span class="sheet-autoexpand">
+              <label>Kultur</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_kultur" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_kultur" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-abstammung">
-              <label>Abstammung</label><span class="sheet-autoexpand">
+              <label>Abstammung</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_abstammung" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_abstammung" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-ausbildung">
-              <label>Ausbildung</label><span class="sheet-autoexpand">
+              <label>Ausbildung</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_ausbildung" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_ausbildung" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-geschlecht">
-              <label>Geschlecht</label><span class="sheet-autoexpand">
+              <label>Geschlecht</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_geschlecht" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_geschlecht" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-groesse">
-              <label>Größe</label><span class="sheet-autoexpand">
+              <label>Größe</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_groesse" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_groesse" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-gewicht">
-              <label>Gewicht</label><span class="sheet-autoexpand">
+              <label>Gewicht</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_gewicht" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_gewicht" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-haarfarbe">
-              <label>Haarfarbe</label><span class="sheet-autoexpand">
+              <label>Haarfarbe</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_haarfarbe" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_haarfarbe" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-augenfarbe">
-              <label>Augenfarbe</label><span class="sheet-autoexpand">
+              <label>Augenfarbe</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_augenfarbe" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_augenfarbe" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-hautfarbe">
-              <label>Hautfarbe</label><span class="sheet-autoexpand">
+              <label>Hautfarbe</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_hautfarbe" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_hautfarbe" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-geburtsort">
-              <label>Geburtsort</label><span class="sheet-autoexpand">
+              <label>Geburtsort</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_geburtsort" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_geburtsort" placeholder="-"></span></span>
             </div>
             <div class="sheet-data-set sheet-data-set-mondzeichen">
-              <label>Mondzeichen</label><span class="sheet-autoexpand">
+              <label>Mondzeichen</label><span class="sheet-autoexpand" placeholder="-">
                 <input name="attr_mondzeichen" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_mondzeichen" placeholder="-"></span></span>
             </div>
           </div>
@@ -669,13 +701,12 @@ $(document).ready(function () {
                 <h3>Erfahrungspunkte</h3>
               </div>
               <div class="sheet-data-area">
-                <label>Gesamt:</label>
+                <label>Gesamt</label>
                 <input name="attr_epgesamt" type="number" value="0"/>
-                <label>Eingesetzt:</label>
+                <label>Eingesetzt</label>
                 <input name="attr_epeingesetzt" type="number" value="0"/>
-                <label>Offen:</label>
-                <input name="attr_offen" type="number" value="0"/>
-                <label>Heldengrad:</label><span name="attr_heldengrad"></span>
+                <label>Offen</label><span name="attr_epoffen"></span>
+                <label>Heldengrad</label><span name="attr_heldengrad"></span>
               </div>
             </div>
           </div>
@@ -789,533 +820,474 @@ $(document).ready(function () {
           <div class="sheet-data-section-row">
             <div class="sheet-data-section-fertigkeiten">
               <div class="sheet-data-header">
-                <h3>Fertigkeiten</h3><span> </span><span class="sheet-edit-only">Pkt.</span><span class="sheet-edit-only">Mod.</span>
+                <h3>Fertigkeiten</h3><span class="sheet-edit-only"></span><span class="sheet-edit-only">Pkt.</span><span class="sheet-edit-only">Mod.</span>
               </div>
               <div class="sheet-data-area">
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeakrobatik"></button>
-                  <label>Akrobatik</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_akrobatik"></span><span class="sheet-tooltiptext"> 
-                      <label>BEW</label><span name="attr_beweglichkeit">0</span>
-                      <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_akrobatiktooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_akrobatikpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_akrobatikmod" type="hidden" value="0"/>
-                    <input name="attr_akrobatikmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probealchemie"></button>
-                  <label>Alchemie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_alchemie"></span><span class="sheet-tooltiptext"> 
-                      <label>MYS</label><span name="attr_mystik">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_alchemietooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_alchemiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_alchemiemod" type="hidden" value="0"/>
-                    <input name="attr_alchemiemoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeanfuehren"></button>
-                  <label>Anführen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_anfuehren"></span><span class="sheet-tooltiptext"> 
-                      <label>AUS</label><span name="attr_ausstrahlung">0</span>
-                      <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_anfuehrentooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_anfuehrenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_anfuehrenmod" type="hidden" value="0"/>
-                    <input name="attr_anfuehrenmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probearkanekunde"></button>
-                  <label>Arkane Kunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_arkanekunde"></span><span class="sheet-tooltiptext"> 
-                      <label>MYS</label><span name="attr_mystik">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_arkanekundetooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_arkanekundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_arkanekundemod" type="hidden" value="0"/>
-                    <input name="attr_arkanekundemoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeathletik"></button>
-                  <label>Athletik</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_athletik"></span><span class="sheet-tooltiptext"> 
-                      <label>BEW</label><span name="attr_beweglichkeit">0</span>
-                      <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_athletiktooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_athletikpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_athletikmod" type="hidden" value="0"/>
-                    <input name="attr_athletikmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probedarbietung"></button>
-                  <label>Darbietung</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_darbietung"></span><span class="sheet-tooltiptext"> 
-                      <label>AUS</label><span name="attr_ausstrahlung">0</span>
-                      <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_darbietungtooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_darbietungpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_darbietungmod" type="hidden" value="0"/>
-                    <input name="attr_darbietungmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probediplomatie"></button>
-                  <label>Diplomatie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_diplomatie"></span><span class="sheet-tooltiptext"> 
-                      <label>AUS</label><span name="attr_ausstrahlung">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_diplomatietooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_diplomatiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_diplomatiemod" type="hidden" value="0"/>
-                    <input name="attr_diplomatiemoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeedelhandwerk"></button>
-                  <label>Edelhandwerk</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_edelhandwerk"></span><span class="sheet-tooltiptext"> 
-                      <label>INT</label><span name="attr_intuition">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_edelhandwerktooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_edelhandwerkpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_edelhandwerkmod" type="hidden" value="0"/>
-                    <input name="attr_edelhandwerkmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeempathie"></button>
-                  <label>Empathie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_empathie"></span><span class="sheet-tooltiptext"> 
-                      <label>INT</label><span name="attr_intuition">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_empathietooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_empathiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_empathiemod" type="hidden" value="0"/>
-                    <input name="attr_empathiemoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeentschlossenheit"></button>
-                  <label>Entschlossenheit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_entschlossenheit"></span><span class="sheet-tooltiptext"> 
-                      <label>AUS</label><span name="attr_ausstrahlung">0</span>
-                      <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_entschlossenheittooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_entschlossenheitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_entschlossenheitmod" type="hidden" value="0"/>
-                    <input name="attr_entschlossenheitmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probefingerfertigkeit"></button>
-                  <label>Fingerfertigkeit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_fingerfertigkeit"></span><span class="sheet-tooltiptext"> 
-                      <label>AUS</label><span name="attr_ausstrahlung">0</span>
-                      <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_fingerfertigkeittooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_fingerfertigkeitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_fingerfertigkeitmod" type="hidden" value="0"/>
-                    <input name="attr_fingerfertigkeitmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probegeschichtenundmythen"></button>
-                  <label>Geschichten &amp; Mythen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_geschichtenundmythen"></span><span class="sheet-tooltiptext"> 
-                      <label>MYS</label><span name="attr_mystik">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_geschichtenundmythentooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_geschichtenundmythenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_geschichtenundmythenmod" type="hidden" value="0"/>
-                    <input name="attr_geschichtenundmythenmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probehandwerk"></button>
-                  <label>Handwerk</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_handwerk"></span><span class="sheet-tooltiptext"> 
-                      <label>KON</label><span name="attr_konstitution">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_handwerktooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_handwerkpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_handwerkmod" type="hidden" value="0"/>
-                    <input name="attr_handwerkmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeheilkunde"></button>
-                  <label>Heilkunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_heilkunde"></span><span class="sheet-tooltiptext"> 
-                      <label>INT</label><span name="attr_intuition">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_heilkundetooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_heilkundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_heilkundemod" type="hidden" value="0"/>
-                    <input name="attr_heilkundemoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeheimlichkeit"></button>
-                  <label>Heimlichkeit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_heimlichkeit"></span><span class="sheet-tooltiptext"> 
-                      <label>BEW</label><span name="attr_beweglichkeit">0</span>
-                      <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_heimlichkeittooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_heimlichkeitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_heimlichkeitmod" type="hidden" value="0"/>
-                    <input name="attr_heimlichkeitmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probejagdkunst"></button>
-                  <label>Jagdkunst</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_jagdkunst"></span><span class="sheet-tooltiptext"> 
-                      <label>KON</label><span name="attr_konstitution">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_jagdkunsttooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_jagdkunstpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_jagdkunstmod" type="hidden" value="0"/>
-                    <input name="attr_jagdkunstmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probelaenderkunde"></button>
-                  <label>Länderkunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_laenderkunde"></span><span class="sheet-tooltiptext"> 
-                      <label>INT</label><span name="attr_intuition">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_laenderkundetooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_laenderkundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_laenderkundemod" type="hidden" value="0"/>
-                    <input name="attr_laenderkundemoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probenaturkunde"></button>
-                  <label>Naturkunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_naturkunde"></span><span class="sheet-tooltiptext"> 
-                      <label>INT</label><span name="attr_intuition">0</span>
-                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_naturkundetooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_naturkundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_naturkundemod" type="hidden" value="0"/>
-                    <input name="attr_naturkundemoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_proberedegewandtheit"></button>
-                  <label>Redegewandtheit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_redegewandtheit"></span><span class="sheet-tooltiptext"> 
-                      <label>AUS</label><span name="attr_ausstrahlung">0</span>
-                      <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_redegewandtheittooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_redegewandtheitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_redegewandtheitmod" type="hidden" value="0"/>
-                    <input name="attr_redegewandtheitmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeschloesserundfallen"></button>
-                  <label>Schlösser &amp; Fallen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schloesserundfallen"></span><span class="sheet-tooltiptext"> 
-                      <label>INT</label><span name="attr_intuition">0</span>
-                      <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_schloesserundfallentooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_schloesserundfallenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_schloesserundfallenmod" type="hidden" value="0"/>
-                    <input name="attr_schloesserundfallenmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeschwimmen"></button>
-                  <label>Schwimmen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schwimmen"></span><span class="sheet-tooltiptext"> 
-                      <label>KON</label><span name="attr_konstitution">0</span>
-                      <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_schwimmentooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_schwimmenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_schwimmenmod" type="hidden" value="0"/>
-                    <input name="attr_schwimmenmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeseefahrt"></button>
-                  <label>Seefahrt</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_seefahrt"></span><span class="sheet-tooltiptext"> 
-                      <label>BEW</label><span name="attr_beweglichkeit">0</span>
-                      <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_seefahrttooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_seefahrtpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_seefahrtmod" type="hidden" value="0"/>
-                    <input name="attr_seefahrtmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probestrassenkunde"></button>
-                  <label>Straßenkunde</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_strassenkunde"></span><span class="sheet-tooltiptext"> 
-                      <label>AUS</label><span name="attr_ausstrahlung">0</span>
-                      <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_strassenkundetooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_strassenkundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_strassenkundemod" type="hidden" value="0"/>
-                    <input name="attr_strassenkundemoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probetierfuehrung"></button>
-                  <label>Tierfuehrung</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_tierfuehrung"></span><span class="sheet-tooltiptext"> 
-                      <label>AUS</label><span name="attr_ausstrahlung">0</span>
-                      <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_tierfuehrungtooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_tierfuehrungpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_tierfuehrungmod" type="hidden" value="0"/>
-                    <input name="attr_tierfuehrungmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probeueberleben"></button>
-                  <label>Überleben</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_ueberleben"></span><span class="sheet-tooltiptext"> 
-                      <label>INT</label><span name="attr_intuition">0</span>
-                      <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_ueberlebentooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_ueberlebenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_ueberlebenmod" type="hidden" value="0"/>
-                    <input name="attr_ueberlebenmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probewahrnehmung"></button>
-                  <label>Wahrnehmung</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_wahrnehmung"></span><span class="sheet-tooltiptext"> 
-                      <label>INT</label><span name="attr_intuition">0</span>
-                      <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_wahrnehmungtooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_wahrnehmungpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_wahrnehmungmod" type="hidden" value="0"/>
-                    <input name="attr_wahrnehmungmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
-                <div class="sheet-data-entry">
-                  <button class="sheet-play-only" type="action" name="act_probezaehigkeit"></button>
-                  <label>Zähigkeit</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_zaehigkeit"></span><span class="sheet-tooltiptext"> 
-                      <label>KON</label><span name="attr_konstitution">0</span>
-                      <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_zaehigkeittooltip"></span></span></span><span class="sheet-edit-only"> 
-                    <input name="attr_zaehigkeitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                    <input name="attr_zaehigkeitmod" type="hidden" value="0"/>
-                    <input name="attr_zaehigkeitmoduser" type="number" value="0"/></span>
-                </div>
-                <div class="sheet-line"></div>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{akrobatik} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Akrobatik}}"></button>
+                <label>Akrobatik</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_akrobatik"></span><span class="sheet-tooltiptext"> 
+                    <label>BEW</label><span name="attr_beweglichkeit">0</span>
+                    <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_akrobatiktooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_akrobatikpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_akrobatikmod" type="hidden" value="0"/>
+                  <input name="attr_akrobatikmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{alchemie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Alchemie}}"></button>
+                <label>Alchemie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_alchemie"></span><span class="sheet-tooltiptext"> 
+                    <label>MYS</label><span name="attr_mystik">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_alchemietooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_alchemiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_alchemiemod" type="hidden" value="0"/>
+                  <input name="attr_alchemiemoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{anfuehren} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Anführen}}"></button>
+                <label>Anführen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_anfuehren"></span><span class="sheet-tooltiptext"> 
+                    <label>AUS</label><span name="attr_ausstrahlung">0</span>
+                    <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_anfuehrentooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_anfuehrenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_anfuehrenmod" type="hidden" value="0"/>
+                  <input name="attr_anfuehrenmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{arkanekunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Arkane Kunde}}"></button>
+                <label>Arkane Kunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_arkanekunde"></span><span class="sheet-tooltiptext"> 
+                    <label>MYS</label><span name="attr_mystik">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_arkanekundetooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_arkanekundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_arkanekundemod" type="hidden" value="0"/>
+                  <input name="attr_arkanekundemoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{athletik} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Athletik}}"></button>
+                <label>Athletik</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_athletik"></span><span class="sheet-tooltiptext"> 
+                    <label>BEW</label><span name="attr_beweglichkeit">0</span>
+                    <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_athletiktooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_athletikpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_athletikmod" type="hidden" value="0"/>
+                  <input name="attr_athletikmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{darbietung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Darbietung}}"></button>
+                <label>Darbietung</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_darbietung"></span><span class="sheet-tooltiptext"> 
+                    <label>AUS</label><span name="attr_ausstrahlung">0</span>
+                    <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_darbietungtooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_darbietungpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_darbietungmod" type="hidden" value="0"/>
+                  <input name="attr_darbietungmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{diplomatie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Diplomatie}}"></button>
+                <label>Diplomatie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_diplomatie"></span><span class="sheet-tooltiptext"> 
+                    <label>AUS</label><span name="attr_ausstrahlung">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_diplomatietooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_diplomatiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_diplomatiemod" type="hidden" value="0"/>
+                  <input name="attr_diplomatiemoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{edelhandwerk} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Edelhandwerk}}"></button>
+                <label>Edelhandwerk</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_edelhandwerk"></span><span class="sheet-tooltiptext"> 
+                    <label>INT</label><span name="attr_intuition">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_edelhandwerktooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_edelhandwerkpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_edelhandwerkmod" type="hidden" value="0"/>
+                  <input name="attr_edelhandwerkmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{empathie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Empathie}}"></button>
+                <label>Empathie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_empathie"></span><span class="sheet-tooltiptext"> 
+                    <label>INT</label><span name="attr_intuition">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_empathietooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_empathiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_empathiemod" type="hidden" value="0"/>
+                  <input name="attr_empathiemoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{entschlossenheit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Entschlossenheit}}"></button>
+                <label>Entschlossenheit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_entschlossenheit"></span><span class="sheet-tooltiptext"> 
+                    <label>AUS</label><span name="attr_ausstrahlung">0</span>
+                    <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_entschlossenheittooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_entschlossenheitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_entschlossenheitmod" type="hidden" value="0"/>
+                  <input name="attr_entschlossenheitmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{fingerfertigkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Fingerfertigkeit}}"></button>
+                <label>Fingerfertigkeit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_fingerfertigkeit"></span><span class="sheet-tooltiptext"> 
+                    <label>AUS</label><span name="attr_ausstrahlung">0</span>
+                    <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_fingerfertigkeittooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_fingerfertigkeitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_fingerfertigkeitmod" type="hidden" value="0"/>
+                  <input name="attr_fingerfertigkeitmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{geschichtenundmythen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Geschichten &amp; Mythen}}"></button>
+                <label>Geschichten &amp; Mythen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_geschichtenundmythen"></span><span class="sheet-tooltiptext"> 
+                    <label>MYS</label><span name="attr_mystik">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_geschichtenundmythentooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_geschichtenundmythenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_geschichtenundmythenmod" type="hidden" value="0"/>
+                  <input name="attr_geschichtenundmythenmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{handwerk} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Handwerk}}"></button>
+                <label>Handwerk</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_handwerk"></span><span class="sheet-tooltiptext"> 
+                    <label>KON</label><span name="attr_konstitution">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_handwerktooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_handwerkpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_handwerkmod" type="hidden" value="0"/>
+                  <input name="attr_handwerkmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heilkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heilkunde}}"></button>
+                <label>Heilkunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_heilkunde"></span><span class="sheet-tooltiptext"> 
+                    <label>INT</label><span name="attr_intuition">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_heilkundetooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_heilkundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_heilkundemod" type="hidden" value="0"/>
+                  <input name="attr_heilkundemoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heimlichkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heimlichkeit}}"></button>
+                <label>Heimlichkeit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_heimlichkeit"></span><span class="sheet-tooltiptext"> 
+                    <label>BEW</label><span name="attr_beweglichkeit">0</span>
+                    <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_heimlichkeittooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_heimlichkeitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_heimlichkeitmod" type="hidden" value="0"/>
+                  <input name="attr_heimlichkeitmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{jagdkunst} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Jagdkunst}}"></button>
+                <label>Jagdkunst</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_jagdkunst"></span><span class="sheet-tooltiptext"> 
+                    <label>KON</label><span name="attr_konstitution">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_jagdkunsttooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_jagdkunstpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_jagdkunstmod" type="hidden" value="0"/>
+                  <input name="attr_jagdkunstmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{laenderkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Länderkunde}}"></button>
+                <label>Länderkunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_laenderkunde"></span><span class="sheet-tooltiptext"> 
+                    <label>INT</label><span name="attr_intuition">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_laenderkundetooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_laenderkundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_laenderkundemod" type="hidden" value="0"/>
+                  <input name="attr_laenderkundemoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{naturkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Naturkunde}}"></button>
+                <label>Naturkunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_naturkunde"></span><span class="sheet-tooltiptext"> 
+                    <label>INT</label><span name="attr_intuition">0</span>
+                    <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_naturkundetooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_naturkundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_naturkundemod" type="hidden" value="0"/>
+                  <input name="attr_naturkundemoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{redegewandtheit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Redegewandtheit}}"></button>
+                <label>Redegewandtheit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_redegewandtheit"></span><span class="sheet-tooltiptext"> 
+                    <label>AUS</label><span name="attr_ausstrahlung">0</span>
+                    <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_redegewandtheittooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_redegewandtheitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_redegewandtheitmod" type="hidden" value="0"/>
+                  <input name="attr_redegewandtheitmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schloesserundfallen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schlösser &amp; Fallen}}"></button>
+                <label>Schlösser &amp; Fallen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schloesserundfallen"></span><span class="sheet-tooltiptext"> 
+                    <label>INT</label><span name="attr_intuition">0</span>
+                    <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_schloesserundfallentooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_schloesserundfallenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_schloesserundfallenmod" type="hidden" value="0"/>
+                  <input name="attr_schloesserundfallenmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schwimmen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schwimmen}}"></button>
+                <label>Schwimmen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schwimmen"></span><span class="sheet-tooltiptext"> 
+                    <label>KON</label><span name="attr_konstitution">0</span>
+                    <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_schwimmentooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_schwimmenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_schwimmenmod" type="hidden" value="0"/>
+                  <input name="attr_schwimmenmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{seefahrt} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Seefahrt}}"></button>
+                <label>Seefahrt</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_seefahrt"></span><span class="sheet-tooltiptext"> 
+                    <label>BEW</label><span name="attr_beweglichkeit">0</span>
+                    <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_seefahrttooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_seefahrtpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_seefahrtmod" type="hidden" value="0"/>
+                  <input name="attr_seefahrtmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{strassenkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Straßenkunde}}"></button>
+                <label>Straßenkunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_strassenkunde"></span><span class="sheet-tooltiptext"> 
+                    <label>AUS</label><span name="attr_ausstrahlung">0</span>
+                    <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_strassenkundetooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_strassenkundepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_strassenkundemod" type="hidden" value="0"/>
+                  <input name="attr_strassenkundemoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{tierfuehrung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Tierfuehrung}}"></button>
+                <label>Tierfuehrung</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_tierfuehrung"></span><span class="sheet-tooltiptext"> 
+                    <label>AUS</label><span name="attr_ausstrahlung">0</span>
+                    <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_tierfuehrungtooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_tierfuehrungpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_tierfuehrungmod" type="hidden" value="0"/>
+                  <input name="attr_tierfuehrungmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{ueberleben} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Überleben}}"></button>
+                <label>Überleben</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_ueberleben"></span><span class="sheet-tooltiptext"> 
+                    <label>INT</label><span name="attr_intuition">0</span>
+                    <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_ueberlebentooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_ueberlebenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_ueberlebenmod" type="hidden" value="0"/>
+                  <input name="attr_ueberlebenmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{wahrnehmung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Wahrnehmung}}"></button>
+                <label>Wahrnehmung</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_wahrnehmung"></span><span class="sheet-tooltiptext"> 
+                    <label>INT</label><span name="attr_intuition">0</span>
+                    <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_wahrnehmungtooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_wahrnehmungpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_wahrnehmungmod" type="hidden" value="0"/>
+                  <input name="attr_wahrnehmungmoduser" type="number" value="0"/></span>
+              </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{zaehigkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Zähigkeit}}"></button>
+                <label>Zähigkeit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_zaehigkeit"></span><span class="sheet-tooltiptext"> 
+                    <label>KON</label><span name="attr_konstitution">0</span>
+                    <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_zaehigkeittooltip"></span></span></span><span class="sheet-edit-only"> 
+                  <input name="attr_zaehigkeitpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                  <input name="attr_zaehigkeitmod" type="hidden" value="0"/>
+                  <input name="attr_zaehigkeitmoduser" type="number" value="0"/></span>
               </div>
             </div>
             <div class="sheet-data-section-column">
               <div class="sheet-data-section-magieschulen">
                 <div class="sheet-data-header">
-                  <h3>Magieschulen</h3><span> </span><span class="sheet-edit-only">Pkt.</span><span class="sheet-edit-only">Mod.</span>
+                  <h3>Magieschulen</h3><span class="sheet-edit-only"> </span><span class="sheet-edit-only">Pkt.</span><span class="sheet-edit-only">Mod.</span>
                 </div>
                 <div class="sheet-data-area">
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probebannmagie"></button>
-                    <label>Bannmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_bannmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_bannmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_bannmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_bannmagiemod" type="hidden" value="0"/>
-                      <input name="attr_bannmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probebeherrschungsmagie"></button>
-                    <label>Beherrschungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_beherrschungsmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_beherrschungsmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_beherrschungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_beherrschungsmagiemod" type="hidden" value="0"/>
-                      <input name="attr_beherrschungsmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probebewegungsmagie"></button>
-                    <label>Bewegungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_bewegungsmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_bewegungsmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_bewegungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_bewegungsmagiemod" type="hidden" value="0"/>
-                      <input name="attr_bewegungsmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probeerkenntnismagie"></button>
-                    <label>Erkenntnismagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_erkenntnismagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_erkenntnismagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_erkenntnismagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_erkenntnismagiemod" type="hidden" value="0"/>
-                      <input name="attr_erkenntnismagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probefelsmagie"></button>
-                    <label>Fellsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_felsmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_felsmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_felsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_felsmagiemod" type="hidden" value="0"/>
-                      <input name="attr_felsmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probefeuermagie"></button>
-                    <label>Feuermagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_feuermagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_feuermagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_feuermagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_feuermagiemod" type="hidden" value="0"/>
-                      <input name="attr_feuermagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probeheilungsmagie"></button>
-                    <label>Heilungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_heilungsmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_heilungsmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_heilungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_heilungsmagiemod" type="hidden" value="0"/>
-                      <input name="attr_heilungsmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probeillusionsmagie"></button>
-                    <label>Illusionsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_illusionsmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_illusionsmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_illusionsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_illusionsmagiemod" type="hidden" value="0"/>
-                      <input name="attr_illusionsmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probekampfmagie"></button>
-                    <label>Kampfmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_kampfmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_kampfmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_kampfmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_kampfmagiemod" type="hidden" value="0"/>
-                      <input name="attr_kampfmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probelichtmagie"></button>
-                    <label>Lichtmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_lichtmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_lichtmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_lichtmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_lichtmagiemod" type="hidden" value="0"/>
-                      <input name="attr_lichtmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probenaturmagie"></button>
-                    <label>Naturmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_naturmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_naturmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_naturmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_naturmagiemod" type="hidden" value="0"/>
-                      <input name="attr_naturmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probeschattenmagie"></button>
-                    <label>Schattenmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schattenmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_schattenmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_schattenmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_schattenmagiemod" type="hidden" value="0"/>
-                      <input name="attr_schattenmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probeschicksalsmagie"></button>
-                    <label>Schicksalsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schicksalsmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_schicksalsmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_schicksalsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_schicksalsmagiemod" type="hidden" value="0"/>
-                      <input name="attr_schicksalsmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probeschutzmagie"></button>
-                    <label>Schutzmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schutzmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_schutzmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_schutzmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_schutzmagiemod" type="hidden" value="0"/>
-                      <input name="attr_schutzmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probestaerkungsmagie"></button>
-                    <label>Stärkungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_staerkungsmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_staerkungsmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_staerkungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_staerkungsmagiemod" type="hidden" value="0"/>
-                      <input name="attr_staerkungsmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probetodesmagie"></button>
-                    <label>Todesmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_todesmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_todesmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_todesmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_todesmagiemod" type="hidden" value="0"/>
-                      <input name="attr_todesmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probeverwandlungsmagie"></button>
-                    <label>Verwandlungsmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_verwandlungsmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_verwandlungsmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_verwandlungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_verwandlungsmagiemod" type="hidden" value="0"/>
-                      <input name="attr_verwandlungsmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probewassermagie"></button>
-                    <label>Wassermagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_wassermagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_wassermagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_wassermagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_wassermagiemod" type="hidden" value="0"/>
-                      <input name="attr_wassermagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <button class="sheet-play-only" type="action" name="act_probewindmagie"></button>
-                    <label>Windmagie</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_windmagie"></span><span class="sheet-tooltiptext">
-                        <label>MYS</label><span name="attr_mystik">0</span>
-                        <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_windmagietooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_windmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_windmagiemod" type="hidden" value="0"/>
-                      <input name="attr_windmagiemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{bannmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Bannmagie}}"></button>
+                  <label>Bannmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_bannmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_bannmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_bannmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_bannmagiemod" type="hidden" value="0"/>
+                    <input name="attr_bannmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{beherrschungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Beherrschungsmagie}}"></button>
+                  <label>Beherrschungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_beherrschungsmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_beherrschungsmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_beherrschungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_beherrschungsmagiemod" type="hidden" value="0"/>
+                    <input name="attr_beherrschungsmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{bewegungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Bewegungsmagie}}"></button>
+                  <label>Bewegungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_bewegungsmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_bewegungsmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_bewegungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_bewegungsmagiemod" type="hidden" value="0"/>
+                    <input name="attr_bewegungsmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{erkenntnismagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Erkenntnismagie}}"></button>
+                  <label>Erkenntnismagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_erkenntnismagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_erkenntnismagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_erkenntnismagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_erkenntnismagiemod" type="hidden" value="0"/>
+                    <input name="attr_erkenntnismagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{felsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Fellsmagie}}"></button>
+                  <label>Fellsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_felsmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_felsmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_felsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_felsmagiemod" type="hidden" value="0"/>
+                    <input name="attr_felsmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{feuermagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Feuermagie}}"></button>
+                  <label>Feuermagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_feuermagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_feuermagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_feuermagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_feuermagiemod" type="hidden" value="0"/>
+                    <input name="attr_feuermagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heilungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heilungsmagie}}"></button>
+                  <label>Heilungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_heilungsmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_heilungsmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_heilungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_heilungsmagiemod" type="hidden" value="0"/>
+                    <input name="attr_heilungsmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{illusionsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Illusionsmagie}}"></button>
+                  <label>Illusionsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_illusionsmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_illusionsmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_illusionsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_illusionsmagiemod" type="hidden" value="0"/>
+                    <input name="attr_illusionsmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{kampfmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Kampfmagie}}"></button>
+                  <label>Kampfmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_kampfmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_kampfmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_kampfmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_kampfmagiemod" type="hidden" value="0"/>
+                    <input name="attr_kampfmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{lichtmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Lichtmagie}}"></button>
+                  <label>Lichtmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_lichtmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_lichtmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_lichtmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_lichtmagiemod" type="hidden" value="0"/>
+                    <input name="attr_lichtmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{naturmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Naturmagie}}"></button>
+                  <label>Naturmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_naturmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_naturmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_naturmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_naturmagiemod" type="hidden" value="0"/>
+                    <input name="attr_naturmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schattenmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schattenmagie}}"></button>
+                  <label>Schattenmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schattenmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_schattenmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_schattenmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_schattenmagiemod" type="hidden" value="0"/>
+                    <input name="attr_schattenmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schicksalsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schicksalsmagie}}"></button>
+                  <label>Schicksalsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schicksalsmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_schicksalsmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_schicksalsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_schicksalsmagiemod" type="hidden" value="0"/>
+                    <input name="attr_schicksalsmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schutzmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schutzmagie}}"></button>
+                  <label>Schutzmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schutzmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_schutzmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_schutzmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_schutzmagiemod" type="hidden" value="0"/>
+                    <input name="attr_schutzmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{staerkungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Stärkungsmagie}}"></button>
+                  <label>Stärkungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_staerkungsmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_staerkungsmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_staerkungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_staerkungsmagiemod" type="hidden" value="0"/>
+                    <input name="attr_staerkungsmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{todesmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Todesmagie}}"></button>
+                  <label>Todesmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_todesmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_todesmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_todesmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_todesmagiemod" type="hidden" value="0"/>
+                    <input name="attr_todesmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{verwandlungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Verwandlungsmagie}}"></button>
+                  <label>Verwandlungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_verwandlungsmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_verwandlungsmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_verwandlungsmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_verwandlungsmagiemod" type="hidden" value="0"/>
+                    <input name="attr_verwandlungsmagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{wassermagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Wassermagie}}"></button>
+                  <label>Wassermagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_wassermagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_wassermagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_wassermagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_wassermagiemod" type="hidden" value="0"/>
+                    <input name="attr_wassermagiemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{windmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Windmagie}}"></button>
+                  <label>Windmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_windmagie"></span><span class="sheet-tooltiptext">
+                      <label>MYS</label><span name="attr_mystik">0</span>
+                      <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_windmagietooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_windmagiepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_windmagiemod" type="hidden" value="0"/>
+                    <input name="attr_windmagiemoduser" type="number" value="0"/></span>
                 </div>
               </div>
               <div class="sheet-data-section-kampffertigkeiten">
                 <div class="sheet-data-header">
-                  <h3>Kampffertigkeiten</h3><span></span><span class="sheet-edit-only">Pkt.</span><span class="sheet-edit-only">Mod.</span>
+                  <h3>Kampffertigkeiten</h3><span class="sheet-edit-only"></span><span class="sheet-edit-only">Pkt.</span><span class="sheet-edit-only">Mod.</span>
                 </div>
                 <div class="sheet-data-area">
-                  <div class="sheet-data-entry">
-                    <label>Handgemenge</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_handgemenge"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_handgemengetooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_handgemengepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_handgemengemod" type="hidden" value="0"/>
-                      <input name="attr_handgemengemoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <label>Hiebwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_hiebwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_hiebwaffentooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_hiebwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_hiebwaffenmod" type="hidden" value="0"/>
-                      <input name="attr_hiebwaffenmoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <label>Kettenwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_kettenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_kettenwaffentooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_kettenwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_kettenwaffenmod" type="hidden" value="0"/>
-                      <input name="attr_kettenwaffenmoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <label>Klingenwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_klingenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_klingenwaffentooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_klingenwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_klingenwaffenmod" type="hidden" value="0"/>
-                      <input name="attr_klingenwaffenmoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <label>Stangenwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_stangenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_stangenwaffentooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_stangenwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_stangenwaffenmod" type="hidden" value="0"/>
-                      <input name="attr_stangenwaffenmoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <label>Schusswaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_schusswaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_schusswaffentooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_schusswaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_schusswaffenmod" type="hidden" value="0"/>
-                      <input name="attr_schusswaffenmoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
-                  <div class="sheet-data-entry">
-                    <label>Wurfwaffen</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_wurfwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_wurfwaffentooltip"></span></span></span><span class="sheet-edit-only">
-                      <input name="attr_wurfwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
-                      <input name="attr_wurfwaffenmod" type="hidden" value="0"/>
-                      <input name="attr_wurfwaffenmoduser" type="number" value="0"/></span>
-                  </div>
-                  <div class="sheet-line"></div>
+                  <label>Handgemenge</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_handgemenge"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_handgemengetooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_handgemengepunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_handgemengemod" type="hidden" value="0"/>
+                    <input name="attr_handgemengemoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <label>Hiebwaffen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_hiebwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_hiebwaffentooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_hiebwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_hiebwaffenmod" type="hidden" value="0"/>
+                    <input name="attr_hiebwaffenmoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <label>Kettenwaffen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_kettenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_kettenwaffentooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_kettenwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_kettenwaffenmod" type="hidden" value="0"/>
+                    <input name="attr_kettenwaffenmoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <label>Klingenwaffen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_klingenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_klingenwaffentooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_klingenwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_klingenwaffenmod" type="hidden" value="0"/>
+                    <input name="attr_klingenwaffenmoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <label>Stangenwaffen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_stangenwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_stangenwaffentooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_stangenwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_stangenwaffenmod" type="hidden" value="0"/>
+                    <input name="attr_stangenwaffenmoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <label>Schusswaffen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schusswaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_schusswaffentooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_schusswaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_schusswaffenmod" type="hidden" value="0"/>
+                    <input name="attr_schusswaffenmoduser" type="number" value="0"/></span>
+                </div>
+                <div class="sheet-data-area">
+                  <label>Wurfwaffen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_wurfwaffen"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_wurfwaffentooltip"></span></span></span><span class="sheet-edit-only">
+                    <input name="attr_wurfwaffenpunkte" type="number" value="0"/></span><span class="sheet-edit-only">
+                    <input name="attr_wurfwaffenmod" type="hidden" value="0"/>
+                    <input name="attr_wurfwaffenmoduser" type="number" value="0"/></span>
                 </div>
               </div>
             </div>
@@ -1348,21 +1320,8 @@ $(document).ready(function () {
               </div>
               <div class="sheet-data-area sheet-wundabzug">
                 <label>Wundabzug</label><span name="attr_wundabzug"></span>
-                <input name="attr_wundabzugmod" type="hidden" value="0"/>
+                <input name="attr_wundabzugmod" type="hidden" value="0"/>+
                 <input name="attr_wundabzugmoduser" type="number" value=""/>
-              </div>
-              <div class="sheet-data-area sheet-schaden">
-                <label>Schaden</label>
-                <div class="sheet-action">
-                  <button name="act_removeschaden" type="action">heilen</button>
-                  <input name="attr_anzahlschaden" type="number" value=""/>
-                  <select name="attr_anzahlschadenart">
-                    <option value="v">verzehrt</option>
-                    <option value="e">erschöpft</option>
-                    <option value="k">kanalisiert</option>
-                  </select>
-                  <button name="act_addschaden" type="action">zufügen</button>
-                </div>
               </div>
             </div>
             <div class="sheet-data-section-zustaende">
@@ -1392,18 +1351,58 @@ $(document).ready(function () {
               </div>
             </div>
           </div>
+          <div class="sheet-data-section-row">
+            <div class="sheet-data-section-schaden">
+              <div class="sheet-data-header">
+                <h3>Schaden</h3>
+              </div>
+              <div class="sheet-data-area">
+                <button name="act_removeschaden" type="action">heilen</button>
+                <input name="attr_anzahlschaden" type="number" value=""/>
+                <select name="attr_anzahlschadenart">
+                  <option value="v">verzehrt</option>
+                  <option value="e">erschöpft</option>
+                  <option value="k">kanalisiert</option>
+                </select>
+                <button name="act_addschaden" type="action">zufügen</button>
+              </div>
+            </div>
+            <div class="sheet-data-section-regeneration">
+              <div class="sheet-data-header">
+                <h3>Regeneration</h3>
+              </div>
+              <div class="sheet-data-area">
+                <label>Bonus</label>
+                <input name="attr_regbonus" type="number" value="0"/>
+                <button name="act_ruhephase" type="action">Ruhephase</button>
+                <button name="act_verschnaufpause" type="action">Verschnaufpause</button>
+              </div>
+            </div>
+            <div class="sheet-data-section-aktiveabwehr">
+              <div class="sheet-data-header">
+                <h3>Aktive Abwehr</h3>
+              </div>
+              <div class="sheet-data-area">
+                <button type="roll"></button>
+                <label><span>Akrobatik</span></label><span name="attr_akrobatik"></span>
+              </div>
+              <fieldset class="repeating_aawaffen">
+                <div class="sheet-data-area">
+                  <button type="roll"></button>
+                  <label><span name="attr_aawaffe"></span></label><span name="attr_aawert"></span>
+                </div>
+              </fieldset>
+            </div>
+          </div>
           <div class="sheet-data-section-waffen">
             <div class="sheet-data-header">
-              <h3>Waffen</h3>
+              <h3>Waffen</h3><span>Wert</span><span>Mod</span><span>Schaden</span><span>WGS</span><span>RW</span><span style="text-align:left">Merkmale</span>
             </div>
             <fieldset class="repeating_waffen">
-              <div class="sheet-eintrag">
-                <button class="sheet-play-only" type="action" name="act_rollweapon"></button>
-                <div class="sheet-data-header">
-                  <input name="attr_waffenname" type="text" value="" placeholder="Waffenname"/><span>Wert</span><span>Mod</span><span>Schaden</span><span>RW</span><span>Merkmale</span>
-                </div>
-                <div class="sheet-data-area">
-                  <div class="sheet-small">
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{waffenskill} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=@{waffenname}}}"></button>
+                <button class="sheet-play-only" type="action" name="act_rollweapon"></button><span>
+                  <input name="attr_waffenname" type="text" value="" placeholder="Waffenname"/><span style="white-space: nowrap">
                     <select name="attr_waffenskill"> 
                       <option value="handgemenge">Handgemenge</option>
                       <option value="hiebwaffen">Hiebwaffen</option>
@@ -1432,66 +1431,57 @@ $(document).ready(function () {
                       <option value="staerke">STÄ</option>
                       <option value="verstand">VER</option>
                       <option value="willenskraft">WIL</option>
-                    </select>
-                  </div><span class="sheet-main-value" name="attr_waffenwert"></span>
-                  <input name="attr_waffenmoduser" type="number" value="0"/>
-                  <input name="attr_waffenschaden" type="text" value="W6"/>
-                  <input name="attr_waffenreichweite" type="number" value="3"/><span class="sheet-autoexpand">
-                    <input name="attr_waffenmerkmale" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_waffenmerkmale" placeholder="-"></span></span>
-                  <div>
-                    <label>Notizen:</label><span class="sheet-autoexpand">
-                      <input name="attr_waffennotizen" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_waffennotizen" placeholder="-"></span></span>
-                  </div>
-                </div>
+                    </select></span></span><span class="sheet-main-value" name="attr_waffenwert"></span>
+                <input name="attr_waffenmoduser" type="number" value="0"/>
+                <input name="attr_waffenschaden" type="text" value="W6"/>
+                <input name="attr_waffenwgs" type="number" value="3"/>
+                <input name="attr_waffenreichweite" type="number" value="0"/><span><span class="sheet-autoexpand sheet-small" placeholder="-">
+                    <input class="sheet-small" name="attr_waffenmerkmale" type="text" value="" placeholder="-"/><span class="sheet-autoexpand sheet-small" name="attr_waffenmerkmale" placeholder="-"></span></span>
+                  <input name="attr_waffennotizen" type="text" value="" placeholder="Notizen"/></span>
               </div>
             </fieldset>
           </div>
           <div class="sheet-data-section-zauber">
             <div class="sheet-data-header">
-              <h3>Zauber</h3>
+              <h3>Zauber</h3><span>Wert</span><span>Mod</span><span>SG</span><span>Schaden</span><span>Kosten (verstärkt)</span><span>ZD</span><span>RW</span><span>WD</span>
             </div>
             <fieldset class="repeating_zauber">
-              <div class="sheet-eintrag">
-                <button class="sheet-play-only" type="action" name="act_rollweapon"></button>
-                <div class="sheet-data-header">
-                  <input name="attr_zaubername" type="text" value="" placeholder="Zaubername"/><span>Wert</span><span>Mod</span><span>SG</span><span>Schaden</span><span>Kosten (verstärkt)</span><span>ZD</span><span>RW</span><span>WD</span>
-                </div>
-                <div class="sheet-data-area">
-                  <div>
-                    <select name="attr_magieschulen"> 
-                      <option value="bannmagie">Bannmagie</option>
-                      <option value="beherrschungsmagie">Beherrschungsmagie</option>
-                      <option value="bewegungsmagie">Bewegungsmagie</option>
-                      <option value="erkenntnismagie">Erkenntnismagie</option>
-                      <option value="felsmagie">Fellsmagie</option>
-                      <option value="feuermagie">Feuermagie</option>
-                      <option value="heilungsmagie">Heilungsmagie</option>
-                      <option value="illusionsmagie">Illusionsmagie</option>
-                      <option value="kampfmagie">Kampfmagie</option>
-                      <option value="lichtmagie">Lichtmagie</option>
-                      <option value="naturmagie">Naturmagie</option>
-                      <option value="schattenmagie">Schattenmagie</option>
-                      <option value="schicksalsmagie">Schicksalsmagie</option>
-                      <option value="schutzmagie">Schutzmagie</option>
-                      <option value="staerkungsmagie">Stärkungsmagie</option>
-                      <option value="todesmagie">Todesmagie</option>
-                      <option value="verwandlungsmagie">Verwandlungsmagie</option>
-                      <option value="wassermagie">Wassermagie</option>
-                      <option value="windmagie">Windmagie</option>
-                    </select>
-                  </div><span class="sheet-main-value" name="attr_zauberwert"></span>
-                  <input name="attr_zaubermoduser" type="number" value="0"/>
-                  <input name="attr_zauberschwierigkeit" type="text" value="" placeholder="SG"/><span class="sheet-autoexpand">
-                    <input name="attr_zauberschaden" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberschaden" placeholder="-"></span></span><span class="sheet-autoexpand">
-                    <input name="attr_zauberkosten" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberkosten" placeholder="-"></span></span><span class="sheet-autoexpand">
-                    <input name="attr_zauberdauer" type="text" value="" placeholder="ZD"/><span class="sheet-autoexpand" name="attr_zauberdauer" placeholder="ZD"></span></span><span class="sheet-autoexpand">
-                    <input name="attr_zauberrw" type="text" value="" placeholder="RW"/><span class="sheet-autoexpand" name="attr_zauberrw" placeholder="RW"></span></span><span class="sheet-autoexpand">
-                    <input name="attr_zauberwd" type="text" value="" placeholder="WD"/><span class="sheet-autoexpand" name="attr_zauberwd" placeholder="WD"></span></span>
-                  <div>
-                    <label>Wirkung:</label><span class="sheet-autoexpand">
-                      <input name="attr_zauberwirkung" type="text" value="" placeholder="-"/><span class="sheet-autoexpand" name="attr_zauberwirkung" placeholder="-"></span></span>
-                  </div>
-                </div>
+              <div class="sheet-data-area">
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{zauberwert} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=@{zaubername}}}"></button>
+                <label class="sheet-show-more" style="z-index:1999">
+                  <input name="attr_zaubershowmore" type="checkbox" value="on"/><span>4</span>
+                </label><span>
+                  <input name="attr_zaubername" type="text" value="" placeholder="Zaubername"/>
+                  <select name="attr_magieschulen"> 
+                    <option value="bannmagie">Bannmagie</option>
+                    <option value="beherrschungsmagie">Beherrschungsmagie</option>
+                    <option value="bewegungsmagie">Bewegungsmagie</option>
+                    <option value="erkenntnismagie">Erkenntnismagie</option>
+                    <option value="felsmagie">Fellsmagie</option>
+                    <option value="feuermagie">Feuermagie</option>
+                    <option value="heilungsmagie">Heilungsmagie</option>
+                    <option value="illusionsmagie">Illusionsmagie</option>
+                    <option value="kampfmagie">Kampfmagie</option>
+                    <option value="lichtmagie">Lichtmagie</option>
+                    <option value="naturmagie">Naturmagie</option>
+                    <option value="schattenmagie">Schattenmagie</option>
+                    <option value="schicksalsmagie">Schicksalsmagie</option>
+                    <option value="schutzmagie">Schutzmagie</option>
+                    <option value="staerkungsmagie">Stärkungsmagie</option>
+                    <option value="todesmagie">Todesmagie</option>
+                    <option value="verwandlungsmagie">Verwandlungsmagie</option>
+                    <option value="wassermagie">Wassermagie</option>
+                    <option value="windmagie">Windmagie</option>
+                  </select></span><span class="sheet-main-value" name="attr_zauberwert"></span>
+                <input name="attr_zaubermoduser" type="number" value="0"/>
+                <input name="attr_zauberschwierigkeit" type="text" value="" placeholder="SG"/><span class="sheet-autoexpand" placeholder="Schaden">
+                  <input name="attr_zauberschaden" type="text" value="" placeholder="Schaden"/><span class="sheet-autoexpand" name="attr_zauberschaden" placeholder="Schaden"></span></span><span class="sheet-autoexpand" placeholder="Kosten">
+                  <input name="attr_zauberkosten" type="text" value="" placeholder="Kosten"/><span class="sheet-autoexpand" name="attr_zauberkosten" placeholder="Kosten"></span></span><span class="sheet-autoexpand" placeholder="ZD">
+                  <input name="attr_zauberdauer" type="text" value="" placeholder="ZD"/><span class="sheet-autoexpand" name="attr_zauberdauer" placeholder="ZD"></span></span><span class="sheet-autoexpand" placeholder="RW">
+                  <input name="attr_zauberrw" type="text" value="" placeholder="RW"/><span class="sheet-autoexpand" name="attr_zauberrw" placeholder="RW"></span></span><span class="sheet-autoexpand" placeholder="WD">
+                  <input name="attr_zauberwd" type="text" value="" placeholder="WD"/><span class="sheet-autoexpand" name="attr_zauberwd" placeholder="WD"></span></span>
+                <input name="attr_zaubershowmore" type="hidden" value=""/>
+                <textarea class="sheet-small" name="attr_zauberwirkung" placeholder="Zauberwirkung" rows="4"></textarea>
               </div>
             </fieldset>
           </div>
@@ -1540,7 +1530,7 @@ $(document).ready(function () {
             <div class="sheet-data-area">
               <div> 
                 <div><span></span>
-                  <label>Gesamt:</label><span name="attr_ruestungvtd"></span><span name="attr_ruestungsr"></span><span name="attr_ruestungbe"></span><span name="attr_ruestungtickplus"></span>
+                  <label>Gesamt:</label><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_ruestungvtd"></span><span class="sheet-tooltiptext"> <span class="sheet-pre" name="attr_ruestungvtdmodtooltip"></span></span></span><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_ruestungsr"></span><span class="sheet-tooltiptext"> <span class="sheet-pre" name="attr_ruestungsrmodtooltip"></span></span></span><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_ruestungbe"></span><span class="sheet-tooltiptext"> <span class="sheet-pre" name="attr_ruestungbemodtooltip"></span></span></span><span class="sheet-tooltip"><span class="sheet-main-value" name="attr_ruestungtickplus"></span><span class="sheet-tooltiptext"><span class="sheet-pre" name="attr_ruestungtickplusmodtooltip"></span></span></span>
                 </div>
               </div>
             </div>
@@ -1614,14 +1604,14 @@ $(document).ready(function () {
                     <option value="wurfwaffen">Wurfwaffen</option>
                   </optgroup>
                 </select>
-                <input name="attr_meisterschaftsschwelle" type="number" value="0"/><span class="sheet-autoexpand">
+                <input name="attr_meisterschaftsschwelle" type="number" value="0"/><span class="sheet-autoexpand" placeholder="Beschreibung">
                   <input name="attr_meisterschaftswirkung" type="text" value="" placeholder="Beschreibung"/><span class="sheet-autoexpand" name="attr_meisterschaftswirkung" placeholder="Beschreibung"></span></span>
               </fieldset>
             </div>
           </div>
         </div>
         <div class="sheet-tab-content sheet-ausruestung"> 
-          <div class="sheet-data-section-erfahrungspunkte">
+          <div class="sheet-data-section-geld">
             <div class="sheet-data-header">
               <h3>Geld</h3>
             </div>
@@ -1635,11 +1625,11 @@ $(document).ready(function () {
             </div>
           </div>
           <div class="sheet-data-section-ausruestung">
-            <h3>Am Körper</h3>
+            <h3><span> </span><span>Am Körper</span></h3>
             <div class="sheet-data-header"><span>Getr.</span><span>Anzahl</span><span>Name</span><span>Last</span><span>Härte</span><span>Zustand</span><span>Info</span></div>
             <fieldset class="repeating_ausruestung">
               <div class="sheet-data-area">
-                <input name="attr_getragen" type="checkbox" value="1"/>
+                <input name="attr_getragen" type="checkbox" value="1" checked="checked"/>
                 <input name="attr_anzahl" type="number" value="1"/>
                 <input name="attr_name" type="text" value="" placeholder="Name des Gegenstands"/>
                 <input name="attr_last" type="number" value="0"/>
@@ -1652,11 +1642,17 @@ $(document).ready(function () {
                 <input name="attr_info" type="text" value="" placeholder="Infos zur Ausrüstung"/>
               </div>
             </fieldset>
+            <div class="sheet-data-area"><span></span><span></span>
+              <label>Gesamtlast</label><span name="attr_gesamtlast_koerper"></span>
+            </div>
           </div>
+          <input name="attr_behaelter1" type="hidden" value=""/>
           <div class="sheet-data-section-ausruestung">
-            <h3>
-              <input name="attr_behaelter1_name" type="text" value="Behälter"/>
+            <h3><span> 
+                <input class="sheet-edit-only" name="attr_behaelter1" type="checkbox" value="1"/></span>
+              <input name="attr_behaelter1_name" type="text" value="" placeholder="Name des Behälters"/>
             </h3>
+            <input name="attr_behaelter1" type="hidden" value=""/>
             <div class="sheet-data-header"><span>Getr.</span><span>Anzahl</span><span>Name</span><span>Last</span><span>Härte</span><span>Zustand</span><span>Info</span></div>
             <fieldset class="repeating_behaelter1">
               <div class="sheet-data-area">
@@ -1673,11 +1669,17 @@ $(document).ready(function () {
                 <input name="attr_info" type="text" value="" placeholder="Infos zur Ausrüstung"/>
               </div>
             </fieldset>
+            <div class="sheet-data-area"><span></span><span></span>
+              <label>Gesamtlast</label><span name="attr_gesamtlast_behaelter1"></span>
+            </div>
           </div>
+          <input name="attr_behaelter2" type="hidden" value=""/>
           <div class="sheet-data-section-ausruestung">
-            <h3>
-              <input name="attr_behaelter2_name" type="text" value="Behälter"/>
+            <h3><span> 
+                <input class="sheet-edit-only" name="attr_behaelter2" type="checkbox" value="1"/></span>
+              <input name="attr_behaelter2_name" type="text" value="" placeholder="Name des Behälters"/>
             </h3>
+            <input name="attr_behaelter2" type="hidden" value=""/>
             <div class="sheet-data-header"><span>Getr.</span><span>Anzahl</span><span>Name</span><span>Last</span><span>Härte</span><span>Zustand</span><span>Info</span></div>
             <fieldset class="repeating_behaelter2">
               <div class="sheet-data-area">
@@ -1694,11 +1696,17 @@ $(document).ready(function () {
                 <input name="attr_info" type="text" value="" placeholder="Infos zur Ausrüstung"/>
               </div>
             </fieldset>
+            <div class="sheet-data-area"><span></span><span></span>
+              <label>Gesamtlast</label><span name="attr_gesamtlast_behaelter2"></span>
+            </div>
           </div>
+          <input name="attr_behaelter3" type="hidden" value=""/>
           <div class="sheet-data-section-ausruestung">
-            <h3>
-              <input name="attr_behaelter3_name" type="text" value="Behälter"/>
+            <h3><span> 
+                <input class="sheet-edit-only" name="attr_behaelter3" type="checkbox" value="1"/></span>
+              <input name="attr_behaelter3_name" type="text" value="" placeholder="Name des Behälters"/>
             </h3>
+            <input name="attr_behaelter3" type="hidden" value=""/>
             <div class="sheet-data-header"><span>Getr.</span><span>Anzahl</span><span>Name</span><span>Last</span><span>Härte</span><span>Zustand</span><span>Info</span></div>
             <fieldset class="repeating_behaelter3">
               <div class="sheet-data-area">
@@ -1715,11 +1723,17 @@ $(document).ready(function () {
                 <input name="attr_info" type="text" value="" placeholder="Infos zur Ausrüstung"/>
               </div>
             </fieldset>
+            <div class="sheet-data-area"><span></span><span></span>
+              <label>Gesamtlast</label><span name="attr_gesamtlast_behaelter3"></span>
+            </div>
           </div>
+          <input name="attr_behaelter4" type="hidden" value=""/>
           <div class="sheet-data-section-ausruestung">
-            <h3>
-              <input name="attr_behaelter4_name" type="text" value="Behälter"/>
+            <h3><span> 
+                <input class="sheet-edit-only" name="attr_behaelter4" type="checkbox" value="1"/></span>
+              <input name="attr_behaelter4_name" type="text" value="" placeholder="Name des Behälters"/>
             </h3>
+            <input name="attr_behaelter4" type="hidden" value=""/>
             <div class="sheet-data-header"><span>Getr.</span><span>Anzahl</span><span>Name</span><span>Last</span><span>Härte</span><span>Zustand</span><span>Info</span></div>
             <fieldset class="repeating_behaelter4">
               <div class="sheet-data-area">
@@ -1736,11 +1750,17 @@ $(document).ready(function () {
                 <input name="attr_info" type="text" value="" placeholder="Infos zur Ausrüstung"/>
               </div>
             </fieldset>
+            <div class="sheet-data-area"><span></span><span></span>
+              <label>Gesamtlast</label><span name="attr_gesamtlast_behaelter4"></span>
+            </div>
           </div>
+          <input name="attr_behaelter5" type="hidden" value=""/>
           <div class="sheet-data-section-ausruestung">
-            <h3>
-              <input name="attr_behaelter5_name" type="text" value="Behälter"/>
+            <h3><span> 
+                <input class="sheet-edit-only" name="attr_behaelter5" type="checkbox" value="1"/></span>
+              <input name="attr_behaelter5_name" type="text" value="" placeholder="Name des Behälters"/>
             </h3>
+            <input name="attr_behaelter5" type="hidden" value=""/>
             <div class="sheet-data-header"><span>Getr.</span><span>Anzahl</span><span>Name</span><span>Last</span><span>Härte</span><span>Zustand</span><span>Info</span></div>
             <fieldset class="repeating_behaelter5">
               <div class="sheet-data-area">
@@ -1757,6 +1777,9 @@ $(document).ready(function () {
                 <input name="attr_info" type="text" value="" placeholder="Infos zur Ausrüstung"/>
               </div>
             </fieldset>
+            <div class="sheet-data-area"><span></span><span></span>
+              <label>Gesamtlast</label><span name="attr_gesamtlast_behaelter5"></span>
+            </div>
           </div>
           <div class="sheet-data-section-notizen">
             <div class="sheet-data-header">
@@ -1771,14 +1794,46 @@ $(document).ready(function () {
     </div>
   </div>
 </div>
-<script type="text/worker">var splittermond = {"rassen":{"mensch":{"name":"Mensch","groessenklasse":5},"varg":{"name":"Varg","groessenklasse":6},"alb":{"name":"Alb","groessenklasse":5},"gnom":{"name":"Gnom","groessenklasse":3},"zwerg":{"name":"Zwerg","groessenklasse":4}},"abgeleiteteWerte":{"groessenklasse":{"long":"Größenklasse","short":"GK"},"geschwindigkeit":{"long":"Geschwindigkeit","short":"GSW"},"initiative":{"long":"Initiative","short":"INI"},"lebenspunkte":{"long":"Lebenspunkte","short":"LP"},"fokus":{"long":"Fokus","short":"FO"},"verteidigung":{"long":"Verteidigung","short":"VTD"},"geistigerwiderstand":{"long":"Geistiger Widerstand","short":"GW"},"koerperlicherwiderstand":{"long":"Körperlicher Widerstand","short":"KW"}},"attribute":{"ausstrahlung":{"long":"Ausstrahlung","short":"AUS"},"beweglichkeit":{"long":"Beweglichkeit","short":"BEW"},"intuition":{"long":"Intuition","short":"INT"},"konstitution":{"long":"Konstitution","short":"KON"},"mystik":{"long":"Mystik","short":"MYS"},"staerke":{"long":"Stärke","short":"STÄ"},"verstand":{"long":"Verstand","short":"VER"},"willenskraft":{"long":"Willenskraft","short":"WIL"}},"fertigkeiten":{"akrobatik":{"Name":"Akrobatik","Attribute":["Beweglichkeit","Staerke"]},"alchemie":{"Name":"Alchemie","Attribute":["Mystik","Verstand"]},"anfuehren":{"Name":"Anführen","Attribute":["Ausstrahlung","Willenskraft"]},"arkanekunde":{"Name":"Arkane Kunde","Attribute":["Mystik","Verstand"]},"athletik":{"Name":"Athletik","Attribute":["Beweglichkeit","Staerke"]},"darbietung":{"Name":"Darbietung","Attribute":["Ausstrahlung","Willenskraft"]},"diplomatie":{"Name":"Diplomatie","Attribute":["Ausstrahlung","Verstand"]},"edelhandwerk":{"Name":"Edelhandwerk","Attribute":["Intuition","Verstand"]},"empathie":{"Name":"Empathie","Attribute":["Intuition","Verstand"]},"entschlossenheit":{"Name":"Entschlossenheit","Attribute":["Ausstrahlung","Willenskraft"]},"fingerfertigkeit":{"Name":"Fingerfertigkeit","Attribute":["Ausstrahlung","Beweglichkeit"]},"geschichtenundmythen":{"Name":"Geschichten & Mythen","Attribute":["Mystik","Verstand"]},"handwerk":{"Name":"Handwerk","Attribute":["Konstitution","Verstand"]},"heilkunde":{"Name":"Heilkunde","Attribute":["Intuition","Verstand"]},"heimlichkeit":{"Name":"Heimlichkeit","Attribute":["Beweglichkeit","Intuition"]},"jagdkunst":{"Name":"Jagdkunst","Attribute":["Konstitution","Verstand"]},"laenderkunde":{"Name":"Länderkunde","Attribute":["Intuition","Verstand"]},"naturkunde":{"Name":"Naturkunde","Attribute":["Intuition","Verstand"]},"redegewandtheit":{"Name":"Redegewandtheit","Attribute":["Ausstrahlung","Willenskraft"]},"schloesserundfallen":{"Name":"Schlösser & Fallen","Attribute":["Intuition","Beweglichkeit"]},"schwimmen":{"Name":"Schwimmen","Attribute":["Konstitution","Staerke"]},"seefahrt":{"Name":"Seefahrt","Attribute":["Beweglichkeit","Konstitution"]},"strassenkunde":{"Name":"Straßenkunde","Attribute":["Ausstrahlung","Intuition"]},"tierfuehrung":{"Name":"Tierfuehrung","Attribute":["Ausstrahlung","Beweglichkeit"]},"ueberleben":{"Name":"Überleben","Attribute":["Intuition","Konstitution"]},"wahrnehmung":{"Name":"Wahrnehmung","Attribute":["Intuition","Willenskraft"]},"zaehigkeit":{"Name":"Zähigkeit","Attribute":["Konstitution","Willenskraft"]}},"kampffertigkeiten":{"handgemenge":{"Name":"Handgemenge"},"hiebwaffen":{"Name":"Hiebwaffen"},"kettenwaffen":{"Name":"Kettenwaffen"},"klingenwaffen":{"Name":"Klingenwaffen"},"stangenwaffen":{"Name":"Stangenwaffen"},"schusswaffen":{"Name":"Schusswaffen"},"wurfwaffen":{"Name":"Wurfwaffen"}},"magieschulen":{"bannmagie":{"Name":"Bannmagie","Attribute":["Mystik","Willenskraft"]},"beherrschungsmagie":{"Name":"Beherrschungsmagie","Attribute":["Mystik","Willenskraft"]},"bewegungsmagie":{"Name":"Bewegungsmagie","Attribute":["Mystik","Beweglichkeit"]},"erkenntnismagie":{"Name":"Erkenntnismagie","Attribute":["Mystik","Verstand"]},"felsmagie":{"Name":"Fellsmagie","Attribute":["Mystik","Konstitution"]},"feuermagie":{"Name":"Feuermagie","Attribute":["Mystik","Ausstrahlung"]},"heilungsmagie":{"Name":"Heilungsmagie","Attribute":["Mystik","Ausstrahlung"]},"illusionsmagie":{"Name":"Illusionsmagie","Attribute":["Mystik","Ausstrahlung"]},"kampfmagie":{"Name":"Kampfmagie","Attribute":["Mystik","Staerke"]},"lichtmagie":{"Name":"Lichtmagie","Attribute":["Mystik","Ausstrahlung"]},"naturmagie":{"Name":"Naturmagie","Attribute":["Mystik","Ausstrahlung"]},"schattenmagie":{"Name":"Schattenmagie","Attribute":["Mystik","Intuition"]},"schicksalsmagie":{"Name":"Schicksalsmagie","Attribute":["Mystik","Ausstrahlung"]},"schutzmagie":{"Name":"Schutzmagie","Attribute":["Mystik","Ausstrahlung"]},"staerkungsmagie":{"Name":"Stärkungsmagie","Attribute":["Mystik","Staerke"]},"todesmagie":{"Name":"Todesmagie","Attribute":["Mystik","Verstand"]},"verwandlungsmagie":{"Name":"Verwandlungsmagie","Attribute":["Mystik","Konstitution"]},"wassermagie":{"Name":"Wassermagie","Attribute":["Mystik","Intuition"]},"windmagie":{"Name":"Windmagie","Attribute":["Mystik","Verstand"]}},"staerken":{"natürlicher rüstungsschutz":{"tooltip":"nat. Rüstung","modifier":{"schadensreduktion":1}},"erhöhter fokuspool":{"tooltip":"erhöhter FO","modifier":{"fokus":5}},"flink":{"tooltip":"Flink","modifier":{"geschwindigkeit":1}},"robust":{"tooltip":"Robust","modifier":{"lebenspunkte":1}},"hoher körperlicher widerstand":{"tooltip":"Hoher KW","modifier":{"koerperlicherwiderstand":2}},"hoher geistiger widerstand":{"tooltip":"Hoher GW","modifier":{"geistigerwiderstand":2}},"verbesserte initiative":{"tooltip":"Verb. INI","modifier":{"initiative":-3}},"schmerzresistenz":{"tooltip":"Schmerzres.","modifier":{"wundabzug":-2}},"zusätzliche splitterpunkte":{"tooltip":"Zus. Splitterp.","modifier":{"splitterpunkt":2}},"erhöhte fokusregeneration":{"tooltip":"Hohe FO-Reg.","modifier":{"fokusreg":2}},"erhöhte lebensregeneration":{"tooltip":"Hohe LP-Reg.","modifier":{"lifereg":2}}},"zustaende":{"verwundet":{"tooltip":"verwundet","modifier":{"gesundheitsstufe":1}},"benommen":{"tooltip":"benommen","modifier":{"tickplus":1}},"erschöpft":{"tooltip":"erschöpft","modifier":{"akrobatik":-1,"alchemie":-1,"anfuehren":-1,"arkanekunde":-1,"athletik":-1,"darbietung":-1,"diplomatie":-1,"edelhandwerk":-1,"empathie":-1,"entschlossenheit":-1,"fingerfertigkeit":-1,"geschichtenundmythen":-1,"handwerk":-1,"heilkunde":-1,"heimlichkeit":-1,"jagdkunst":-1,"laenderkunde":-1,"naturkunde":-1,"redegewandtheit":-1,"schloesserundfallen":-1,"schwimmen":-1,"seefahrt":-1,"strassenkunde":-1,"tierfuehrung":-1,"ueberleben":-1,"wahrnehmung":-1,"zaehigkeit":-1,"handgemenge":-1,"hiebwaffen":-1,"kettenwaffen":-1,"klingenwaffen":-1,"stangenwaffen":-1,"schusswaffen":-1,"wurfwaffen":-1,"initiative":1,"geschwindigkeit":-1}},"lahm":{"tooltip":"lahm","modifier":{},"multiplier":{"geschwindigkeit":0.5}},"glaubenskrise":{"tooltip":"Glaubenskrise","modifier":{"bannmagie":-1,"beherrschungsmagie":-1,"bewegungsmagie":-1,"erkenntnismagie":-1,"felsmagie":-1,"feuermagie":-1,"heilungsmagie":-1,"illusionsmagie":-1,"kampfmagie":-1,"lichtmagie":-1,"naturmagie":-1,"schattenmagie":-1,"schicksalsmagie":-1,"schutzmagie":-1,"staerkungsmagie":-1,"todesmagie":-1,"verwandlungsmagie":-1,"wassermagie":-1,"windmagie":-1}}},"meisterschaften":{"blitzreflexe":{"tooltip":"Blitzreflexe","modifier":{"initiative":3}},"gute reflexe":{"tooltip":"Gute Reflexe","modifier":{"verteidigung":1}},"rüstungsträger i":{"tooltip":"Rüstungsträger I","modifier":{"ruestungsbe":-1}},"rüstungsträger 1":{"tooltip":"Rüstungsträger I","modifier":{"ruestungsbe":-1}},"rüstungsträger ii":{"tooltip":"Rüstungsträger II","modifier":{"ruestungstickplus":-1}},"rüstungsträger 2":{"tooltip":"Rüstungsträger II","modifier":{"ruestungstickplus":-1}},"starker schildarm i":{"tooltip":"Starker Schildarm I","modifier":{"schildbe":-1}},"starker schildarm 1":{"tooltip":"Starker Schildarm I","modifier":{"schildbe":-1}},"starker schildarm ii":{"tooltip":"Starker Schildarm II","modifier":{"schildtickplus":-1}},"starker schildarm 2":{"tooltip":"Starker Schildarm II","modifier":{"schildtickplus":-1}},"schmerzwiderstand i":{"tooltip":"Schmerzwiderstand I","modifier":{"wundabzug":-1}},"schmerzwiderstand 1":{"tooltip":"Schmerzwiderstand I","modifier":{"wundabzug":-1}},"schmerzwiderstand ii":{"tooltip":"Schmerzwiderstand II","modifier":{"wundabzug":-1}},"schmerzwiderstand 2":{"tooltip":"Schmerzwiderstand II","modifier":{"wundabzug":-1}},"arkane geschwindigkeit":{"tooltip":"Arkane Geschwindigkeit","modifier":{"geschwindigkeit":1}},"sprinter":{"tooltip":"Sprinter","modifier":{"geschwindigkeit":1}}}};
-["einstellungen", "grundwerte", "fertigkeiten", "magie", "entwicklung", "ausruestung", "kampf"].forEach(button => {
+<script type="text/worker">var splittermond = {"rassen":{"mensch":{"name":"Mensch","groessenklasse":5},"varg":{"name":"Varg","groessenklasse":6},"alb":{"name":"Alb","groessenklasse":5},"gnom":{"name":"Gnom","groessenklasse":3},"zwerg":{"name":"Zwerg","groessenklasse":4}},"abgeleiteteWerte":{"groessenklasse":{"long":"Größenklasse","short":"GK"},"geschwindigkeit":{"long":"Geschwindigkeit","short":"GSW"},"initiative":{"long":"Initiative","short":"INI"},"lebenspunkte":{"long":"Lebenspunkte","short":"LP"},"fokus":{"long":"Fokus","short":"FO"},"verteidigung":{"long":"Verteidigung","short":"VTD"},"geistigerwiderstand":{"long":"Geistiger Widerstand","short":"GW"},"koerperlicherwiderstand":{"long":"Körperlicher Widerstand","short":"KW"}},"attribute":{"ausstrahlung":{"long":"Ausstrahlung","short":"AUS"},"beweglichkeit":{"long":"Beweglichkeit","short":"BEW"},"intuition":{"long":"Intuition","short":"INT"},"konstitution":{"long":"Konstitution","short":"KON"},"mystik":{"long":"Mystik","short":"MYS"},"staerke":{"long":"Stärke","short":"STÄ"},"verstand":{"long":"Verstand","short":"VER"},"willenskraft":{"long":"Willenskraft","short":"WIL"}},"fertigkeiten":{"akrobatik":{"Name":"Akrobatik","Attribute":["Beweglichkeit","Staerke"]},"alchemie":{"Name":"Alchemie","Attribute":["Mystik","Verstand"]},"anfuehren":{"Name":"Anführen","Attribute":["Ausstrahlung","Willenskraft"]},"arkanekunde":{"Name":"Arkane Kunde","Attribute":["Mystik","Verstand"]},"athletik":{"Name":"Athletik","Attribute":["Beweglichkeit","Staerke"]},"darbietung":{"Name":"Darbietung","Attribute":["Ausstrahlung","Willenskraft"]},"diplomatie":{"Name":"Diplomatie","Attribute":["Ausstrahlung","Verstand"]},"edelhandwerk":{"Name":"Edelhandwerk","Attribute":["Intuition","Verstand"]},"empathie":{"Name":"Empathie","Attribute":["Intuition","Verstand"]},"entschlossenheit":{"Name":"Entschlossenheit","Attribute":["Ausstrahlung","Willenskraft"]},"fingerfertigkeit":{"Name":"Fingerfertigkeit","Attribute":["Ausstrahlung","Beweglichkeit"]},"geschichtenundmythen":{"Name":"Geschichten & Mythen","Attribute":["Mystik","Verstand"]},"handwerk":{"Name":"Handwerk","Attribute":["Konstitution","Verstand"]},"heilkunde":{"Name":"Heilkunde","Attribute":["Intuition","Verstand"]},"heimlichkeit":{"Name":"Heimlichkeit","Attribute":["Beweglichkeit","Intuition"]},"jagdkunst":{"Name":"Jagdkunst","Attribute":["Konstitution","Verstand"]},"laenderkunde":{"Name":"Länderkunde","Attribute":["Intuition","Verstand"]},"naturkunde":{"Name":"Naturkunde","Attribute":["Intuition","Verstand"]},"redegewandtheit":{"Name":"Redegewandtheit","Attribute":["Ausstrahlung","Willenskraft"]},"schloesserundfallen":{"Name":"Schlösser & Fallen","Attribute":["Intuition","Beweglichkeit"]},"schwimmen":{"Name":"Schwimmen","Attribute":["Konstitution","Staerke"]},"seefahrt":{"Name":"Seefahrt","Attribute":["Beweglichkeit","Konstitution"]},"strassenkunde":{"Name":"Straßenkunde","Attribute":["Ausstrahlung","Intuition"]},"tierfuehrung":{"Name":"Tierfuehrung","Attribute":["Ausstrahlung","Beweglichkeit"]},"ueberleben":{"Name":"Überleben","Attribute":["Intuition","Konstitution"]},"wahrnehmung":{"Name":"Wahrnehmung","Attribute":["Intuition","Willenskraft"]},"zaehigkeit":{"Name":"Zähigkeit","Attribute":["Konstitution","Willenskraft"]}},"kampffertigkeiten":{"handgemenge":{"Name":"Handgemenge"},"hiebwaffen":{"Name":"Hiebwaffen"},"kettenwaffen":{"Name":"Kettenwaffen"},"klingenwaffen":{"Name":"Klingenwaffen"},"stangenwaffen":{"Name":"Stangenwaffen"},"schusswaffen":{"Name":"Schusswaffen"},"wurfwaffen":{"Name":"Wurfwaffen"}},"magieschulen":{"bannmagie":{"Name":"Bannmagie","Attribute":["Mystik","Willenskraft"]},"beherrschungsmagie":{"Name":"Beherrschungsmagie","Attribute":["Mystik","Willenskraft"]},"bewegungsmagie":{"Name":"Bewegungsmagie","Attribute":["Mystik","Beweglichkeit"]},"erkenntnismagie":{"Name":"Erkenntnismagie","Attribute":["Mystik","Verstand"]},"felsmagie":{"Name":"Fellsmagie","Attribute":["Mystik","Konstitution"]},"feuermagie":{"Name":"Feuermagie","Attribute":["Mystik","Ausstrahlung"]},"heilungsmagie":{"Name":"Heilungsmagie","Attribute":["Mystik","Ausstrahlung"]},"illusionsmagie":{"Name":"Illusionsmagie","Attribute":["Mystik","Ausstrahlung"]},"kampfmagie":{"Name":"Kampfmagie","Attribute":["Mystik","Staerke"]},"lichtmagie":{"Name":"Lichtmagie","Attribute":["Mystik","Ausstrahlung"]},"naturmagie":{"Name":"Naturmagie","Attribute":["Mystik","Ausstrahlung"]},"schattenmagie":{"Name":"Schattenmagie","Attribute":["Mystik","Intuition"]},"schicksalsmagie":{"Name":"Schicksalsmagie","Attribute":["Mystik","Ausstrahlung"]},"schutzmagie":{"Name":"Schutzmagie","Attribute":["Mystik","Ausstrahlung"]},"staerkungsmagie":{"Name":"Stärkungsmagie","Attribute":["Mystik","Staerke"]},"todesmagie":{"Name":"Todesmagie","Attribute":["Mystik","Verstand"]},"verwandlungsmagie":{"Name":"Verwandlungsmagie","Attribute":["Mystik","Konstitution"]},"wassermagie":{"Name":"Wassermagie","Attribute":["Mystik","Intuition"]},"windmagie":{"Name":"Windmagie","Attribute":["Mystik","Verstand"]}},"staerken":{"natürlicher rüstungsschutz":{"tooltip":"nat. Rüstung","modifier":{"schadensreduktion":1}},"erhöhter fokuspool":{"tooltip":"erhöhter FO","modifier":{"fokus":5}},"flink":{"tooltip":"Flink","modifier":{"geschwindigkeit":1}},"robust":{"tooltip":"Robust","modifier":{"lebenspunkte":1}},"hoher körperlicher widerstand":{"tooltip":"Hoher KW","modifier":{"koerperlicherwiderstand":2}},"hoher geistiger widerstand":{"tooltip":"Hoher GW","modifier":{"geistigerwiderstand":2}},"verbesserte initiative":{"tooltip":"Verb. INI","modifier":{"initiative":-3}},"schmerzresistenz":{"tooltip":"Schmerzres.","modifier":{"wundabzug":-2}},"zusätzliche splitterpunkte":{"tooltip":"Zus. Splitterp.","modifier":{"splitterpunkt":2}},"erhöhte fokusregeneration":{"tooltip":"Hohe FO-Reg.","modifier":{"fokusreg":2}},"erhöhte lebensregeneration":{"tooltip":"Hohe LP-Reg.","modifier":{"lifereg":2}}},"zustaende":{"verwundet":{"tooltip":"verwundet","modifier":{"gesundheitsstufe":1}},"benommen":{"tooltip":"benommen","modifier":{"tickplus":1}},"erschöpft":{"tooltip":"erschöpft","modifier":{"akrobatik":-1,"alchemie":-1,"anfuehren":-1,"arkanekunde":-1,"athletik":-1,"darbietung":-1,"diplomatie":-1,"edelhandwerk":-1,"empathie":-1,"entschlossenheit":-1,"fingerfertigkeit":-1,"geschichtenundmythen":-1,"handwerk":-1,"heilkunde":-1,"heimlichkeit":-1,"jagdkunst":-1,"laenderkunde":-1,"naturkunde":-1,"redegewandtheit":-1,"schloesserundfallen":-1,"schwimmen":-1,"seefahrt":-1,"strassenkunde":-1,"tierfuehrung":-1,"ueberleben":-1,"wahrnehmung":-1,"zaehigkeit":-1,"handgemenge":-1,"hiebwaffen":-1,"kettenwaffen":-1,"klingenwaffen":-1,"stangenwaffen":-1,"schusswaffen":-1,"wurfwaffen":-1,"initiative":1,"geschwindigkeit":-1}},"lahm":{"tooltip":"lahm","modifier":{},"multiplier":{"geschwindigkeit":0.5}},"glaubenskrise":{"tooltip":"Glaubenskrise","modifier":{"bannmagie":-1,"beherrschungsmagie":-1,"bewegungsmagie":-1,"erkenntnismagie":-1,"felsmagie":-1,"feuermagie":-1,"heilungsmagie":-1,"illusionsmagie":-1,"kampfmagie":-1,"lichtmagie":-1,"naturmagie":-1,"schattenmagie":-1,"schicksalsmagie":-1,"schutzmagie":-1,"staerkungsmagie":-1,"todesmagie":-1,"verwandlungsmagie":-1,"wassermagie":-1,"windmagie":-1}}},"meisterschaften":{"blitzreflexe":{"tooltip":"Blitzreflexe","modifier":{"initiative":3}},"gute reflexe":{"tooltip":"Gute Reflexe","modifier":{"verteidigung":1}},"rüstungsträger i":{"tooltip":"Rüstungsträger I","modifier":{"ruestungsbe":-1}},"rüstungsträger 1":{"tooltip":"Rüstungsträger I","modifier":{"ruestungsbe":-1}},"rüstungsträger ii":{"tooltip":"Rüstungsträger II","modifier":{"ruestungstickplus":-1}},"rüstungsträger 2":{"tooltip":"Rüstungsträger II","modifier":{"ruestungstickplus":-1}},"starker schildarm i":{"tooltip":"Starker Schildarm I","modifier":{"schildbe":-1}},"starker schildarm 1":{"tooltip":"Starker Schildarm I","modifier":{"schildbe":-1}},"starker schildarm ii":{"tooltip":"Starker Schildarm II","modifier":{"schildtickplus":-1}},"starker schildarm 2":{"tooltip":"Starker Schildarm II","modifier":{"schildtickplus":-1}},"schmerzwiderstand i":{"tooltip":"Schmerzwiderstand I","modifier":{"wundabzug":-1}},"schmerzwiderstand 1":{"tooltip":"Schmerzwiderstand I","modifier":{"wundabzug":-1}},"schmerzwiderstand ii":{"tooltip":"Schmerzwiderstand II","modifier":{"wundabzug":-1}},"schmerzwiderstand 2":{"tooltip":"Schmerzwiderstand II","modifier":{"wundabzug":-1}},"arkane geschwindigkeit":{"tooltip":"Arkane Geschwindigkeit","modifier":{"geschwindigkeit":1}},"sprinter":{"tooltip":"Sprinter","modifier":{"geschwindigkeit":1}}}};["einstellungen", "grundwerte", "fertigkeiten", "magie", "ausruestung", "kampf"].forEach(button => {
     on(`clicked:${button}`, function () {
         setAttrs({
             tab: button
         });
     });
-});function autoUpdate(attributes, dataCallback) {
+});
+
+on("clicked:incschwierigkeit", function () {
+    getAttrs(["probenschwierigkeit"], v => {
+        setAttrs({
+            "probenschwierigkeit": int(v.probenschwierigkeit) + 1
+        });
+    });
+});
+
+on("clicked:decschwierigkeit", function () {
+    getAttrs(["probenschwierigkeit"], v => {
+        setAttrs({
+            "probenschwierigkeit": int(v.probenschwierigkeit) - 1
+        });
+    });
+});
+
+on("clicked:incmod", function () {
+    getAttrs(["probenmodifikator"], v => {
+        setAttrs({
+            "probenmodifikator": int(v.probenmodifikator) + 1
+        })
+    })
+});
+
+on("clicked:decmod", function () {
+    getAttrs(["probenmodifikator"], v => {
+        setAttrs({
+            "probenmodifikator": int(v.probenmodifikator) - 1
+        });
+    });
+});
+  function autoUpdate(attributes, dataCallback) {
     attributesStr = attributes.map(attr => "change:" + attr).join(" ");
     on(attributesStr, e => getAttrs(attributes, v => setAttrs(dataCallback(v, e))));
 }
@@ -2201,7 +2256,7 @@ on("change:repeating_waffen:waffenskill change:repeating_waffen:waffenattr1 chan
             }
         });
     });
-
+/*
 on("change:hiddenschildvtd change:hiddenruestungsvtd change:hiddenruestungssr change:hiddenschildbe change:hiddenruestungsbe change:hiddenschildtickplus change:hiddenruestungstickplus change:hiddensr change:hiddenbehinderungfruehstueck", function (g) {
     getAttrs(["hiddenschildvtd", "hiddenruestungsvtd", "hiddenruestungssr", "hiddenschildbe", "hiddenruestungsbe", "hiddenschildtickplus", "hiddenruestungstickplus", "hiddensr", "hiddenbehinderungfruehstueck", "hiddenschadensreduktionfruehstueck"], function (f) {
         setAttrs({
@@ -2223,7 +2278,7 @@ on("change:gesamtvtd change:gesamtsr change:gesamtbe", function (eventinfo) {
         });
     });
 });
-
+*/
 
 
 on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:lebenspunkte_v", function (e) {
@@ -3014,29 +3069,27 @@ on("change:repeating_ausruestung:last change:repeating_ausruestung:getragen chan
     let lastfelder = { "ausruestung": "gesamtlast_koerper", "behaelter1": "gesamtlast_behaelter1", "behaelter2": "gesamtlast_behaelter2", "behaelter3": "gesamtlast_behaelter3", "behaelter4": "gesamtlast_behaelter4", "behaelter5": "gesamtlast_behaelter5" };
     let lastfeld = lastfelder[row];
     getSectionIDs(`repeating_${row}`, function (idarray) {
-        let update = {};
-        let nichtsgetragen = true;
-        let sum = 0;
-        let last = 0;
-        let getragen = true;
-        let anzahl = 0;
         if (idarray.length > 0) {
-            _.each(idarray, function (currentID, i) {
-                getAttrs([`repeating_${row}_` + currentID + `_last`, `repeating_${row}_` + currentID + `_getragen`, `repeating_${row}_` + currentID + `_anzahl`], function (v) {
-                    last = v[`repeating_${row}_` + currentID + `_last`];
-                    getragen = v[`repeating_${row}_` + currentID + `_getragen`];
-                    anzahl = v[`repeating_${row}_` + currentID + `_anzahl`];
-                    if (getragen == true) {
-                        nichtsgetragen = false;
-                        sum += +last * +anzahl;
-                        update[`${lastfeld}`] = +sum;
-                        setAttrs(update);
-                    }
-
-                });
+            var attrArr = [];
+            idarray.forEach(function (currentID) {
+                attrArr.push(`repeating_${row}_` + currentID + `_last`);
+                attrArr.push(`repeating_${row}_` + currentID + `_getragen`);
+                attrArr.push(`repeating_${row}_` + currentID + `_anzahl`);
             });
-        }
-        if (nichtsgetragen == true) {
+            getAttrs(attrArr, function (v) {
+                var sum = 0;
+                idarray.forEach(function (currentID) {
+                    var last = v[`repeating_${row}_` + currentID + `_last`];
+                    var getragen = v[`repeating_${row}_` + currentID + `_getragen`];
+                    var anzahl = v[`repeating_${row}_` + currentID + `_anzahl`];
+                    sum += int(last) * int(anzahl) * int(getragen);
+                });
+                var update = {};
+                update[`${lastfeld}`] = sum;
+                setAttrs(update);
+            });
+        } else {
+            var update = {}
             update[`${lastfeld}`] = 0;
             setAttrs(update);
         }
@@ -3059,20 +3112,49 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
     allModifier.push("schild" + type);
     on(`change:repeating_ruestungen change:schild${type} change:ruestungs${type}mod change:schild${type}mod change:schildonoff`, function () {
         getSectionIDs("repeating_ruestungen", function (rid) {
-            var fields = [`ruestungs${type}mod`, `schild${type}mod`, `schild${type}`, "schildonoff"];
+            var fields = [`ruestungs${type}mod`, `ruestungs${type}modtooltip`, `schild${type}mod`, `schild${type}modtooltip`, `schild${type}`, "schildonoff"];
             fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungs${type}`));
             fields = fields.concat(rid.map(v => `repeating_ruestungen_${v}_ruestungonoff`));
             getAttrs(fields, function (v) {
                 var val = 0;
+                var tooltip = "";
                 rid.forEach(function (rowid) {
                     val = (v[`repeating_ruestungen_${rowid}_ruestungonoff`] == "1") ? int(val) + Math.max(int(v[`repeating_ruestungen_${rowid}_ruestungs${type}`]) + int(v[`ruestungs${type}mod`]), 0) : val;
+                    tooltip += (v[`repeating_ruestungen_${rowid}_ruestungonoff`] == "1") ? v[`ruestungs${type}modtooltip`] + "\n" : "";
                 });
                 val += ((v["schildonoff"] == "1") ? Math.max(int(v[`schild${type}`]) + int(v[`schild${type}mod`]), 0) : 0);
+                tooltip += (v["schildonoff"] == "1") ? v[`schild${type}modtooltip`] + "\n" : "";
                 var update = {};
                 update["ruestung" + type] = val;
+                update["ruestung" + type + "modtooltip"] = tooltip;
                 setAttrs(update);
             });
         })
+    });
+});
+
+on("change:repeating_waffen sheet:opened", function () {
+    getSectionIDs("repeating_aawaffen", function (idarray) {
+        idarray.forEach(function (v) {
+            removeRepeatingRow("repeating_aawaffen_" + v);
+            console.log("Entferne: repeating_aawaffen_" + v);
+        });
+    });
+    getSectionIDs("repeating_waffen", function (idarray) {
+        var fields = idarray.map(v => `repeating_waffen_${v}_waffenname`);
+        fields = fields.concat(idarray.map(v => `repeating_waffen_${v}_waffenwert`));
+        getAttrs(fields, function (vw) {
+            var update = {};
+            idarray.forEach(function (id) {
+                var newrowid = generateRowID();
+                console.log(newrowid);
+                console.log(id);
+                update[`repeating_aawaffen_${newrowid}_aawaffe`] = vw[`repeating_waffen_${id}_waffenname`];
+                update[`repeating_aawaffen_${newrowid}_aawert`] = vw[`repeating_waffen_${id}_waffenwert`];
+            });
+            console.log(update);
+            setAttrs(update);
+        });
     });
 });
 

@@ -45,6 +45,15 @@ $font-size-small: 1.2rem;
     z-index: 2000;
 }
 
+.repcontrol[data-groupname="repeating_aawaffen"] {
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    display: none;
+    left: -10000;
+}
+
+
 .repcontrol button.btn {
     background-color: transparent;
     background-image: none;
@@ -126,6 +135,10 @@ button[type="action"] {
     -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
 
+    &:before {
+        content: "";
+    }
+
     &:hover, &:focus {
 
         border:none;
@@ -141,39 +154,51 @@ button[type="action"] {
     }
 }
 
-button.play-only[type="action"] {
-        position: absolute;
-        z-index: 1001;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        border: none;
-        box-sizing: content-box;
-        padding: 0;
-        border-radius: 6px;
+.splittermond button.play-only[type="roll"] {
+    position: absolute;
+    z-index: 1001;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    box-sizing: content-box;
+    padding: 0;
+    border-radius: 6px;
 
-        -webkit-transition: all 0.3s ease;
-        -moz-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-        -ms-transition: all 0.3s ease;
-        transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
 
-        &:hover, &:focus {
-
-            border:none;
-            outline: none;
-            box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
-        }
-
-        &:active {
-
-            border:none;
-            outline: none;
-            box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
-        }
+    &:before {
+        content: "";
     }
 
+    &:hover, &:focus {
+
+        border:none;
+        outline: none;
+        box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
+    }
+
+    &:active {
+
+        border:none;
+        outline: none;
+        box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+    }
+}
+
 input[name="attr_editmode"][value=""] ~ * .repcontrol {
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin: 0;
+    left: -10000px;
+}
+input[name="attr_editmode"][value="on"] ~ .play-only,
+input[name="attr_editmode"][value="on"] ~ * .play-only {
     position: absolute;
     width: 0;
     height: 0;
@@ -184,8 +209,7 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
 
 .splittermond {
     position: relative;
-    //display: flex;
-    //flex-direction: column;
+    background-color: $wood-color;
     background: $background-wood, linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
     background-blend-mode: overlay, normal;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5);
@@ -248,13 +272,17 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         max-width: 960px;
         min-height: 800px;
         margin-right: -30px;
+        margin-top: -10px;
+
         color: black;
+        
         border: 60px solid transparent;
         border-width: 40px 60px 60px 20px;
         border-image:$background-paper 40 60 60 20 fill stretch;
         box-sizing: border-box;
 
         .watermark {
+            background-color: rgb(203, 218, 224);
             background: $image-splittermond;
             background-repeat: no-repeat;
             background-size: contain;
@@ -275,43 +303,179 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         
     }
 
-    .overlay {
-        position: sticky;
-        top: 0;
-        height: 0;
-        z-index: 5000;
+    .switch-field {
+        display: flex;
+        border-radius: 0.75em;
+        width: auto;
+        height: 1.5em;
+        padding: 0px;
+        margin: 0px;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        box-sizing: border-box;
+        
+        overflow: hidden;
 
-        .probe-fertigkeit {
-            display: none;
-            flex-direction: column;
-            position: relative;
-            background: url(images/seamless_wood.jpg), linear-gradient(90deg, #2B1619ff 0%, rgba(43, 22, 25, 0.8) 50%, #2B1619ff 100%);
-            background-blend-mode: overlay, normal;
-            background-position: 0 -5rem;
-            box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5), inset 0px 2px 4px rgba(255, 255, 255, 0.1), inset 0px -2px 4px rgba(0, 0, 0, 0.3);
-            top: 5rem;
-            padding-bottom: 10px;
+        color: white;
+        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3), 0px -1px 1px rgba(0, 0, 0, 0.5);
 
-            h2 {
-                font-weight: 700;
-                text-align: center;
-                background: linear-gradient(black 10%, $wood-color 80%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                filter: drop-shadow(0px 1px 0.5px rgba(255,255,255,0.4));
+        position: relative;
+
+        label {
+            font-weight: normal;
+            input {
+                display: none;
             }
-        }
+            span {
+                position: relative;
+                border-radius: 0;
+                display: inline-block;
+                box-sizing: border-box;
+                padding: 0;
+                padding-left: 0.5em;
+                padding-right: 0.5em;
+                color: white;
+                margin: 0;
+                font-weight: normal;
+                
+                height: 1.5em;
+                box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.5), inset 0px 1px 1px rgba(255, 255, 255, 0.3);
 
-        [name="attr_probe_fertigkeit"]:not([value=""]) ~ .probe-fertigkeit {
-            display: block;
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+
+            }
+
+            &:first-child span {
+                border-top-left-radius: 0.75em;
+                border-bottom-left-radius: 0.75em;
+            }
+
+            &:last-child span {
+                border-top-right-radius: 0.75em;
+                border-bottom-right-radius: 0.75em;
+            }
+
+            input[type="radio"]:checked ~ span {
+                color: black;
+                background-color: $main-color-light;
+                box-shadow: inset 0px 4px 8px black;
+            }
         }
     }
 
-    
+    .switch {
+        display: inline-block;
+        border-radius: 0.75em;
+        width: auto;
+        height: 1.5em;
+        padding: 0px;
+        margin: 0px;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        
+        overflow: hidden;
 
-    
+        color: white;
+        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3);
 
-    
+        position: relative;
+
+        .slider {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            margin-bottom: -1.5em;
+            
+            
+            box-sizing: border-box;
+            border-radius: 0.75em;
+            box-shadow: inset 0px 4px 8px black;
+            
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        input[type="checkbox"]:checked ~ .slider {
+            background-color: $main-color-light;
+        }
+
+        .slider:before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 1.2em;
+            height: 1.2em;
+            border-radius: 0.7em;
+            margin: 0.15em;
+            background-color: $wood-color;
+            background: $background-wood, $wood-color;
+            background-blend-mode: overlay, normal;
+            box-shadow: 0px 4px 8px black, inset 0px 1px 1px rgba(255, 255, 255, 0.3);
+            left: 0;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            z-index: 1999;
+        }
+
+        input[type="checkbox"]:checked ~ .slider:before {
+            left: 100%;
+            margin-left: -1.35em;
+        }
+
+
+
+
+        .active, .inactive {
+            display: block;
+            clear: both;
+            float: left;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .active {
+            padding-right: 1.6em;
+            padding-left: 0.5em;
+            color: black;
+        }
+
+        .inactive {
+            padding-left: 1.6em;
+            padding-right: 0.5em;
+        }
+        
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked ~ .active,
+        input[type="checkbox"]:not(:checked) ~ .inactive {
+            height: 100%;
+        }
+
+        input[type="checkbox"]:checked ~ .inactive,
+        input[type="checkbox"]:not(:checked) ~ .active {
+            height: 0px;
+        }
+    }
+
+    .paper .switch {
+        .slider:before {
+            background: $background-paper;
+            background-position: center;
+        }
+    }
     
     .paper input, .paper select {
         font-size: 1em;
@@ -455,122 +619,7 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         margin-top: 10px;
     }
 
-    .tab-nav-shadow {
-        position: sticky;
-        top: 1rem;
-        height: 4rem;
-        z-index: 1999;
-        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
-        margin-top:  -5rem;
-    }
-
-    .switch {
-        display: inline-block;
-        border-radius: 0.75em;
-        width: auto;
-        height: 1.5em;
-        padding: 0px;
-        margin: 0px;
-        margin-left: 0.5em;
-        margin-right: 0.5em;
-        
-        overflow: hidden;
-
-        color: white;
-        box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3);
-
-        position: relative;
-
-        .slider {
-            position: relative;
-            display: block;
-            width: 100%;
-            height: 100%;
-            margin-bottom: -1.5em;
-            
-            
-            box-sizing: border-box;
-            border-radius: 0.75em;
-            box-shadow: inset 0px 4px 8px black;
-            
-            -webkit-transition: all 0.3s ease;
-            -moz-transition: all 0.3s ease;
-            -o-transition: all 0.3s ease;
-            -ms-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-        }
-        input[type="checkbox"]:checked ~ .slider {
-            background-color: $main-color-light;
-        }
-
-        .slider:before {
-            content: '';
-            display: block;
-            position: absolute;
-            width: 1.2em;
-            height: 1.2em;
-            border-radius: 0.7em;
-            margin: 0.15em;
-            background: $background-wood, $wood-color;
-            background-blend-mode: overlay, normal;
-            box-shadow: 0px 4px 8px black, inset 0px 1px 1px rgba(255, 255, 255, 0.3);
-            left: 0;
-            -webkit-transition: all 0.3s ease;
-            -moz-transition: all 0.3s ease;
-            -o-transition: all 0.3s ease;
-            -ms-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        input[type="checkbox"]:checked ~ .slider:before {
-            left: 100%;
-            margin-left: -1.35em;
-        }
-
-
-
-
-        .active, .inactive {
-            display: block;
-            clear: both;
-            float: left;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .active {
-            padding-right: 1.6em;
-            padding-left: 0.5em;
-        }
-
-        .inactive {
-            padding-left: 1.6em;
-            padding-right: 0.5em;
-        }
-        
-
-        input[type="checkbox"] {
-            display: none;
-        }
-
-        input[type="checkbox"]:checked ~ .active,
-        input[type="checkbox"]:not(:checked) ~ .inactive {
-            height: 100%;
-        }
-
-        input[type="checkbox"]:checked ~ .inactive,
-        input[type="checkbox"]:not(:checked) ~ .active {
-            height: 0px;
-        }
-    }
-
-    .paper .switch {
-        .slider:before {
-            background: $background-paper;
-            background-position: center;
-        }
-    }
+    
 
     button.play-only[type="action"] {
         position: absolute;
@@ -610,16 +659,15 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         z-index: 2000;
         height: 5rem;
         box-sizing: border-box;
+        background-color: $wood-color;
         background: $background-wood, linear-gradient(90deg, $wood-color 0%, rgba(43, 22, 25, 0.8) 50%, $wood-color 100%);
         background-blend-mode: overlay, normal;
         box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5);
-        padding-top: 6px;
-        padding-bottom: 6px;
-        margin-bottom: -6px;
+
         display: flex;
         align-items: center;
 
-        > * {
+        > button, > .switch {
             flex-shrink: 0;
         }
 
@@ -655,6 +703,18 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         }
 
     }
+    
+    .tab-nav-shadow {
+        position: sticky;
+        top: 1rem;
+        height: 4rem;
+        z-index: 1999;
+        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
+        margin-top:  -5rem;
+        margin-bottom: 1rem;
+    }
+
+
 
     input[name="attr_tab"] {
         $pc_tabs: einstellungen, grundwerte, fertigkeiten, kampf, ausruestung;
@@ -670,6 +730,144 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
                 -webkit-text-fill-color: transparent;
             }
         }
+    }
+
+    
+
+    .roll-options {
+        flex-direction: column;
+        position: sticky;
+        background-color: $wood-color;
+        background: $background-wood, linear-gradient(90deg, #2B1619ff 0%, rgba(43, 22, 25, 0.8) 50%, #2B1619ff 100%);
+        background-blend-mode: overlay, normal;
+        background-position: 0 -5rem;
+        top: 5rem;
+        height: 10rem;
+        z-index: 2000;
+
+        overflow: hidden;
+        opacity: 1;
+
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        -ms-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+
+        .data-section-row > span {
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-items: center;
+            gap: 5px;
+        }
+
+        button.incdec {
+            font-family: "Pictos";
+            width: 3.5rem;
+            height: 3.5rem;
+            padding: 0;
+            margin: 0;
+            color: white;
+        }
+
+        h2 {
+            font-weight: 900;
+            text-align: center;
+            color: $wood-color;
+            text-shadow: 0px 1px 1px rgba(255,255,255,0.5),  0px -1px 1px rgba(0,0,0,0.5);
+        }
+
+        label:not(.switch) {
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            padding: 0;
+            width: auto;
+            text-align: center;
+            //text-shadow: 0px 1px 1px rgba(255,255,255,0.5),  0px -1px 1px rgba(0,0,0,0.5);
+        }
+
+        input[type="number"] {
+            background-color: transparent;
+            color: white;
+            font-size: $font-size-large;
+            font-weight: bold;
+            width: 3em;
+            border: none;
+            outline: none;
+            box-shadow: inset 0px 4px 8px black, 0px 1px 1px rgba(255, 255, 255, 0.3), 0px -1px 1px black;
+            text-align: center;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        input[type="number"][name="attr_probenschwierigkeit"] {
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            font-size: $font-size-very-large;
+            font-weight: 900;
+
+            background: linear-gradient(#fff, $main-color-light);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 1px 2px black);
+            text-transform: uppercase;
+        }
+
+        input[type="number"][name="attr_probenmodifikator"] {
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            font-size: $font-size-very-large;
+            font-weight: 900;
+
+            background: linear-gradient(#fff, $wood-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 1px 2px black);
+            text-transform: uppercase;
+        }
+
+        input[name="attr_probenwurfoption"][value="sicherheit"] ~ * button[name="act_probenwurfoption_sicherheit"],
+        input[name="attr_probenwurfoption"][value="standard"] ~ * button[name="act_probenwurfoption_standard"],
+        input[name="attr_probenwurfoption"][value="risiko"] ~ * button[name="act_probenwurfoption_risiko"] {
+            color: black;
+            background-color: $main-color-light;
+            box-shadow: inset 0px 4px 8px black;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+
+    input[name="attr_editmode"][value="on"] ~ .roll-options {
+        height: 0rem;
+        opacity: 0;
+    }
+
+    .roll-options-shadow {
+        position: sticky;
+        top: 6rem;
+        height: 9rem;
+        z-index: 1999;
+        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
+        margin-top:  -10rem;
+        margin-bottom: 1rem;
+
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        -ms-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    input[name="attr_editmode"][value="on"] ~ .roll-options-shadow {
+        height: 0rem;
+        opacity: 0;
     }
 
     .data-section {
@@ -690,25 +888,28 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         gap: 20px;
     }
 
-    .data-area {
+    .data-area, .data-header {
         @include gradient-border();
-        @include gradient-background();
+        position:relative;
+        display: grid;
+        align-items: baseline;
+        grid-template-columns: 1fr;
         gap: 5px;
         border-bottom: 1px solid;
+        
+    }
 
+    .data-area {
+        @include gradient-background();
+        padding-bottom: 5px;
         input[type="number"],
         input[type="text"]{
             text-align:center;
             width: 100%;
         }
-
     }
 
     .data-header {
-        @include gradient-border();
-        gap: 5px;
-        border-bottom: 1px solid;
-
         span {
             @include standard-font($font-size-small);
             color: #666;
@@ -717,6 +918,10 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
 
         h3 {
             white-space: nowrap;
+        }
+
+        h3:last-child {
+            text-align: center;
         }
     }
 
@@ -736,6 +941,11 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
             display: block;
             width: 100%;
             text-align: center;
+        }
+
+        > * {
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
         
     }
@@ -772,19 +982,9 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
     }
 
     .data-section-attribute,
-    .data-section-abgeleitetewerte,
-    .data-section-erfahrungspunkte  {
-        display: flex;
-        flex-direction: column;
-    
-
-        margin-top: 10px;
-        margin-bottom: 10px;
-
+    .data-section-abgeleitetewerte  {
         .data-area,
         .data-header {
-            display: grid;
-            align-items: baseline;
             grid-template-columns: 6em 2em 2.5em 2.5em 2.5em;
         }
 
@@ -809,10 +1009,6 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
 
             input[name$="start"] {
                 color: #666;
-            }
-
-            input {
-                @include standard-font($font-size-normal);
             }
         }
     }
@@ -840,48 +1036,39 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
     }
 
     
-
+    
     .data-section-erfahrungspunkte {
-        .data-header {
-            grid-template-columns: 1fr;
-            h3 {
-                text-align: center;
-            }
-        }
-
+        flex-shrink: 10;
         .data-area {
-            justify-content: start;
-            grid-template-columns: 1fr 1fr;
-            gap: 0px;
+            grid-template-columns: 1fr 3em;
 
             label {
                 text-align: right;
             }
 
-            input, span {
-                width: 3em;
+            span, input {
                 text-align: center;
-            }
-
-            input {
-                @include standard-font($font-size-large);
             }
         }
     }
 
-    .data-section-ressourcen {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        min-width: 15em;
-        box-sizing: border-box;
-        .data-header {
-            h3 {
+    .data-section-geld {
+        .data-area {
+            grid-template-columns: 1fr 3em 1fr 3em 1fr 3em;
+
+            label {
+                text-align: right;
+            }
+
+            span, input {
                 text-align: center;
             }
         }
+    }
+    
 
+    .data-section-ressourcen {
         .data-area {
-            margin-bottom: 5px;
             div > div {
                 display: grid;
                 grid-template-columns: 12em 2.5em;
@@ -891,6 +1078,10 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
                     text-align: center;
                 }
             }
+
+            div > div:last-child {
+                padding-bottom: 0px;
+            }
         }
     }
     .data-section-staerken {
@@ -898,7 +1089,6 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
     }
     .data-section-schwaechen {
         @extend .data-section-ressourcen;
-        min-width: 12em;
         .data-area {
             div > div {
                 grid-template-columns: 12em;
@@ -915,23 +1105,20 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
     }
 
     .data-section-attributmods {
-        @extend .data-section-staerken;
-        min-width: 35em;
-        max-width: 45em;
+        //min-width: 35em;
+        //max-width: 45em;
 
         .data-header {
-            display: grid;
-            align-items: baseline;
             grid-template-columns: 1.5em 1fr 15em 2.5em;
 
             h3 {
-                text-align: left;
                 grid-column-start: 1;
                 grid-column-end: 3;
             }
         }
         .data-area {
             div > div {
+                display: grid;
                 gap: 5px;
                 grid-template-columns: 1.5em 1fr 15em 2.5em;
                 align-items: baseline;
@@ -957,23 +1144,12 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         flex-direction: column;
 
         .data-header,
-        .data-area .data-entry {
-            position: relative;
-            display: grid;
-            align-items: baseline;
-            gap: 5px;
+        .data-area {
             grid-template-columns: 9em 2.5em 2.5em 2.5em;
         }
-
         
-
         .data-area {
-            display: grid;
-            align-items: center;
-            gap: 0px;
-            grid-template-columns: 1fr;
-            border-bottom: none;
-
+            
             label {
                 text-align: right;
                 .secondary{
@@ -1039,8 +1215,10 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
     }
 
     input[name="attr_editmode"][value=""] ~ * .data-section-fertigkeiten {
-        .data-header,
-        .data-area .data-entry {
+        .data-header {
+            grid-template-columns:  1fr;
+        }
+        .data-area {
             grid-template-columns:  9em 2.5em;
         }
     }
@@ -1059,14 +1237,6 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
     .data-section-lebenspunkte {
         display: flex;
         flex-direction: column;
-
-        .data-header {
-            padding-top: 5px;
-            align-items: baseline;
-            h3 {
-                text-align:center;
-            }
-        }
 
         .data-area.lebenspunkte  {
             display: flex;
@@ -1176,15 +1346,85 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         }
     }
 
-    
-    .data-section-zustaende {
-        max-width: 20em;
-        min-width: 16em;
-        .data-header {
-            h3 {
-                text-align: center;
+    .data-section-schaden {
+        .data-area {
+            padding-top: 5px;
+            grid-template-columns:  auto 2.5em auto auto;
+        }
+    }
+
+    .data-section-regeneration {
+        .data-area {
+            padding-top: 5px;
+            grid-template-columns:  1fr 1fr;
+
+            label {
+                text-align: right;
+            }
+            input {
+                width: 2.5em;
             }
         }
+    }
+
+    .data-section-aktiveabwehr {
+        
+        .data-area {
+            padding-top: 5px;
+            grid-template-columns:  1fr 2.5em;
+
+            label {
+                text-align: right;
+            }
+
+            span {
+                display: block;
+                box-sizing: border-box;
+                padding: 0.2em;
+            }
+
+            button[type="roll"] {
+                position: absolute;
+                z-index: 1001;
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+                border: none;
+                box-sizing: content-box;
+                padding: 0;
+                border-radius: 6px;
+                &:before {
+                    content: "";
+                }
+
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+
+                &:hover, &:focus {
+
+                    border:none;
+                    outline: none;
+                    box-shadow: 0 3px 4px rgba(0,0,0,0.3), 0 -3px 4px rgba(255,255,255,0.3);
+                }
+
+                &:active {
+
+                    border:none;
+                    outline: none;
+                    box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+                }
+            }
+            
+
+            
+        }
+    }
+
+    
+    .data-section-zustaende {
         .data-area {
             padding-top: 5px;
             
@@ -1209,13 +1449,13 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
 
         width: 12em;
 
-        .data-header {
-            h3 {
-                text-align:center;
-            }
-        }
-
         .data-area.fokus  {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            padding-top: 5px;
+            padding-bottom: 5px;
+
             font-family: "Pictos";
             word-break: break-word;
 
@@ -1242,92 +1482,114 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         display: flex;
         flex-direction: column;
         align-self: stretch;
+
         margin-left: 5%;
         margin-right: 5%;
 
-        .data-header {
-            h3 {
-                width: 100%;
+        .data-header, .data-area {
+            grid-template-columns: 14em 2.5em 2.5em 4em 2.5em 2.5em 1fr ;
+        }
+
+        .data-area {
+            input[name="attr_waffenname"] {
+                text-align: left;
+                //font-weight: bold;
+                color: $main-color;
+            }
+
+            select[name="attr_waffenskill"],
+            select[name^="attr_waffenattr"] {
+                font-size: $font-size-small;
+                width: auto;
+            }
+
+            span[name="attr_waffenwert"] {
+                @include standard-font($font-size-large);
                 text-align: center;
             }
-        }
 
-        .eintrag {
-            position: relative;
-            box-sizing: border-box;
-            margin-top: 10px;
+            input[name="attr_waffenmod"]:before {
+                content: "+";
+            }
 
-            .data-header,
-            .data-area {
+            input[name="attr_waffennotizen"] {
+                font-size: $font-size-small;
+                font-style: italic;
+                grid-column: 3 / 8;
+                text-align:left;
+            }
+
+            label {
+                display: inline;
+                padding-left: 10px;
+            }
+
+            > div {
+                box-sizing: border-box;
+                grid-column: 1 / 8;
                 display: grid;
-                align-items: end;
-                justify-items: center;
-                grid-template-columns: minmax(12em, auto) 2.5em 2.5em 4em 2.5em 12em;
+                grid-template-columns: 1fr 2fr ;
+                width: 100%;
 
-                input[name="attr_waffenname"] {
-                    @include standard-font($font-size-large);
-                    padding-bottom: 0px;
-                    margin-bottom: -1px;
-                }
+                padding: 5px;
+                border-radius: 6px;
+                box-shadow: inset 0 3px 4px rgba(0,0,0,0.3), inset 0 -3px 4px rgba(255,255,255,0.3);
+                
             }
-
-            .data-area {
-                align-items: baseline;
-
-                select[name="attr_waffenskill"],
-                select[name^="attr_waffenattr"] {
-                    @include standard-font($font-size-small);
-                    width: auto;
-                }
-
-                span[name="attr_waffenwert"] {
-                    @include standard-font($font-size-large);
-                    text-align: center;
-                }
-
-                input[name="attr_waffenmod"]:before {
-                    content: "+";
-                }
-
-                input[name="attr_waffennotizen"] {
-                    text-align: left;
-                }
-
-                label {
-                    display: inline;
-                    padding-left: 10px;
-                }
-
-                div {
-                    white-space: nowrap;
-                    width: 100%;
-                    
-                }
-            }
-
         }
+    }
+
+    .show-more  {
+        position: relative;
+        display: inline-block;
+        input {
+            display: none;
+        }
+
+        input:checked ~ span {
+            transform: rotate(90deg);
+        }
+        
+        span {
+            display: inline-block;
+            font-family: "Pictos";
+            color: black;
+            font-size: $font-size-small;
+
+            -webkit-transition: transform 0.3s ease;
+            -moz-transition: transform 0.3s ease;
+            -o-transition: transform 0.3s ease;
+            -ms-transition: transform 0.3s ease;
+            transition: transform 0.3s ease;
+        }
+
         
     }
 
     .data-section-zauber {
         @extend .data-section-waffen;
-        .eintrag {
 
             .data-header,
             .data-area {
-                grid-template-columns: minmax(10em, auto) 2.5em 2.5em 2.5em 4em 6em 2.5em 2.5em 2.5em;
-
-                input[name="attr_zaubername"] {
-                    @include standard-font($font-size-large);
-                    padding-bottom: 0px;
-                    margin-bottom: -1px;
+                grid-template-columns: 1.5em minmax(10em, auto) 2.5em 2.5em 2.5em 4em 6em 2.5em 2.5em 2.5em;
+                h3 {
+                    grid-column: 1 / 3;
                 }
+                
             }
 
             .data-area {
-                align-items: baseline;
+                input[name="attr_zaubername"] {
+                    text-align: left;
+                    //font-weight: bold;
+                    color: $main-color;
+                }
 
                 select[name="attr_magieschulen"]{
+                    position: relative;
+                    top: -2px;
+                    padding: 2px;
+                    margin: 0px;
                     @include standard-font($font-size-small);
                     width: auto;
                 }
@@ -1337,11 +1599,18 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
                     text-align: center;
                 }
 
-                input[name="attr_zauberwirkung"] {
+                textarea[name="attr_zauberwirkung"] {
+                    display: block;
+                    //box-sizing: border-box;
                     text-align: left;
+                    grid-column: 2 / 11;
+                    height: auto;
+                }
+
+                input[name="attr_zaubershowmore"][value=""] ~ textarea[name="attr_zauberwirkung"] {
+                        display: none;
                 }
             }
-        }
     }
 
     .data-section-ruestungen,
@@ -1380,7 +1649,6 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
                 font-size: 1em;
             }
             input[name$="name"] {
-                @include standard-font($font-size-large);
                 text-align:left;
             }
             span {
@@ -1438,7 +1706,7 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         flex-direction: column;
         align-items: center;
         > div {
-            margin-top:20px;
+            margin-top:10px;
         }
         
     }
@@ -1451,24 +1719,27 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
         margin-right: 5%;
 
         h3 {
+            align-items: baseline;
+            display: grid;
+            grid-template-columns: 2em 1fr;
             width: 100%;
-            text-align: center;
+            text-align: left;
+            white-space: nowrap;
             input[type="text"] {
-                text-align: center;
+                text-align: left;
             }
+        }
+
+        input[name^="attr_behaelter"][value=""] ~ div {
+            display: none;
         }
 
         .data-header,
         .data-area {
-            display: grid;
-            align-items: end;
-            justify-items: center;
             grid-template-columns: 2em 2.5em minmax(10em, auto) 2.5em 2.5em 8em minmax(10em, auto);
         }
 
         .data-area {
-            align-items: baseline;
-
             input[type="text"] {
                 text-align: left;
             }
@@ -1476,7 +1747,19 @@ input[name="attr_editmode"][value=""] ~ * .repcontrol {
             select[name="attr_zustand"]{
                 width: auto;
             }
+
+            label {
+                text-align: right;
+            }
+
+            span {
+                text-align: center;
+            }
         }
+    }
+
+    input[name="attr_editmode"][value=""] ~ * input[name^="attr_behaelter"][value=""] ~ .data-section-ausruestung {
+        display: none;
     }
 
 

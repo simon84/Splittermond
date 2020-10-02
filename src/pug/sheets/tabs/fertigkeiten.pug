@@ -2,73 +2,70 @@
     .data-section-fertigkeiten
         .data-header
             h3 Fertigkeiten
-            span 
+            span.edit-only
             span.edit-only Pkt.
             span.edit-only Mod.
-        .data-area
-            each fertigkeit, id in splittermond.fertigkeiten
-                .data-entry
-                    button(type="action", class="play-only", name="act_probe"+id)
-                    label= fertigkeit.Name
-                    span.tooltip
-                        span.main-value(name="attr_"+id)
-                        span.tooltiptext 
-                            label= splittermond.attribute[fertigkeit.Attribute[0].toLowerCase()].short
-                            span(name="attr_"+fertigkeit.Attribute[0].toLowerCase()) 0
-                            label= splittermond.attribute[fertigkeit.Attribute[1].toLowerCase()].short
-                            span(name="attr_"+fertigkeit.Attribute[1].toLowerCase()) 0
-                            span.pre(name="attr_" + id + "tooltip")
-                    span.edit-only 
-                        +numberinput(id+"punkte",0)
-                    span.edit-only
-                        +hiddeninput(id+"mod",0)
-                        +numberinput(id+"moduser",0)
-                div.line
+        
+        each fertigkeit, id in splittermond.fertigkeiten
+            .data-area
+                +rollbutton(fertigkeit.Name, "@{"+id+"}")
+                label= fertigkeit.Name
+                span.tooltip(style="z-index:1500")
+                    span.main-value(name="attr_"+id)
+                    span.tooltiptext 
+                        label= splittermond.attribute[fertigkeit.Attribute[0].toLowerCase()].short
+                        span(name="attr_"+fertigkeit.Attribute[0].toLowerCase()) 0
+                        label= splittermond.attribute[fertigkeit.Attribute[1].toLowerCase()].short
+                        span(name="attr_"+fertigkeit.Attribute[1].toLowerCase()) 0
+                        span.pre(name="attr_" + id + "tooltip")
+                span.edit-only 
+                    +numberinput(id+"punkte",0)
+                span.edit-only
+                    +hiddeninput(id+"mod",0)
+                    +numberinput(id+"moduser",0)
     .data-section-column
         .data-section-magieschulen
             .data-header
                 h3 Magieschulen
-                span 
+                span.edit-only 
                 span.edit-only Pkt.
                 span.edit-only Mod.
-            .data-area
-                each magieschule, id in splittermond.magieschulen
-                    .data-entry
-                        button(type="action", class="play-only", name="act_probe"+id)
-                        label= magieschule.Name
-                        span.tooltip
-                            span.main-value(name="attr_"+id)
-                            span.tooltiptext
-                                label= splittermond.attribute[magieschule.Attribute[0].toLowerCase()].short
-                                span(name="attr_"+magieschule.Attribute[0].toLowerCase()) 0
-                                label= splittermond.attribute[magieschule.Attribute[1].toLowerCase()].short
-                                span(name="attr_"+magieschule.Attribute[1].toLowerCase()) 0
-                                span.pre(name="attr_" + id + "tooltip")
-                        span.edit-only
-                            +numberinput(id+"punkte",0)
-                        span.edit-only
-                            +hiddeninput(id+"mod",0)
-                            +numberinput(id+"moduser",0)
-                    div.line
+            
+            each magieschule, id in splittermond.magieschulen
+                .data-area
+                    +rollbutton(magieschule.Name, "@{"+id+"}")
+                    label= magieschule.Name
+                    span.tooltip(style="z-index:1500")
+                        span.main-value(name="attr_"+id)
+                        span.tooltiptext
+                            label= splittermond.attribute[magieschule.Attribute[0].toLowerCase()].short
+                            span(name="attr_"+magieschule.Attribute[0].toLowerCase()) 0
+                            label= splittermond.attribute[magieschule.Attribute[1].toLowerCase()].short
+                            span(name="attr_"+magieschule.Attribute[1].toLowerCase()) 0
+                            span.pre(name="attr_" + id + "tooltip")
+                    span.edit-only
+                        +numberinput(id+"punkte",0)
+                    span.edit-only
+                        +hiddeninput(id+"mod",0)
+                        +numberinput(id+"moduser",0)
         .data-section-kampffertigkeiten
             .data-header
                 h3 Kampffertigkeiten
-                span
+                span.edit-only
                 span.edit-only Pkt.
                 span.edit-only Mod.
-            .data-area
-                each kampffertigkeit, id in splittermond.kampffertigkeiten
-                    .data-entry
-                        label= kampffertigkeit.Name
-                        span.tooltip
-                            span.main-value(name="attr_"+id)
-                            span.tooltiptext
-                                span.pre(name="attr_" + id + "tooltip")
-                        span.edit-only
-                            +numberinput(id+"punkte",0)
-                        span.edit-only
-                            +hiddeninput(id+"mod",0)
-                            +numberinput(id+"moduser",0)
-                    div.line
+            
+            each kampffertigkeit, id in splittermond.kampffertigkeiten
+                .data-area
+                    label= kampffertigkeit.Name
+                    span.tooltip(style="z-index:1500")
+                        span.main-value(name="attr_"+id)
+                        span.tooltiptext
+                            span.pre(name="attr_" + id + "tooltip")
+                    span.edit-only
+                        +numberinput(id+"punkte",0)
+                    span.edit-only
+                        +hiddeninput(id+"mod",0)
+                        +numberinput(id+"moduser",0)
 
 
