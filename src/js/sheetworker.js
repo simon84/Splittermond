@@ -74,37 +74,12 @@ function autoAttribut(attributId) {
         update[attributId + "max"] = int(v[attributId + "start"]) + int(v.heldengrad);
         return update;
     });
-    allModifier.push(id);
+    allModifier.push(attributId);
 }
 
-function actionFertigkeitsProbe(id, label) {
-    on("clicked:probe" + id, function () {
-        getAttrs([id, id + "tooltip"], function (v) {
-            setAttrs({
-                "probe_fertigkeit": id,
-                "probe_fertigkeitlabel": label,
-                "probe_fertigkeitswert": v[id],
-                "probe_tooltip": v[id + "tooltip"]
-            });
-        });
-    });
+for (var attributId in splittermond.attribute) {
+    autoAttribut(attributId);
 }
-
-for (var id in splittermond.fertigkeiten) {
-    actionFertigkeitsProbe(id, splittermond.fertigkeiten[id].Name);
-}
-
-for (var id in splittermond.magieschulen) {
-    actionFertigkeitsProbe(id, splittermond.magieschulen[id].Name);
-}
-
-on('clicked:probe_clear', function () {
-    setAttrs({
-        "probe_fertigkeit": ""
-    });
-});
-
-
 
 
 on('sheet:opened', function () {
