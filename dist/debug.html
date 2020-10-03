@@ -566,10 +566,16 @@ $(document).ready(function () {
     <div class="sheet-tab-group sheet-paper">
       <div class="sheet-watermark">
         <div class="sheet-tab-content sheet-einstellungen">
-          <h2>Einstellungen</h2>
-          <div>7<span class="sheet-autoexpand">
-              <input name="attr_test" type="text" value="7"/><span class="sheet-autoexpand" name="attr_test"></span></span>&nbsp(+<span class="sheet-autoexpand">
-              <input name="attr_testmod" type="text" value="0"/><span class="sheet-autoexpand" name="attr_testmod"></span></span>)
+          <div class="sheet-data-section-notizen">
+            <div class="sheet-data-header">
+              <h2>JSON-Import</h2>
+            </div>
+            <div class="sheet-data-area">
+              <textarea name="attr_jsonimport"></textarea>
+            </div>
+            <div class="sheet-data-area">
+              <button name="act_startimport" type="action">Importieren</button>
+            </div>
           </div>
         </div>
         <div class="sheet-tab-content sheet-grundwerte">

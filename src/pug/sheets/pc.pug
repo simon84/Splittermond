@@ -63,14 +63,7 @@ mixin tab-nav-item(tabId)
 .tab-group.paper
     .watermark
         .tab-content.einstellungen
-            h2 Einstellungen
-            div
-                | 7
-                +textinput("test","7", true)
-                |&nbsp(+
-                +textinput("testmod","0", true)
-                | )
-                
+            include tabs/einstellungen.pug
         .tab-content.grundwerte
             include tabs/grundwerte.pug
         .tab-content.fertigkeiten
