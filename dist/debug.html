@@ -464,6 +464,20 @@ $(document).ready(function () {
             }
         })
 
+        var rollParser = function (rollCmd) {
+            rollCmd = rollCmd.replace(/.*\[\[(.*)\]\].*/g, function (match, submatch) {
+                rollParser(submatch)
+            });
+
+            rollCmd = rollCmd.replace(/.*([0-9]*)[dD]([0-9]+)([dk<]*).*/g, function (match, nDices, diceType, diceOptions) {
+                nDices = nDices || 1;
+
+                Math.random
+            });
+        }
+
+
+
         console.log(`invoke roll (${dataGroupname}_${reprowid}): ${rollCmd}`);
         console.log(e);
     });
