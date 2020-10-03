@@ -193,20 +193,6 @@ Array.prototype.unique = function () {
 }
 
 async function getSectionIDs(sectionName, cb) {
-
-    // var name = sectionName + "_";
-    // var data = Object.keys(roll20API.charData).filter(key => key.startsWith(name)).map(function (key) {
-    //     key = key.match(/repeating_[^_]+_([^_]+)_([^_]+)/);
-    //     if (key) {
-    //         return key[1];
-    //     } else {
-    //         return "";
-    //     }
-
-    // });
-
-    // //data = data.unique();
-    // data = data.filter(val => (val != ""));
     if (roll20API.charData["_reporder:" + sectionName] == undefined) {
         cb([]);
     } else {
@@ -462,6 +448,24 @@ $(document).ready(function () {
 
 
 
+    });
+
+    $(document).on("click", "button[type='roll']", function (e) {
+        e.preventDefault();
+        var reprowid = $(this).parents("[reprowid]").attr("reprowid");
+        var dataGroupname = $(this).parents("[data-groupname]").attr("data-groupname");
+        var rollCmd = $(this).val();
+
+        rollCmd = rollCmd.replace(/.*@\{([^\}:]+)\}.*/g, function (match, submatch) {
+            if (roll20API.charData[`${dataGroupname}_${reprowid}_${submatch}`] != undefined) {
+                return roll20API.charData[`${dataGroupname}_${reprowid}_${submatch}`];
+            } else {
+                return roll20API.charData[submatch];
+            }
+        })
+
+        console.log(`invoke roll (${dataGroupname}_${reprowid}): ${rollCmd}`);
+        console.log(e);
     });
 
 
@@ -823,7 +827,7 @@ $(document).ready(function () {
                 <h3>Fertigkeiten</h3><span class="sheet-edit-only"></span><span class="sheet-edit-only">Pkt.</span><span class="sheet-edit-only">Mod.</span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{akrobatik} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Akrobatik}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{akrobatik} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Akrobatik}}"></button>
                 <label>Akrobatik</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_akrobatik"></span><span class="sheet-tooltiptext"> 
                     <label>BEW</label><span name="attr_beweglichkeit">0</span>
                     <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_akrobatiktooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -832,7 +836,7 @@ $(document).ready(function () {
                   <input name="attr_akrobatikmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{alchemie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Alchemie}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{alchemie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Alchemie}}"></button>
                 <label>Alchemie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_alchemie"></span><span class="sheet-tooltiptext"> 
                     <label>MYS</label><span name="attr_mystik">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_alchemietooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -841,7 +845,7 @@ $(document).ready(function () {
                   <input name="attr_alchemiemoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{anfuehren} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Anführen}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{anfuehren} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Anführen}}"></button>
                 <label>Anführen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_anfuehren"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_anfuehrentooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -850,7 +854,7 @@ $(document).ready(function () {
                   <input name="attr_anfuehrenmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{arkanekunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Arkane Kunde}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{arkanekunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Arkane Kunde}}"></button>
                 <label>Arkane Kunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_arkanekunde"></span><span class="sheet-tooltiptext"> 
                     <label>MYS</label><span name="attr_mystik">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_arkanekundetooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -859,7 +863,7 @@ $(document).ready(function () {
                   <input name="attr_arkanekundemoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{athletik} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Athletik}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{athletik} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Athletik}}"></button>
                 <label>Athletik</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_athletik"></span><span class="sheet-tooltiptext"> 
                     <label>BEW</label><span name="attr_beweglichkeit">0</span>
                     <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_athletiktooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -868,7 +872,7 @@ $(document).ready(function () {
                   <input name="attr_athletikmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{darbietung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Darbietung}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{darbietung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Darbietung}}"></button>
                 <label>Darbietung</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_darbietung"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_darbietungtooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -877,7 +881,7 @@ $(document).ready(function () {
                   <input name="attr_darbietungmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{diplomatie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Diplomatie}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{diplomatie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Diplomatie}}"></button>
                 <label>Diplomatie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_diplomatie"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_diplomatietooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -886,7 +890,7 @@ $(document).ready(function () {
                   <input name="attr_diplomatiemoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{edelhandwerk} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Edelhandwerk}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{edelhandwerk} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Edelhandwerk}}"></button>
                 <label>Edelhandwerk</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_edelhandwerk"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_edelhandwerktooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -895,7 +899,7 @@ $(document).ready(function () {
                   <input name="attr_edelhandwerkmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{empathie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Empathie}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{empathie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Empathie}}"></button>
                 <label>Empathie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_empathie"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_empathietooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -904,7 +908,7 @@ $(document).ready(function () {
                   <input name="attr_empathiemoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{entschlossenheit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Entschlossenheit}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{entschlossenheit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Entschlossenheit}}"></button>
                 <label>Entschlossenheit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_entschlossenheit"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_entschlossenheittooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -913,7 +917,7 @@ $(document).ready(function () {
                   <input name="attr_entschlossenheitmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{fingerfertigkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Fingerfertigkeit}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{fingerfertigkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Fingerfertigkeit}}"></button>
                 <label>Fingerfertigkeit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_fingerfertigkeit"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_fingerfertigkeittooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -922,7 +926,7 @@ $(document).ready(function () {
                   <input name="attr_fingerfertigkeitmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{geschichtenundmythen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Geschichten &amp; Mythen}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{geschichtenundmythen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Geschichten &amp; Mythen}}"></button>
                 <label>Geschichten &amp; Mythen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_geschichtenundmythen"></span><span class="sheet-tooltiptext"> 
                     <label>MYS</label><span name="attr_mystik">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_geschichtenundmythentooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -931,7 +935,7 @@ $(document).ready(function () {
                   <input name="attr_geschichtenundmythenmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{handwerk} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Handwerk}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{handwerk} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Handwerk}}"></button>
                 <label>Handwerk</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_handwerk"></span><span class="sheet-tooltiptext"> 
                     <label>KON</label><span name="attr_konstitution">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_handwerktooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -940,7 +944,7 @@ $(document).ready(function () {
                   <input name="attr_handwerkmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heilkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heilkunde}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heilkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heilkunde}}"></button>
                 <label>Heilkunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_heilkunde"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_heilkundetooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -949,7 +953,7 @@ $(document).ready(function () {
                   <input name="attr_heilkundemoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heimlichkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heimlichkeit}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heimlichkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heimlichkeit}}"></button>
                 <label>Heimlichkeit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_heimlichkeit"></span><span class="sheet-tooltiptext"> 
                     <label>BEW</label><span name="attr_beweglichkeit">0</span>
                     <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_heimlichkeittooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -958,7 +962,7 @@ $(document).ready(function () {
                   <input name="attr_heimlichkeitmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{jagdkunst} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Jagdkunst}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{jagdkunst} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Jagdkunst}}"></button>
                 <label>Jagdkunst</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_jagdkunst"></span><span class="sheet-tooltiptext"> 
                     <label>KON</label><span name="attr_konstitution">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_jagdkunsttooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -967,7 +971,7 @@ $(document).ready(function () {
                   <input name="attr_jagdkunstmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{laenderkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Länderkunde}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{laenderkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Länderkunde}}"></button>
                 <label>Länderkunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_laenderkunde"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_laenderkundetooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -976,7 +980,7 @@ $(document).ready(function () {
                   <input name="attr_laenderkundemoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{naturkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Naturkunde}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{naturkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Naturkunde}}"></button>
                 <label>Naturkunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_naturkunde"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_naturkundetooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -985,7 +989,7 @@ $(document).ready(function () {
                   <input name="attr_naturkundemoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{redegewandtheit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Redegewandtheit}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{redegewandtheit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Redegewandtheit}}"></button>
                 <label>Redegewandtheit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_redegewandtheit"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_redegewandtheittooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -994,7 +998,7 @@ $(document).ready(function () {
                   <input name="attr_redegewandtheitmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schloesserundfallen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schlösser &amp; Fallen}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schloesserundfallen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schlösser &amp; Fallen}}"></button>
                 <label>Schlösser &amp; Fallen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schloesserundfallen"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_schloesserundfallentooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -1003,7 +1007,7 @@ $(document).ready(function () {
                   <input name="attr_schloesserundfallenmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schwimmen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schwimmen}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schwimmen} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schwimmen}}"></button>
                 <label>Schwimmen</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schwimmen"></span><span class="sheet-tooltiptext"> 
                     <label>KON</label><span name="attr_konstitution">0</span>
                     <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_schwimmentooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -1012,7 +1016,7 @@ $(document).ready(function () {
                   <input name="attr_schwimmenmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{seefahrt} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Seefahrt}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{seefahrt} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Seefahrt}}"></button>
                 <label>Seefahrt</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_seefahrt"></span><span class="sheet-tooltiptext"> 
                     <label>BEW</label><span name="attr_beweglichkeit">0</span>
                     <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_seefahrttooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -1021,7 +1025,7 @@ $(document).ready(function () {
                   <input name="attr_seefahrtmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{strassenkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Straßenkunde}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{strassenkunde} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Straßenkunde}}"></button>
                 <label>Straßenkunde</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_strassenkunde"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_strassenkundetooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -1030,7 +1034,7 @@ $(document).ready(function () {
                   <input name="attr_strassenkundemoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{tierfuehrung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Tierfuehrung}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{tierfuehrung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Tierfuehrung}}"></button>
                 <label>Tierfuehrung</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_tierfuehrung"></span><span class="sheet-tooltiptext"> 
                     <label>AUS</label><span name="attr_ausstrahlung">0</span>
                     <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_tierfuehrungtooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -1039,7 +1043,7 @@ $(document).ready(function () {
                   <input name="attr_tierfuehrungmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{ueberleben} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Überleben}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{ueberleben} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Überleben}}"></button>
                 <label>Überleben</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_ueberleben"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_ueberlebentooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -1048,7 +1052,7 @@ $(document).ready(function () {
                   <input name="attr_ueberlebenmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{wahrnehmung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Wahrnehmung}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{wahrnehmung} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Wahrnehmung}}"></button>
                 <label>Wahrnehmung</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_wahrnehmung"></span><span class="sheet-tooltiptext"> 
                     <label>INT</label><span name="attr_intuition">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_wahrnehmungtooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -1057,7 +1061,7 @@ $(document).ready(function () {
                   <input name="attr_wahrnehmungmoduser" type="number" value="0"/></span>
               </div>
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{zaehigkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Zähigkeit}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{zaehigkeit} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Zähigkeit}}"></button>
                 <label>Zähigkeit</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_zaehigkeit"></span><span class="sheet-tooltiptext"> 
                     <label>KON</label><span name="attr_konstitution">0</span>
                     <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_zaehigkeittooltip"></span></span></span><span class="sheet-edit-only"> 
@@ -1072,7 +1076,7 @@ $(document).ready(function () {
                   <h3>Magieschulen</h3><span class="sheet-edit-only"> </span><span class="sheet-edit-only">Pkt.</span><span class="sheet-edit-only">Mod.</span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{bannmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Bannmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{bannmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Bannmagie}}"></button>
                   <label>Bannmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_bannmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_bannmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1081,7 +1085,7 @@ $(document).ready(function () {
                     <input name="attr_bannmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{beherrschungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Beherrschungsmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{beherrschungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Beherrschungsmagie}}"></button>
                   <label>Beherrschungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_beherrschungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>WIL</label><span name="attr_willenskraft">0</span><span class="sheet-pre" name="attr_beherrschungsmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1090,7 +1094,7 @@ $(document).ready(function () {
                     <input name="attr_beherrschungsmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{bewegungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Bewegungsmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{bewegungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Bewegungsmagie}}"></button>
                   <label>Bewegungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_bewegungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>BEW</label><span name="attr_beweglichkeit">0</span><span class="sheet-pre" name="attr_bewegungsmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1099,7 +1103,7 @@ $(document).ready(function () {
                     <input name="attr_bewegungsmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{erkenntnismagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Erkenntnismagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{erkenntnismagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Erkenntnismagie}}"></button>
                   <label>Erkenntnismagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_erkenntnismagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_erkenntnismagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1108,7 +1112,7 @@ $(document).ready(function () {
                     <input name="attr_erkenntnismagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{felsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Fellsmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{felsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Fellsmagie}}"></button>
                   <label>Fellsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_felsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_felsmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1117,7 +1121,7 @@ $(document).ready(function () {
                     <input name="attr_felsmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{feuermagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Feuermagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{feuermagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Feuermagie}}"></button>
                   <label>Feuermagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_feuermagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_feuermagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1126,7 +1130,7 @@ $(document).ready(function () {
                     <input name="attr_feuermagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heilungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heilungsmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{heilungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Heilungsmagie}}"></button>
                   <label>Heilungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_heilungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_heilungsmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1135,7 +1139,7 @@ $(document).ready(function () {
                     <input name="attr_heilungsmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{illusionsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Illusionsmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{illusionsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Illusionsmagie}}"></button>
                   <label>Illusionsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_illusionsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_illusionsmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1144,7 +1148,7 @@ $(document).ready(function () {
                     <input name="attr_illusionsmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{kampfmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Kampfmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{kampfmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Kampfmagie}}"></button>
                   <label>Kampfmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_kampfmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_kampfmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1153,7 +1157,7 @@ $(document).ready(function () {
                     <input name="attr_kampfmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{lichtmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Lichtmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{lichtmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Lichtmagie}}"></button>
                   <label>Lichtmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_lichtmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_lichtmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1162,7 +1166,7 @@ $(document).ready(function () {
                     <input name="attr_lichtmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{naturmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Naturmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{naturmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Naturmagie}}"></button>
                   <label>Naturmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_naturmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_naturmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1171,7 +1175,7 @@ $(document).ready(function () {
                     <input name="attr_naturmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schattenmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schattenmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schattenmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schattenmagie}}"></button>
                   <label>Schattenmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schattenmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_schattenmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1180,7 +1184,7 @@ $(document).ready(function () {
                     <input name="attr_schattenmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schicksalsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schicksalsmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schicksalsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schicksalsmagie}}"></button>
                   <label>Schicksalsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schicksalsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_schicksalsmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1189,7 +1193,7 @@ $(document).ready(function () {
                     <input name="attr_schicksalsmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schutzmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schutzmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{schutzmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Schutzmagie}}"></button>
                   <label>Schutzmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_schutzmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>AUS</label><span name="attr_ausstrahlung">0</span><span class="sheet-pre" name="attr_schutzmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1198,7 +1202,7 @@ $(document).ready(function () {
                     <input name="attr_schutzmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{staerkungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Stärkungsmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{staerkungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Stärkungsmagie}}"></button>
                   <label>Stärkungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_staerkungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>STÄ</label><span name="attr_staerke">0</span><span class="sheet-pre" name="attr_staerkungsmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1207,7 +1211,7 @@ $(document).ready(function () {
                     <input name="attr_staerkungsmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{todesmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Todesmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{todesmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Todesmagie}}"></button>
                   <label>Todesmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_todesmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_todesmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1216,7 +1220,7 @@ $(document).ready(function () {
                     <input name="attr_todesmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{verwandlungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Verwandlungsmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{verwandlungsmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Verwandlungsmagie}}"></button>
                   <label>Verwandlungsmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_verwandlungsmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>KON</label><span name="attr_konstitution">0</span><span class="sheet-pre" name="attr_verwandlungsmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1225,7 +1229,7 @@ $(document).ready(function () {
                     <input name="attr_verwandlungsmagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{wassermagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Wassermagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{wassermagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Wassermagie}}"></button>
                   <label>Wassermagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_wassermagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>INT</label><span name="attr_intuition">0</span><span class="sheet-pre" name="attr_wassermagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1234,7 +1238,7 @@ $(document).ready(function () {
                     <input name="attr_wassermagiemoduser" type="number" value="0"/></span>
                 </div>
                 <div class="sheet-data-area">
-                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{windmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Windmagie}}"></button>
+                  <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{windmagie} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=Windmagie}}"></button>
                   <label>Windmagie</label><span class="sheet-tooltip" style="z-index:1500"><span class="sheet-main-value" name="attr_windmagie"></span><span class="sheet-tooltiptext">
                       <label>MYS</label><span name="attr_mystik">0</span>
                       <label>VER</label><span name="attr_verstand">0</span><span class="sheet-pre" name="attr_windmagietooltip"></span></span></span><span class="sheet-edit-only">
@@ -1400,7 +1404,7 @@ $(document).ready(function () {
             </div>
             <fieldset class="repeating_waffen">
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{waffenskill} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=@{waffenname}}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{waffenskill} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=@{waffenname}}}"></button>
                 <button class="sheet-play-only" type="action" name="act_rollweapon"></button><span>
                   <input name="attr_waffenname" type="text" value="" placeholder="Waffenname"/><span style="white-space: nowrap">
                     <select name="attr_waffenskill"> 
@@ -1447,7 +1451,7 @@ $(document).ready(function () {
             </div>
             <fieldset class="repeating_zauber">
               <div class="sheet-data-area">
-                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:abilityroll} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{zauberwert} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=@{zaubername}}}"></button>
+                <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{zauberwert} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=@{zaubername}}}"></button>
                 <label class="sheet-show-more" style="z-index:1999">
                   <input name="attr_zaubershowmore" type="checkbox" value="on"/><span>4</span>
                 </label><span>
@@ -1909,37 +1913,8 @@ function autoAttribut(attributId) {
         update[attributId + "max"] = int(v[attributId + "start"]) + int(v.heldengrad);
         return update;
     });
-    allModifier.push(id);
+    allModifier.push(attributId);
 }
-
-function actionFertigkeitsProbe(id, label) {
-    on("clicked:probe" + id, function () {
-        getAttrs([id, id + "tooltip"], function (v) {
-            setAttrs({
-                "probe_fertigkeit": id,
-                "probe_fertigkeitlabel": label,
-                "probe_fertigkeitswert": v[id],
-                "probe_tooltip": v[id + "tooltip"]
-            });
-        });
-    });
-}
-
-for (var id in splittermond.fertigkeiten) {
-    actionFertigkeitsProbe(id, splittermond.fertigkeiten[id].Name);
-}
-
-for (var id in splittermond.magieschulen) {
-    actionFertigkeitsProbe(id, splittermond.magieschulen[id].Name);
-}
-
-on('clicked:probe_clear', function () {
-    setAttrs({
-        "probe_fertigkeit": ""
-    });
-});
-
-
 
 
 on('sheet:opened', function () {
