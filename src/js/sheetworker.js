@@ -77,6 +77,10 @@ function autoAttribut(attributId) {
     allModifier.push(attributId);
 }
 
+for (var attributId in splittermond.attribute) {
+    autoAttribut(attributId);
+}
+
 
 on('sheet:opened', function () {
     getAttrs(["abilityroll"], function (v) {
