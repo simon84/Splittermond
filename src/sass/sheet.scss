@@ -115,7 +115,9 @@ $font-size-small: 1.2rem;
     }
 }
 
-button[type="action"] {
+button[type="action"],
+button[type="roll"]  {
+    background: none;
     background-color: transparent;
     border: none;
     box-sizing: content-box;
@@ -190,7 +192,7 @@ button[type="action"] {
     }
 }
 
-input[name="attr_editmode"][value=""] ~ * .repcontrol {
+input[name="attr_editmode"]:not([value="on"]) ~ * .repcontrol {
     position: absolute;
     width: 0;
     height: 0;
@@ -557,7 +559,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         }
     }
 
-    input[name="attr_editmode"][value=""] ~ * .edit-only {
+    input[name="attr_editmode"]:not([value="on"]) ~ * .edit-only {
         position: absolute;
         height: 0px;
         width: 0px;
@@ -1013,7 +1015,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         }
     }
 
-    input[name="attr_editmode"][value=""] ~ * .data-section-attribute {
+    input[name="attr_editmode"]:not([value="on"]) ~ * .data-section-attribute {
         .data-area,
         .data-header {
             grid-template-columns:  6em 2em;
@@ -1028,7 +1030,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         }
     }
 
-    input[name="attr_editmode"][value=""] ~ * .data-section-abgeleitetewerte {
+    input[name="attr_editmode"]:not([value="on"]) ~ * .data-section-abgeleitetewerte {
         .data-area,
         .data-header {
             grid-template-columns:  8em 3.5em;
@@ -1214,7 +1216,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         @extend .data-section-fertigkeiten;
     }
 
-    input[name="attr_editmode"][value=""] ~ * .data-section-fertigkeiten {
+    input[name="attr_editmode"]:not([value="on"]) ~ * .data-section-fertigkeiten {
         .data-header {
             grid-template-columns:  1fr;
         }
@@ -1607,7 +1609,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
                     height: auto;
                 }
 
-                input[name="attr_zaubershowmore"][value=""] ~ textarea[name="attr_zauberwirkung"] {
+                input[name="attr_zaubershowmore"]:not([value="on"]) ~ textarea[name="attr_zauberwirkung"] {
                         display: none;
                 }
             }
@@ -1730,7 +1732,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
             }
         }
 
-        input[name^="attr_behaelter"][value=""] ~ div {
+        input[name^="attr_behaelter"]:not([value="1"]) ~ div {
             display: none;
         }
 
@@ -1758,7 +1760,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
         }
     }
 
-    input[name="attr_editmode"][value=""] ~ * input[name^="attr_behaelter"][value=""] ~ .data-section-ausruestung {
+    input[name="attr_editmode"]:not([value="on"]) ~ * input[name^="attr_behaelter"]:not([value="1"]) ~ .data-section-ausruestung {
         display: none;
     }
 
