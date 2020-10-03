@@ -193,6 +193,20 @@ Array.prototype.unique = function () {
 }
 
 async function getSectionIDs(sectionName, cb) {
+
+    // var name = sectionName + "_";
+    // var data = Object.keys(roll20API.charData).filter(key => key.startsWith(name)).map(function (key) {
+    //     key = key.match(/repeating_[^_]+_([^_]+)_([^_]+)/);
+    //     if (key) {
+    //         return key[1];
+    //     } else {
+    //         return "";
+    //     }
+
+    // });
+
+    // //data = data.unique();
+    // data = data.filter(val => (val != ""));
     if (roll20API.charData["_reporder:" + sectionName] == undefined) {
         cb([]);
     } else {
@@ -448,24 +462,6 @@ $(document).ready(function () {
 
 
 
-    });
-
-    $(document).on("click", "button[type='roll']", function (e) {
-        e.preventDefault();
-        var reprowid = $(this).parents("[reprowid]").attr("reprowid");
-        var dataGroupname = $(this).parents("[data-groupname]").attr("data-groupname");
-        var rollCmd = $(this).val();
-
-        rollCmd = rollCmd.replace(/.*@\{([^\}:]+)\}.*/g, function (match, submatch) {
-            if (roll20API.charData[`${dataGroupname}_${reprowid}_${submatch}`] != undefined) {
-                return roll20API.charData[`${dataGroupname}_${reprowid}_${submatch}`];
-            } else {
-                return roll20API.charData[submatch];
-            }
-        })
-
-        console.log(`invoke roll (${dataGroupname}_${reprowid}): ${rollCmd}`);
-        console.log(e);
     });
 
 
