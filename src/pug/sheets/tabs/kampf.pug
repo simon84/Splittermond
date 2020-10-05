@@ -107,6 +107,7 @@
         span(style="text-align:left") Merkmale
     fieldset.repeating_waffen
         .data-area
+            +hiddeninput("waffenwert",0)
             +rollbutton("@{waffenname}", "@{waffenwert}")
             button(type="action", name="act_rollweapon" class="play-only")
             span

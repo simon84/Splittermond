@@ -1434,6 +1434,7 @@ $(document).ready(function () {
             </div>
             <fieldset class="repeating_waffen">
               <div class="sheet-data-area">
+                <input name="attr_waffenwert" type="hidden" value="0"/>
                 <button class="sheet-play-only" type="roll" value="@{probensichtbarkeit} &amp;{template:default} {{erfolgsgrad_triumph=[[[[[[floor(abs([[[[@{probenwurfoption} + @{waffenwert} + @{probenmodifikator}]]  - @{probenschwierigkeit}]])/3)]] -3]] + 6]]}} {{wurf1=$[[0]]}} {{wurf2=$[[1]]}} {{wurf3=$[[2]]}} {{wurf4=$[[3]]}} {{gesamtwurf=$[[4]]}} {{gesamtprobe=$[[5]]}} {{gesamtprobendifferenz=$[[6]]}} {{erfolgsgrad=$[[7]]}} {{erfolgsgrad_patzer=$[[8]]}} {{titel=@{waffenname}}}"></button>
                 <button class="sheet-play-only" type="action" name="act_rollweapon"></button><span>
                   <input name="attr_waffenname" type="text" value="" placeholder="Waffenname"/><span style="white-space: nowrap">
