@@ -1273,6 +1273,67 @@ on("change:gesamtlast_koerper change:gesamtlast_behaelter1 change:gesamtlast_beh
     });
 });
 
+on("change:repeating_waffen", function (e) {
+    var attr = e.sourceAttribute.split("_");
+    var rowId = attr[2].toLowerCase();
+
+    console.log(rowId);
+
+    getSectionIDs("repeating_aawaffen", function (idarray) {
+        var fields = [`repeating_waffen_${rowId}_waffenname`, `repeating_waffen_${rowId}_waffenwert`];
+        fields = fields.concat(idarray.map(v => `repeating_aawaffen_${v}_aawaffe`));
+        fields = fields.concat(idarray.map(v => `repeating_aawaffen_${v}_aawert`));
+        fields = fields.concat(idarray.map(v => `repeating_aawaffen_${v}_rowid`));
+        getAttrs(fields, function (vw) {
+            var update = {};
+            var changed = false;
+            idarray.forEach(function (id) {
+                if (str(vw[`repeating_aawaffen_${id}_rowid`]).toLowerCase() == rowId) {
+                    update[`repeating_aawaffen_${id}_aawaffe`] = str(vw[`repeating_waffen_${rowId}_waffenname`]);
+                    update[`repeating_aawaffen_${id}_aawert`] = str(vw[`repeating_waffen_${rowId}_waffenwert`]);
+                    changed = true;
+                }
+                if (str(vw[`repeating_aawaffen_${id}_rowid`]).toLowerCase() == "") {
+                    removeRepeatingRow("repeating_aawaffen_" + id);
+                }
+            });
+            if (!changed) {
+                var newRowId = generateRowID();
+                update[`repeating_aawaffen_${newRowId}_rowid`] = rowId;
+                update[`repeating_aawaffen_${newRowId}_aawaffe`] = str(vw[`repeating_waffen_${rowId}_waffenname`]);
+                update[`repeating_aawaffen_${newRowId}_aawert`] = str(vw[`repeating_waffen_${rowId}_waffenwert`]);
+            }
+            setAttrs(update);
+        });
+    });
+
+});
+
+on("remove:repeating_waffen", function (e) {
+    var attr = e.sourceAttribute.split("_");
+    var rowId = attr[2].toLowerCase();
+
+    console.log(rowId);
+
+    getSectionIDs("repeating_aawaffen", function (idarray) {
+        var fields = [`repeating_waffen_${rowId}_waffenname`, `repeating_waffen_${rowId}_waffenwert`];
+        fields = fields.concat(idarray.map(v => `repeating_aawaffen_${v}_aawaffe`));
+        fields = fields.concat(idarray.map(v => `repeating_aawaffen_${v}_aawert`));
+        fields = fields.concat(idarray.map(v => `repeating_aawaffen_${v}_rowid`));
+        getAttrs(fields, function (vw) {
+            var update = {};
+            var changed = false;
+            idarray.forEach(function (id) {
+                if (str(vw[`repeating_aawaffen_${id}_rowid`]).toLowerCase() == rowId || str(vw[`repeating_aawaffen_${id}_rowid`]).toLowerCase() == "") {
+                    removeRepeatingRow("repeating_aawaffen_" + id);
+                }
+            });
+            setAttrs(update);
+        });
+    });
+
+});
+/*
 on("change:repeating_waffen remove:repeating_waffen sheet:opened", function () {
     getSectionIDs("repeating_aawaffen", function (idarray) {
         idarray.forEach(function (v) {
@@ -1297,7 +1358,7 @@ on("change:repeating_waffen remove:repeating_waffen sheet:opened", function () {
     });
 
 });
-
+*/
 autoUpdate(["ruestungbe"], v => ({
     behinderung: v.ruestungbe
 }));
