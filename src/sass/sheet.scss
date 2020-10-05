@@ -1269,7 +1269,7 @@ input[name="attr_editmode"][value="on"] ~ * .play-only {
             }
             .lebenspunkte {
                 font-family: "Pictos";
-                word-break: break-word;
+                word-break: break-all;
 
                 .verzehrt {
                     color: $main-color;

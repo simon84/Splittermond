@@ -155,7 +155,7 @@ on("change:epeingesetzt change:epgesamt", function () {
 });
 
 function getGroessenklasseFromRasse(rasse) {
-    rasse = rasse.toLowerCase();
+    rasse = (rasse || "mensch").toLowerCase();
     if (rasse in splittermond.rassen) {
         return int(splittermond.rassen[rasse].groessenklasse) || 5;
     } else {
@@ -426,10 +426,10 @@ on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:leben
         var temp = (int(v.lebenspunkte) * 5) - int(v.lebenspunkte_e) - int(v.lebenspunkte_k) - int(v.lebenspunkte_v);
         setAttrs({
             lebenspunkte_t: temp,
-            lebenspunkte_v_bar: "6".repeat(int(v.lebenspunkte_v)),
-            lebenspunkte_k_bar: "6".repeat(int(v.lebenspunkte_k)),
-            lebenspunkte_e_bar: "6".repeat(int(v.lebenspunkte_e)),
-            lebenspunkte_t_bar: "6".repeat(Math.max(temp, 0))
+            lebenspunkte_v_bar: ("6".repeat(int(v.lebenspunkte_v))),
+            lebenspunkte_k_bar: ("6".repeat(int(v.lebenspunkte_k))),
+            lebenspunkte_e_bar: ("6".repeat(int(v.lebenspunkte_e))),
+            lebenspunkte_t_bar: ("6".repeat(Math.max(temp, 0)))
         });
     });
 });
@@ -1286,9 +1286,9 @@ on("change:repeating_waffen remove:repeating_waffen sheet:opened", function () {
                 var update = {};
                 idarray.forEach(function (id) {
                     if (str(vw[`repeating_waffen_${id}_waffenname`]) != "" || int(vw[`repeating_waffen_${id}_waffenwert`]) > 0) {
-                        var newrowid = generateRowID();
-                        update[`repeating_aawaffen_${newrowid}_aawaffe`] = str(vw[`repeating_waffen_${id}_waffenname`]);
-                        update[`repeating_aawaffen_${newrowid}_aawert`] = str(vw[`repeating_waffen_${id}_waffenwert`]);
+                        //var newrowid = generateRowID();
+                        update[`repeating_aawaffen_${id}_aawaffe`] = str(vw[`repeating_waffen_${id}_waffenname`]);
+                        update[`repeating_aawaffen_${id}_aawert`] = str(vw[`repeating_waffen_${id}_waffenwert`]);
                     }
                 });
                 setAttrs(update);

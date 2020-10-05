@@ -455,31 +455,45 @@ $(document).ready(function () {
         var reprowid = $(this).parents("[reprowid]").attr("reprowid");
         var dataGroupname = $(this).parents("[data-groupname]").attr("data-groupname");
         var rollCmd = $(this).val();
-
-        rollCmd = rollCmd.replace(/.*@\{([^\}:]+)\}.*/g, function (match, submatch) {
+        rollCmd = rollCmd.replace(/\@\{([^\}]+)\}/g, function (match, submatch) {
+            console.log(match);
             if (roll20API.charData[`${dataGroupname}_${reprowid}_${submatch}`] != undefined) {
                 return roll20API.charData[`${dataGroupname}_${reprowid}_${submatch}`];
             } else {
                 return roll20API.charData[submatch];
             }
-        })
+        });
 
-        var rollParser = function (rollCmd) {
-            rollCmd = rollCmd.replace(/.*\[\[(.*)\]\].*/g, function (match, submatch) {
-                rollParser(submatch)
+
+
+        function rollParser(cmd) {
+            console.log(cmd);
+            cmd = cmd.replace(/\[\[([0-9dDk]+?)\]\]/g, function (match, submatch) {
+                return submatch.replace(/([0-9]*)[dD]([0-9]+)([dk0-9]*)/g, function (match, nDices, maxDiceValue, diceOptions) {
+
+                    nDices = nDices || 1;
+                    var diceSum = 0;
+                    for (var i = 0; i < nDices; i++) {
+                        diceSum += 1 + Math.floor(Math.random() * (maxDiceValue || 6));
+                    }
+                    return diceSum + "";
+                });
             });
 
-            rollCmd = rollCmd.replace(/.*([0-9]*)[dD]([0-9]+)([dk<]*).*/g, function (match, nDices, diceType, diceOptions) {
-                nDices = nDices || 1;
 
-                Math.random
-            });
+
+
+
+
+            return cmd;
         }
-
-
+        console.log(rollCmd);
+        rollCmd = rollParser(rollCmd);
 
         console.log(`invoke roll (${dataGroupname}_${reprowid}): ${rollCmd}`);
-        console.log(e);
+
+
+
     });
 
 
@@ -490,6 +504,8 @@ $(document).ready(function () {
 
     throwEvent("sheet:opened", {});
 });
+
+
     </script>
     <script>
       $(document).ready(function () {
@@ -2008,7 +2024,7 @@ on("change:epeingesetzt change:epgesamt", function () {
 });
 
 function getGroessenklasseFromRasse(rasse) {
-    rasse = rasse.toLowerCase();
+    rasse = (rasse || "mensch").toLowerCase();
     if (rasse in splittermond.rassen) {
         return int(splittermond.rassen[rasse].groessenklasse) || 5;
     } else {
@@ -2279,10 +2295,10 @@ on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:leben
         var temp = (int(v.lebenspunkte) * 5) - int(v.lebenspunkte_e) - int(v.lebenspunkte_k) - int(v.lebenspunkte_v);
         setAttrs({
             lebenspunkte_t: temp,
-            lebenspunkte_v_bar: "6".repeat(int(v.lebenspunkte_v)),
-            lebenspunkte_k_bar: "6".repeat(int(v.lebenspunkte_k)),
-            lebenspunkte_e_bar: "6".repeat(int(v.lebenspunkte_e)),
-            lebenspunkte_t_bar: "6".repeat(Math.max(temp, 0))
+            lebenspunkte_v_bar: ("6".repeat(int(v.lebenspunkte_v))),
+            lebenspunkte_k_bar: ("6".repeat(int(v.lebenspunkte_k))),
+            lebenspunkte_e_bar: ("6".repeat(int(v.lebenspunkte_e))),
+            lebenspunkte_t_bar: ("6".repeat(Math.max(temp, 0)))
         });
     });
 });
@@ -3139,9 +3155,9 @@ on("change:repeating_waffen remove:repeating_waffen sheet:opened", function () {
                 var update = {};
                 idarray.forEach(function (id) {
                     if (str(vw[`repeating_waffen_${id}_waffenname`]) != "" || int(vw[`repeating_waffen_${id}_waffenwert`]) > 0) {
-                        var newrowid = generateRowID();
-                        update[`repeating_aawaffen_${newrowid}_aawaffe`] = str(vw[`repeating_waffen_${id}_waffenname`]);
-                        update[`repeating_aawaffen_${newrowid}_aawert`] = str(vw[`repeating_waffen_${id}_waffenwert`]);
+                        //var newrowid = generateRowID();
+                        update[`repeating_aawaffen_${id}_aawaffe`] = str(vw[`repeating_waffen_${id}_waffenname`]);
+                        update[`repeating_aawaffen_${id}_aawert`] = str(vw[`repeating_waffen_${id}_waffenwert`]);
                     }
                 });
                 setAttrs(update);
