@@ -90,29 +90,23 @@ on('sheet:opened', function () {
         }
         setAttrs(update);
     });
-    getAttrs(["resourceupdated"], function (v) {
-        if (+v.resourceupdated == 0) {
-            getAttrs(["ansehenswert", "kontaktewert", "standwert", "vermoegenswert"], function (f) {
-                let newrowattrs = {};
-                let newrowid = generateRowID();
-                let ansehen = +f.ansehenswert || 0;
-                let kontakte = +f.kontaktewert || 0;
-                let stand = +f.standwert || 0;
-                let vermoegen = +f.vermoegenswert || 0;
-                newrowattrs["repeating_ressources_" + newrowid + "_ressourcename"] = "Ansehen";
-                newrowattrs["repeating_ressources_" + newrowid + "_ressourcevalue"] = +ansehen;
-                newrowid = generateRowID();
-                newrowattrs["repeating_ressources_" + newrowid + "_ressourcename"] = "Kontakte";
-                newrowattrs["repeating_ressources_" + newrowid + "_ressourcevalue"] = +kontakte;
-                newrowid = generateRowID();
-                newrowattrs["repeating_ressources_" + newrowid + "_ressourcename"] = "Stand";
-                newrowattrs["repeating_ressources_" + newrowid + "_ressourcevalue"] = +stand;
-                newrowid = generateRowID();
-                newrowattrs["repeating_ressources_" + newrowid + "_ressourcename"] = "Vermögen";
-                newrowattrs["repeating_ressources_" + newrowid + "_ressourcevalue"] = +vermoegen;
-                setAttrs(newrowattrs);
-                setAttrs({ resourceupdated: 1 });
-            });
+    getAttrs(["resourceupdated", "ansehenswert", "kontaktewert", "standwert", "vermoegenswert"], function (v) {
+        if (int(v.resourceupdated) == 0) {
+            let newrowattrs = {};
+            let newrowid = generateRowID();
+            newrowattrs["resourceupdated"] = 1;
+            newrowattrs["repeating_ressources_" + newrowid + "_ressourcename"] = "Ansehen";
+            newrowattrs["repeating_ressources_" + newrowid + "_ressourcevalue"] = int(v.ansehenswert, 0);
+            newrowid = generateRowID();
+            newrowattrs["repeating_ressources_" + newrowid + "_ressourcename"] = "Kontakte";
+            newrowattrs["repeating_ressources_" + newrowid + "_ressourcevalue"] = int(v.kontaktewert, 0);
+            newrowid = generateRowID();
+            newrowattrs["repeating_ressources_" + newrowid + "_ressourcename"] = "Stand";
+            newrowattrs["repeating_ressources_" + newrowid + "_ressourcevalue"] = int(v.standwert, 0);
+            newrowid = generateRowID();
+            newrowattrs["repeating_ressources_" + newrowid + "_ressourcename"] = "Vermögen";
+            newrowattrs["repeating_ressources_" + newrowid + "_ressourcevalue"] = int(v.vermoegenswert, 0);
+            setAttrs(newrowattrs);
         } else {
             return;
         }

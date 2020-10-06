@@ -40,7 +40,7 @@
         .data-header
             h3 Zustände
         .data-area
-            +hiddeninput("zustaendemod","")
+            +hiddeninput("zustaendemod","{}")
             fieldset.repeating_zustaende
                 +input("zustandonoff","checkbox",1)
                 +textinput("zustandsname","", false,  {placeholder: "Zustand"})
@@ -248,7 +248,7 @@
         span Schwelle
         span Beschreibung
     .data-area
-        +hiddeninput("meisterschaftmod","")
+        +hiddeninput("meisterschaftmod","{}")
         fieldset.repeating_meisterschaften
             +textinput("meisterschaftsname","", false, {placeholder: "Meisterschaft"})
             select(name="attr_magieschulen")
