@@ -37,6 +37,7 @@ h1
                 label= labelText.short
                     span.secondary= labelText.long
                 span.tooltip
+                    +hiddeninput(id,0)
                     span.main-value(name="attr_"+id)
                     span.tooltiptext.pre(name="attr_" + id + "tooltip")
                 span.edit-only
@@ -62,6 +63,7 @@ h1
                 label= labelText.short
                     span.secondary= labelText.long
                 span.tooltip
+                    +hiddeninput(id,0)
                     span.main-value(name="attr_"+id)
                     span.tooltiptext.pre(name="attr_" + id + "tooltip")
                 span.edit-only
@@ -76,8 +78,10 @@ h1
             label Eingesetzt
             +numberinput("epeingesetzt", 0)
             label Offen
+            +hiddeninput(id,0)
             span(name="attr_epoffen")
             label Heldengrad
+            +hiddeninput(id,1)
             span(name="attr_heldengrad")
 .data-section-row
     .data-section-ressourcen
@@ -92,7 +96,7 @@ h1
         .data-header
             h3 Stärken
         .data-area
-            +hiddeninput("staerkenmod")
+            +hiddeninput("staerkenmod","{}")
             fieldset.repeating_staerken
                 +textinput("staerkename","", false,  {placeholder: "Stärke"})
                 +numberinput("staerkenwert",1)
@@ -122,7 +126,7 @@ h1
         span Eigenschaft
         span Mod.
     .data-area
-        +hiddeninput("attributmodsmod","")
+        +hiddeninput("attributmodsmod","{}")
         fieldset.repeating_attributmods
             +input("attributmodonoff","checkbox",false)
             +textinput("attributmodname","", false,  {placeholder: "Zauber etc."})
