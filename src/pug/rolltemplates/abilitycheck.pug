@@ -1,0 +1,17 @@
+rolltemplate.rolltemplate-abilitycheck
+    .abilitycheck
+        h1 {{title}}
+            span.fertigkeitswert {{fertigkeitswert}}
+        .wuerfel
+            img(src="../src/assets/images/d10/d10_blue_10.png", style="transform: rotate(20deg)")
+            img(src="../src/assets/images/d10/d10_blue_3.png", style="transform: rotate(-15deg)")
+            img(src="../src/assets/images/d10/d10_blue_1.png", style="transform: rotate(-5deg)")
+            img(src="../src/assets/images/d10/d10_blue_6.png", style="transform: rotate(4deg)")
+        .detail
+            .probe
+                label Probe
+                .wert {{gesamtprobe}}
+            .schwierigkeit
+                label Schwierigkeit
+                .wert {{schwierigkeit}}
+            .erfolgsgrad

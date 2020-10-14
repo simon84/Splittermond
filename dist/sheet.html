@@ -818,6 +818,10 @@
                   <input name="attr_lebenspunkte_e" type="hidden" value="0"/>
                   <input name="attr_lebenspunkte_k" type="hidden" value="0"/>
                   <input name="attr_lebenspunkte_t" type="hidden" value="0"/>
+                  <input name="attr_lebenspunkte_v_bar" type="hidden" value="0"/>
+                  <input name="attr_lebenspunkte_e_bar" type="hidden" value="0"/>
+                  <input name="attr_lebenspunkte_k_bar" type="hidden" value="0"/>
+                  <input name="attr_lebenspunkte_t_bar" type="hidden" value="0"/>
                   <input name="attr_sr1" type="hidden" value="1"/>
                   <input name="attr_sr2" type="hidden" value="1"/><span class="sheet-verzehrt" name="attr_lebenspunkte_v_bar"></span><span class="sheet-erschoepft" name="attr_lebenspunkte_e_bar"></span><span class="sheet-kanalisiert" name="attr_lebenspunkte_k_bar"></span><span class="sheet-lebenspunkte-t" name="attr_lebenspunkte_t_bar"></span>
                 </div>
@@ -850,8 +854,10 @@
                 <input name="attr_fokus_e" type="hidden" value="0"/>
                 <input name="attr_fokus_k" type="hidden" value="0"/>
                 <input name="attr_fokus_t" type="hidden" value="0"/>
-                <input name="attr_sr1" type="hidden" value="1"/>
-                <input name="attr_sr2" type="hidden" value="1"/><span class="sheet-verzehrt" name="attr_fokus_v_bar"></span><span class="sheet-erschoepft" name="attr_fokus_e_bar"></span><span class="sheet-kanalisiert" name="attr_fokus_k_bar"></span><span class="sheet-lebenspunkte-t" name="attr_fokus_t_bar"></span>
+                <input name="attr_fokus_v_bar" type="hidden" value="0"/>
+                <input name="attr_fokus_e_bar" type="hidden" value="0"/>
+                <input name="attr_fokus_k_bar" type="hidden" value="0"/>
+                <input name="attr_fokus_t_bar" type="hidden" value="0"/><span class="sheet-verzehrt" name="attr_fokus_v_bar"></span><span class="sheet-erschoepft" name="attr_fokus_e_bar"></span><span class="sheet-kanalisiert" name="attr_fokus_k_bar"></span><span class="sheet-lebenspunkte-t" name="attr_fokus_t_bar"></span>
               </div>
             </div>
           </div>
@@ -882,6 +888,18 @@
                 <button name="act_verschnaufpause" type="action">Verschnaufpause</button>
               </div>
             </div>
+            <div class="sheet-data-section-schaden">
+              <div class="sheet-data-header">
+                <h3>Fokuskosten</h3>
+              </div>
+              <div class="sheet-data-area">
+                <button name="act_removeschaden" type="action">regenerieren</button>
+                <input name="attr_zauberkosten" type="text" value="0"/>
+                <button name="act_zaubercalc" type="action">abrechnen</button>
+              </div>
+            </div>
+          </div>
+          <div class="sheet-data-section-row">
             <div class="sheet-data-section-aktiveabwehr">
               <div class="sheet-data-header">
                 <h3>Aktive Abwehr</h3>
@@ -1302,6 +1320,23 @@
     </div>
   </div>
 </div>
+<rolltemplate class="sheet-rolltemplate-abilitycheck">
+  <div class="sheet-abilitycheck">
+    <h1>{{title}}<span class="sheet-fertigkeitswert">{{fertigkeitswert}}</span></h1>
+    <div class="sheet-wuerfel"><img src="../src/assets/images/d10/d10_blue_10.png" style="transform: rotate(20deg)"/><img src="../src/assets/images/d10/d10_blue_3.png" style="transform: rotate(-15deg)"/><img src="../src/assets/images/d10/d10_blue_1.png" style="transform: rotate(-5deg)"/><img src="../src/assets/images/d10/d10_blue_6.png" style="transform: rotate(4deg)"/></div>
+    <div class="sheet-detail">
+      <div class="sheet-probe">
+        <label>Probe</label>
+        <div class="sheet-wert">{{gesamtprobe}}</div>
+      </div>
+      <div class="sheet-schwierigkeit">
+        <label>Schwierigkeit</label>
+        <div class="sheet-wert">{{schwierigkeit}}</div>
+      </div>
+      <div class="sheet-erfolgsgrad"></div>
+    </div>
+  </div>
+</rolltemplate>
 <script type="text/worker">var splittermond = {"rassen":{"mensch":{"name":"Mensch","groessenklasse":5},"varg":{"name":"Varg","groessenklasse":6},"alb":{"name":"Alb","groessenklasse":5},"gnom":{"name":"Gnom","groessenklasse":3},"zwerg":{"name":"Zwerg","groessenklasse":4}},"abgeleiteteWerte":{"groessenklasse":{"long":"Größenklasse","short":"GK"},"geschwindigkeit":{"long":"Geschwindigkeit","short":"GSW"},"initiative":{"long":"Initiative","short":"INI"},"lebenspunkte":{"long":"Lebenspunkte","short":"LP"},"fokus":{"long":"Fokus","short":"FO"},"verteidigung":{"long":"Verteidigung","short":"VTD"},"geistigerwiderstand":{"long":"Geistiger Widerstand","short":"GW"},"koerperlicherwiderstand":{"long":"Körperlicher Widerstand","short":"KW"}},"attribute":{"ausstrahlung":{"long":"Ausstrahlung","short":"AUS"},"beweglichkeit":{"long":"Beweglichkeit","short":"BEW"},"intuition":{"long":"Intuition","short":"INT"},"konstitution":{"long":"Konstitution","short":"KON"},"mystik":{"long":"Mystik","short":"MYS"},"staerke":{"long":"Stärke","short":"STÄ"},"verstand":{"long":"Verstand","short":"VER"},"willenskraft":{"long":"Willenskraft","short":"WIL"}},"fertigkeiten":{"akrobatik":{"Name":"Akrobatik","Attribute":["Beweglichkeit","Staerke"]},"alchemie":{"Name":"Alchemie","Attribute":["Mystik","Verstand"]},"anfuehren":{"Name":"Anführen","Attribute":["Ausstrahlung","Willenskraft"]},"arkanekunde":{"Name":"Arkane Kunde","Attribute":["Mystik","Verstand"]},"athletik":{"Name":"Athletik","Attribute":["Beweglichkeit","Staerke"]},"darbietung":{"Name":"Darbietung","Attribute":["Ausstrahlung","Willenskraft"]},"diplomatie":{"Name":"Diplomatie","Attribute":["Ausstrahlung","Verstand"]},"edelhandwerk":{"Name":"Edelhandwerk","Attribute":["Intuition","Verstand"]},"empathie":{"Name":"Empathie","Attribute":["Intuition","Verstand"]},"entschlossenheit":{"Name":"Entschlossenheit","Attribute":["Ausstrahlung","Willenskraft"]},"fingerfertigkeit":{"Name":"Fingerfertigkeit","Attribute":["Ausstrahlung","Beweglichkeit"]},"geschichtenundmythen":{"Name":"Geschichten & Mythen","Attribute":["Mystik","Verstand"]},"handwerk":{"Name":"Handwerk","Attribute":["Konstitution","Verstand"]},"heilkunde":{"Name":"Heilkunde","Attribute":["Intuition","Verstand"]},"heimlichkeit":{"Name":"Heimlichkeit","Attribute":["Beweglichkeit","Intuition"]},"jagdkunst":{"Name":"Jagdkunst","Attribute":["Konstitution","Verstand"]},"laenderkunde":{"Name":"Länderkunde","Attribute":["Intuition","Verstand"]},"naturkunde":{"Name":"Naturkunde","Attribute":["Intuition","Verstand"]},"redegewandtheit":{"Name":"Redegewandtheit","Attribute":["Ausstrahlung","Willenskraft"]},"schloesserundfallen":{"Name":"Schlösser & Fallen","Attribute":["Intuition","Beweglichkeit"]},"schwimmen":{"Name":"Schwimmen","Attribute":["Konstitution","Staerke"]},"seefahrt":{"Name":"Seefahrt","Attribute":["Beweglichkeit","Konstitution"]},"strassenkunde":{"Name":"Straßenkunde","Attribute":["Ausstrahlung","Intuition"]},"tierfuehrung":{"Name":"Tierfuehrung","Attribute":["Ausstrahlung","Beweglichkeit"]},"ueberleben":{"Name":"Überleben","Attribute":["Intuition","Konstitution"]},"wahrnehmung":{"Name":"Wahrnehmung","Attribute":["Intuition","Willenskraft"]},"zaehigkeit":{"Name":"Zähigkeit","Attribute":["Konstitution","Willenskraft"]}},"kampffertigkeiten":{"handgemenge":{"Name":"Handgemenge"},"hiebwaffen":{"Name":"Hiebwaffen"},"kettenwaffen":{"Name":"Kettenwaffen"},"klingenwaffen":{"Name":"Klingenwaffen"},"stangenwaffen":{"Name":"Stangenwaffen"},"schusswaffen":{"Name":"Schusswaffen"},"wurfwaffen":{"Name":"Wurfwaffen"}},"magieschulen":{"bannmagie":{"Name":"Bannmagie","Attribute":["Mystik","Willenskraft"]},"beherrschungsmagie":{"Name":"Beherrschungsmagie","Attribute":["Mystik","Willenskraft"]},"bewegungsmagie":{"Name":"Bewegungsmagie","Attribute":["Mystik","Beweglichkeit"]},"erkenntnismagie":{"Name":"Erkenntnismagie","Attribute":["Mystik","Verstand"]},"felsmagie":{"Name":"Fellsmagie","Attribute":["Mystik","Konstitution"]},"feuermagie":{"Name":"Feuermagie","Attribute":["Mystik","Ausstrahlung"]},"heilungsmagie":{"Name":"Heilungsmagie","Attribute":["Mystik","Ausstrahlung"]},"illusionsmagie":{"Name":"Illusionsmagie","Attribute":["Mystik","Ausstrahlung"]},"kampfmagie":{"Name":"Kampfmagie","Attribute":["Mystik","Staerke"]},"lichtmagie":{"Name":"Lichtmagie","Attribute":["Mystik","Ausstrahlung"]},"naturmagie":{"Name":"Naturmagie","Attribute":["Mystik","Ausstrahlung"]},"schattenmagie":{"Name":"Schattenmagie","Attribute":["Mystik","Intuition"]},"schicksalsmagie":{"Name":"Schicksalsmagie","Attribute":["Mystik","Ausstrahlung"]},"schutzmagie":{"Name":"Schutzmagie","Attribute":["Mystik","Ausstrahlung"]},"staerkungsmagie":{"Name":"Stärkungsmagie","Attribute":["Mystik","Staerke"]},"todesmagie":{"Name":"Todesmagie","Attribute":["Mystik","Verstand"]},"verwandlungsmagie":{"Name":"Verwandlungsmagie","Attribute":["Mystik","Konstitution"]},"wassermagie":{"Name":"Wassermagie","Attribute":["Mystik","Intuition"]},"windmagie":{"Name":"Windmagie","Attribute":["Mystik","Verstand"]}},"staerken":{"natürlicher rüstungsschutz":{"tooltip":"nat. Rüstung","modifier":{"schadensreduktion":1}},"erhöhter fokuspool":{"tooltip":"erhöhter FO","modifier":{"fokus":5}},"flink":{"tooltip":"Flink","modifier":{"geschwindigkeit":1}},"robust":{"tooltip":"Robust","modifier":{"lebenspunkte":1}},"hoher körperlicher widerstand":{"tooltip":"Hoher KW","modifier":{"koerperlicherwiderstand":2}},"hoher geistiger widerstand":{"tooltip":"Hoher GW","modifier":{"geistigerwiderstand":2}},"verbesserte initiative":{"tooltip":"Verb. INI","modifier":{"initiative":-3}},"schmerzresistenz":{"tooltip":"Schmerzres.","modifier":{"wundabzug":-2}},"zusätzliche splitterpunkte":{"tooltip":"Zus. Splitterp.","modifier":{"splitterpunkt":2}},"erhöhte fokusregeneration":{"tooltip":"Hohe FO-Reg.","modifier":{"fokusreg":2}},"erhöhte lebensregeneration":{"tooltip":"Hohe LP-Reg.","modifier":{"lifereg":2}}},"zustaende":{"verwundet":{"tooltip":"verwundet","modifier":{"gesundheitsstufe":1}},"benommen":{"tooltip":"benommen","modifier":{"tickplus":1}},"erschöpft":{"tooltip":"erschöpft","modifier":{"akrobatik":-1,"alchemie":-1,"anfuehren":-1,"arkanekunde":-1,"athletik":-1,"darbietung":-1,"diplomatie":-1,"edelhandwerk":-1,"empathie":-1,"entschlossenheit":-1,"fingerfertigkeit":-1,"geschichtenundmythen":-1,"handwerk":-1,"heilkunde":-1,"heimlichkeit":-1,"jagdkunst":-1,"laenderkunde":-1,"naturkunde":-1,"redegewandtheit":-1,"schloesserundfallen":-1,"schwimmen":-1,"seefahrt":-1,"strassenkunde":-1,"tierfuehrung":-1,"ueberleben":-1,"wahrnehmung":-1,"zaehigkeit":-1,"handgemenge":-1,"hiebwaffen":-1,"kettenwaffen":-1,"klingenwaffen":-1,"stangenwaffen":-1,"schusswaffen":-1,"wurfwaffen":-1,"initiative":1,"geschwindigkeit":-1}},"lahm":{"tooltip":"lahm","modifier":{},"multiplier":{"geschwindigkeit":0.5}},"glaubenskrise":{"tooltip":"Glaubenskrise","modifier":{"bannmagie":-1,"beherrschungsmagie":-1,"bewegungsmagie":-1,"erkenntnismagie":-1,"felsmagie":-1,"feuermagie":-1,"heilungsmagie":-1,"illusionsmagie":-1,"kampfmagie":-1,"lichtmagie":-1,"naturmagie":-1,"schattenmagie":-1,"schicksalsmagie":-1,"schutzmagie":-1,"staerkungsmagie":-1,"todesmagie":-1,"verwandlungsmagie":-1,"wassermagie":-1,"windmagie":-1}}},"meisterschaften":{"blitzreflexe":{"tooltip":"Blitzreflexe","modifier":{"initiative":3}},"gute reflexe":{"tooltip":"Gute Reflexe","modifier":{"verteidigung":1}},"rüstungsträger i":{"tooltip":"Rüstungsträger I","modifier":{"ruestungsbe":-1}},"rüstungsträger 1":{"tooltip":"Rüstungsträger I","modifier":{"ruestungsbe":-1}},"rüstungsträger ii":{"tooltip":"Rüstungsträger II","modifier":{"ruestungstickplus":-1}},"rüstungsträger 2":{"tooltip":"Rüstungsträger II","modifier":{"ruestungstickplus":-1}},"starker schildarm i":{"tooltip":"Starker Schildarm I","modifier":{"schildbe":-1}},"starker schildarm 1":{"tooltip":"Starker Schildarm I","modifier":{"schildbe":-1}},"starker schildarm ii":{"tooltip":"Starker Schildarm II","modifier":{"schildtickplus":-1}},"starker schildarm 2":{"tooltip":"Starker Schildarm II","modifier":{"schildtickplus":-1}},"schmerzwiderstand i":{"tooltip":"Schmerzwiderstand I","modifier":{"wundabzug":-1}},"schmerzwiderstand 1":{"tooltip":"Schmerzwiderstand I","modifier":{"wundabzug":-1}},"schmerzwiderstand ii":{"tooltip":"Schmerzwiderstand II","modifier":{"wundabzug":-1}},"schmerzwiderstand 2":{"tooltip":"Schmerzwiderstand II","modifier":{"wundabzug":-1}},"arkane geschwindigkeit":{"tooltip":"Arkane Geschwindigkeit","modifier":{"geschwindigkeit":1}},"sprinter":{"tooltip":"Sprinter","modifier":{"geschwindigkeit":1}}}};["einstellungen", "grundwerte", "fertigkeiten", "magie", "ausruestung", "kampf"].forEach(button => {
     on(`clicked:${button}`, function () {
         setAttrs({
@@ -1778,7 +1813,7 @@ on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:leben
 });
 
 
-on("change:fokus", function (e) {
+on("change:fokus change:fokus_e change:fokus_k change:fokus_v", function (e) {
     getAttrs(["fokus", "fokus_e", "fokus_k", "fokus_v"], function (v) {
         var temp = int(v.fokus) - int(v.fokus_e) - int(v.fokus_k) - int(v.fokus_v);
         setAttrs({
@@ -2262,10 +2297,10 @@ function calculateSpell(costsToCalculate, obj) {
         getAttrs(["fokus_v", "fokus_t", "fokus_e", "fokus_k"], function (v) {
             let update = {};
             let zauberkosten = costsToCalculate;
-            let fokus_v = +v.fokus_v;
-            let fokus_e = +v.fokus_e;
-            let fokus_t = +v.fokus_t;
-            let fokus_k = +v.fokus_k;
+            let fokus_v = int(v.fokus_v);
+            let fokus_e = int(v.fokus_e);
+            let fokus_t = int(v.fokus_t);
+            let fokus_k = int(v.fokus_k);
             let kosten_e = 0;
             let kosten_k = 0;
             let kosten_v = 0;

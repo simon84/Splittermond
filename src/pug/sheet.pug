@@ -25,6 +25,8 @@ mixin rollbutton(titel, fertigkeitswert)
     +hiddeninput("pc",1)
     .pc
         include sheets/pc.pug
+        
+include rolltemplates/abilitycheck.pug
 script(type="text/worker")
     | var splittermond = 
     != JSON.stringify(splittermond)

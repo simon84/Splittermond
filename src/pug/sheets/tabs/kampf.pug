@@ -23,6 +23,10 @@
                 +hiddeninput("lebenspunkte_e",0)
                 +hiddeninput("lebenspunkte_k",0)
                 +hiddeninput("lebenspunkte_t",0)
+                +hiddeninput("lebenspunkte_v_bar",0)
+                +hiddeninput("lebenspunkte_e_bar",0)
+                +hiddeninput("lebenspunkte_k_bar",0)
+                +hiddeninput("lebenspunkte_t_bar",0)
                 +hiddeninput("sr1",1)
                 +hiddeninput("sr2",1)
                 span.verzehrt(name="attr_lebenspunkte_v_bar")
@@ -53,8 +57,10 @@
             +hiddeninput("fokus_e",0)
             +hiddeninput("fokus_k",0)
             +hiddeninput("fokus_t",0)
-            +hiddeninput("sr1",1)
-            +hiddeninput("sr2",1)
+            +hiddeninput("fokus_v_bar",0)
+            +hiddeninput("fokus_e_bar",0)
+            +hiddeninput("fokus_k_bar",0)
+            +hiddeninput("fokus_t_bar",0)
             span.verzehrt(name="attr_fokus_v_bar")
             span.erschoepft(name="attr_fokus_e_bar")
             span.kanalisiert(name="attr_fokus_k_bar")
@@ -80,7 +86,15 @@
             +numberinput("regbonus", 0)
             button(name="act_ruhephase", type="action") Ruhephase
             button(name="act_verschnaufpause", type="action") Verschnaufpause
-
+    .data-section-schaden
+        .data-header
+            h3 Fokuskosten
+        .data-area
+            button(name="act_removeschaden", type="action") regenerieren
+            +textinput("zauberkosten",0)
+            button(name="act_zaubercalc", type="action") abrechnen
+    
+.data-section-row
     .data-section-aktiveabwehr
         .data-header
             h3 Aktive Abwehr

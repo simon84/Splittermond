@@ -435,7 +435,7 @@ on("change:lebenspunkte change:lebenspunkte_e change:lebenspunkte_k change:leben
 });
 
 
-on("change:fokus", function (e) {
+on("change:fokus change:fokus_e change:fokus_k change:fokus_v", function (e) {
     getAttrs(["fokus", "fokus_e", "fokus_k", "fokus_v"], function (v) {
         var temp = int(v.fokus) - int(v.fokus_e) - int(v.fokus_k) - int(v.fokus_v);
         setAttrs({
@@ -919,10 +919,10 @@ function calculateSpell(costsToCalculate, obj) {
         getAttrs(["fokus_v", "fokus_t", "fokus_e", "fokus_k"], function (v) {
             let update = {};
             let zauberkosten = costsToCalculate;
-            let fokus_v = +v.fokus_v;
-            let fokus_e = +v.fokus_e;
-            let fokus_t = +v.fokus_t;
-            let fokus_k = +v.fokus_k;
+            let fokus_v = int(v.fokus_v);
+            let fokus_e = int(v.fokus_e);
+            let fokus_t = int(v.fokus_t);
+            let fokus_k = int(v.fokus_k);
             let kosten_e = 0;
             let kosten_k = 0;
             let kosten_v = 0;
